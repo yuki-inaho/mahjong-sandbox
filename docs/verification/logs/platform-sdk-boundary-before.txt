@@ -1,0 +1,75 @@
+Independent review regressions before fixes; real Node result
+TAP version 13
+# Subtest: strict parsing rejects duplicates, malformed text and excessive structure
+ok 1 - strict parsing rejects duplicates, malformed text and excessive structure
+  ---
+  duration_ms: 2.747529
+  type: 'test'
+  ...
+# Subtest: runtime request validation enforces bounds, literal tags and exact seed text
+ok 2 - runtime request validation enforces bounds, literal tags and exact seed text
+  ---
+  duration_ms: 2.211309
+  type: 'test'
+  ...
+# Subtest: untrusted responses and closed clients do not enter application state
+ok 3 - untrusted responses and closed clients do not enter application state
+  ---
+  duration_ms: 0.969254
+  type: 'test'
+  ...
+# Subtest: cyclic, accessor and sparse values are rejected before JSON serialization
+ok 4 - cyclic, accessor and sparse values are rejected before JSON serialization
+  ---
+  duration_ms: 0.372412
+  type: 'test'
+  ...
+# Subtest: prototype names cannot bypass schema property and definition lookup
+not ok 5 - prototype names cannot bypass schema property and definition lookup
+  ---
+  duration_ms: 1.137658
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/validation.test.mjs:44:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception (ProtocolError).'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/validation.test.mjs:46:12)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: integer wire values reject lossy decimal and exponent spellings like Rust
+not ok 6 - integer wire values reject lossy decimal and exponent spellings like Rust
+  ---
+  duration_ms: 0.425483
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/validation.test.mjs:51:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception (ProtocolError).'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/validation.test.mjs:53:12)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 4
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 189.389811
+
+exit_code=1

@@ -1,0 +1,22 @@
+COMMAND: cargo test --lib game::platform_tests::temporary_furiten_expires_after_called_discard -- --exact --nocapture
+EXIT CODE: 101
+
+   Compiling suzume v0.1.0 (<repository>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.43s
+     Running unittests src/lib.rs (target/debug/build/suzume/49a83d7f9800b79a/out/suzume-49a83d7f9800b79a)
+
+running 1 test
+
+thread 'game::platform_tests::temporary_furiten_expires_after_called_discard' (173) panicked at src/game/platform_tests.rs:79:5:
+非リーチの同巡振聴は、鳴きに続く自分の打牌でも解除される
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test game::platform_tests::temporary_furiten_expires_after_called_discard ... FAILED
+
+failures:
+
+failures:
+    game::platform_tests::temporary_furiten_expires_after_called_discard
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 61 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`

@@ -1,0 +1,51 @@
+COMMAND: cargo test -p suzume-cli --locked
+EXIT CODE: 0
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/main.rs (target/debug/build/suzume-cli/6580942123fe7300/out/suzume-6580942123fe7300)
+
+running 6 tests
+test tests::cli_help_and_invalid_arguments ... ok
+test ui::tests::ambiguous_calls_require_an_explicit_menu_choice ... ok
+test ui::tests::invalid_input_does_not_become_a_discard ... ok
+test tests::cli_accepts_each_documented_mode ... ok
+test ui::tests::japanese_width_and_color_do_not_break_the_frame ... ok
+test ui::tests::numbered_discards_and_riichi_are_distinct ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli.rs (target/debug/build/suzume-cli/604e6c0d97f17f4c/out/cli-604e6c0d97f17f4c)
+
+running 18 tests
+test cli_config_applies_the_operation_limit ... ok
+test cli_config_and_seed_are_rejected_as_conflicting ... ok
+test cli_config_reuses_shared_validation ... ok
+test cli_default_seed_is_reproducible ... ok
+test cli_config_applies_seed_to_snapshot ... ok
+test cli_config_rejects_incompatible_controllers ... ok
+test cli_log_rejects_multiple_matches_and_existing_files ... ok
+test cli_config_rejects_oversize_utf8_and_fixed_viewer_mismatch ... ok
+test eof_closes_the_game_without_waiting ... ok
+test cli_public_log_omits_private_data ... ok
+test help_is_available_without_starting_a_game ... ok
+test invalid_human_input_recovers_and_quit_exits ... ok
+test invalid_cli_arguments_fail_with_a_reason ... ok
+test cli_early_stops_write_valid_interrupted_logs ... ok
+test plain_snapshot_has_no_terminal_control_sequences ... ok
+test cli_configured_policies_and_replay_match_actual_actions ... ok
+test cli_demo_stops_after_one_round_and_records_interruption ... ok
+test cli_complete_simulation_log_replays ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.90s
+
+
+
+SOURCE SHA256 BEFORE
+a50fb6fc5210729fa523a549d208219a45c23561f935975175f3b4874cd14652  crates/suzume-cli/src/main.rs
+d8e9d2e94b325bbc46de880e97258be722f82fbe5518165843e80ad1464b7bb8  crates/suzume-cli/src/ui.rs
+579f032bcea36b1f1616b078720daf5bcfc5fda4457ae12d45b0f243c7eb0e7c  crates/suzume-cli/tests/cli.rs
+
+SOURCE SHA256 AFTER
+a50fb6fc5210729fa523a549d208219a45c23561f935975175f3b4874cd14652  crates/suzume-cli/src/main.rs
+d8e9d2e94b325bbc46de880e97258be722f82fbe5518165843e80ad1464b7bb8  crates/suzume-cli/src/ui.rs
+579f032bcea36b1f1616b078720daf5bcfc5fda4457ae12d45b0f243c7eb0e7c  crates/suzume-cli/tests/cli.rs

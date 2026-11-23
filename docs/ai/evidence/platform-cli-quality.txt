@@ -1,0 +1,15 @@
+COMMAND: rustfmt --edition 2021 --check --config skip_children=true crates/suzume-cli/src/main.rs crates/suzume-cli/src/ui.rs crates/suzume-cli/tests/cli.rs
+EXIT CODE: 0
+
+
+
+COMMAND: cargo clippy -p suzume-cli --all-targets --locked -- -D warnings
+EXIT CODE: 0
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+
+
+SOURCE SHA256
+a50fb6fc5210729fa523a549d208219a45c23561f935975175f3b4874cd14652  crates/suzume-cli/src/main.rs
+d8e9d2e94b325bbc46de880e97258be722f82fbe5518165843e80ad1464b7bb8  crates/suzume-cli/src/ui.rs
+579f032bcea36b1f1616b078720daf5bcfc5fda4457ae12d45b0f243c7eb0e7c  crates/suzume-cli/tests/cli.rs

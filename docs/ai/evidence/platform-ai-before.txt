@@ -1,0 +1,102 @@
+COMMAND: cargo test -p suzume --test ai_contracts -- --nocapture
+EXIT CODE: 101
+
+    Updating crates.io index
+    Blocking waiting for file lock on package cache
+     Locking 41 packages to highest compatible versions
+      Adding block-buffer v0.10.4
+      Adding bumpalo v3.20.4
+      Adding cfg-if v1.0.5
+      Adding cpufeatures v0.2.17
+      Adding crypto-common v0.1.7
+      Adding digest v0.10.7
+      Adding dyn-clone v1.0.20
+      Adding equivalent v1.0.3
+      Adding generic-array v0.14.7 (available: v0.14.9)
+      Adding hashbrown v0.17.2
+      Adding indexmap v2.14.2
+      Adding itoa v1.0.19
+      Adding libc v0.2.191
+      Adding memchr v2.8.3
+      Adding proc-macro2 v1.0.107
+      Adding quote v1.0.47
+      Adding rustversion v1.0.23
+      Adding schemars v0.8.22 (available: v1.2.3)
+      Adding schemars_derive v0.8.22
+      Adding serde v1.0.228 (available: v1.0.229)
+      Adding serde_core v1.0.228 (available: v1.0.229)
+      Adding serde_derive v1.0.228 (available: v1.0.229)
+      Adding serde_derive_internals v0.29.1
+      Adding serde_json v1.0.154
+      Adding serde_spanned v0.6.9
+      Adding sha2 v0.10.9 (available: v0.11.1)
+      Adding syn v2.0.119
+      Adding syn v3.0.10
+      Adding toml v0.8.23 (available: v1.2.2+spec-1.1.0)
+      Adding toml_datetime v0.6.11
+      Adding toml_edit v0.22.27
+      Adding toml_write v0.1.2
+      Adding typenum v1.20.1
+      Adding unicode-ident v1.0.27
+      Adding version_check v0.9.5
+      Adding wasm-bindgen v0.2.130
+      Adding wasm-bindgen-macro v0.2.130
+      Adding wasm-bindgen-macro-support v0.2.130
+      Adding wasm-bindgen-shared v0.2.130
+      Adding winnow v0.7.15
+      Adding zmij v1.0.23
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on build directory
+   Compiling suzume v0.2.0 (<repository>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 19.71s
+     Running tests/ai_contracts.rs (target/debug/build/suzume/0ec34bf431be15f5/out/ai_contracts-0ec34bf431be15f5)
+
+running 8 tests
+
+thread 'ai_rejects_invalid_observations_and_action_indices' (201) panicked at tests/ai_contracts.rs:29:5:
+assertion failed: matches!(ai.decide(&view, &[Action::Discard(99)]),
+    Err(AiError::InvalidAction(_)))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'ai_public_tile_counts_do_not_double_count_called_discard' (200) panicked at tests/ai_contracts.rs:69:5:
+assertion failed: ukeire(1024, 1).decide(&view, &[Action::Discard(0)]).is_ok()
+
+thread 'ai_ukeire_avoids_publicly_exhausted_wait' (202) panicked at tests/ai_contracts.rs:18:58:
+called `Result::unwrap()` on an `Err` value: InvalidObservation("判断処理は未実装です")
+test ai_config_rejects_conflicting_algorithm_parameters ... ok
+test ai_rejects_invalid_observations_and_action_indices ... FAILED
+test ai_public_tile_counts_do_not_double_count_called_discard ... FAILED
+test ai_ukeire_avoids_publicly_exhausted_wait ... FAILED
+
+thread 'ai_is_deterministic_for_same_inputs_and_seed' (198) panicked at tests/ai_contracts.rs:44:45:
+called `Result::unwrap()` on an `Err` value: InvalidObservation("判断処理は未実装です")
+test ai_is_deterministic_for_same_inputs_and_seed ... FAILED
+
+thread 'ai_never_exceeds_declared_evaluation_budget' (199) panicked at tests/ai_contracts.rs:54:64:
+called `Result::unwrap()` on an `Err` value: InvalidObservation("判断処理は未実装です")
+test ai_never_exceeds_declared_evaluation_budget ... FAILED
+
+thread 'ai_all_algorithms_stay_legal_on_real_transitions' (195) panicked at tests/ai_contracts.rs:94:79:
+called `Result::unwrap()` on an `Err` value: InvalidObservation("判断処理は未実装です")
+
+thread 'ai_depth_two_reports_measured_lookahead' (197) panicked at tests/ai_contracts.rs:75:57:
+called `Result::unwrap()` on an `Err` value: InvalidObservation("判断処理は未実装です")
+test ai_all_algorithms_stay_legal_on_real_transitions ... FAILED
+test ai_depth_two_reports_measured_lookahead ... FAILED
+
+failures:
+
+failures:
+    ai_all_algorithms_stay_legal_on_real_transitions
+    ai_depth_two_reports_measured_lookahead
+    ai_is_deterministic_for_same_inputs_and_seed
+    ai_never_exceeds_declared_evaluation_budget
+    ai_public_tile_counts_do_not_double_count_called_discard
+    ai_rejects_invalid_observations_and_action_indices
+    ai_ukeire_avoids_publicly_exhausted_wait
+
+test result: FAILED. 1 passed; 7 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume --test ai_contracts`

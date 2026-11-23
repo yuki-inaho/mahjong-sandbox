@@ -1,0 +1,42 @@
+COMMAND: python3 scripts/check_documentation.py --self-test
+EXIT CODE: 0
+
+test_code_examples_are_not_interpreted_as_links (__main__.DocumentationTests.test_code_examples_are_not_interpreted_as_links) ... ok
+test_duplicate_headings_custom_anchors_and_line_anchors (__main__.DocumentationTests.test_duplicate_headings_custom_anchors_and_line_anchors) ... ok
+test_escaping_repository_and_empty_document_sets_are_rejected (__main__.DocumentationTests.test_escaping_repository_and_empty_document_sets_are_rejected) ... ok
+test_excluded_directories_and_root_relative_links (__main__.DocumentationTests.test_excluded_directories_and_root_relative_links) ... ok
+test_explicit_binary_name_replaces_implicit_main (__main__.DocumentationTests.test_explicit_binary_name_replaces_implicit_main) ... ok
+test_historical_commands_are_preserved_but_links_are_checked (__main__.DocumentationTests.test_historical_commands_are_preserved_but_links_are_checked) ... ok
+test_inline_reference_images_protocols_and_html_are_supported (__main__.DocumentationTests.test_inline_reference_images_protocols_and_html_are_supported) ... ok
+test_missing_path_anchor_image_and_reference_fail (__main__.DocumentationTests.test_missing_path_anchor_image_and_reference_fail) ... ok
+test_nested_labels_and_parentheses_do_not_truncate_targets (__main__.DocumentationTests.test_nested_labels_and_parentheses_do_not_truncate_targets) ... ok
+test_python_cargo_and_npm_entries_are_checked_without_execution (__main__.DocumentationTests.test_python_cargo_and_npm_entries_are_checked_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.015s
+
+OK
+
+
+COMMAND: python3 scripts/check_documentation.py --json
+EXIT CODE: 0
+
+{
+  "success": true,
+  "documents": 42,
+  "local_links": 269,
+  "external_links": 42,
+  "repository_commands": 78,
+  "historical_command_documents": 9,
+  "errors": []
+}
+
+
+SOURCE SHA256
+816a0e770b369cab33e9143bfd49813a37904ab772cac69654b93388d564289b  README.md
+5852c19e3d9931b1b3ffa47a5e30bc5f92260c456664e917d675d4958d899963  docs/README.md
+c3ce4a1cf500a7fd2962e14cc512729c6e32e17015794638e701a0942e1511b4  docs/architecture.md
+d97b27a9352a707b391f1a86523f7ecd0969ed0399961492acf5d99b0431a5dc  docs/concept/overview.md
+f9f68ddedb98bc8af3c4fa3003dcbede6872bd4c5666dd26152853767153019b  docs/development/workflow.md
+569ee81b7d39f425d59da28354b1e98b3d96f5132523404dc486a7bd722ff89c  docs/verification/test-mapping.md
+73fb785c53e6b8d871a80e049d2767f97f227e28b463bb9f7acad09e63989614  scripts/check_documentation.py

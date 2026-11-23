@@ -1,0 +1,54 @@
+Independent review regressions after fixes; real Node result
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 build
+> tsc -p tsconfig.json
+
+TAP version 13
+# Subtest: strict parsing rejects duplicates, malformed text and excessive structure
+ok 1 - strict parsing rejects duplicates, malformed text and excessive structure
+  ---
+  duration_ms: 2.167794
+  type: 'test'
+  ...
+# Subtest: runtime request validation enforces bounds, literal tags and exact seed text
+ok 2 - runtime request validation enforces bounds, literal tags and exact seed text
+  ---
+  duration_ms: 1.268571
+  type: 'test'
+  ...
+# Subtest: untrusted responses and closed clients do not enter application state
+ok 3 - untrusted responses and closed clients do not enter application state
+  ---
+  duration_ms: 0.730804
+  type: 'test'
+  ...
+# Subtest: cyclic, accessor and sparse values are rejected before JSON serialization
+ok 4 - cyclic, accessor and sparse values are rejected before JSON serialization
+  ---
+  duration_ms: 0.265428
+  type: 'test'
+  ...
+# Subtest: prototype names cannot bypass schema property and definition lookup
+ok 5 - prototype names cannot bypass schema property and definition lookup
+  ---
+  duration_ms: 1.396358
+  type: 'test'
+  ...
+# Subtest: integer wire values reject lossy decimal and exponent spellings like Rust
+ok 6 - integer wire values reject lossy decimal and exponent spellings like Rust
+  ---
+  duration_ms: 0.255593
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 122.747896
+
+exit_code=0

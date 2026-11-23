@@ -1,0 +1,96 @@
+name: 固定版・SDK・配布消費検査
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: never
+  PYTHONUTF8: '1'
+
+jobs:
+  fixed-native:
+    name: Rust 1.100.0 / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12.14'
+      - name: 指定したRust版を準備
+        run: rustup toolchain install 1.100.0 --profile minimal --component rustfmt --component clippy
+      - name: 道具の固定版を確認
+        run: python scripts/bootstrap.py --profile native --reuse-existing
+      - name: 固定版で通常検査
+        run: python scripts/verify_platform.py --profile native
+      - name: 対象OSの配布物を作成・消費検査
+        run: python scripts/package.py --native-only
+      - name: 実行記録を保存
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            dist/bootstrap/
+            dist/verification/
+            dist/packages/
+          if-no-files-found: error
+
+  fixed-full-linux:
+    name: Linux / 固定版・形式検証・SDK・配布
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/dist/tools/browser-engines
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12.14'
+      - name: 公式配布から作業用の固定版を導入
+        run: python scripts/bootstrap.py --profile full
+      - name: SDKと形式検証を含めて検査
+        run: python scripts/verify_platform.py --profile full
+      - name: 固定したブラウザ検査用依存とChromiumを準備
+        run: |
+          source dist/tools/activate.sh
+          npm ci --ignore-scripts --no-audit --no-fund --prefix tools/browser
+          node tools/browser/node_modules/playwright/cli.js install chromium-headless-shell --with-deps
+      - name: 実ChromiumでSDKと画面を検査
+        run: |
+          source dist/tools/activate.sh
+          python scripts/check_browser.py
+      - name: 書庫を作り別環境から消費
+        run: python scripts/package.py
+      - name: 証跡と配布物を保存
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: distribution-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            dist/bootstrap/
+            dist/verification/
+            dist/wasm-build/
+            dist/packages/
+            dist/browser-check/
+          if-no-files-found: error

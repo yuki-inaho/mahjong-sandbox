@@ -1,0 +1,17 @@
+[package]
+name = "suzume-cli"
+version = "0.2.0"
+edition = "2021"
+rust-version = "1.100"
+license = "MIT"
+description = "Terminal client for Suzume mahjong"
+repository = "https://github.com/yuki-inaho/mahjong-sandbox"
+include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
+
+[[bin]]
+name = "suzume"
+path = "src/main.rs"
+
+[dependencies]
+suzume = { version = "=0.2.0", path = "../.." }
+suzume-api = { version = "=0.2.0", path = "../suzume-api" }

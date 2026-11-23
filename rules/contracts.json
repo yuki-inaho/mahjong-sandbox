@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "合法条件と事後条件の共通式。Natは非負整数、Intは整数、Boolは真偽値です。Rust入力域はargsで固定します。",
+  "description": "合法条件と事後条件の共通式。Natは非負整数、Intは整数、Boolは真偽値です。Rust入力域はargsと先行する境界条件で固定します。整数型を混用せず、各演算が型の範囲内に収まる条件が必要です。除算・剰余は非負の被除数と正の除数に限定します。",
   "contracts": [
     {
       "id": "C-01", "name": "next_seat_relation",
@@ -19,7 +19,7 @@
     {
       "id": "C-03", "name": "move_one_relation",
       "args": [["source", "u16", "Nat"], ["destination", "u16", "Nat"], ["new_source", "u16", "Nat"], ["new_destination", "u16", "Nat"]],
-      "expr": ["and", ["gt", "source", 0], ["le", "source", {"rule": "COPIES_PER_TILE"}], ["lt", "destination", {"rule": "COPIES_PER_TILE"}], ["eq", ["add", "new_source", 1], "source"], ["eq", "new_destination", ["add", "destination", 1]], ["eq", ["add", "source", "destination"], ["add", "new_source", "new_destination"]]]
+      "expr": ["and", ["gt", "source", 0], ["le", "source", {"rule": "COPIES_PER_TILE"}], ["lt", "destination", {"rule": "COPIES_PER_TILE"}], ["le", "new_source", {"rule": "COPIES_PER_TILE"}], ["le", "new_destination", {"rule": "COPIES_PER_TILE"}], ["eq", ["add", "new_source", 1], "source"], ["eq", "new_destination", ["add", "destination", 1]], ["eq", ["add", "source", "destination"], ["add", "new_source", "new_destination"]]]
     },
     {
       "id": "C-04", "name": "point_transfer_legal",
@@ -29,7 +29,7 @@
     {
       "id": "C-04P", "name": "point_transfer_relation",
       "args": [["source", "i64", "Int"], ["destination", "i64", "Int"], ["amount", "i64", "Int"], ["new_source", "i64", "Int"], ["new_destination", "i64", "Int"]],
-      "expr": ["and", ["eq", "new_source", ["sub", "source", "amount"]], ["eq", "new_destination", ["add", "destination", "amount"]], ["eq", ["add", "source", "destination"], ["add", "new_source", "new_destination"]]]
+      "expr": ["and", ["ge", "source", -2147483648], ["le", "source", 2147483647], ["ge", "destination", -2147483648], ["le", "destination", 2147483647], ["ge", "amount", 0], ["le", "amount", 2147483647], ["ge", "new_source", -2147483648], ["le", "new_source", 2147483647], ["ge", "new_destination", -2147483648], ["le", "new_destination", 2147483647], ["eq", "new_source", ["sub", "source", "amount"]], ["eq", "new_destination", ["add", "destination", "amount"]], ["eq", ["add", "source", "destination"], ["add", "new_source", "new_destination"]]]
     },
     {
       "id": "C-05", "name": "riichi_legal",

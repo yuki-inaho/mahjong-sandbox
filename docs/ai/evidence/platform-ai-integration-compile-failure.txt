@@ -1,0 +1,84 @@
+COMMAND: cargo test -p suzume --test ai_contracts -- --nocapture
+EXIT CODE: 101
+
+   Compiling suzume v0.1.0 (<repository>)
+warning: function `next_seat_relation` is never used
+  --> src/generated_contracts.rs:56:8
+   |
+56 | pub fn next_seat_relation(seat: u16, result: u16) -> bool {
+   |        ^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `dora_relation` is never used
+  --> src/generated_contracts.rs:63:8
+   |
+63 | pub fn dora_relation(indicator: u16, result: u16) -> bool {
+   |        ^^^^^^^^^^^^^
+
+warning: function `move_one_relation` is never used
+  --> src/generated_contracts.rs:70:8
+   |
+70 | pub fn move_one_relation(source: u16, destination: u16, new_source: u16, new_destination: u16) -> bool {
+   |        ^^^^^^^^^^^^^^^^^
+
+warning: function `point_transfer_legal` is never used
+  --> src/generated_contracts.rs:77:8
+   |
+77 | pub fn point_transfer_legal(from: u64, to: u64, source: i64, destination: i64, amount: i64) -> bool {
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `point_transfer_relation` is never used
+  --> src/generated_contracts.rs:84:8
+   |
+84 | pub fn point_transfer_relation(source: i64, destination: i64, amount: i64, new_source: i64, new_destination: i64) -> bool {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `riichi_legal` is never used
+  --> src/generated_contracts.rs:91:8
+   |
+91 | pub fn riichi_legal(closed: bool, tenpai: bool, points: i64, wall: u64, already: bool) -> bool {
+   |        ^^^^^^^^^^^^
+
+warning: function `discard_legal` is never used
+  --> src/generated_contracts.rs:98:8
+   |
+98 | pub fn discard_legal(riichi: bool, drawn: u16, discard: u16) -> bool {
+   |        ^^^^^^^^^^^^^
+
+warning: `suzume` (lib) generated 7 warnings
+error[E0599]: no method named `japanese` found for enum `Option<T>` in the current scope
+   --> src/ui.rs:168:38
+    |
+168 |                 game.seat_wind(seat).japanese(),
+    |                                      ^^^^^^^^ method not found in `Option<Tile>`
+    |
+note: the method `japanese` exists on the type `Tile`
+   --> src/tile.rs:57:5
+    |
+ 57 |     pub fn japanese(self) -> String {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: consider using `Option::expect` to unwrap the `Tile` value, panicking if the value is an `Option::None`
+    |
+168 |                 game.seat_wind(seat).expect("REASON").japanese(),
+    |                                     +++++++++++++++++
+
+error[E0599]: no method named `japanese` found for enum `Option<T>` in the current scope
+   --> src/ui.rs:200:31
+    |
+200 |             game.seat_wind(0).japanese(),
+    |                               ^^^^^^^^ method not found in `Option<Tile>`
+    |
+note: the method `japanese` exists on the type `Tile`
+   --> src/tile.rs:57:5
+    |
+ 57 |     pub fn japanese(self) -> String {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: consider using `Option::expect` to unwrap the `Tile` value, panicking if the value is an `Option::None`
+    |
+200 |             game.seat_wind(0).expect("REASON").japanese(),
+    |                              +++++++++++++++++
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `suzume` (bin "suzume") due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...

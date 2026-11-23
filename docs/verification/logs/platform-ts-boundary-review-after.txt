@@ -1,0 +1,27 @@
+COMMAND: node --input-type=module (probe source retained below)
+NODE: v24.22.3
+EXIT CODE: 0
+SOURCE SHA256: {"packages/suzume/dist/validation.js": "af24e8e2a7b35e13227652a80b11da1f1dd52c3195cc198abbb250c15f82f359", "packages/suzume/dist/generated/schema.js": "97eb8b420471fca90bebf7d3ca6455472ec900d6dd808a60e1ee9fdb90c442db", "packages/suzume/src/validation.ts": "f1c8910cecb2d27f5662a3fd8e8bbe4495fcc7cfcfe1a16892999b69edb12ac8"}
+
+EXPECTED_REJECT {"op":"view","version":1,"constructor":42} Value does not conform to Request
+EXPECTED_REJECT {"op":"view","version":1,"__proto__":42} Value does not conform to Request
+EXPECTED_REJECT {"op":"view","version":1.00000000000000001} Integer wire fields do not accept decimal or exponent notation
+EXPECTED_REJECT {"op":"view","version":1e0} Integer wire fields do not accept decimal or exponent notation
+EXPECTED_REJECT inherited definition Unknown schema definition: toString
+EXPECTED_REJECT rounded response Integer wire fields do not accept decimal or exponent notation
+unexpected accepts 0
+
+PROBE:
+import {parseJson,assertRequest,parseResponse,validateDefinition} from './packages/suzume/dist/validation.js';
+let accepted = 0;
+const inputs = ['{"op":"view","version":1,"constructor":42}','{"op":"view","version":1,"__proto__":42}','{"op":"view","version":1.00000000000000001}','{"op":"view","version":1e0}'];
+for (const text of inputs) {
+  try { assertRequest(parseJson(text)); console.log('UNEXPECTED_ACCEPT', text); accepted++; }
+  catch (e) { console.log('EXPECTED_REJECT', text, e.message); }
+}
+try { validateDefinition('toString', {arbitrary:true}); console.log('UNEXPECTED_ACCEPT inherited definition'); accepted++; }
+catch(e) { console.log('EXPECTED_REJECT inherited definition', e.message); }
+try { parseResponse('{"status":"error","version":1.00000000000000001,"code":"invalid_request","message":"x","session_id":null,"revision":null}'); console.log('UNEXPECTED_ACCEPT rounded response version'); accepted++; }
+catch(e) { console.log('EXPECTED_REJECT rounded response', e.message); }
+console.log('unexpected accepts',accepted);
+process.exitCode=accepted===0?0:1;

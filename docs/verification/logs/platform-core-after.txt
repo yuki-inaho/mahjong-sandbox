@@ -1,0 +1,93 @@
+COMMAND: cargo test -p suzume --lib
+EXIT CODE: 101
+
+    Blocking waiting for file lock on package cache
+    Updating crates.io index
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on shared package cache
+   Compiling suzume v0.2.0 (<repository>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 16.67s
+     Running unittests src/lib.rs (target/debug/build/suzume/d442d5cf5ed2c178/out/suzume-d442d5cf5ed2c178)
+
+running 63 tests
+test contracts::tests::checked_in_declarations_match_generated_outputs ... ok
+test contracts::tests::dora_wraps_inside_each_family ... ok
+test contracts::tests::next_seat_wraps_and_rejects_invalid ... ok
+test contracts::tests::points_transfer_preserves_total_including_escrow ... ok
+test contracts::tests::rejected_transfer_leaves_every_account_unchanged ... ok
+test contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid ... ok
+test contracts::tests::riichi_requires_every_declared_precondition ... ok
+test contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full ... ok
+test game::core_boundary_tests::action_labels_handle_invalid_indexes_without_panicking ... ok
+test game::core_boundary_tests::validated_seat_rejects_before_narrowing_the_integer ... ok
+test game::core_boundary_tests::seat_lookup_handles_the_full_usize_domain_without_panicking ... ok
+test game::core_boundary_tests::committing_an_action_keeps_existing_log_storage ... FAILED
+test game::tests::calling_the_declaration_tile_establishes_riichi_but_cancels_ippatsu ... ok
+test game::tests::chi_is_only_from_the_left_and_forbids_both_kuikae_tiles ... ok
+test game::tests::dealer_tsumo_rounds_each_payment_and_continues_the_dealership ... ok
+test game::tests::exhaustive_draw_with_two_ready_players_transfers_fifteen_hundred_each ... ok
+test game::tests::nondealer_tsumo_includes_honba_and_the_riichi_pot ... ok
+test game::tests::last_discard_after_rinshan_can_award_houtei ... ok
+test game::tests::head_bump_uses_distance_from_the_discarder ... ok
+test game::tests::open_kan_draws_from_the_dead_wall_and_preserves_inventory ... ok
+test game::platform_tests::temporary_furiten_expires_after_called_discard ... ok
+test game::tests::pon_has_priority_over_chi_and_does_not_create_a_tsumo ... ok
+test game::tests::rinshan_does_not_combine_with_haitei_when_the_live_wall_becomes_empty ... ok
+test game::tests::ron_has_priority_over_pon_and_chi ... ok
+test game::tests::ron_on_declaration_tile_cancels_the_riichi_deposit ... ok
+test game::tests::riichi_is_deferred_until_declaration_tile_survives ... ok
+test game::tests::temporary_furiten_expires_on_the_next_draw ... ok
+test hand::tests::a_wait_requiring_a_fifth_tile_is_not_tenpai ... ok
+test game::tests::riichi_furiten_survives_the_next_draw_and_discard_is_locked ... ok
+test game::tests::exhaustive_draw_rotates_a_not_ready_dealer_but_keeps_honba ... ok
+test game::tests::yaku_less_completion_still_causes_temporary_furiten ... ok
+test hand::tests::does_not_join_sequences_across_suits ... ok
+test hand::tests::keeps_ambiguous_decompositions_for_scoring ... ok
+test hand::tests::validates_size_multiplicity_and_open_meld_count ... ok
+test hand::tests::handles_four_open_groups_and_pair_wait ... ok
+test scoring::tests::closed_edge_inside_and_pair_waits_add_fu ... ok
+test scoring::tests::double_riichi_replaces_riichi_and_ippatsu_combines ... ok
+test scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape ... ok
+test scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu ... ok
+test scoring::tests::dora_alone_cannot_make_a_yaku ... ok
+test scoring::tests::double_wind_pair_counts_four_fu ... ok
+test scoring::tests::inconsistent_context_and_absent_winning_tile_are_rejected ... ok
+test scoring::tests::four_kans_accept_eighteen_physical_tiles ... ok
+test hand::tests::recognizes_standard_seven_pairs_and_orphans ... ok
+test hand::tests::quads_are_not_two_pairs ... ok
+test scoring::tests::malformed_melds_and_fifth_physical_tile_are_rejected ... ok
+test scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman ... ok
+test scoring::tests::open_tanyao_without_other_fu_is_thirty_fu ... ok
+test scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty ... ok
+test scoring::tests::points_follow_declared_limits_without_kiriage ... ok
+test scoring::tests::recognizes_nine_gates_green_and_big_dragons ... ok
+test scoring::tests::recognizes_sequence_and_outside_yaku ... ok
+test scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets ... ok
+test hand::tests::enumerates_both_waits_and_thirteen_orphan_waits ... ok
+test scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu ... ok
+test scoring::tests::ura_is_only_counted_for_riichi ... ok
+test scoring::tests::seven_pairs_uses_fixed_twenty_five_fu ... ok
+test scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled ... ok
+test tile::tests::compact_text_round_trips_all_tiles ... ok
+test tile::tests::counting_arbitrary_input_does_not_overflow ... ok
+test tile::tests::dora_wraps_each_suit_and_honor_family ... ok
+test tile::tests::every_byte_is_valid_exactly_for_34_tiles ... ok
+test tile::tests::parser_rejects_red_incomplete_and_fifth_copies ... ok
+
+failures:
+
+---- game::core_boundary_tests::committing_an_action_keeps_existing_log_storage stdout ----
+
+thread 'game::core_boundary_tests::committing_an_action_keeps_existing_log_storage' (195) panicked at src/game/core_boundary_tests.rs:54:14:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    game::core_boundary_tests::committing_an_action_keeps_existing_log_storage
+
+test result: FAILED. 62 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p suzume --lib`

@@ -1,0 +1,27 @@
+COMMAND: cargo test -p suzume-api --test logging
+EXIT CODE: 0
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.29s
+     Running tests/logging.rs (target/debug/build/suzume-api/94d6c94d4b0ebc4f/out/logging-94d6c94d4b0ebc4f)
+
+running 16 tests
+test duplicate_keys_at_top_level_and_inside_nested_types_are_rejected ... ok
+test full_log_records_resolved_configuration_and_roundtrips_schema_types ... ok
+test complete_final_line_without_newline_and_crlf_are_accepted ... ok
+test interrupted_empty_and_nonempty_logs_are_explicitly_truncated_datasets ... ok
+test decision_metadata_is_consistent_and_never_appears_in_public_output ... ok
+test line_count_total_and_buffer_limits_are_enforced ... ok
+test public_log_contains_only_public_views_and_semantic_actions ... ok
+test writer_rejects_skips_wrong_actor_and_false_termination ... ok
+test io_and_callback_failures_are_not_successful_logs ... ok
+test truncated_logs_keep_the_last_observation_for_value_bootstrapping ... ok
+test streaming_output_is_provisional_until_the_footer_and_eof_are_validated ... ok
+test missing_reordered_extra_or_truncated_records_never_count_as_complete ... ok
+test malformed_versions_metadata_fields_and_sequences_are_rejected ... ok
+test dataset_uses_the_same_observations_actions_and_rewards_as_environment ... ok
+test replay_restores_full_game_and_exact_hand_index_history ... ok
+test a_complete_match_is_distinct_from_an_external_cutoff ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.31s
+

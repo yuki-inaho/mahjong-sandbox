@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "protocol": "evaluations/ai-protocol.json",
+  "protocol_sha256": "886ce0f772eef30a62e1736d6f12043b7cc74e73a33438d4b221f6d4edc2ad81",
+  "results": "evaluations/ai-results.csv",
+  "results_sha256": "63974ead7e5d7cd59ce974eb8e675136a8f979a4e82ff2d5dd5f68996bd5accf",
+  "planned_games": 64,
+  "reported_games": 64,
+  "groups": {
+    "candidate": {
+      "games": 32,
+      "successes": 32,
+      "failures": 0,
+      "rank_counts": {
+        "1": 6,
+        "2": 9,
+        "3": 10,
+        "4": 7
+      },
+      "mean_rank": 2.5625,
+      "mean_points": 24650,
+      "wins_total": 36,
+      "dealins_total": 22,
+      "actions_total": 27515,
+      "candidate_decisions_total": 6875,
+      "candidate_evaluations_total": 1361123,
+      "mean_match_ms": 498.59375,
+      "max_match_ms": 1059
+    },
+    "reference_random": {
+      "games": 32,
+      "successes": 32,
+      "failures": 0,
+      "rank_counts": {
+        "3": 10,
+        "4": 22
+      },
+      "mean_rank": 3.6875,
+      "mean_points": 15384.375,
+      "wins_total": 1,
+      "dealins_total": 44,
+      "actions_total": 33721,
+      "candidate_decisions_total": 8428,
+      "candidate_evaluations_total": 0,
+      "mean_match_ms": 35.65625,
+      "max_match_ms": 95
+    }
+  },
+  "paired_comparison": {
+    "pairs": 32,
+    "distinct_wall_seeds": 8,
+    "candidate_better_rank": 22,
+    "equal_rank": 9,
+    "candidate_worse_rank": 1,
+    "mean_rank_difference_candidate_minus_reference": -1.125,
+    "mean_point_difference_candidate_minus_reference": 9265.625,
+    "seed_mean_point_differences": {
+      "1000": 6925,
+      "1001": 14500,
+      "1002": 13250,
+      "1003": 10550,
+      "1004": 4600,
+      "1005": 9525,
+      "1006": 5950,
+      "1007": 8825
+    }
+  }
+}

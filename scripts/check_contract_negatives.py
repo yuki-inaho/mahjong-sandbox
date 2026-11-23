@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import shutil
 import subprocess
 import sys
@@ -15,6 +16,9 @@ LOG = ROOT / "docs/verification/logs/negative-controls.txt"
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--log", type=Path, default=LOG, help="検証結果の保存先")
+    args = parser.parse_args()
     records = ["Contract negative controls: rejection is the expected result."]
     with tempfile.TemporaryDirectory(prefix="mahjong-contract-negative-") as directory:
         temporary = Path(directory)
@@ -69,8 +73,8 @@ def main() -> int:
             'example : Mahjong.Model.nextSeat 0 = some 2 := by decide\n', encoding="utf-8")
         run("N-05 false Lean theorem", ["lake", "env", "lean", str(false_claim)], ROOT / "proofs", "is false")
     records.append("\nResult: 5 / 5 expected rejections observed; original project unchanged.")
-    LOG.parent.mkdir(parents=True, exist_ok=True)
-    LOG.write_text("\n".join(records), encoding="utf-8")
+    args.log.parent.mkdir(parents=True, exist_ok=True)
+    args.log.write_text("\n".join(records), encoding="utf-8")
     print("否定検査: 5 / 5 成功")
     return 0
 

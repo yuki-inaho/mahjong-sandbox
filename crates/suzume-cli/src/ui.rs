@@ -118,7 +118,7 @@ pub fn help() -> &'static str {
 }
 
 /// 対戦相手の伏せた手牌は参照せず、枚数だけを描画します。
-pub fn board(game: &Game, color: bool, automatic: bool) -> String {
+pub fn board(game: &Game, color: bool, automatic: bool, reveal_hand: bool) -> String {
     let mut lines = Vec::new();
     lines.push(paint("すずめ  /  四人リーチ麻雀", "1;36", color));
     lines.push(if automatic {
@@ -165,7 +165,7 @@ pub fn board(game: &Game, color: bool, automatic: bool) -> String {
         lines.push(paint(
             &format!(
                 "{}家  {}  {:>6}点  伏せ牌{}枚{}{}",
-                game.seat_wind(seat).japanese(),
+                game.seat_wind(seat).expect("表示する席は0〜3").japanese(),
                 player.name,
                 game.scores()[seat],
                 player.hand.len(),
@@ -183,7 +183,7 @@ pub fn board(game: &Game, color: bool, automatic: bool) -> String {
     separator(&mut lines);
     let player = &game.players()[0];
     let who = if automatic {
-        "あなた（自動対局）"
+        "席0（自動対局）"
     } else {
         "あなた"
     };
@@ -197,11 +197,11 @@ pub fn board(game: &Game, color: bool, automatic: bool) -> String {
     lines.push(paint(
         &format!(
             "{}家  {}  {:>6}点  {}{}",
-            game.seat_wind(0).japanese(),
+            game.seat_wind(0).expect("席0は有効").japanese(),
             who,
             game.scores()[0],
             status,
-            if game.is_furiten(0) {
+            if reveal_hand && game.is_furiten(0) {
                 "  フリテン"
             } else {
                 ""
@@ -210,20 +210,24 @@ pub fn board(game: &Game, color: bool, automatic: bool) -> String {
         "1;33",
         color,
     ));
-    lines.push(tile_row(&player.hand, color));
-    lines.push(
-        (1..=player.hand.len())
-            .map(|index| format!(" {:>2}   ", index))
-            .collect::<String>(),
-    );
-    if let Some((0, tile, rinshan)) = game.last_draw() {
-        if matches!(game.phase(), Phase::Discard { player: 0 }) {
-            lines.push(format!(
-                "今回のツモ: {}{}",
-                tile_text(tile, color),
-                if rinshan { "（嶺上牌）" } else { "" }
-            ));
+    if reveal_hand {
+        lines.push(tile_row(&player.hand, color));
+        lines.push(
+            (1..=player.hand.len())
+                .map(|index| format!(" {:>2}   ", index))
+                .collect::<String>(),
+        );
+        if let Some((0, tile, rinshan)) = game.last_draw() {
+            if matches!(game.phase(), Phase::Discard { player: 0 }) {
+                lines.push(format!(
+                    "今回のツモ: {}{}",
+                    tile_text(tile, color),
+                    if rinshan { "（嶺上牌）" } else { "" }
+                ));
+            }
         }
+    } else {
+        lines.push(format!("伏せ牌{}枚（公開情報のみ表示）", player.hand.len()));
     }
     append_melds(&mut lines, &player.melds, color);
     append_river(&mut lines, game, 0, color);

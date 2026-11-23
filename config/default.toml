@@ -1,0 +1,31 @@
+# Suzume configuration schema 1. A seed is always a canonical u64 string.
+schema_version = 1
+
+[game]
+seed = "0"
+viewer = 0
+max_steps = 10000
+
+[logging]
+format = "replay"
+
+[[players]]
+kind = "human"
+
+[[players]]
+kind = "ai"
+[players.config]
+preset = "standard"
+seed = "1"
+
+[[players]]
+kind = "ai"
+[players.config]
+preset = "standard"
+seed = "2"
+
+[[players]]
+kind = "ai"
+[players.config]
+preset = "standard"
+seed = "3"

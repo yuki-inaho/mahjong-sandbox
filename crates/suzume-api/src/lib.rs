@@ -1,0 +1,326 @@
+//! Versioned interfaces for applications, analysis and research.
+//! The core remains independent of serialization, configuration and terminal I/O.
+#![forbid(unsafe_code)]
+pub mod actions;
+pub mod config;
+pub mod decision;
+pub mod environment;
+pub mod logging;
+pub mod protocol;
+pub mod transport;
+pub mod types;
+pub mod view;
+
+use config::{AppConfig, Controller};
+use decision::DecisionView;
+use environment::Environment;
+use protocol::{Request, Response, ResponseData};
+use suzume::{
+    ai::ConfiguredAi,
+    game::{Game, Phase},
+};
+use types::{ApiError, ErrorCode, Version};
+use view::GameView;
+
+pub const ENGINE_VERSION: &str = env!("CARGO_PKG_VERSION");
+pub const MAX_REQUEST_BYTES: usize = 1_048_576;
+
+struct Session {
+    game: Game,
+    config: AppConfig,
+    id: u32,
+    revision: u32,
+}
+impl Session {
+    fn view(&self) -> GameView {
+        GameView::from_game(
+            &self.game,
+            self.config.game.viewer.seat(),
+            self.id,
+            self.revision,
+        )
+    }
+    fn check(&self, id: u32, revision: u32) -> Result<(), ApiError> {
+        check_revision(self.id, self.revision, id, revision)?;
+        if self.revision >= self.config.game.max_steps
+            && !matches!(self.game.phase(), Phase::MatchEnd)
+        {
+            return Err(ApiError::new(
+                ErrorCode::StepLimit,
+                "configured operation limit reached",
+            ));
+        }
+        Ok(())
+    }
+}
+fn check_revision(
+    current_id: u32,
+    current_revision: u32,
+    id: u32,
+    revision: u32,
+) -> Result<(), ApiError> {
+    if id != current_id {
+        return Err(ApiError::new(
+            ErrorCode::StaleSession,
+            "session_id does not identify the current game",
+        ));
+    }
+    if revision != current_revision {
+        return Err(ApiError::new(
+            ErrorCode::StaleRevision,
+            "expected_revision does not match the current state",
+        ));
+    }
+    Ok(())
+}
+
+/// Transport-independent dispatcher. Each instance owns one local application mode.
+/// This is not a network authentication or multi-user authorization service.
+#[derive(Default)]
+pub struct Engine {
+    session: Option<Session>,
+    environment: Option<Environment>,
+    last_id: u32,
+}
+impl Engine {
+    pub fn new() -> Self {
+        Self::default()
+    }
+    fn identifiers(&self) -> (Option<u32>, Option<u32>) {
+        if let Some(s) = &self.session {
+            (Some(s.id), Some(s.revision))
+        } else if let Some(e) = &self.environment {
+            (Some(e.session_id()), Some(e.revision()))
+        } else {
+            (None, None)
+        }
+    }
+    pub fn request(&mut self, input: &str) -> String {
+        let parsed = if input.len() > MAX_REQUEST_BYTES {
+            Err(ApiError::new(
+                ErrorCode::InvalidRequest,
+                "request exceeds 1048576 bytes",
+            ))
+        } else {
+            serde_json::from_str::<Request>(input)
+                .map_err(|e| ApiError::new(ErrorCode::InvalidRequest, e.to_string()))
+        };
+        let result = parsed.and_then(|request| self.execute(request));
+        let response = match result {
+            Ok(data) => Response::Ok {
+                version: Version,
+                data: Box::new(data),
+            },
+            Err(error) => {
+                let (session_id, revision) = self.identifiers();
+                Response::Error {
+                    version: Version,
+                    code: error.code,
+                    message: error.message,
+                    session_id,
+                    revision,
+                }
+            }
+        };
+        serde_json::to_string(&response)
+            .expect("wire values contain no non-finite floats or non-string map keys")
+    }
+    fn next_id(&self) -> Result<u32, ApiError> {
+        self.last_id.checked_add(1).ok_or_else(|| {
+            ApiError::new(
+                ErrorCode::StepLimit,
+                "session identifier exhausted; create a new Engine",
+            )
+        })
+    }
+    fn start(&mut self, config: AppConfig) -> Result<ResponseData, ApiError> {
+        config.validate()?;
+        let id = self.next_id()?;
+        let game = Game::new(config.game.seed.value())
+            .map_err(|e| ApiError::new(ErrorCode::InternalError, e.to_string()))?;
+        let session = Session {
+            game,
+            config,
+            id,
+            revision: 0,
+        };
+        let state = session.view();
+        self.session = Some(session);
+        self.environment = None;
+        self.last_id = id;
+        Ok(ResponseData::Game {
+            state: Box::new(state),
+        })
+    }
+    fn session_mut(&mut self) -> Result<&mut Session, ApiError> {
+        self.session
+            .as_mut()
+            .ok_or_else(|| ApiError::new(ErrorCode::NoGame, "start an application game first"))
+    }
+    pub fn execute(&mut self, request: Request) -> Result<ResponseData, ApiError> {
+        match request {
+            Request::New { config, .. } => self.start(config),
+            Request::LoadConfig { toml, .. } => self.start(AppConfig::from_toml(&toml)?),
+            Request::InspectConfig { toml, .. } => {
+                let config = AppConfig::from_toml(&toml)?;
+                let effective_ai = config.effective_ai()?;
+                Ok(ResponseData::Config {
+                    config: Box::new(config),
+                    effective_ai,
+                })
+            }
+            Request::View { .. } => {
+                let session = self.session_mut()?;
+                Ok(ResponseData::Game {
+                    state: Box::new(session.view()),
+                })
+            }
+            Request::Apply {
+                session_id,
+                expected_revision,
+                action,
+                ..
+            } => {
+                let session = self.session_mut()?;
+                session.check(session_id, expected_revision)?;
+                let viewer = session.config.game.viewer.seat().ok_or_else(|| {
+                    ApiError::new(ErrorCode::WrongActor, "spectators cannot apply actions")
+                })?;
+                let actor = usize::from(viewer.get());
+                if session.game.next_actor() != Some(actor)
+                    || !matches!(session.config.players[actor], Controller::Human)
+                {
+                    return Err(ApiError::new(
+                        ErrorCode::WrongActor,
+                        "only the fixed human viewer may act on its turn",
+                    ));
+                }
+                session
+                    .game
+                    .apply(actor, action.to_core())
+                    .map_err(|e| ApiError::new(ErrorCode::IllegalAction, e.to_string()))?;
+                session.revision += 1;
+                Ok(ResponseData::Game {
+                    state: Box::new(session.view()),
+                })
+            }
+            Request::Step {
+                session_id,
+                expected_revision,
+                ..
+            } => {
+                let session = self.session_mut()?;
+                session.check(session_id, expected_revision)?;
+                let actor = session
+                    .game
+                    .next_actor()
+                    .ok_or_else(|| ApiError::new(ErrorCode::WrongActor, "game has ended"))?;
+                let config = match &session.config.players[actor] {
+                    Controller::Ai { config } => config.resolve()?,
+                    Controller::Human => {
+                        return Err(ApiError::new(
+                            ErrorCode::WrongActor,
+                            "human input is required",
+                        ))
+                    }
+                };
+                let ai = ConfiguredAi::new(config)
+                    .map_err(|e| ApiError::new(ErrorCode::InvalidAi, e.to_string()))?;
+                let observation = session
+                    .game
+                    .observation(actor)
+                    .map_err(|e| ApiError::new(ErrorCode::InternalError, e.to_string()))?;
+                let decision = ai
+                    .decide(&observation, &session.game.legal_actions(actor))
+                    .map_err(|e| ApiError::new(ErrorCode::InvalidAi, e.to_string()))?;
+                session
+                    .game
+                    .apply(actor, decision.action)
+                    .map_err(|e| ApiError::new(ErrorCode::IllegalAction, e.to_string()))?;
+                session.revision += 1;
+                Ok(ResponseData::Game {
+                    state: Box::new(session.view()),
+                })
+            }
+            Request::Analyze {
+                session_id,
+                expected_revision,
+                config,
+                ..
+            } => {
+                let session = self.session_mut()?;
+                session.check(session_id, expected_revision)?;
+                let viewer = session.config.game.viewer.seat().ok_or_else(|| {
+                    ApiError::new(ErrorCode::WrongActor, "spectators have no private analysis")
+                })?;
+                let actor = usize::from(viewer.get());
+                if session.game.next_actor() != Some(actor) {
+                    return Err(ApiError::new(
+                        ErrorCode::WrongActor,
+                        "analysis is restricted to the viewer turn",
+                    ));
+                }
+                let ai = ConfiguredAi::new(config.resolve()?)
+                    .map_err(|e| ApiError::new(ErrorCode::InvalidAi, e.to_string()))?;
+                let observation = session
+                    .game
+                    .observation(actor)
+                    .map_err(|e| ApiError::new(ErrorCode::InternalError, e.to_string()))?;
+                let decision = ai
+                    .decide(&observation, &session.game.legal_actions(actor))
+                    .map_err(|e| ApiError::new(ErrorCode::InvalidAi, e.to_string()))?;
+                let decision = DecisionView::from_core(&decision).ok_or_else(|| {
+                    ApiError::new(
+                        ErrorCode::InternalError,
+                        "decision is outside wire action domain",
+                    )
+                })?;
+                Ok(ResponseData::Analysis {
+                    session_id,
+                    revision: session.revision,
+                    decision,
+                })
+            }
+            Request::EnvironmentReset {
+                seed, max_steps, ..
+            } => {
+                let id = self.next_id()?;
+                let environment = Environment::new(&seed, max_steps, id)?;
+                let transition = environment.state();
+                self.environment = Some(environment);
+                self.session = None;
+                self.last_id = id;
+                Ok(ResponseData::Environment {
+                    transition: Box::new(transition),
+                })
+            }
+            Request::EnvironmentView { .. } => {
+                let environment = self.environment.as_ref().ok_or_else(|| {
+                    ApiError::new(ErrorCode::WrongMode, "reset the training environment first")
+                })?;
+                Ok(ResponseData::Environment {
+                    transition: Box::new(environment.state()),
+                })
+            }
+            Request::EnvironmentStep {
+                session_id,
+                expected_revision,
+                action_id,
+                ..
+            } => {
+                let environment = self.environment.as_mut().ok_or_else(|| {
+                    ApiError::new(ErrorCode::WrongMode, "reset the training environment first")
+                })?;
+                check_revision(
+                    environment.session_id(),
+                    environment.revision(),
+                    session_id,
+                    expected_revision,
+                )?;
+                Ok(ResponseData::Environment {
+                    transition: Box::new(environment.step(action_id)?),
+                })
+            }
+        }
+    }
+}

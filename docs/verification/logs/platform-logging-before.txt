@@ -1,0 +1,12 @@
+COMMAND: cargo test -p suzume-api --test logging
+EXIT CODE: 101
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+error[E0432]: unresolved import `suzume_api::logging`
+ --> crates/suzume-api/tests/logging.rs:9:17
+  |
+9 | use suzume_api::logging::{
+  |                 ^^^^^^^ could not find `logging` in `suzume_api`
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `suzume-api` (test "logging") due to 1 previous error

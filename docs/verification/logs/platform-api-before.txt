@@ -1,0 +1,120 @@
+COMMAND: cargo test -p suzume-api --test api_boundary
+EXIT CODE: 101
+
+  Downloaded serde_core v1.0.228
+  Downloaded toml_datetime v0.6.11
+  Downloaded serde_spanned v0.6.9
+  Downloaded serde_derive v1.0.228
+  Downloaded toml_write v0.1.2
+  Downloaded zmij v1.0.23
+  Downloaded proc-macro2 v1.0.107
+  Downloaded crypto-common v0.1.7
+  Downloaded itoa v1.0.19
+  Downloaded dyn-clone v1.0.20
+  Downloaded equivalent v1.0.3
+  Downloaded cfg-if v1.0.5
+  Downloaded cpufeatures v0.2.17
+  Downloaded block-buffer v0.10.4
+  Downloaded quote v1.0.47
+  Downloaded version_check v0.9.5
+  Downloaded generic-array v0.14.7
+  Downloaded sha2 v0.10.9
+  Downloaded digest v0.10.7
+  Downloaded schemars_derive v0.8.22
+  Downloaded serde_derive_internals v0.29.1
+  Downloaded toml v0.8.23
+  Downloaded unicode-ident v1.0.27
+  Downloaded schemars v0.8.22
+  Downloaded toml_edit v0.22.27
+  Downloaded serde v1.0.228
+  Downloaded memchr v2.8.3
+  Downloaded indexmap v2.14.2
+  Downloaded typenum v1.20.1
+  Downloaded hashbrown v0.17.2
+  Downloaded serde_json v1.0.154
+  Downloaded winnow v0.7.15
+  Downloaded syn v2.0.119
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling serde_core v1.0.228
+   Compiling version_check v0.9.5
+   Compiling serde v1.0.228
+   Compiling typenum v1.20.1
+   Compiling zmij v1.0.23
+   Compiling equivalent v1.0.3
+   Compiling hashbrown v0.17.2
+   Compiling serde_json v1.0.154
+   Compiling toml_write v0.1.2
+   Compiling winnow v0.7.15
+   Compiling itoa v1.0.19
+   Compiling generic-array v0.14.7
+   Compiling schemars v0.8.22
+   Compiling memchr v2.8.3
+   Compiling cfg-if v1.0.5
+   Compiling cpufeatures v0.2.17
+   Compiling dyn-clone v1.0.20
+   Compiling indexmap v2.14.2
+   Compiling syn v2.0.119
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling sha2 v0.10.9
+   Compiling serde_derive_internals v0.29.1
+   Compiling serde_derive v1.0.228
+   Compiling schemars_derive v0.8.22
+   Compiling toml_datetime v0.6.11
+   Compiling serde_spanned v0.6.9
+   Compiling toml_edit v0.22.27
+   Compiling toml v0.8.23
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 13.16s
+     Running tests/api_boundary.rs (target/debug/build/suzume-api/4aa3c98caabda018/out/api_boundary-4aa3c98caabda018)
+
+running 4 tests
+test new_game_hides_other_hands_and_seed ... FAILED
+test malformed_unknown_and_unsupported_requests_are_explicit_errors ... FAILED
+test old_session_action_cannot_affect_a_restarted_game ... FAILED
+test stale_and_illegal_requests_leave_every_observable_field_unchanged ... FAILED
+
+failures:
+
+---- new_game_hides_other_hands_and_seed stdout ----
+
+thread 'new_game_hides_other_hands_and_seed' (637) panicked at crates/suzume-api/tests/api_boundary.rs:12:5:
+assertion `left == right` failed
+  left: String("error")
+ right: "ok"
+
+---- malformed_unknown_and_unsupported_requests_are_explicit_errors stdout ----
+
+thread 'malformed_unknown_and_unsupported_requests_are_explicit_errors' (636) panicked at crates/suzume-api/tests/api_boundary.rs:50:9:
+assertion `left != right` failed
+  left: String("not_ready")
+ right: "not_ready"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- old_session_action_cannot_affect_a_restarted_game stdout ----
+
+thread 'old_session_action_cannot_affect_a_restarted_game' (638) panicked at crates/suzume-api/tests/api_boundary.rs:58:5:
+assertion `left == right` failed
+  left: String("error")
+ right: "ok"
+
+---- stale_and_illegal_requests_leave_every_observable_field_unchanged stdout ----
+
+thread 'stale_and_illegal_requests_leave_every_observable_field_unchanged' (639) panicked at crates/suzume-api/tests/api_boundary.rs:29:5:
+assertion `left == right` failed
+  left: String("error")
+ right: "ok"
+
+
+failures:
+    malformed_unknown_and_unsupported_requests_are_explicit_errors
+    new_game_hides_other_hands_and_seed
+    old_session_action_cannot_affect_a_restarted_game
+    stale_and_illegal_requests_leave_every_observable_field_unchanged
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --test api_boundary`

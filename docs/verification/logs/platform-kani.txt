@@ -1,0 +1,73 @@
+COMMAND: cargo kani -p suzume --lib --output-format terse
+EXIT CODE: 0
+SOURCE SHA256: {"Cargo.toml": "caa42c53f6eae56c92a391e7ac07ef9f9187909753c4ff02923a056d4492cb52", "rules/contracts.json": "b4dc7534a83aa6cd5ef5b5df052e1b78bd1384bda9138f419649087620de4f54", "rules/riichi.rules": "d95ce5749bd3229fe0bcb7e8ee7b202f32c8056347bb5c62e7950dbe674aa1cf", "src/contracts.rs": "b47ef89f2f9c2db3f8a5cb4c52ec5e0f00ff1bcff43e9a9d99df251498583e69", "src/generated_contracts.rs": "be24fbced55ae14c5c6de9f5fda81c71b96f28dae636e965b5fd91ffd58fd978", "src/rule_constants.rs": "ab1b48fb976a05163ac3e905e9df2cc89a00566b1767dc679684499f7de0e437"}
+
+Kani Rust Verifier 0.68.0 (cargo plugin)
+CBMC 6.11.0
+   Compiling suzume v0.2.0 (<repository>)
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+warning: Found the following unsupported constructs:
+             - caller_location (1)
+             - foreign function (1)
+         
+         Verification will fail if one or more of these constructs is reachable.
+         See https://model-checking.github.io/kani/rust-feature-support.html for more details.
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.28s
+Checking harness contracts::proofs::discard_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 1 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.038206104s
+
+Checking harness contracts::proofs::riichi_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 1 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.02336194s
+
+Checking harness contracts::proofs::point_transfer_refines_declaration_and_is_atomic...
+
+VERIFICATION RESULT:
+ ** 0 of 150 failed (1 unreachable)
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 107.00713s
+
+Checking harness contracts::proofs::move_one_refines_declaration_and_conserves...
+
+VERIFICATION RESULT:
+ ** 0 of 17 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.053408s
+
+Checking harness contracts::proofs::dora_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 28 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.09286117s
+
+Checking harness contracts::proofs::next_seat_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 16 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.04442345s
+
+Manual Harness Summary:
+Complete - 6 successfully verified harnesses, 0 failures, 6 total.

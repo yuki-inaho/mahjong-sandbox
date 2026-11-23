@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d35">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+  <title>すずめ — 麻雀の実験卓</title>
+</head>
+<body>
+  <main>
+    <header class="heading"><div><p class="eyebrow">四人リーチ麻雀 · 東風戦</p><h1>すずめ <span>麻雀の実験卓</span></h1></div><a href="../../docs/api/README.md">API仕様</a></header>
+    <section class="setup" aria-label="対局設定">
+      <label>対局の乱数種<input id="seed" value="0" inputmode="numeric" maxlength="20" spellcheck="false"></label>
+      <label>CPUの設定<select id="preset"><option value="standard">標準 · 向聴数と防御</option><option value="beginner">入門 · ランダム</option><option value="strong">探索 · 有効牌と先読み</option></select></label>
+      <button id="new-game" class="primary">新しい対局</button>
+    </section>
+    <section class="table" aria-label="麻雀卓">
+      <div class="table-title"><h2 id="round">配牌を準備しています</h2><p id="wall"></p></div>
+      <div id="players" class="players"></div>
+      <div class="center"><span>ドラ表示牌</span><div id="dora" class="tiles"></div><p id="turn" aria-live="polite"></p></div>
+      <section class="hand-area"><h2>あなたの手牌 <span>席0</span></h2><div id="hand" class="tiles hand"></div><div id="actions" class="actions"></div></section>
+    </section>
+    <section class="controls"><button id="advance" class="primary">あなたの手番まで進める</button><button id="one-step">CPUを1手進める</button><p id="status" role="status"></p></section>
+    <p id="error" role="alert" hidden></p>
+    <footer><p>あなたは席0です。手牌を押すと打牌し、リーチ・鳴き・和了は表示された操作から選べます。</p><p>計算はこのブラウザ内で実行されます。CPUの設定名は勝率の保証ではありません。</p></footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

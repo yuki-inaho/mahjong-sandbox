@@ -1,0 +1,5 @@
+COMMAND: python3 scripts/check_generator_semantics.py
+EXIT CODE: 0
+
+生成式の意味照合: 7関係・19具体例が実Rust/Lean双方で期待値と一致
+対象: 整数型、符号付き定数、境界、短絡条件、除算・剰余、真偽値、raw string区切り

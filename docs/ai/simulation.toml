@@ -1,0 +1,38 @@
+# Four configured AIs. The same configuration model is used by the API and CLI.
+schema_version = 1
+
+[game]
+seed = "777"
+viewer = "public"
+max_steps = 10000
+
+[logging]
+format = "replay"
+
+[[players]]
+kind = "ai"
+[players.config]
+preset = "beginner"
+seed = "11"
+
+[[players]]
+kind = "ai"
+[players.config]
+algorithm = "greedy"
+seed = "12"
+max_evaluations = 64
+
+[[players]]
+kind = "ai"
+[players.config]
+preset = "strong"
+seed = "13"
+max_evaluations = 100
+lookahead_depth = 1
+risk_weight = 2
+
+[[players]]
+kind = "ai"
+[players.config]
+preset = "standard"
+seed = "14"

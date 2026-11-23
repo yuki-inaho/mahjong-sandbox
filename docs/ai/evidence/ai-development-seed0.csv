@@ -1,0 +1,2 @@
+group,wall_seed,seat,algorithm,ai_seed,max_evaluations,lookahead_depth,risk_weight,success,rank,points,wins,dealins,actions,candidate_decisions,candidate_evaluations,elapsed_ms,error
+development,0,0,ukeire,20261123,8192,2,4,true,4,9300,0,0,1280,323,63467,587,""

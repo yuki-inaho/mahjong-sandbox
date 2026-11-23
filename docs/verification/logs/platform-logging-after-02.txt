@@ -1,0 +1,92 @@
+COMMAND: cargo test -p suzume-api --test logging
+EXIT CODE: 0
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.99s
+     Running tests/logging.rs (target/debug/build/suzume-api/94d6c94d4b0ebc4f/out/logging-94d6c94d4b0ebc4f)
+
+running 15 tests
+test duplicate_keys_at_top_level_and_inside_nested_types_are_rejected ... ok
+test full_log_records_resolved_configuration_and_roundtrips_schema_types ... ok
+test interrupted_empty_and_nonempty_logs_are_explicitly_truncated_datasets ... ok
+test complete_final_line_without_newline_and_crlf_are_accepted ... ok
+test line_count_total_and_buffer_limits_are_enforced ... ok
+test public_log_contains_only_public_views_and_semantic_actions ... ok
+test decision_metadata_is_consistent_and_never_appears_in_public_output ... ok
+test writer_rejects_skips_wrong_actor_and_false_termination ... ok
+test streaming_output_is_provisional_until_the_footer_and_eof_are_validated ... ok
+test io_and_callback_failures_are_not_successful_logs ... ok
+test missing_reordered_extra_or_truncated_records_never_count_as_complete ... ok
+test malformed_versions_metadata_fields_and_sequences_are_rejected ... ok
+test dataset_uses_the_same_observations_actions_and_rewards_as_environment ... ok
+test replay_restores_full_game_and_exact_hand_index_history ... ok
+test a_complete_match_is_distinct_from_an_external_cutoff ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.11s
+
+
+COMMAND: cargo clippy -p suzume-api --all-targets -- -D warnings
+EXIT CODE: 101
+
+    Checking typenum v1.20.1
+    Checking hashbrown v0.17.2
+    Checking equivalent v1.0.3
+    Checking serde_core v1.0.228
+    Checking zmij v1.0.23
+    Checking toml_write v0.1.2
+    Checking winnow v0.7.15
+    Checking memchr v2.8.3
+    Checking itoa v1.0.19
+    Checking cfg-if v1.0.5
+    Checking cpufeatures v0.2.17
+    Checking dyn-clone v1.0.20
+    Checking indexmap v2.14.2
+    Checking generic-array v0.14.7
+    Checking block-buffer v0.10.4
+    Checking crypto-common v0.1.7
+    Checking digest v0.10.7
+    Checking sha2 v0.10.9
+    Checking serde v1.0.228
+    Checking serde_json v1.0.154
+    Checking serde_spanned v0.6.9
+    Checking toml_datetime v0.6.11
+    Checking toml_edit v0.22.27
+    Checking schemars v0.8.22
+    Checking toml v0.8.23
+    Checking suzume-api v0.2.0 (<repository>/crates/suzume-api)
+error: large size difference between variants
+  --> crates/suzume-api/src/protocol.rs:29:1
+   |
+29 | / pub enum Response {
+30 | |     Ok{version:Version,data:ResponseData},
+   | |     ------------------------------------- the largest variant contains at least 688 bytes
+31 | |     Error{version:Version,code:ErrorCode,message:String,session_id:Option<u32>,revision:Option<u32>},
+   | |     ------------------------------------------------------------------------------------------------ the second-largest variant contains at least 41 bytes
+32 | | }
+   | |_^ the entire enum is at least 688 bytes
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.100.0/index.html#large_enum_variant
+   = note: `-D clippy::large-enum-variant` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::large_enum_variant)]`
+help: consider boxing the large fields or introducing indirection in some other way to reduce the total size of the enum
+   |
+30 -     Ok{version:Version,data:ResponseData},
+30 +     Ok{version:Version,data:Box<ResponseData>},
+   |
+
+error: called `expect` on `viewer_index` after checking its variant with `is_some`
+  --> crates/suzume-api/src/view.rs:97:23
+   |
+96 |         let legal_actions=if viewer_index.is_some()&&viewer_index==game.next_actor() {
+   |                              ---------------------- the check is happening here
+97 |             let actor=viewer_index.expect("checked viewer");
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: try using `match`
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.100.0/index.html#unnecessary_unwrap
+   = note: `-D clippy::unnecessary-unwrap` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::unnecessary_unwrap)]`
+
+error: could not compile `suzume-api` (lib test) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `suzume-api` (lib) due to 2 previous errors

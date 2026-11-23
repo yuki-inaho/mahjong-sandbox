@@ -1,0 +1,40 @@
+COMMAND: cargo test --lib game::core_boundary_tests -- --nocapture
+EXIT CODE: 101
+
+   Compiling suzume v0.1.0 (<repository>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.75s
+     Running unittests src/lib.rs (target/debug/build/suzume/49a83d7f9800b79a/out/suzume-49a83d7f9800b79a)
+
+running 3 tests
+
+thread 'game::core_boundary_tests::action_labels_handle_invalid_indexes_without_panicking' (178) panicked at src/game.rs:86:73:
+index out of bounds: the len is 1 but the index is 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'game::core_boundary_tests::action_labels_handle_invalid_indexes_without_panicking' (178) panicked at src/game/core_boundary_tests.rs:9:9:
+untrusted action labels must not index unchecked: Discard(1)
+test game::core_boundary_tests::action_labels_handle_invalid_indexes_without_panicking ... FAILED
+
+thread 'game::core_boundary_tests::seat_lookup_handles_the_full_usize_domain_without_panicking' (180) panicked at src/game.rs:264:21:
+attempt to add with overflow
+
+thread 'game::core_boundary_tests::seat_lookup_handles_the_full_usize_domain_without_panicking' (180) panicked at src/game/core_boundary_tests.rs:18:9:
+assertion failed: std::panic::catch_unwind(|| game.seat_wind(seat)).is_ok()
+test game::core_boundary_tests::seat_lookup_handles_the_full_usize_domain_without_panicking ... FAILED
+
+thread 'game::core_boundary_tests::committing_an_action_keeps_existing_log_storage' (179) panicked at src/game/core_boundary_tests.rs:43:5:
+assertion `left == right` failed: committing must not clone all previous actions
+  left: 0x7f6a4c00d4b0
+ right: 0x7f6a4c00ada0
+test game::core_boundary_tests::committing_an_action_keeps_existing_log_storage ... FAILED
+
+failures:
+
+failures:
+    game::core_boundary_tests::action_labels_handle_invalid_indexes_without_panicking
+    game::core_boundary_tests::committing_an_action_keeps_existing_log_storage
+    game::core_boundary_tests::seat_lookup_handles_the_full_usize_domain_without_panicking
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 62 filtered out; finished in 0.06s
+
+error: test failed, to rerun pass `--lib`

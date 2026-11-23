@@ -1,0 +1,143 @@
+COMMAND: python3 scripts/check_documentation.py --self-test
+EXIT CODE: 1
+
+test_code_examples_are_not_interpreted_as_links (__main__.DocumentationTests.test_code_examples_are_not_interpreted_as_links) ... ERROR
+test_duplicate_headings_custom_anchors_and_line_anchors (__main__.DocumentationTests.test_duplicate_headings_custom_anchors_and_line_anchors) ... ERROR
+test_escaping_repository_and_empty_document_sets_are_rejected (__main__.DocumentationTests.test_escaping_repository_and_empty_document_sets_are_rejected) ... ERROR
+test_excluded_directories_and_root_relative_links (__main__.DocumentationTests.test_excluded_directories_and_root_relative_links) ... ERROR
+test_historical_commands_are_preserved_but_links_are_checked (__main__.DocumentationTests.test_historical_commands_are_preserved_but_links_are_checked) ... ERROR
+test_inline_reference_images_protocols_and_html_are_supported (__main__.DocumentationTests.test_inline_reference_images_protocols_and_html_are_supported) ... ERROR
+test_missing_path_anchor_image_and_reference_fail (__main__.DocumentationTests.test_missing_path_anchor_image_and_reference_fail) ... ERROR
+test_nested_labels_and_parentheses_do_not_truncate_targets (__main__.DocumentationTests.test_nested_labels_and_parentheses_do_not_truncate_targets) ... ERROR
+test_python_cargo_and_npm_entries_are_checked_without_execution (__main__.DocumentationTests.test_python_cargo_and_npm_entries_are_checked_without_execution) ... ERROR
+
+======================================================================
+ERROR: test_code_examples_are_not_interpreted_as_links (__main__.DocumentationTests.test_code_examples_are_not_interpreted_as_links)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 75, in test_code_examples_are_not_interpreted_as_links
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_duplicate_headings_custom_anchors_and_line_anchors (__main__.DocumentationTests.test_duplicate_headings_custom_anchors_and_line_anchors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 92, in test_duplicate_headings_custom_anchors_and_line_anchors
+    self.assertTrue(self.check()["success"])
+                    ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_escaping_repository_and_empty_document_sets_are_rejected (__main__.DocumentationTests.test_escaping_repository_and_empty_document_sets_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 106, in test_escaping_repository_and_empty_document_sets_are_rejected
+    self.assertFalse(self.check()["success"])
+                     ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_excluded_directories_and_root_relative_links (__main__.DocumentationTests.test_excluded_directories_and_root_relative_links)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 101, in test_excluded_directories_and_root_relative_links
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_historical_commands_are_preserved_but_links_are_checked (__main__.DocumentationTests.test_historical_commands_are_preserved_but_links_are_checked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 141, in test_historical_commands_are_preserved_but_links_are_checked
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_inline_reference_images_protocols_and_html_are_supported (__main__.DocumentationTests.test_inline_reference_images_protocols_and_html_are_supported)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 48, in test_inline_reference_images_protocols_and_html_are_supported
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_missing_path_anchor_image_and_reference_fail (__main__.DocumentationTests.test_missing_path_anchor_image_and_reference_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 56, in test_missing_path_anchor_image_and_reference_fail
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_nested_labels_and_parentheses_do_not_truncate_targets (__main__.DocumentationTests.test_nested_labels_and_parentheses_do_not_truncate_targets)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 83, in test_nested_labels_and_parentheses_do_not_truncate_targets
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+======================================================================
+ERROR: test_python_cargo_and_npm_entries_are_checked_without_execution (__main__.DocumentationTests.test_python_cargo_and_npm_entries_are_checked_without_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/check_documentation.py", line 124, in test_python_cargo_and_npm_entries_are_checked_without_execution
+    result = self.check()
+             ^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 34, in check
+    return check_repository(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/check_documentation.py", line 17, in check_repository
+    raise NotImplementedError("documentation validation is not implemented")
+NotImplementedError: documentation validation is not implemented
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.004s
+
+FAILED (errors=9)

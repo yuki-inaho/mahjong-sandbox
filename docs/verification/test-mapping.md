@@ -18,7 +18,7 @@
 | `pinfu_tsumo_twenty_fu` | `scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty` | 平和ツモ20符と門前ロン30符。[scoring.rs](../../src/scoring.rs) |
 | `ron_triplet_is_open_for_fu` | `scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets` | ロンで完成した刻子の符と暗刻数。[scoring.rs](../../src/scoring.rs) |
 | `ai_returns_legal_actions` | `ai::tests::ai_returns_only_legal_actions` | 実際の対局を進め、CPUの選択が合法手に含まれることを確認。[ai.rs](../../src/ai.rs) |
-| `cli_help_and_invalid_arguments` | `tests::cli_help_and_invalid_arguments`、`help_is_available_without_starting_a_game`、`invalid_cli_arguments_fail_with_a_reason` | 引数解析の単体検査と実行ファイルを起動する検査。[main.rs](../../src/main.rs)、[cli.rs](../../tests/cli.rs) |
+| `cli_help_and_invalid_arguments` | `tests::cli_help_and_invalid_arguments`、`help_is_available_without_starting_a_game`、`invalid_cli_arguments_fail_with_a_reason` | 引数解析の単体検査と実行ファイルを起動する検査。[main.rs](https://github.com/yuki-inaho/mahjong-sandbox/blob/f3fc61b103f699184f1c6d927ee3dfe0aaf13917/src/main.rs)、[cli.rs](https://github.com/yuki-inaho/mahjong-sandbox/blob/f3fc61b103f699184f1c6d927ee3dfe0aaf13917/tests/cli.rs) |
 | `illegal_action_is_atomic` | 同名の結合テスト | 範囲外の席・牌番号、手番違い、成立しないロンを拒否し、対局全体を不変に保つ。[game_contracts.rs](../../tests/game_contracts.rs) |
 | `seeded_games_preserve_invariants` | 同名の結合テスト | 種0〜3の4試合で各操作の不変条件と試合終了を検査。[game_contracts.rs](../../tests/game_contracts.rs) |
 

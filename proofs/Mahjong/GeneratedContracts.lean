@@ -3,23 +3,23 @@ import Mahjong.GeneratedRules
 namespace Mahjong.Spec
 /-- C-01: 共通の宣言式。 -/
 def next_seat_relation («seat» : Nat) («result» : Nat) : Bool :=
-  (decide (seat < 4) && decide (result = ((seat + 1) % 4)))
+  (decide («seat» < (4 : Nat)) && decide («result» = ((«seat» + (1 : Nat)) % (4 : Nat))))
 /-- C-02: 共通の宣言式。 -/
 def dora_relation («indicator» : Nat) («result» : Nat) : Bool :=
-  ((decide (indicator < 27) && decide (result = (((indicator / 9) * 9) + ((indicator + 1) % 9)))) || (decide (indicator ≥ 27) && decide (indicator < 31) && decide (result = (27 + ((indicator - 26) % 4)))) || (decide (indicator ≥ 31) && decide (indicator < 34) && decide (result = (31 + ((indicator - 30) % 3)))))
+  ((decide («indicator» < (27 : Nat)) && decide («result» = (((«indicator» / (9 : Nat)) * (9 : Nat)) + ((«indicator» + (1 : Nat)) % (9 : Nat))))) || (decide («indicator» ≥ (27 : Nat)) && decide («indicator» < (31 : Nat)) && decide («result» = ((27 : Nat) + ((«indicator» - (26 : Nat)) % (4 : Nat))))) || (decide («indicator» ≥ (31 : Nat)) && decide («indicator» < (34 : Nat)) && decide («result» = ((31 : Nat) + ((«indicator» - (30 : Nat)) % (3 : Nat))))))
 /-- C-03: 共通の宣言式。 -/
 def move_one_relation («source» : Nat) («destination» : Nat) («new_source» : Nat) («new_destination» : Nat) : Bool :=
-  (decide (source > 0) && decide (source ≤ 4) && decide (destination < 4) && decide ((new_source + 1) = source) && decide (new_destination = (destination + 1)) && decide ((source + destination) = (new_source + new_destination)))
+  (decide («source» > (0 : Nat)) && decide («source» ≤ (4 : Nat)) && decide («destination» < (4 : Nat)) && decide («new_source» ≤ (4 : Nat)) && decide («new_destination» ≤ (4 : Nat)) && decide ((«new_source» + (1 : Nat)) = «source») && decide («new_destination» = («destination» + (1 : Nat))) && decide ((«source» + «destination») = («new_source» + «new_destination»)))
 /-- C-04: 共通の宣言式。 -/
 def point_transfer_legal («from» : Nat) («to» : Nat) («source» : Int) («destination» : Int) («amount» : Int) : Bool :=
-  (decide («from» < (4 + 1)) && decide («to» < (4 + 1)) && decide («from» ≠ «to») && decide (source ≥ (-2147483648)) && decide (source ≤ 2147483647) && decide (destination ≥ (-2147483648)) && decide (destination ≤ 2147483647) && decide (amount ≥ 0) && decide (amount ≤ 2147483647) && decide ((source - amount) ≥ (-2147483648)) && decide ((destination + amount) ≤ 2147483647))
+  (decide («from» < ((4 : Nat) + (1 : Nat))) && decide («to» < ((4 : Nat) + (1 : Nat))) && decide («from» ≠ «to») && decide («source» ≥ ((-2147483648) : Int)) && decide («source» ≤ (2147483647 : Int)) && decide («destination» ≥ ((-2147483648) : Int)) && decide («destination» ≤ (2147483647 : Int)) && decide («amount» ≥ (0 : Int)) && decide («amount» ≤ (2147483647 : Int)) && decide ((«source» - «amount») ≥ ((-2147483648) : Int)) && decide ((«destination» + «amount») ≤ (2147483647 : Int)))
 /-- C-04P: 共通の宣言式。 -/
 def point_transfer_relation («source» : Int) («destination» : Int) («amount» : Int) («new_source» : Int) («new_destination» : Int) : Bool :=
-  (decide (new_source = (source - amount)) && decide (new_destination = (destination + amount)) && decide ((source + destination) = (new_source + new_destination)))
+  (decide («source» ≥ ((-2147483648) : Int)) && decide («source» ≤ (2147483647 : Int)) && decide («destination» ≥ ((-2147483648) : Int)) && decide («destination» ≤ (2147483647 : Int)) && decide («amount» ≥ (0 : Int)) && decide («amount» ≤ (2147483647 : Int)) && decide («new_source» ≥ ((-2147483648) : Int)) && decide («new_source» ≤ (2147483647 : Int)) && decide («new_destination» ≥ ((-2147483648) : Int)) && decide («new_destination» ≤ (2147483647 : Int)) && decide («new_source» = («source» - «amount»)) && decide («new_destination» = («destination» + «amount»)) && decide ((«source» + «destination») = («new_source» + «new_destination»)))
 /-- C-05: 共通の宣言式。 -/
 def riichi_legal («closed» : Bool) («tenpai» : Bool) («points» : Int) («wall» : Nat) («already» : Bool) : Bool :=
-  (closed && tenpai && decide (points ≥ 1000) && decide (wall ≥ 4) && (!already))
+  («closed» && «tenpai» && decide («points» ≥ (1000 : Int)) && decide («wall» ≥ (4 : Nat)) && (!«already»))
 /-- C-06: 共通の宣言式。 -/
 def discard_legal («riichi» : Bool) («drawn» : Nat) («discard» : Nat) : Bool :=
-  (decide (drawn < 34) && decide (discard < 34) && ((!riichi) || decide (drawn = discard)))
+  (decide («drawn» < (34 : Nat)) && decide («discard» < (34 : Nat)) && ((!«riichi») || decide («drawn» = «discard»)))
 end Mahjong.Spec

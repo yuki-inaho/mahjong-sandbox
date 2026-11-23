@@ -2,6 +2,11 @@
 //!
 //! 公開関数は不正入力を拒否します。点数は全検査の完了後にだけ書き換えます。
 //! 契約の数式は `rules/contracts.json` を正本とし、Kaniで実装との対応を検査します。
+//!
+//! 比較用の生成仕様は公開APIではありません。
+//! ```compile_fail
+//! use suzume::contracts::specification;
+//! ```
 
 use crate::rule_constants::{
     COPIES_PER_TILE, PLAYER_COUNT, RIICHI_MIN_WALL, RIICHI_STICK, TILE_KINDS,
@@ -9,8 +14,10 @@ use crate::rule_constants::{
 use std::fmt;
 
 /// 宣言式から生成した比較用の仕様。ゲーム側での変更は禁止します。
+// 通常ビルドでは宣言照合用の定数だけを使い、関係式の呼出しはKaniが担当します。
+#[cfg_attr(not(kani), allow(dead_code))]
 #[path = "generated_contracts.rs"]
-pub mod specification;
+pub(crate) mod specification;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ContractError {

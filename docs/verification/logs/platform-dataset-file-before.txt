@@ -1,0 +1,24 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.22s
+     Running unittests src/bin/suzume-api.rs (target/debug/build/suzume-api/c319e460cc6a8cc4/out/suzume_api-c319e460cc6a8cc4)
+
+running 1 test
+test tests::refuses_to_remove_a_temporary_file_it_did_not_create ... FAILED
+
+failures:
+
+---- tests::refuses_to_remove_a_temporary_file_it_did_not_create stdout ----
+
+thread 'tests::refuses_to_remove_a_temporary_file_it_did_not_create' (128) panicked at crates/suzume-api/src/bin/suzume-api.rs:103:29:
+called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::refuses_to_remove_a_temporary_file_it_did_not_create
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --bin suzume-api`
+
+exit_code=101

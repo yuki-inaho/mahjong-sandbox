@@ -1,5 +1,8 @@
 # 契約の一覧と境界
 
+0.2.0で追加した席型、情報公開の境界、履歴の確定、生成器の型・算術域は
+[公開境界と生成仕様](platform-boundaries.md) を参照してください。
+
 ## 何を契約として扱うか
 
 操作を受け付ける条件を**事前条件**、成功後に成り立つ値の関係を**事後条件**、操作の前後で保つ性質を**不変条件**と呼びます。本プロジェクトでは不正入力を `None` または `Err` として拒否します。点数を変更する操作は、すべての検査を終えてから書き込みます。
@@ -32,7 +35,7 @@
 1. `rules/riichi.rules` または `rules/contracts.json` を変更します。現在の生成器は、初版で未対応の規則を受け付けません。対応範囲を広げるときは生成器の対応条件も変更します。
 2. `python3 scripts/generate_rules.py` でRustとLeanの生成物を更新します。
 3. 変更された契約に対応する実装、Kaniハーネス、Lean定理、具体例のテストを更新します。
-4. `python3 scripts/generate_rules.py --check`、`cargo test`、`cargo kani`、`cd proofs && lake build` を実行します。
+4. `python3 scripts/generate_rules.py --check`、`cargo test --workspace --locked`、`cargo kani -p suzume --lib --output-format terse`、`cd proofs && lake build` を実行します。型・演算域の回帰と公理出力の厳密検査を含む全体入口は `python3 scripts/verify_platform.py --profile full` です。
 5. 影響した規則・操作・文書をレビューしてからADRと作業書を更新します。
 
 生成された `.rs` / `.lean` を直接編集しません。`declarations_current` はビルドに含まれる宣言文字列と生成物の文字列を照合します。内容の正しさをハッシュの一致だけで保証するものではありません。

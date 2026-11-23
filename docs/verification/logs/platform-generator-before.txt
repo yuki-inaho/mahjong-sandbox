@@ -1,0 +1,284 @@
+COMMAND: python3 scripts/test_generate_rules.py
+EXIT CODE: 1
+
+...FFFFFFEEEFFFFFFFFFFFFFFFFFFF
+======================================================================
+ERROR: test_rejects_malformed_argument_shape_with_value_error (__main__.DeclarationValidationTests.test_rejects_malformed_argument_shape_with_value_error) (arguments=[[]])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 80, in test_rejects_malformed_argument_shape_with_value_error
+    self.render(self.first_expression(True, arguments))
+  File "<repository>/scripts/test_generate_rules.py", line 31, in render
+    return GENERATOR.outputs(root)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/generate_rules.py", line 142, in outputs
+    if any(not re.fullmatch(r"[a-z][a-z0-9_]*", x[0]) or (x[1], x[2]) not in
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/generate_rules.py", line 142, in <genexpr>
+    if any(not re.fullmatch(r"[a-z][a-z0-9_]*", x[0]) or (x[1], x[2]) not in
+                                                ~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_rejects_malformed_argument_shape_with_value_error (__main__.DeclarationValidationTests.test_rejects_malformed_argument_shape_with_value_error) (arguments=[['seat', 'u16']])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 80, in test_rejects_malformed_argument_shape_with_value_error
+    self.render(self.first_expression(True, arguments))
+  File "<repository>/scripts/test_generate_rules.py", line 31, in render
+    return GENERATOR.outputs(root)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/generate_rules.py", line 142, in outputs
+    if any(not re.fullmatch(r"[a-z][a-z0-9_]*", x[0]) or (x[1], x[2]) not in
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/generate_rules.py", line 142, in <genexpr>
+    if any(not re.fullmatch(r"[a-z][a-z0-9_]*", x[0]) or (x[1], x[2]) not in
+                                                                ~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_rejects_malformed_argument_shape_with_value_error (__main__.DeclarationValidationTests.test_rejects_malformed_argument_shape_with_value_error) (arguments='seat')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 80, in test_rejects_malformed_argument_shape_with_value_error
+    self.render(self.first_expression(True, arguments))
+  File "<repository>/scripts/test_generate_rules.py", line 31, in render
+    return GENERATOR.outputs(root)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/generate_rules.py", line 142, in outputs
+    if any(not re.fullmatch(r"[a-z][a-z0-9_]*", x[0]) or (x[1], x[2]) not in
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/generate_rules.py", line 142, in <genexpr>
+    if any(not re.fullmatch(r"[a-z][a-z0-9_]*", x[0]) or (x[1], x[2]) not in
+                                                          ~^^^
+IndexError: string index out of range
+
+======================================================================
+FAIL: test_rejects_boolean_arithmetic (__main__.DeclarationValidationTests.test_rejects_boolean_arithmetic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 44, in test_rejects_boolean_arithmetic
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_duplicate_argument_names (__main__.DeclarationValidationTests.test_rejects_duplicate_argument_names)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 69, in test_rejects_duplicate_argument_names
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_duplicate_json_keys (__main__.DeclarationValidationTests.test_rejects_duplicate_json_keys)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 58, in test_rejects_duplicate_json_keys
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_invalid_or_duplicate_contract_ids (__main__.DeclarationValidationTests.test_rejects_invalid_or_duplicate_contract_ids) (invalid='C-01\nfn injected() {}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 86, in test_rejects_invalid_or_duplicate_contract_ids
+    with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_invalid_or_duplicate_contract_ids (__main__.DeclarationValidationTests.test_rejects_invalid_or_duplicate_contract_ids) (invalid='C-02')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 86, in test_rejects_invalid_or_duplicate_contract_ids
+    with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_literal_outside_argument_type (__main__.DeclarationValidationTests.test_rejects_literal_outside_argument_type)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 124, in test_rejects_literal_outside_argument_type
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_mixed_integer_types (__main__.DeclarationValidationTests.test_rejects_mixed_integer_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 52, in test_rejects_mixed_integer_types
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_negative_division_or_remainder (__main__.DeclarationValidationTests.test_rejects_negative_division_or_remainder) (operator='div')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 119, in test_rejects_negative_division_or_remainder
+    with self.subTest(operator=operator), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_negative_division_or_remainder (__main__.DeclarationValidationTests.test_rejects_negative_division_or_remainder) (operator='mod')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 119, in test_rejects_negative_division_or_remainder
+    with self.subTest(operator=operator), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_non_boolean_contract_result (__main__.DeclarationValidationTests.test_rejects_non_boolean_contract_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 48, in test_rejects_non_boolean_contract_result
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_non_integer_version (__main__.DeclarationValidationTests.test_rejects_non_integer_version) (version=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 93, in test_rejects_non_integer_version
+    with self.subTest(version=version), self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_non_integer_version (__main__.DeclarationValidationTests.test_rejects_non_integer_version) (version=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 93, in test_rejects_non_integer_version
+    with self.subTest(version=version), self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reserved_identifiers (__main__.DeclarationValidationTests.test_rejects_reserved_identifiers) (reserved='type')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 74, in test_rejects_reserved_identifiers
+    with self.subTest(reserved=reserved), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reserved_identifiers (__main__.DeclarationValidationTests.test_rejects_reserved_identifiers) (reserved='match')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 74, in test_rejects_reserved_identifiers
+    with self.subTest(reserved=reserved), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reserved_identifiers (__main__.DeclarationValidationTests.test_rejects_reserved_identifiers) (reserved='self')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 74, in test_rejects_reserved_identifiers
+    with self.subTest(reserved=reserved), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reserved_identifiers (__main__.DeclarationValidationTests.test_rejects_reserved_identifiers) (reserved='axiom')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 74, in test_rejects_reserved_identifiers
+    with self.subTest(reserved=reserved), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reserved_identifiers (__main__.DeclarationValidationTests.test_rejects_reserved_identifiers) (reserved='namespace')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 74, in test_rejects_reserved_identifiers
+    with self.subTest(reserved=reserved), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reserved_identifiers (__main__.DeclarationValidationTests.test_rejects_reserved_identifiers) (reserved='gen')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 74, in test_rejects_reserved_identifiers
+    with self.subTest(reserved=reserved), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_unbounded_addition (__main__.DeclarationValidationTests.test_rejects_unbounded_addition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 97, in test_rejects_unbounded_addition
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_unknown_contract_fields (__main__.DeclarationValidationTests.test_rejects_unknown_contract_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 64, in test_rejects_unknown_contract_fields
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_unknown_root_fields_and_empty_contracts (__main__.DeclarationValidationTests.test_rejects_unknown_root_fields_and_empty_contracts) (mutation={'unknown': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 131, in test_rejects_unknown_root_fields_and_empty_contracts
+    with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_unknown_root_fields_and_empty_contracts (__main__.DeclarationValidationTests.test_rejects_unknown_root_fields_and_empty_contracts) (mutation={'contracts': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 131, in test_rejects_unknown_root_fields_and_empty_contracts
+    with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_unsigned_subtraction_without_guard (__main__.DeclarationValidationTests.test_rejects_unsigned_subtraction_without_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 101, in test_rejects_unsigned_subtraction_without_guard
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_zero_or_unbounded_divisors (__main__.DeclarationValidationTests.test_rejects_zero_or_unbounded_divisors) (divisor=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 110, in test_rejects_zero_or_unbounded_divisors
+    with self.subTest(divisor=divisor), self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_zero_or_unbounded_divisors (__main__.DeclarationValidationTests.test_rejects_zero_or_unbounded_divisors) (divisor='result')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/test_generate_rules.py", line 110, in test_rejects_zero_or_unbounded_divisors
+    with self.subTest(divisor=divisor), self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.034s
+
+FAILED (failures=25, errors=3)

@@ -10,6 +10,38 @@ use crate::scoring::{evaluate, Meld, MeldKind, Score, WinContext};
 use crate::tile::{counts, Tile};
 use std::fmt;
 
+/// 検証済みの席。構築後は0〜3の範囲だけを保持します。
+///
+/// 外部の整数を狭い型へ変換してから検査せず、元のusize全域を検査します。
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+pub struct Seat(u8);
+
+impl Seat {
+    pub const fn new(index: usize) -> Option<Self> {
+        if index < PLAYER_COUNT {
+            Some(Self(index as u8))
+        } else {
+            None
+        }
+    }
+
+    pub const fn index(self) -> usize {
+        self.0 as usize
+    }
+
+    pub const fn id(self) -> u8 {
+        self.0
+    }
+}
+
+impl TryFrom<usize> for Seat {
+    type Error = GameError;
+
+    fn try_from(index: usize) -> std::result::Result<Self, Self::Error> {
+        Self::new(index).ok_or_else(|| GameError("席が範囲外です".into()))
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GameError(pub String);
 
@@ -81,10 +113,19 @@ pub enum Action {
 }
 
 impl Action {
+    /// 表示用ラベルです。不正な手牌番号もpanicせず理由を表示します。
+    /// 操作の合法性は別途 `Game::apply` が判定します。
     pub fn label(&self, hand: &[Tile]) -> String {
         match self {
-            Self::Discard(index) => format!("{}番 {}を打牌", index + 1, hand[*index]),
-            Self::Riichi(index) => format!("{}番 {}でリーチ", index + 1, hand[*index]),
+            Self::Discard(index) | Self::Riichi(index) => {
+                match hand.get(*index).zip(index.checked_add(1)) {
+                    Some((tile, number)) if matches!(self, Self::Riichi(_)) => {
+                        format!("{number}番 {tile}でリーチ")
+                    }
+                    Some((tile, number)) => format!("{number}番 {tile}を打牌"),
+                    None => format!("不正な手牌番号: {index}"),
+                }
+            }
             Self::Tsumo => "ツモ和了".into(),
             Self::Ron => "ロン和了".into(),
             Self::Pon => "ポン".into(),
@@ -220,6 +261,8 @@ impl Game {
         Ok(game)
     }
 
+    /// 信頼するローカル操作者向けの全情報です。他家の手牌を含みます。
+    /// 外部フロントエンド・通常のAIへは `observation` を渡してください。
     pub fn players(&self) -> &[Player; 4] {
         &self.players
     }
@@ -241,6 +284,7 @@ impl Game {
     pub fn honba(&self) -> u32 {
         self.honba
     }
+    /// 完全再生用の情報です。この値から山を再構築できるため、共有観測へ含めません。
     pub fn seed(&self) -> u64 {
         self.seed
     }
@@ -253,6 +297,7 @@ impl Game {
     pub fn history(&self) -> &[RecordedAction] {
         &self.history
     }
+    /// 信頼するローカル表示向け。他家のツモ牌を含み得ます。
     pub fn last_draw(&self) -> Option<(usize, Tile, bool)> {
         self.last_draw
     }
@@ -260,8 +305,12 @@ impl Game {
         self.round_serial
     }
 
-    pub fn seat_wind(&self, player: usize) -> Tile {
-        tile(27 + ((player + PLAYER_COUNT - self.dealer) % PLAYER_COUNT) as u8)
+    /// 0.2.0では不正な席に `None` を返します。別の席へ丸めません。
+    pub fn seat_wind(&self, player: usize) -> Option<Tile> {
+        let player = Seat::new(player)?;
+        Some(tile(
+            27 + ((player.index() + PLAYER_COUNT - self.dealer) % PLAYER_COUNT) as u8,
+        ))
     }
 
     pub fn dora_indicators(&self) -> Vec<Tile> {
@@ -465,7 +514,7 @@ impl Game {
             &WinContext {
                 win_tile,
                 tsumo,
-                seat_wind: self.seat_wind(player),
+                seat_wind: self.seat_wind(player)?,
                 round_wind: tile(27),
                 riichi: p.riichi,
                 double_riichi: p.double_riichi,
@@ -491,12 +540,43 @@ impl Game {
         if !self.legal_actions(player).contains(&action) {
             return Err(GameError("現在の手番・手牌では選べない操作です".into()));
         }
-        let mut candidate = self.clone();
+        let mut candidate = self.clone_position();
         candidate.apply_inner(player, &action)?;
         candidate.validate()?;
-        candidate.history.push(RecordedAction { player, action });
+        // 失敗を返す処理を完了してから、過去の領域へ新しい記録だけを追記します。
+        // 履歴・表示イベントを候補作成のたびに複製しないため、対局長に比例して
+        // 増える記録の反復コピーを避けます。Vecの再確保は通常の償却コストです。
+        self.events.append(&mut candidate.events);
+        std::mem::swap(&mut self.events, &mut candidate.events);
+        self.history.push(RecordedAction { player, action });
+        std::mem::swap(&mut self.history, &mut candidate.history);
         *self = candidate;
         Ok(())
+    }
+
+    /// 候補に必要な局面だけを複製します。新しいフィールドの追加時は、この
+    /// 初期化もコンパイラが要求するため、複製対象からの漏れを検出できます。
+    fn clone_position(&self) -> Self {
+        Self {
+            players: self.players.clone(),
+            accounts: self.accounts,
+            wall: self.wall.clone(),
+            dead_wall: self.dead_wall.clone(),
+            phase: self.phase.clone(),
+            dealer: self.dealer,
+            round: self.round,
+            round_serial: self.round_serial,
+            honba: self.honba,
+            kan_count: self.kan_count,
+            call_count: self.call_count,
+            seed: self.seed,
+            last_draw: self.last_draw,
+            pending_riichi: self.pending_riichi,
+            forbidden_discards: self.forbidden_discards.clone(),
+            round_start_points: self.round_start_points,
+            events: Vec::new(),
+            history: Vec::new(),
+        }
     }
 }
 
@@ -651,6 +731,10 @@ impl Game {
         let p = &mut self.players[player];
         if p.riichi {
             p.ippatsu = false;
+        } else {
+            // 鳴いてツモを省略した場合も、自分の次の打牌で同巡振聴は終わります。
+            // リーチ後の見逃しによる永続振聴は変更しません。
+            p.temporary_furiten = false;
         }
         if riichi {
             // 宣言牌で放銃した場合は成立しないため、供託の移動を応答解決まで保留します。
@@ -1105,3 +1189,9 @@ impl SplitMix64 {
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod platform_tests;
+
+#[cfg(test)]
+mod core_boundary_tests;

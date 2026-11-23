@@ -1,0 +1,2420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProtocolSchema",
+  "description": "Schema root keeps every independently consumable value in definitions.",
+  "type": "object",
+  "required": [
+    "config",
+    "dataset_transition",
+    "log_record",
+    "request",
+    "response"
+  ],
+  "properties": {
+    "config": {
+      "$ref": "#/definitions/AppConfig"
+    },
+    "dataset_transition": {
+      "$ref": "#/definitions/DatasetTransition"
+    },
+    "log_record": {
+      "$ref": "#/definitions/LogRecord"
+    },
+    "request": {
+      "$ref": "#/definitions/Request"
+    },
+    "response": {
+      "$ref": "#/definitions/Response"
+    }
+  },
+  "definitions": {
+    "ActionId": {
+      "type": "integer",
+      "maximum": 188.0,
+      "minimum": 0.0
+    },
+    "AiConfigSpec": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Algorithm"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lookahead_depth": {
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "max_evaluations": {
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "preset": {
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Preset"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "risk_weight": {
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "seed": {
+          "default": "0",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Seed"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Algorithm": {
+      "type": "string",
+      "enum": [
+        "random",
+        "greedy",
+        "ukeire"
+      ]
+    },
+    "AppConfig": {
+      "type": "object",
+      "required": [
+        "schema_version"
+      ],
+      "properties": {
+        "game": {
+          "default": {
+            "max_steps": 10000,
+            "seed": "0",
+            "viewer": 0
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/GameSettings"
+            }
+          ]
+        },
+        "logging": {
+          "default": {
+            "format": "replay"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/LogSettings"
+            }
+          ]
+        },
+        "players": {
+          "default": [
+            {
+              "kind": "human"
+            },
+            {
+              "config": {
+                "algorithm": null,
+                "lookahead_depth": null,
+                "max_evaluations": null,
+                "preset": null,
+                "risk_weight": null,
+                "seed": "1"
+              },
+              "kind": "ai"
+            },
+            {
+              "config": {
+                "algorithm": null,
+                "lookahead_depth": null,
+                "max_evaluations": null,
+                "preset": null,
+                "risk_weight": null,
+                "seed": "2"
+              },
+              "kind": "ai"
+            },
+            {
+              "config": {
+                "algorithm": null,
+                "lookahead_depth": null,
+                "max_evaluations": null,
+                "preset": null,
+                "risk_weight": null,
+                "seed": "3"
+              },
+              "kind": "ai"
+            }
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Controller"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "schema_version": {
+          "$ref": "#/definitions/Version"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CandidateView": {
+      "type": "object",
+      "required": [
+        "action",
+        "danger"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/WireAction"
+        },
+        "danger": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "lookahead_value": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SignedValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shanten": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int8"
+        },
+        "ukeire": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
+    },
+    "Controller": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "human"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "config": {
+              "default": {
+                "algorithm": null,
+                "lookahead_depth": null,
+                "max_evaluations": null,
+                "preset": null,
+                "risk_weight": null,
+                "seed": "0"
+              },
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AiConfigSpec"
+                }
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "ai"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DatasetTransition": {
+      "description": "One turn-based multi-agent transition. Session ID is fixed to 1 within a log. `next_actor` names the next observer, which may differ from `actor`.",
+      "type": "object",
+      "required": [
+        "action",
+        "action_id",
+        "actor",
+        "escrow_delta",
+        "observation",
+        "rewards",
+        "schema_version",
+        "sequence",
+        "terminated",
+        "truncated"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/WireAction"
+        },
+        "action_id": {
+          "$ref": "#/definitions/ActionId"
+        },
+        "actor": {
+          "$ref": "#/definitions/SeatId"
+        },
+        "escrow_delta": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "final_observation": {
+          "description": "The last next-player observation at an external cutoff, for value bootstrapping. Natural termination and continuing steps keep this None.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EncodedObservation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_actor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_observation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EncodedObservation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "$ref": "#/definitions/EncodedObservation"
+        },
+        "rewards": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "schema_version": {
+          "$ref": "#/definitions/Version"
+        },
+        "sequence": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "terminated": {
+          "type": "boolean"
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DecisionView": {
+      "type": "object",
+      "required": [
+        "action",
+        "budget_exhausted",
+        "candidates",
+        "candidates_evaluated",
+        "config",
+        "evaluations",
+        "reason"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/WireAction"
+        },
+        "budget_exhausted": {
+          "type": "boolean"
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CandidateView"
+          }
+        },
+        "candidates_evaluated": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "config": {
+          "$ref": "#/definitions/EffectiveAiConfig"
+        },
+        "evaluations": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "reason": {
+          "$ref": "#/definitions/Reason"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DiscardView": {
+      "type": "object",
+      "required": [
+        "called",
+        "riichi",
+        "tile"
+      ],
+      "properties": {
+        "called": {
+          "type": "boolean"
+        },
+        "riichi": {
+          "type": "boolean"
+        },
+        "tile": {
+          "$ref": "#/definitions/TileId"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EffectiveAiConfig": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "lookahead_depth",
+        "max_evaluations",
+        "risk_weight",
+        "seed"
+      ],
+      "properties": {
+        "algorithm": {
+          "$ref": "#/definitions/Algorithm"
+        },
+        "lookahead_depth": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "max_evaluations": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "risk_weight": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "seed": {
+          "$ref": "#/definitions/Seed"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EncodedObservation": {
+      "type": "object",
+      "required": [
+        "actor",
+        "hand_counts",
+        "legal_mask",
+        "schema_version",
+        "view",
+        "visible_counts"
+      ],
+      "properties": {
+        "actor": {
+          "$ref": "#/definitions/SeatId"
+        },
+        "hand_counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          },
+          "maxItems": 34,
+          "minItems": 34
+        },
+        "legal_mask": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "maxItems": 189,
+          "minItems": 189
+        },
+        "schema_version": {
+          "$ref": "#/definitions/Version"
+        },
+        "view": {
+          "$ref": "#/definitions/GameView"
+        },
+        "visible_counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          },
+          "maxItems": 34,
+          "minItems": 34
+        }
+      },
+      "additionalProperties": false
+    },
+    "EndReason": {
+      "description": "Completed is a core match end; Truncated is the configured operation limit; Interrupted is an explicit earlier stop by the caller.",
+      "type": "string",
+      "enum": [
+        "completed",
+        "truncated",
+        "interrupted"
+      ]
+    },
+    "EnvironmentTransition": {
+      "type": "object",
+      "required": [
+        "escrow_delta",
+        "revision",
+        "rewards",
+        "riichi_pot",
+        "scores",
+        "session_id",
+        "terminated",
+        "truncated"
+      ],
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WireAction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "action_id": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "escrow_delta": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "final_observation": {
+          "description": "The final next-actor observation at a time limit, for value bootstrapping. Natural match ends and ongoing transitions have no final observation.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EncodedObservation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EncodedObservation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "rewards": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "riichi_pot": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "scores": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "terminated": {
+          "type": "boolean"
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ErrorCode": {
+      "type": "string",
+      "enum": [
+        "invalid_request",
+        "invalid_config",
+        "no_game",
+        "stale_session",
+        "stale_revision",
+        "wrong_actor",
+        "illegal_action",
+        "invalid_ai",
+        "step_limit",
+        "wrong_mode",
+        "internal_error",
+        "log_error"
+      ]
+    },
+    "GameSettings": {
+      "type": "object",
+      "properties": {
+        "max_steps": {
+          "default": 10000,
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "seed": {
+          "default": "0",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Seed"
+            }
+          ]
+        },
+        "viewer": {
+          "default": 0,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Viewer"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "GameView": {
+      "type": "object",
+      "required": [
+        "dealer",
+        "dora_indicators",
+        "honba",
+        "legal_actions",
+        "phase",
+        "players",
+        "revision",
+        "riichi_pot",
+        "round",
+        "session_id",
+        "wall_remaining"
+      ],
+      "properties": {
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dealer": {
+          "$ref": "#/definitions/SeatId"
+        },
+        "dora_indicators": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TileId"
+          }
+        },
+        "honba": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "legal_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LegalAction"
+          }
+        },
+        "own_furiten": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "own_hand": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TileId"
+          }
+        },
+        "own_last_draw": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TileId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phase": {
+          "$ref": "#/definitions/PublicPhase"
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlayerView"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "revision": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "riichi_pot": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "round": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "viewer": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "wall_remaining": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
+    },
+    "HandIndex": {
+      "type": "integer",
+      "maximum": 13.0,
+      "minimum": 0.0
+    },
+    "LegalAction": {
+      "type": "object",
+      "required": [
+        "action",
+        "id",
+        "label"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/WireAction"
+        },
+        "id": {
+          "$ref": "#/definitions/ActionId"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "LogFormat": {
+      "type": "string",
+      "enum": [
+        "replay",
+        "public"
+      ]
+    },
+    "LogRecord": {
+      "description": "One JSONL record. Full and public formats have disjoint headers and bodies. Deserializing a record alone is not replay validation: use `replay` for that.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "config",
+            "effective_ai",
+            "engine",
+            "initial_position_sha256",
+            "record",
+            "rules_sha256",
+            "seed",
+            "shuffle",
+            "version"
+          ],
+          "properties": {
+            "config": {
+              "$ref": "#/definitions/AppConfig"
+            },
+            "effective_ai": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/EffectiveAiConfig"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "engine": {
+              "type": "string"
+            },
+            "initial_position_sha256": {
+              "type": "string"
+            },
+            "record": {
+              "type": "string",
+              "enum": [
+                "replay_header"
+              ]
+            },
+            "rules_sha256": {
+              "type": "string"
+            },
+            "seed": {
+              "$ref": "#/definitions/Seed"
+            },
+            "shuffle": {
+              "type": "string"
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "action",
+            "actor",
+            "after_sha256",
+            "before_sha256",
+            "record",
+            "revision",
+            "sequence"
+          ],
+          "properties": {
+            "action": {
+              "$ref": "#/definitions/WireAction"
+            },
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "after_sha256": {
+              "type": "string"
+            },
+            "before_sha256": {
+              "type": "string"
+            },
+            "decision": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/DecisionView"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record": {
+              "type": "string",
+              "enum": [
+                "replay_action"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "sequence": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "action_count",
+            "final_position_sha256",
+            "reason",
+            "record",
+            "revision",
+            "riichi_pot",
+            "scores"
+          ],
+          "properties": {
+            "action_count": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "final_position_sha256": {
+              "type": "string"
+            },
+            "reason": {
+              "$ref": "#/definitions/EndReason"
+            },
+            "record": {
+              "type": "string",
+              "enum": [
+                "replay_footer"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "riichi_pot": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "scores": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "engine",
+            "initial",
+            "max_steps",
+            "players",
+            "record",
+            "rules_sha256",
+            "shuffle",
+            "version"
+          ],
+          "properties": {
+            "engine": {
+              "type": "string"
+            },
+            "initial": {
+              "$ref": "#/definitions/GameView"
+            },
+            "max_steps": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "players": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PublicController"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "record": {
+              "type": "string",
+              "enum": [
+                "public_header"
+              ]
+            },
+            "rules_sha256": {
+              "type": "string"
+            },
+            "shuffle": {
+              "type": "string"
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "action",
+            "actor",
+            "record",
+            "revision",
+            "sequence",
+            "view"
+          ],
+          "properties": {
+            "action": {
+              "$ref": "#/definitions/PublicAction"
+            },
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "record": {
+              "type": "string",
+              "enum": [
+                "public_step"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "sequence": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "view": {
+              "$ref": "#/definitions/GameView"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "action_count",
+            "final_view",
+            "reason",
+            "record",
+            "revision"
+          ],
+          "properties": {
+            "action_count": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "final_view": {
+              "$ref": "#/definitions/GameView"
+            },
+            "reason": {
+              "$ref": "#/definitions/EndReason"
+            },
+            "record": {
+              "type": "string",
+              "enum": [
+                "public_footer"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "LogSettings": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "replay",
+          "allOf": [
+            {
+              "$ref": "#/definitions/LogFormat"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "MeldType": {
+      "type": "string",
+      "enum": [
+        "chi",
+        "pon",
+        "open_kan",
+        "closed_kan"
+      ]
+    },
+    "MeldView": {
+      "type": "object",
+      "required": [
+        "kind",
+        "tiles"
+      ],
+      "properties": {
+        "from": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "kind": {
+          "$ref": "#/definitions/MeldType"
+        },
+        "tiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TileId"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "OutcomeView": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "score",
+            "winner",
+            "winning_hand"
+          ],
+          "properties": {
+            "from": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SeatId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "win"
+              ]
+            },
+            "score": {
+              "$ref": "#/definitions/ScoreView"
+            },
+            "winner": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "winning_hand": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TileId"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "tenpai"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "draw"
+              ]
+            },
+            "tenpai": {
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PlayerView": {
+      "type": "object",
+      "required": [
+        "discards",
+        "hand_count",
+        "melds",
+        "name",
+        "points",
+        "riichi",
+        "seat"
+      ],
+      "properties": {
+        "discards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DiscardView"
+          }
+        },
+        "hand_count": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "melds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MeldView"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "riichi": {
+          "type": "boolean"
+        },
+        "seat": {
+          "$ref": "#/definitions/SeatId"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Preset": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "standard",
+        "strong"
+      ]
+    },
+    "PublicAction": {
+      "description": "Reaction choices remain private until the core resolves them. The public view then shows only the selected meld or round result, not rejected choices.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "tile"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "discard"
+              ]
+            },
+            "tile": {
+              "$ref": "#/definitions/TileId"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "tile"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "riichi"
+              ]
+            },
+            "tile": {
+              "$ref": "#/definitions/TileId"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "tile"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "closed_kan"
+              ]
+            },
+            "tile": {
+              "$ref": "#/definitions/TileId"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "tsumo"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "next_round"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "response_submitted"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PublicAiConfig": {
+      "description": "Deliberately has no seed field. Even an AI's private random seed is omitted.",
+      "type": "object",
+      "required": [
+        "algorithm",
+        "lookahead_depth",
+        "max_evaluations",
+        "risk_weight"
+      ],
+      "properties": {
+        "algorithm": {
+          "$ref": "#/definitions/Algorithm"
+        },
+        "lookahead_depth": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "max_evaluations": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "risk_weight": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
+    },
+    "PublicController": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "human"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "config",
+            "kind"
+          ],
+          "properties": {
+            "config": {
+              "$ref": "#/definitions/PublicAiConfig"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "ai"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PublicPhase": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "kind"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "discard"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "discarder",
+            "kind",
+            "tile"
+          ],
+          "properties": {
+            "discarder": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "reaction"
+              ]
+            },
+            "tile": {
+              "$ref": "#/definitions/TileId"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "dealer_continues",
+            "deltas",
+            "kind",
+            "outcome"
+          ],
+          "properties": {
+            "dealer_continues": {
+              "type": "boolean"
+            },
+            "deltas": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "round_end"
+              ]
+            },
+            "outcome": {
+              "$ref": "#/definitions/OutcomeView"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "match_end"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PublicViewer": {
+      "type": "string",
+      "enum": [
+        "public"
+      ]
+    },
+    "Reason": {
+      "type": "string",
+      "enum": [
+        "win",
+        "random",
+        "greedy",
+        "ukeire",
+        "lookahead",
+        "budget_fallback",
+        "forced"
+      ]
+    },
+    "Request": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "version"
+          ],
+          "properties": {
+            "config": {
+              "default": {
+                "game": {
+                  "max_steps": 10000,
+                  "seed": "0",
+                  "viewer": 0
+                },
+                "logging": {
+                  "format": "replay"
+                },
+                "players": [
+                  {
+                    "kind": "human"
+                  },
+                  {
+                    "config": {
+                      "algorithm": null,
+                      "lookahead_depth": null,
+                      "max_evaluations": null,
+                      "preset": null,
+                      "risk_weight": null,
+                      "seed": "1"
+                    },
+                    "kind": "ai"
+                  },
+                  {
+                    "config": {
+                      "algorithm": null,
+                      "lookahead_depth": null,
+                      "max_evaluations": null,
+                      "preset": null,
+                      "risk_weight": null,
+                      "seed": "2"
+                    },
+                    "kind": "ai"
+                  },
+                  {
+                    "config": {
+                      "algorithm": null,
+                      "lookahead_depth": null,
+                      "max_evaluations": null,
+                      "preset": null,
+                      "risk_weight": null,
+                      "seed": "3"
+                    },
+                    "kind": "ai"
+                  }
+                ],
+                "schema_version": 1
+              },
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AppConfig"
+                }
+              ]
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "new"
+              ]
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "toml",
+            "version"
+          ],
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "load_config"
+              ]
+            },
+            "toml": {
+              "type": "string"
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "version"
+          ],
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "view"
+              ]
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "action",
+            "expected_revision",
+            "op",
+            "session_id",
+            "version"
+          ],
+          "properties": {
+            "action": {
+              "$ref": "#/definitions/WireAction"
+            },
+            "expected_revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "apply"
+              ]
+            },
+            "session_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "expected_revision",
+            "op",
+            "session_id",
+            "version"
+          ],
+          "properties": {
+            "expected_revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "step"
+              ]
+            },
+            "session_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "config",
+            "expected_revision",
+            "op",
+            "session_id",
+            "version"
+          ],
+          "properties": {
+            "config": {
+              "$ref": "#/definitions/AiConfigSpec"
+            },
+            "expected_revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "analyze"
+              ]
+            },
+            "session_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "toml",
+            "version"
+          ],
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "inspect_config"
+              ]
+            },
+            "toml": {
+              "type": "string"
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "seed",
+            "version"
+          ],
+          "properties": {
+            "max_steps": {
+              "default": 10000,
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "environment_reset"
+              ]
+            },
+            "seed": {
+              "$ref": "#/definitions/Seed"
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "version"
+          ],
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "environment_view"
+              ]
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "action_id",
+            "expected_revision",
+            "op",
+            "session_id",
+            "version"
+          ],
+          "properties": {
+            "action_id": {
+              "$ref": "#/definitions/ActionId"
+            },
+            "expected_revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "environment_step"
+              ]
+            },
+            "session_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Response": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "data",
+            "status",
+            "version"
+          ],
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/ResponseData"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "ok"
+              ]
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "code",
+            "message",
+            "status",
+            "version"
+          ],
+          "properties": {
+            "code": {
+              "$ref": "#/definitions/ErrorCode"
+            },
+            "message": {
+              "type": "string"
+            },
+            "revision": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "session_id": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "error"
+              ]
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ResponseData": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "state"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "game"
+              ]
+            },
+            "state": {
+              "$ref": "#/definitions/GameView"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "decision",
+            "kind",
+            "revision",
+            "session_id"
+          ],
+          "properties": {
+            "decision": {
+              "$ref": "#/definitions/DecisionView"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "analysis"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "session_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "config",
+            "effective_ai",
+            "kind"
+          ],
+          "properties": {
+            "config": {
+              "$ref": "#/definitions/AppConfig"
+            },
+            "effective_ai": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/EffectiveAiConfig"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "config"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "transition"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "environment"
+              ]
+            },
+            "transition": {
+              "$ref": "#/definitions/EnvironmentTransition"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ScoreView": {
+      "type": "object",
+      "required": [
+        "base_points",
+        "dora",
+        "fu",
+        "han",
+        "yaku",
+        "yakuman"
+      ],
+      "properties": {
+        "base_points": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "dora": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "fu": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "han": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "limit_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "yaku": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/YakuView"
+          }
+        },
+        "yakuman": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
+    },
+    "SeatId": {
+      "type": "integer",
+      "maximum": 3.0,
+      "minimum": 0.0
+    },
+    "Seed": {
+      "type": "string",
+      "format": "uint64-decimal",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "SignedValue": {
+      "type": "string",
+      "format": "int64-decimal",
+      "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+    },
+    "TileId": {
+      "type": "integer",
+      "maximum": 33.0,
+      "minimum": 0.0
+    },
+    "Version": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "Viewer": {
+      "description": "TOML has no null: both transports use a seat number or the explicit string \"public\".",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/SeatId"
+        },
+        {
+          "$ref": "#/definitions/PublicViewer"
+        }
+      ]
+    },
+    "WireAction": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "index",
+            "kind"
+          ],
+          "properties": {
+            "index": {
+              "$ref": "#/definitions/HandIndex"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "discard"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "index",
+            "kind"
+          ],
+          "properties": {
+            "index": {
+              "$ref": "#/definitions/HandIndex"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "riichi"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "tsumo"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "ron"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "pon"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "tiles"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "chi"
+              ]
+            },
+            "tiles": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TileId"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "open_kan"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "tile"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "closed_kan"
+              ]
+            },
+            "tile": {
+              "$ref": "#/definitions/TileId"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "pass"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "next_round"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "YakuId": {
+      "type": "string",
+      "enum": [
+        "kokushi",
+        "chiitoitsu",
+        "suuankou",
+        "suukantsu",
+        "daisangen",
+        "daisuushii",
+        "shousuushii",
+        "pinfu",
+        "white_dragon",
+        "green_dragon",
+        "red_dragon",
+        "seat_wind",
+        "round_wind",
+        "sanankou",
+        "sankantsu",
+        "toitoi",
+        "shousangen",
+        "ryanpeikou",
+        "iipeikou",
+        "sanshoku_doujun",
+        "sanshoku_doukou",
+        "ittsu",
+        "chanta",
+        "junchan",
+        "double_riichi",
+        "riichi",
+        "ippatsu",
+        "menzen_tsumo",
+        "haitei",
+        "houtei",
+        "rinshan",
+        "chankan",
+        "tanyao",
+        "honroutou",
+        "honitsu",
+        "chinitsu",
+        "tsuuiisou",
+        "chinroutou",
+        "ryuuiisou",
+        "chuuren",
+        "unknown"
+      ]
+    },
+    "YakuView": {
+      "type": "object",
+      "required": [
+        "han",
+        "id",
+        "label"
+      ],
+      "properties": {
+        "han": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "id": {
+          "$ref": "#/definitions/YakuId"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

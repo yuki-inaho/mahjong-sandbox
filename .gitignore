@@ -5,3 +5,7 @@
 *.profraw
 __pycache__/
 .DS_Store
+
+**/node_modules/
+/packages/suzume/wasm/
+/packages/suzume/dist/

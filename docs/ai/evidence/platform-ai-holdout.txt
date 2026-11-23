@@ -1,0 +1,71 @@
+COMMAND: cargo run -p suzume --release --bin suzume-ai-eval -- --holdout --protocol evaluations/ai-protocol.json --output evaluations/ai-results.csv
+    Finished `release` profile [optimized] target(s) in 0.01s
+     Running `target/release/suzume-ai-eval --holdout --protocol evaluations/ai-protocol.json --output evaluations/ai-results.csv`
+candidate seed=1000 seat=0: success=true rank=Some(1) points=Some(35500) 613ms
+candidate seed=1000 seat=1: success=true rank=Some(2) points=Some(26900) 558ms
+candidate seed=1000 seat=2: success=true rank=Some(3) points=Some(21000) 376ms
+candidate seed=1000 seat=3: success=true rank=Some(3) points=Some(19700) 505ms
+candidate seed=1001 seat=0: success=true rank=Some(4) points=Some(14800) 535ms
+candidate seed=1001 seat=1: success=true rank=Some(1) points=Some(38200) 920ms
+candidate seed=1001 seat=2: success=true rank=Some(2) points=Some(26300) 640ms
+candidate seed=1001 seat=3: success=true rank=Some(3) points=Some(21300) 641ms
+candidate seed=1002 seat=0: success=true rank=Some(2) points=Some(24600) 376ms
+candidate seed=1002 seat=1: success=true rank=Some(2) points=Some(29700) 629ms
+candidate seed=1002 seat=2: success=true rank=Some(2) points=Some(29600) 1059ms
+candidate seed=1002 seat=3: success=true rank=Some(2) points=Some(25600) 467ms
+candidate seed=1003 seat=0: success=true rank=Some(3) points=Some(20200) 595ms
+candidate seed=1003 seat=1: success=true rank=Some(2) points=Some(26600) 536ms
+candidate seed=1003 seat=2: success=true rank=Some(2) points=Some(27000) 347ms
+candidate seed=1003 seat=3: success=true rank=Some(4) points=Some(15900) 328ms
+candidate seed=1004 seat=0: success=true rank=Some(4) points=Some(13800) 351ms
+candidate seed=1004 seat=1: success=true rank=Some(1) points=Some(33200) 432ms
+candidate seed=1004 seat=2: success=true rank=Some(3) points=Some(22700) 322ms
+candidate seed=1004 seat=3: success=true rank=Some(1) points=Some(42400) 582ms
+candidate seed=1005 seat=0: success=true rank=Some(3) points=Some(21900) 380ms
+candidate seed=1005 seat=1: success=true rank=Some(3) points=Some(24600) 300ms
+candidate seed=1005 seat=2: success=true rank=Some(4) points=Some(19700) 815ms
+candidate seed=1005 seat=3: success=true rank=Some(1) points=Some(30800) 589ms
+candidate seed=1006 seat=0: success=true rank=Some(3) points=Some(25000) 695ms
+candidate seed=1006 seat=1: success=true rank=Some(4) points=Some(19300) 296ms
+candidate seed=1006 seat=2: success=true rank=Some(4) points=Some(20100) 445ms
+candidate seed=1006 seat=3: success=true rank=Some(4) points=Some(12700) 516ms
+candidate seed=1007 seat=0: success=true rank=Some(2) points=Some(27000) 437ms
+candidate seed=1007 seat=1: success=true rank=Some(3) points=Some(18100) 183ms
+candidate seed=1007 seat=2: success=true rank=Some(3) points=Some(19100) 194ms
+candidate seed=1007 seat=3: success=true rank=Some(1) points=Some(35500) 293ms
+reference_random seed=1000 seat=0: success=true rank=Some(3) points=Some(15100) 93ms
+reference_random seed=1000 seat=1: success=true rank=Some(4) points=Some(19500) 39ms
+reference_random seed=1000 seat=2: success=true rank=Some(3) points=Some(19800) 34ms
+reference_random seed=1000 seat=3: success=true rank=Some(3) points=Some(21000) 25ms
+reference_random seed=1001 seat=0: success=true rank=Some(4) points=Some(6900) 95ms
+reference_random seed=1001 seat=1: success=true rank=Some(4) points=Some(14000) 39ms
+reference_random seed=1001 seat=2: success=true rank=Some(4) points=Some(17200) 39ms
+reference_random seed=1001 seat=3: success=true rank=Some(4) points=Some(4500) 44ms
+reference_random seed=1002 seat=0: success=true rank=Some(3) points=Some(19700) 32ms
+reference_random seed=1002 seat=1: success=true rank=Some(3) points=Some(21300) 22ms
+reference_random seed=1002 seat=2: success=true rank=Some(3) points=Some(15500) 34ms
+reference_random seed=1002 seat=3: success=true rank=Some(4) points=Some(0) 28ms
+reference_random seed=1003 seat=0: success=true rank=Some(4) points=Some(15700) 36ms
+reference_random seed=1003 seat=1: success=true rank=Some(4) points=Some(5500) 58ms
+reference_random seed=1003 seat=2: success=true rank=Some(4) points=Some(15000) 42ms
+reference_random seed=1003 seat=3: success=true rank=Some(4) points=Some(11300) 27ms
+reference_random seed=1004 seat=0: success=true rank=Some(4) points=Some(21700) 24ms
+reference_random seed=1004 seat=1: success=true rank=Some(3) points=Some(24000) 20ms
+reference_random seed=1004 seat=2: success=true rank=Some(3) points=Some(23000) 22ms
+reference_random seed=1004 seat=3: success=true rank=Some(3) points=Some(25000) 25ms
+reference_random seed=1005 seat=0: success=true rank=Some(4) points=Some(5500) 54ms
+reference_random seed=1005 seat=1: success=true rank=Some(4) points=Some(16500) 29ms
+reference_random seed=1005 seat=2: success=true rank=Some(3) points=Some(20600) 25ms
+reference_random seed=1005 seat=3: success=true rank=Some(4) points=Some(16300) 33ms
+reference_random seed=1006 seat=0: success=true rank=Some(4) points=Some(15700) 37ms
+reference_random seed=1006 seat=1: success=true rank=Some(4) points=Some(8100) 24ms
+reference_random seed=1006 seat=2: success=true rank=Some(4) points=Some(16300) 27ms
+reference_random seed=1006 seat=3: success=true rank=Some(4) points=Some(13200) 33ms
+reference_random seed=1007 seat=0: success=true rank=Some(4) points=Some(13200) 18ms
+reference_random seed=1007 seat=1: success=true rank=Some(4) points=Some(17100) 28ms
+reference_random seed=1007 seat=2: success=true rank=Some(4) points=Some(11700) 25ms
+reference_random seed=1007 seat=3: success=true rank=Some(4) points=Some(22400) 30ms
+EXIT CODE: 0
+SECONDS: 17.228
+SOURCES UNCHANGED: True
+SOURCE SHA256: {"src/ai.rs": "5014262d15c556b0777801b0f40186b72ec7c7eff0915558d721198b99ee88be", "src/ai/config.rs": "cceb920272afb7d6b61fd4f5d27a4af128de561ad3f693339eeebf1265e10bc3", "src/ai/search.rs": "e508f22a194dd9bc21e518dbe924517169c67de623683db68957df04dd6a8782", "src/ai/tests.rs": "a71a64f3e9291c6164fef2e7bdcd0623150a8e2b51fc2fefe1ea9403739700f6", "src/ai/validation.rs": "e1f17b7caf70faec24a8b5e21f26bfb1e51f3462481ee04f41bc9a7f259c49d7", "src/bin/suzume-ai-eval.rs": "4e47596c9dd4d0235651509eee03e718aa56e1dfde9858851b088d41924ede29", "src/contracts.rs": "b47ef89f2f9c2db3f8a5cb4c52ec5e0f00ff1bcff43e9a9d99df251498583e69", "src/game.rs": "b3936c4ec24c69f66d82ea0602b0f56d01e482d05435ded780987aa2f8083b52", "src/generated_contracts.rs": "be24fbced55ae14c5c6de9f5fda81c71b96f28dae636e965b5fd91ffd58fd978", "src/hand.rs": "528637d8340076c9e25f80b399375bdc356164c28a55175d48c50e1ecc41779c", "src/rule_constants.rs": "ab1b48fb976a05163ac3e905e9df2cc89a00566b1767dc679684499f7de0e437", "src/scoring.rs": "5de5089b80614af107e713aa27a46921b0d3fe122249b5edf098f2ce1ebfce14", "src/tile.rs": "7fbe82216dc3caa6969100b62633e87132323fc6964c45bb9825da536f768bed"}

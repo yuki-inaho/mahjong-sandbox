@@ -1,0 +1,127 @@
+{
+  "schema": "suzume-tools/1",
+  "versions": {
+    "rust": "1.100.0",
+    "minimum_rust": "1.80.1",
+    "rustup": "1.29.3",
+    "kani": "0.68.0",
+    "lean": "4.36.0",
+    "elan": "4.4.0",
+    "node": "24.22.3",
+    "npm": "11.19.1",
+    "typescript": "7.0.2",
+    "wasm_bindgen": "0.2.130"
+  },
+  "python_minimum": "3.12",
+  "artifacts": {
+    "rustup": {
+      "linux-x64": {
+        "url": "https://static.rust-lang.org/rustup/archive/1.29.3/x86_64-unknown-linux-gnu/rustup-init",
+        "sha256": "b1c8cb14e30889e7e2999e6b69e62d9e9b9ffc0f4df8180564d306d9680e6c55"
+      },
+      "linux-arm64": {
+        "url": "https://static.rust-lang.org/rustup/archive/1.29.3/aarch64-unknown-linux-gnu/rustup-init",
+        "sha256": "9f608c142e0e38a78957d0661ba1dfaf0b6fb37184cfaa4b9a0aa57af6184282"
+      },
+      "macos-x64": {
+        "url": "https://static.rust-lang.org/rustup/archive/1.29.3/x86_64-apple-darwin/rustup-init",
+        "sha256": "bc107f1fb0228de7fa32413c89c1b305cea9cd256e94b01150cd054128145429"
+      },
+      "macos-arm64": {
+        "url": "https://static.rust-lang.org/rustup/archive/1.29.3/aarch64-apple-darwin/rustup-init",
+        "sha256": "63752a1919a3a4793173ec70f8f212621a7ce38ba6a246095984482f4de20f9f"
+      },
+      "windows-x64": {
+        "url": "https://static.rust-lang.org/rustup/archive/1.29.3/x86_64-pc-windows-msvc/rustup-init.exe",
+        "sha256": "38027d51d69a5d05493627a0634dbea52d6cd793c8f072d2373d3f4163eec7db"
+      }
+    },
+    "node": {
+      "linux-x64": {
+        "url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.xz",
+        "sha256": "4f2b175a6d53a5c617a80dba2676238a0688cef28c6da4eba35c7d844e66fcfb"
+      },
+      "linux-arm64": {
+        "url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-arm64.tar.xz",
+        "sha256": "6e51a2ada00f0011cc266f65d98922b403d7ad88f809ca2aa615a5fe1ce6e86c"
+      },
+      "macos-x64": {
+        "url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-darwin-x64.tar.gz",
+        "sha256": "977614af0504c81045e7fd85596dbca0e5f951b96681516dadafedcca8c447f7"
+      },
+      "macos-arm64": {
+        "url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-darwin-arm64.tar.gz",
+        "sha256": "ff6e17d4874b76d272212b908cc020d6e815fba5a6c7eaaa06add725840307fd"
+      },
+      "windows-x64": {
+        "url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-win-x64.zip",
+        "sha256": "e612af99f626ab415ea225af6bce5c971feb448cb5cae250bb1c3fa50c5f7d9f"
+      }
+    },
+    "wasm_bindgen": {
+      "linux-x64": {
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz",
+        "sha256": "9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f"
+      },
+      "linux-arm64": {
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz",
+        "sha256": "99ffc93ce80081b91632e2b539b782821a8f3439ab0fddc645287462b2f55d3d"
+      },
+      "macos-x64": {
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-apple-darwin.tar.gz",
+        "sha256": "eb209c115b7cb95832423c1aa3f4d06d6c53f63ef74fc4b6fb79ef0b2eea5f10"
+      },
+      "macos-arm64": {
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-aarch64-apple-darwin.tar.gz",
+        "sha256": "b90ddb9357f584b1af897d58ad77e4cce2b48fc17e2a967bc249a87f72809444"
+      },
+      "windows-x64": {
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-pc-windows-msvc.tar.gz",
+        "sha256": "844d23f1b56097549b936dd2e0d561fadebc1e8c9e985d5068b6b919654104ad"
+      }
+    },
+    "elan": {
+      "linux-x64": {
+        "url": "https://github.com/leanprover/elan/releases/download/v4.4.0/elan-x86_64-unknown-linux-gnu.tar.gz",
+        "sha256": "0e8250aa2be86c7af929ade68db617af9edc8b9ccf6eaf5ece228250d0d032e2"
+      }
+    }
+  },
+  "verification": {
+    "minimum_rust_tests": 76,
+    "simulation_count": 32,
+    "kani_harnesses": [
+      "contracts::proofs::next_seat_refines_declaration",
+      "contracts::proofs::dora_refines_declaration",
+      "contracts::proofs::move_one_refines_declaration_and_conserves",
+      "contracts::proofs::point_transfer_refines_declaration_and_is_atomic",
+      "contracts::proofs::riichi_refines_declaration",
+      "contracts::proofs::discard_refines_declaration"
+    ],
+    "lean_theorems": [
+      "Mahjong.Model.next_seat_refines_declaration",
+      "Mahjong.Model.next_seat_remains_valid",
+      "Mahjong.Model.four_turns_return_to_same_seat",
+      "Mahjong.Model.dora_refines_declaration",
+      "Mahjong.Model.dora_remains_valid",
+      "Mahjong.Model.dora_preserves_family",
+      "Mahjong.Model.move_one_refines_declaration",
+      "Mahjong.Model.move_one_conserves_and_bounds",
+      "Mahjong.Model.transfer_success_is_declared",
+      "Mahjong.Model.point_transfer_refines_declaration",
+      "Mahjong.Model.point_transfer_conserves_total",
+      "Mahjong.Model.point_transfer_preserves_other_accounts",
+      "Mahjong.Model.point_transfer_remains_in_i32",
+      "Mahjong.Model.rejected_transfer_is_atomic",
+      "Mahjong.Model.riichi_refines_declaration",
+      "Mahjong.Model.riichi_deposit_is_affordable",
+      "Mahjong.Model.discard_refines_declaration",
+      "Mahjong.Model.riichi_forces_drawn_tile"
+    ],
+    "allowed_lean_axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ]
+  }
+}

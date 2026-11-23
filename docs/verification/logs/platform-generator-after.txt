@@ -1,0 +1,8 @@
+COMMAND: python3 scripts/test_generate_rules.py
+EXIT CODE: 0
+
+...................
+----------------------------------------------------------------------
+Ran 19 tests in 0.023s
+
+OK

@@ -13,7 +13,7 @@ Leanは基本操作の数学的な性質を証明し、Kaniは実際のRust関�
 
 ## 共通宣言から実装までの対応
 
-`rules/contracts.json` は、比較・論理積・論理和・加減乗除・剰余による小さな式木です。変数名、型、演算子、参照する定数を検査してから、`src/generated_contracts.rs` と `proofs/Mahjong/GeneratedContracts.lean` に変換します。
+`rules/contracts.json` は、比較・論理積・論理和・加減乗除・剰余による小さな式木です。0.2.0では、宣言構造に加えて式を再帰的に型付けし、先行条件から分かる整数範囲を検査してから、`src/generated_contracts.rs` と `proofs/Mahjong/GeneratedContracts.lean` に変換します。除算・剰余は非負の被除数と正の除数に限定します。保守的な区間検査の範囲と拒否条件は [公開境界と生成仕様](../contracts/platform-boundaries.md) に記載しています。
 
 Leanの `Nat` は非負整数、`Int` は符号付き整数です。KaniハーネスはRust入力を安全に広い整数へ変換して生成式と比較します。`u8` の牌や枚数は `u16` へ、`i32` の点数は `i64` へ変換するため、検査式の加減算は元の入力域で溢れません。`usize` は `u64` へ変換します。この証拠を取得した対象は `x86_64-unknown-linux-gnu` です。32ビットや他OSの実行バイナリをこの結果だけで検証済みとは扱いません。
 
@@ -40,18 +40,22 @@ Python生成器の実装、Rust/Leanのコンパイラ、Kani/CBMC、標準ラ�
 
 ## 再実行
 
-Rust、Kani 0.68.0、Lean 4.36.0、Python 3を用意して、リポジトリのルートから実行します。Python補助ツールは外部パッケージ不要で、`uv run --no-project` からも実行できます。
+固定版の導入と診断は[再現手順](../development/reproducibility.md)に従います。0.2.0の全検査は `python3 scripts/verify_platform.py --profile full` です。リポジトリのルートから実行し、実行ごとの記録を保持します。Python補助ツールは標準ライブラリを使用し、`uv run --no-project` からも実行できます。
 
 ```sh
 python3 scripts/generate_rules.py --check
-cargo test
-cargo kani --output-format terse
+python3 scripts/test_generate_rules.py
+python3 scripts/check_generator_semantics.py
+cargo test --workspace --locked
+cargo kani -p suzume --lib --output-format terse
 cd proofs
 lake build
 lake env lean Mahjong/Audit.lean
 cd ..
 python3 scripts/check_contract_negatives.py
 ```
+
+上の個別コマンドは問題の切り分けにも使えます。`lake env lean Mahjong/Audit.lean` の終了0だけでは未証明の不在を保証しません。新しい総合入口は、期待する18定理、許可公理の集合、`sorryAx` 不在を出力から検査し、Kaniでも期待する6ハーネスと各結果を照合します。workspaceの既定対象はCLIなので、全Rust検査は `--workspace`、Kaniはcoreの `-p suzume --lib` を明示します。
 
 Kaniの導入は [公式手順](https://model-checking.github.io/kani/install-guide.html)、ハーネスと展開限界は [公式チュートリアル](https://model-checking.github.io/kani/tutorial-loop-unwinding.html) を参照します。Lean/Lakeの導入は [公式手順](https://lean-lang.org/install/manual/) に従います。Lean側には外部の数学ライブラリ依存を置いていません。
 

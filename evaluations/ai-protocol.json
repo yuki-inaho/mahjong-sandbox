@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "protocol_id": "suzume-ai-paired-seats-v1",
+  "engine_version": "0.2.0",
+  "source_fnv1a64": "371a32e83b277123",
+  "source_fingerprint_is_cryptographic": false,
+  "wall_seeds": [1000,1001,1002,1003,1004,1005,1006,1007],
+  "candidate_seats": [0,1,2,3],
+  "games_per_group": 32,
+  "total_games": 64,
+  "action_limit": 10000,
+  "candidate": {"algorithm":"ukeire","seed":"20261123","max_evaluations":8192,"lookahead_depth":2,"risk_weight":4},
+  "reference": {"algorithm":"random","seed":"20261123","max_evaluations":0,"lookahead_depth":0,"risk_weight":0},
+  "each_opponent": {"algorithm":"greedy","seed":"0","max_evaluations":1024,"lookahead_depth":0,"risk_weight":1},
+  "acceptance": "all scheduled games reported, no failed games excluded; superiority is not a completion requirement",
+  "metrics": ["rank","points","wins","dealins","actions","candidate_decisions","candidate_evaluations","elapsed_ms","success","error"],
+  "budget_unit": "uncached shanten calls per decision",
+  "paired_seed_limitation": "different policies change draws and calls, so trajectories are not identical"
+}

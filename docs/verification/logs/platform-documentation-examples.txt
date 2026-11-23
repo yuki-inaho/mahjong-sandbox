@@ -1,0 +1,37 @@
+COMMAND: cargo run --locked -p suzume-api --bin suzume-api -- serve
+EXIT CODE: 0
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.83s
+     Running `target/debug/suzume-api serve`
+{"status":"ok","version":1,"data":{"kind":"game","state":{"session_id":1,"revision":0,"viewer":0,"actor":0,"round":0,"honba":0,"dealer":0,"riichi_pot":0,"wall_remaining":69,"dora_indicators":[9],"players":[{"seat":0,"name":"あなた","points":25000,"hand_count":14,"melds":[],"discards":[],"riichi":false},{"seat":1,"name":"CPU 青葉","points":25000,"hand_count":13,"melds":[],"discards":[],"riichi":false},{"seat":2,"name":"CPU 琥珀","points":25000,"hand_count":13,"melds":[],"discards":[],"riichi":false},{"seat":3,"name":"CPU 白雪","points":25000,"hand_count":13,"melds":[],"discards":[],"riichi":false}],"own_hand":[9,12,12,14,15,19,22,25,27,28,29,31,33,33],"own_last_draw":27,"own_furiten":false,"phase":{"kind":"discard","actor":0},"legal_actions":[{"id":9,"action":{"kind":"discard","index":0},"label":"1番 1pを打牌"},{"id":12,"action":{"kind":"discard","index":1},"label":"2番 4pを打牌"},{"id":12,"action":{"kind":"discard","index":2},"label":"3番 4pを打牌"},{"id":14,"action":{"kind":"discard","index":3},"label":"4番 6pを打牌"},{"id":15,"action":{"kind":"discard","index":4},"label":"5番 7pを打牌"},{"id":19,"action":{"kind":"discard","index":5},"label":"6番 2sを打牌"},{"id":22,"action":{"kind":"discard","index":6},"label":"7番 5sを打牌"},{"id":25,"action":{"kind":"discard","index":7},"label":"8番 8sを打牌"},{"id":27,"action":{"kind":"discard","index":8},"label":"9番 1zを打牌"},{"id":28,"action":{"kind":"discard","index":9},"label":"10番 2zを打牌"},{"id":29,"action":{"kind":"discard","index":10},"label":"11番 3zを打牌"},{"id":31,"action":{"kind":"discard","index":11},"label":"12番 5zを打牌"},{"id":33,"action":{"kind":"discard","index":12},"label":"13番 7zを打牌"},{"id":33,"action":{"kind":"discard","index":13},"label":"14番 7zを打牌"}]}}}
+
+
+COMMAND: cargo run --locked -p suzume-api --bin suzume-api -- replay examples/replay-eight-actions.jsonl
+EXIT CODE: 0
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/debug/suzume-api replay examples/replay-eight-actions.jsonl`
+{
+  "action_count": 8,
+  "engine": "0.2.0",
+  "reason": "truncated",
+  "riichi_pot": 0,
+  "scores": [
+    25000,
+    25000,
+    25000,
+    25000
+  ]
+}
+
+
+COMMAND: cargo run --locked -p suzume-api --bin suzume-api -- dataset examples/replay-eight-actions.jsonl --output <repository>/target/documentation-example-ow3au4cz/transitions.jsonl
+EXIT CODE: 0
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running `target/debug/suzume-api dataset examples/replay-eight-actions.jsonl --output <repository>/target/documentation-example-ow3au4cz/transitions.jsonl`
+8操作の学習用遷移を出力しました。終了種別: Truncated
+
+
+Dataset example: 8 transitions, final row truncated=true; temporary output removed after verification.
