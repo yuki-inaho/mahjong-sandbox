@@ -13,7 +13,7 @@
 ## 端末で遊ぶ
 
 リポジトリのルートから実行します。Python 3.12以降とOS用のC/C++リンカーが必要です。
-以下はbash/zshの例です。Windowsの設定読込みと詳しい前提は[再現手順](docs/development/reproducibility.md)を参照してください。
+運用・自動検査はLinuxを前提とし、以下はbash/zshの例です。詳しい前提は[再現手順](docs/development/reproducibility.md)を参照してください。
 
 ```sh
 python3 scripts/bootstrap.py --profile native
@@ -23,8 +23,10 @@ cargo run --locked -p suzume-cli --release -- --config config/default.toml
 ```
 
 固定ツールを導入済みなら、最後のコマンドから開始できます。
-通常のワークスペースはRust 1.100.0を固定し、依存のない核クレートだけをRust 1.80.1でも検査します。
+通常のワークスペースはRust 1.100.0を固定します。依存のない核クレートの最小対応版1.80.1の検査は必要時に実行できます。
 形式検証・WASM・SDKの道具は用途別に導入でき、端末で遊ぶためにすべてを準備する必要はありません。
+
+自動CIはPRのLinux 1ジョブに絞り、RustとSDKの基本検査を行います。mainへのpushでは再実行せず、自動で配布物を保存しません。形式検証・ブラウザ・配布・実牌譜全件は手動実行です。対象と保存期間は[CI運用](docs/development/reproducibility.md#ciと公式資料)にまとめています。
 
 日本語を表示できる横幅92列以上の端末を使用してください。行入力式で、端末の生入力モードには変更しません。
 `--plain`を付けると色・画面消去を使いません。標準入出力が端末でない場合と`NO_COLOR`指定時も同様です。

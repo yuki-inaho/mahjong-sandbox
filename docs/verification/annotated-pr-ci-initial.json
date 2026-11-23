@@ -1,0 +1,342 @@
+{
+  "schema": "suzume-github-ci/1",
+  "repository": "yuki-inaho/mahjong-sandbox",
+  "record_type": "superseded_configuration_snapshot",
+  "acceptance_gate": false,
+  "note": "旧設定の3 workflow・10 jobの状態を保存した記録です。利用者の指示によりLinux軽量1 jobへ変更する方針となったため、この記録を新設定の受入結果として使用しません。未完了を成功・停止済みとして扱わず、再実行・手動dispatch・取消の操作は行っていません。",
+  "pull_request": {
+    "number": 2,
+    "url": "https://github.com/yuki-inaho/mahjong-sandbox/pull/2",
+    "state": "open",
+    "head_ref": "feat/mjai-annotated-records",
+    "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+    "base_ref": "main",
+    "base_sha": "d44f5ee499102fd35d81fbba5eb1e42da2e0a318"
+  },
+  "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+  "head_tree_sha": "e181565872f75f663d243ef132f011d73c6968af",
+  "event": "pull_request",
+  "observed_at": "2026-11-23 11:39:16 UTC",
+  "former_expected_workflows": {
+    ".github/workflows/ci.yml": 5,
+    ".github/workflows/platform.yml": 4,
+    ".github/workflows/mjai.yml": 1
+  },
+  "workflow_count": 3,
+  "job_count": 10,
+  "check_run_count": 10,
+  "successful_workflows": 2,
+  "successful_jobs": 9,
+  "in_progress_jobs": 1,
+  "queued_jobs": 0,
+  "failed_jobs": 0,
+  "all_jobs_completed": false,
+  "all_jobs_completed_successfully": false,
+  "operations": {
+    "rerun_requested": false,
+    "manual_dispatch_requested": false,
+    "cancel_requested": false
+  },
+  "workflow_runs": [
+    {
+      "id": 45166292196,
+      "workflow_id": 427419950,
+      "name": "Rust・ルール・形式検証",
+      "path": ".github/workflows/ci.yml",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "head_tree_sha": "e181565872f75f663d243ef132f011d73c6968af",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-23T11:33:36Z",
+      "updated_at": "2026-11-23T11:36:32Z",
+      "jobs": [
+        {
+          "id": 137663981289,
+          "name": "Rust 1.80.1 / Linux",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981289",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:38Z",
+          "completed_at": "2026-11-23T11:34:02Z",
+          "active_steps": [],
+          "failed_steps": []
+        },
+        {
+          "id": 137663981726,
+          "name": "Rust stable / macos-latest",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981726",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:38Z",
+          "completed_at": "2026-11-23T11:34:19Z",
+          "active_steps": [],
+          "failed_steps": []
+        },
+        {
+          "id": 137663981731,
+          "name": "Lean 4.36.0 / Kani 0.68.0 / Linux",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981731",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:38Z",
+          "completed_at": "2026-11-23T11:36:31Z",
+          "active_steps": [],
+          "failed_steps": []
+        },
+        {
+          "id": 137663981815,
+          "name": "Rust stable / windows-latest",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981815",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:38Z",
+          "completed_at": "2026-11-23T11:35:00Z",
+          "active_steps": [],
+          "failed_steps": []
+        },
+        {
+          "id": 137663982054,
+          "name": "Rust stable / ubuntu-latest",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663982054",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:39Z",
+          "completed_at": "2026-11-23T11:35:11Z",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    },
+    {
+      "id": 45166292119,
+      "workflow_id": 427602442,
+      "name": "外部mjson牌譜の互換性",
+      "path": ".github/workflows/mjai.yml",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292119",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "head_tree_sha": "e181565872f75f663d243ef132f011d73c6968af",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-23T11:33:36Z",
+      "updated_at": "2026-11-23T11:34:27Z",
+      "jobs": [
+        {
+          "id": 137663980867,
+          "name": "実対局2件・回帰18件 / mjson・gzip",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292119/job/137663980867",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:38Z",
+          "completed_at": "2026-11-23T11:34:26Z",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    },
+    {
+      "id": 45166292088,
+      "workflow_id": 427520857,
+      "name": "固定版・SDK・配布消費検査",
+      "path": ".github/workflows/platform.yml",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "head_tree_sha": "e181565872f75f663d243ef132f011d73c6968af",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "in_progress",
+      "conclusion": null,
+      "created_at": "2026-11-23T11:33:36Z",
+      "updated_at": "2026-11-23T11:33:52Z",
+      "jobs": [
+        {
+          "id": 137663980993,
+          "name": "Linux / 固定版・形式検証・SDK・配布",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663980993",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "in_progress",
+          "conclusion": null,
+          "started_at": "2026-11-23T11:33:39Z",
+          "completed_at": null,
+          "active_steps": [
+            {
+              "number": 6,
+              "name": "固定したブラウザ検査用依存とChromiumを準備",
+              "status": "in_progress",
+              "conclusion": null
+            }
+          ],
+          "failed_steps": []
+        },
+        {
+          "id": 137663981295,
+          "name": "Rust 1.100.0 / windows-2025",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981295",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:39Z",
+          "completed_at": "2026-11-23T11:38:57Z",
+          "active_steps": [],
+          "failed_steps": []
+        },
+        {
+          "id": 137663981434,
+          "name": "Rust 1.100.0 / ubuntu-24.04",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981434",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:39Z",
+          "completed_at": "2026-11-23T11:37:07Z",
+          "active_steps": [],
+          "failed_steps": []
+        },
+        {
+          "id": 137663981535,
+          "name": "Rust 1.100.0 / macos-15",
+          "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981535",
+          "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-23T11:33:51Z",
+          "completed_at": "2026-11-23T11:37:45Z",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    }
+  ],
+  "check_runs": [
+    {
+      "id": 137663980867,
+      "workflow_run_id": 45166292119,
+      "name": "実対局2件・回帰18件 / mjson・gzip",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292119/job/137663980867",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292119/job/137663980867",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:38Z",
+      "completed_at": "2026-11-23T11:34:26Z"
+    },
+    {
+      "id": 137663980993,
+      "workflow_run_id": 45166292088,
+      "name": "Linux / 固定版・形式検証・SDK・配布",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663980993",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663980993",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at": "2026-11-23T11:33:39Z",
+      "completed_at": null
+    },
+    {
+      "id": 137663981289,
+      "workflow_run_id": 45166292196,
+      "name": "Rust 1.80.1 / Linux",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981289",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981289",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:38Z",
+      "completed_at": "2026-11-23T11:34:02Z"
+    },
+    {
+      "id": 137663981295,
+      "workflow_run_id": 45166292088,
+      "name": "Rust 1.100.0 / windows-2025",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981295",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981295",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:39Z",
+      "completed_at": "2026-11-23T11:38:57Z"
+    },
+    {
+      "id": 137663981434,
+      "workflow_run_id": 45166292088,
+      "name": "Rust 1.100.0 / ubuntu-24.04",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981434",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981434",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:39Z",
+      "completed_at": "2026-11-23T11:37:07Z"
+    },
+    {
+      "id": 137663981535,
+      "workflow_run_id": 45166292088,
+      "name": "Rust 1.100.0 / macos-15",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981535",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292088/job/137663981535",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:51Z",
+      "completed_at": "2026-11-23T11:37:45Z"
+    },
+    {
+      "id": 137663981726,
+      "workflow_run_id": 45166292196,
+      "name": "Rust stable / macos-latest",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981726",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981726",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:38Z",
+      "completed_at": "2026-11-23T11:34:19Z"
+    },
+    {
+      "id": 137663981731,
+      "workflow_run_id": 45166292196,
+      "name": "Lean 4.36.0 / Kani 0.68.0 / Linux",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981731",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981731",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:38Z",
+      "completed_at": "2026-11-23T11:36:31Z"
+    },
+    {
+      "id": 137663981815,
+      "workflow_run_id": 45166292196,
+      "name": "Rust stable / windows-latest",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981815",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663981815",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:38Z",
+      "completed_at": "2026-11-23T11:35:00Z"
+    },
+    {
+      "id": 137663982054,
+      "workflow_run_id": 45166292196,
+      "name": "Rust stable / ubuntu-latest",
+      "url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663982054",
+      "details_url": "https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45166292196/job/137663982054",
+      "head_sha": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-23T11:33:39Z",
+      "completed_at": "2026-11-23T11:35:11Z"
+    }
+  ]
+}

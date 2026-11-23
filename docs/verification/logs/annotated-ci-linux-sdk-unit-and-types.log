@@ -1,0 +1,183 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 test:unit
+> tsc -p tsconfig.unit.json && tsc -p tsconfig.unit-tests.json && node --test --test-reporter=tap tests/validation.test.mjs tests/logs.test.mjs tests/mjai.test.mjs tests/mjai-annotated.test.mjs
+
+TAP version 13
+# Subtest: streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+ok 1 - streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+  ---
+  duration_ms: 15.234165
+  type: 'test'
+  ...
+# Subtest: streaming parser refuses missing footer, duplicate keys and configured limits
+ok 2 - streaming parser refuses missing footer, duplicate keys and configured limits
+  ---
+  duration_ms: 15.311252
+  type: 'test'
+  ...
+# Subtest: native replay exports transitions consumed by the typed streaming parser
+ok 3 - native replay exports transitions consumed by the typed streaming parser
+  ---
+  duration_ms: 11392.700132
+  type: 'test'
+  ...
+# Subtest: source records retain the exact numeric spelling, aliases, nulls and unknown fields
+ok 4 - source records retain the exact numeric spelling, aliases, nulls and unknown fields
+  ---
+  duration_ms: 5.5538
+  type: 'test'
+  ...
+# Subtest: annotated parsing and encoding preserve the event and annotation source independently
+ok 5 - annotated parsing and encoding preserve the event and annotation source independently
+  ---
+  duration_ms: 2.874613
+  type: 'test'
+  ...
+# Subtest: annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+ok 6 - annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+  ---
+  duration_ms: 2.209438
+  type: 'test'
+  ...
+# Subtest: single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+ok 7 - single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+  ---
+  duration_ms: 1.644014
+  type: 'test'
+  ...
+# Subtest: stream conversion preserves every source record and reports completion after asynchronous writes
+ok 8 - stream conversion preserves every source record and reports completion after asynchronous writes
+  ---
+  duration_ms: 16.497473
+  type: 'test'
+  ...
+# Subtest: annotations cannot be silently discarded and explicit removal reports affected records
+ok 9 - annotations cannot be silently discarded and explicit removal reports affected records
+  ---
+  duration_ms: 1.822894
+  type: 'test'
+  ...
+# Subtest: annotated streams enforce consecutive indexes and complete event lifecycles
+ok 10 - annotated streams enforce consecutive indexes and complete event lifecycles
+  ---
+  duration_ms: 5.371335
+  type: 'test'
+  ...
+# Subtest: input and output budgets include UTF-8 framing and wrapper overhead
+ok 11 - input and output budgets include UTF-8 framing and wrapper overhead
+  ---
+  duration_ms: 33.460692
+  type: 'test'
+  ...
+# Subtest: incomplete input and failed sinks never produce a successful conversion report
+ok 12 - incomplete input and failed sinks never produce a successful conversion report
+  ---
+  duration_ms: 2.559327
+  type: 'test'
+  ...
+# Subtest: existing event-only reading keeps internal CR compatibility while saved records reject it
+ok 13 - existing event-only reading keeps internal CR compatibility while saved records reject it
+  ---
+  duration_ms: 0.966931
+  type: 'test'
+  ...
+# Subtest: discard policy does not inherit authorization from the options prototype
+ok 14 - discard policy does not inherit authorization from the options prototype
+  ---
+  duration_ms: 0.571112
+  type: 'test'
+  ...
+# Subtest: discard policy remains the value at invocation despite input-side mutation
+ok 15 - discard policy remains the value at invocation despite input-side mutation
+  ---
+  duration_ms: 0.902664
+  type: 'test'
+  ...
+# Subtest: discard policy reads an own getter exactly once before consuming input
+ok 16 - discard policy reads an own getter exactly once before consuming input
+  ---
+  duration_ms: 1.026861
+  type: 'test'
+  ...
+# Subtest: mjai structure preserves red and unknown tiles and producer metadata
+ok 17 - mjai structure preserves red and unknown tiles and producer metadata
+  ---
+  duration_ms: 3.992531
+  type: 'test'
+  ...
+# Subtest: mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+ok 18 - mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+  ---
+  duration_ms: 14.721271
+  type: 'test'
+  ...
+# Subtest: mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+ok 19 - mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+  ---
+  duration_ms: 8.240148
+  type: 'test'
+  ...
+# Subtest: mjai streaming validates lifecycle and distinguishes declared interruption
+ok 20 - mjai streaming validates lifecycle and distinguishes declared interruption
+  ---
+  duration_ms: 14.870606
+  type: 'test'
+  ...
+# Subtest: mjai limits and malformed stream diagnostics identify the failing line
+ok 21 - mjai limits and malformed stream diagnostics identify the failing line
+  ---
+  duration_ms: 8.416386
+  type: 'test'
+  ...
+# Subtest: mjai structural streaming does not claim to validate tile movement
+ok 22 - mjai structural streaming does not claim to validate tile movement
+  ---
+  duration_ms: 1.191911
+  type: 'test'
+  ...
+# Subtest: strict parsing rejects duplicates, malformed text and excessive structure
+ok 23 - strict parsing rejects duplicates, malformed text and excessive structure
+  ---
+  duration_ms: 2.284281
+  type: 'test'
+  ...
+# Subtest: runtime request validation enforces bounds, literal tags and exact seed text
+ok 24 - runtime request validation enforces bounds, literal tags and exact seed text
+  ---
+  duration_ms: 3.907504
+  type: 'test'
+  ...
+# Subtest: untrusted responses and closed clients do not enter application state
+ok 25 - untrusted responses and closed clients do not enter application state
+  ---
+  duration_ms: 1.239412
+  type: 'test'
+  ...
+# Subtest: cyclic, accessor and sparse values are rejected before JSON serialization
+ok 26 - cyclic, accessor and sparse values are rejected before JSON serialization
+  ---
+  duration_ms: 0.418332
+  type: 'test'
+  ...
+# Subtest: prototype names cannot bypass schema property and definition lookup
+ok 27 - prototype names cannot bypass schema property and definition lookup
+  ---
+  duration_ms: 0.506044
+  type: 'test'
+  ...
+# Subtest: integer wire values reject lossy decimal and exponent spellings like Rust
+ok 28 - integer wire values reject lossy decimal and exponent spellings like Rust
+  ---
+  duration_ms: 0.448067
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11549.001598

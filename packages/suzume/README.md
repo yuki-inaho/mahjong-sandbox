@@ -134,4 +134,6 @@ console.log(report.records, report.droppedAnnotationRecords);
 
 固定ツール導入後、リポジトリルートで `python3 scripts/build_wasm.py` を実行し、`npm ci --ignore-scripts --prefix packages/suzume`、`npm test --prefix packages/suzume` を実行します。Rust型を変更した場合はSchemaとTypeScriptの生成・同期検査も必要です。
 
+WASMを再構築しない基本検査には `npm run test:unit --prefix packages/suzume` を使えます。`src/index.ts` から到達するSDKの型と、ログ・mjai・注釈・値検査の単体28件を確認します。native APIと照合する事例があるため、先に `cargo test --locked --workspace` でRust側を構築してください。Node/Web WASMを実際に動かす結合5件は、上の `npm test` を使う全体検査に含まれます。自動CIはLinuxの基本検査だけを実行します。
+
 ライセンス: MIT。

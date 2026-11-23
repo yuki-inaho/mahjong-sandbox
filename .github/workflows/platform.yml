@@ -1,56 +1,20 @@
-name: 固定版・SDK・配布消費検査
+name: 手動のLinux全体・配布消費検査
 
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: never
   PYTHONUTF8: '1'
 
 jobs:
-  fixed-native:
-    name: Rust 1.100.0 / ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-24.04, macos-15, windows-2025]
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: '3.12.10'
-      - name: 指定したRust版を準備
-        run: rustup toolchain install 1.100.0 --profile minimal --component rustfmt --component clippy
-      - name: 道具の固定版を確認
-        run: python scripts/bootstrap.py --profile native --reuse-existing
-      - name: 固定版で通常検査
-        run: python scripts/verify_platform.py --profile native
-      - name: 対象OSの配布物を作成・消費検査
-        run: python scripts/package.py --native-only
-      - name: 実行記録を保存
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: native-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            dist/bootstrap/
-            dist/verification/
-            dist/packages/
-          if-no-files-found: error
-
   fixed-full-linux:
     name: Linux / 固定版・形式検証・SDK・配布
     runs-on: ubuntu-24.04
@@ -82,15 +46,19 @@ jobs:
           python scripts/check_browser.py
       - name: 書庫を作り別環境から消費
         run: python scripts/package.py
-      - name: 証跡と配布物を保存
+      - name: 検査集計と配布目録のJSONだけを1日保存
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: distribution-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            dist/bootstrap/
-            dist/verification/
-            dist/wasm-build/
-            dist/packages/
-            dist/browser-check/
+            dist/bootstrap/*/summary.json
+            dist/verification/*/summary.json
+            dist/wasm-build/*/summary.json
+            dist/packages/*/summary.json
+            dist/packages/*/manifest.json
+            dist/packages/*/distribution-path-checks.json
+            dist/browser-check/*/summary.json
+            dist/browser-check/*/assertions.json
+          retention-days: 1
           if-no-files-found: error

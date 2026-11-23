@@ -18,7 +18,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.tests.json",
-    "test": "npm run build && npm run typecheck && node --test --test-reporter=tap tests/*.test.mjs"
+    "test": "npm run build && npm run typecheck && node --test --test-reporter=tap tests/*.test.mjs",
+    "test:unit": "tsc -p tsconfig.unit.json && tsc -p tsconfig.unit-tests.json && node --test --test-reporter=tap tests/validation.test.mjs tests/logs.test.mjs tests/mjai.test.mjs tests/mjai-annotated.test.mjs"
   },
   "devDependencies": {"typescript": "7.0.2"}
 }

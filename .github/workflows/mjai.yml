@@ -1,13 +1,14 @@
-name: 外部mjson牌譜の互換性
+name: 手動の外部mjson牌譜互換性
 
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: never
@@ -38,4 +39,5 @@ jobs:
         with:
           name: mjai-summary-${{ github.run_id }}-${{ github.run_attempt }}
           path: dist/verification/mjai-real-*-summary.json
+          retention-days: 1
           if-no-files-found: error

@@ -1,0 +1,82 @@
+{
+  "success": true,
+  "checks": [
+    {
+      "check": "automatic PR workflow only",
+      "success": true
+    },
+    {
+      "check": "one Linux job per workflow",
+      "success": true
+    },
+    {
+      "check": "documentation-only changes excluded",
+      "success": true
+    },
+    {
+      "check": "superseded executions cancelled",
+      "success": true
+    },
+    {
+      "check": "read-only permissions",
+      "success": true
+    },
+    {
+      "check": "automatic artifact upload absent",
+      "success": true
+    },
+    {
+      "check": "automatic heavy work absent",
+      "success": true
+    },
+    {
+      "check": "pinned Node with npm cache disabled",
+      "success": true
+    },
+    {
+      "check": "Rust fixed to workspace minimum",
+      "success": true
+    },
+    {
+      "check": "no OS matrix in Linux PRの基本検査",
+      "success": true
+    },
+    {
+      "check": "no OS matrix in 手動のLinux全体・配布消費検査",
+      "success": true
+    },
+    {
+      "check": "no OS matrix in 手動の外部mjson牌譜互換性",
+      "success": true
+    },
+    {
+      "check": "actions use full commit SHAs",
+      "success": true
+    },
+    {
+      "check": "all shell blocks parse",
+      "success": true
+    },
+    {
+      "check": "manual uploads have JSON-only allowlists and 1-day retention",
+      "success": true
+    },
+    {
+      "check": "existing npm full scripts unchanged",
+      "success": true
+    }
+  ],
+  "shell_blocks_checked": 17,
+  "github_execution": false,
+  "source_sha256": {
+    ".github/workflows/ci.yml": "dfcc2e8ae63e9512c6dd0985ba3b9d8894164fe0a9bf8a8eb84ed56ae3cb848f",
+    ".github/workflows/platform.yml": "6ae6661c874454e4c85c46be0706fab084e41d3325e49d3f0d6e2a15c16580d0",
+    ".github/workflows/mjai.yml": "e426ea3092b1cf68cabb834799b7b3c0b1c2d6561404e032e5648814a026391a",
+    "packages/suzume/package.json": "276515350a839b24e5ec4ce95796d395ac68af30a17d7a2ec5ee338ec36dec2a",
+    "packages/suzume/tsconfig.unit.json": "e5cc3a0fbcc1129b9926bae87b43eac43cd3e5d01e21a8113310386b64f1749e",
+    "packages/suzume/tsconfig.unit-tests.json": "f5c0fcbaab8a0aeea2b7748c9e8f4222bf45dce648d3e08b03865538afd2d8b7"
+  },
+  "setup_node_release": "https://github.com/actions/setup-node/releases/tag/v7.1.0",
+  "setup_node_commit": "https://github.com/actions/setup-node/commit/949feb2413d6458794dcd2491c4babbbce0c15c1",
+  "setup_node_cache_documentation": "https://github.com/actions/setup-node#caching-global-packages-data"
+}

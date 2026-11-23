@@ -1,0 +1,9 @@
+{
+  "purpose": "Existing full build requires generated Node/Web WASM declarations; this is an expected prerequisite failure, not a failing unit test.",
+  "exit_code": 2,
+  "expected_prerequisite_failure_observed": true,
+  "log": "annotated-ci-linux-no-wasm-baseline.log",
+  "log_sha256": "82744092fff42c1b23c7c9100eb324cd65b9494aa2782c2b432cf72c79532e7f",
+  "wasm_directory_absent": true,
+  "github_execution": false
+}
