@@ -27,7 +27,23 @@
   "post_merge_ci_requested": false,
   "completion_document_ci_requested": false,
   "completion_record_publication": {
-    "status": "pending",
-    "scope": "documentation only; no additional CI required"
+    "status": "confirmed",
+    "verified_at": "2026-11-23T21:01:57.052901+09:00",
+    "commit_sha": "f2bad84d64a6958f906717efb411897ef24a58e1",
+    "parent_sha": "d66d6a2aae9645112b7ba955b26260452c5e16b1",
+    "tree_sha": "17d1cffba60d6c52ad44024189fad5da68d7d146",
+    "changed_paths": [
+      "docs/verification/annotated-completion.json",
+      "docs/verification/annotated-pr-ci.json",
+      "docs/verification/annotated-results.md",
+      "docs/workdocs/workdoc_Nov23-2026_mjai_annotated.md"
+    ],
+    "documentation_only": true,
+    "github_main_matches": true,
+    "both_local_worktrees_match_and_clean": true,
+    "source_files_unchanged": 142,
+    "merge_workflow_run_count": 0,
+    "record_workflow_run_count": 0,
+    "note": "This receipt describes the already published record commit. The subsequent documentation-only confirmation records its verification without requesting CI."
   }
 }
