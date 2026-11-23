@@ -236,17 +236,17 @@ indexの範囲は全実行環境で `1..=4294967295` に固定します。単一
 
 ### 手順 18: PRの最終headとCIを検収する（A-06/A-07）
 
-- [ ] 🖐 **操作**: write-pull-request に従い変更理由・効果・検証・制約を説明したPRを作成し、最新headのCIを確認する。
-- [ ] 🔎 **確認**: 対象headでLinuxの自動1 workflow・1 jobだけが成功し、base/mainと意図した差分が一致する。旧3 workflow・10 jobは追加指示前の履歴とする。
-- [ ] 🧪 **テスト**: GitHub check-runsのhead_sha、status、conclusionを記録する。古いheadの成功で代用しない。
-- [ ] 🛠 **エラー時対処**: CI失敗を修正した場合は新しいheadを対象に必要CIを確認し直す。
+- [x] 🖐 **操作**: write-pull-request に従い変更理由・効果・検証・制約を説明したPRを作成し、最新headのCIを確認する。
+- [x] 🔎 **確認**: 対象headでLinuxの自動1 workflow・1 jobだけが成功し、base/mainと意図した差分が一致する。旧3 workflow・10 jobは追加指示前の履歴とする。
+- [x] 🧪 **テスト**: GitHub check-runsのhead_sha、status、conclusionを記録する。古いheadの成功で代用しない。
+- [x] 🛠 **エラー時対処**: CI失敗を修正した場合は新しいheadを対象に必要CIを確認し直す。
 
 ### 手順 19: 検証済みPRをマージする（A-06）
 
-- [ ] 🖐 **操作**: expected_head_sha を指定して main へマージする。
-- [ ] 🔎 **確認**: GitHubがmergedを返し、merge commitのtreeが検収した変更を含む。
-- [ ] 🧪 **テスト**: mainのmerge commitとローカル取得結果、検証済みheadとのtree一致を照合する。main pushの重複CIは起動しない。
-- [ ] 🛠 **エラー時対処**: base/head更新や競合は実際の差分を再確認し、未検収の内容を強制マージしない。
+- [x] 🖐 **操作**: expected_head_sha を指定して main へマージする。
+- [x] 🔎 **確認**: GitHubがmergedを返し、merge commitのtreeが検収した変更を含む。
+- [x] 🧪 **テスト**: mainのmerge commitとローカル取得結果、検証済みheadとのtree一致を照合する。main pushの重複CIは起動しない。
+- [x] 🛠 **エラー時対処**: base/head更新や競合は実際の差分を再確認し、未検収の内容を強制マージしない。
 
 ### 手順 20: 完了を実状態と照合して記録する（A-06）
 
@@ -285,7 +285,7 @@ indexの範囲は全実行環境で `1..=4294967295` に固定します。単一
 - [x] D6（A-06）: 本体実装の固定ソースで総合検証、配布消費、Kani6契約・Lean18定理が成功し、失敗履歴を保存している。その後のCI専用変更は差分・本体不変・局所検証で追跡できる。
 - [x] D7（A-01/A-06）: 使用法、保持範囲、制約、証跡が文書と実装で一致し、CI縮小の追加差分を含め公開物に秘密・私的パス・外部牌譜本文がない。
 - [ ] D8（A-06/A-07）: Linux軽量CIで検証済みのheadがmainへマージされ、mergeのtreeと完了記録の文書差分・mainへの反映を照合できる。重複CIは不要とする。
-- [ ] D9（A-07）: 自動CIはLinuxの1ジョブで、main pushと文書のみのPRでは起動せず、自動成果物保存は0件。重い検査は手動のみ・Linux・集計JSON保存1日である。
+- [x] D9（A-07）: 自動CIはLinuxの1ジョブで、main pushと文書のみのPRでは起動せず、自動成果物保存は0件。重い検査は手動のみ・Linux・集計JSON保存1日である。
 
 ## 7. 作業記録
 
@@ -428,3 +428,15 @@ indexの範囲は全実行環境で `1..=4294967295` に固定します。単一
 | 2026-11-23 | 20:56:21 JST+0900 | 主担当 | D1 検収完了 | 現状・作業書・本体最終レビューに加えannotated-ci-review.mdがPASS。CI-01の適用範囲修正を独立担当が再確認し、追加要求を含む未解決重大指摘0。最終headのGitHub検収は手順18へ分離。 |
 | 2026-11-23 | 20:56:21 JST+0900 | 主担当 | 手順D7 検収開始 | 本体の公開前点検PASSを保持し、追加CI差分は私的経路/認証候補0、外部原文追加なし。新CIレビューと元/新証跡SHAを照合。文書checker62文書・538相対リンク・105コマンド、エラー0。総合/配布はcf70対象、CI専用9差分は別検証と明記。 |
 | 2026-11-23 | 20:56:21 JST+0900 | 主担当 | D7 検収完了 | 本体の公開前点検PASSを保持し、追加CI差分は私的経路/認証候補0、外部原文追加なし。新CIレビューと元/新証跡SHAを照合。文書checker62文書・538相対リンク・105コマンド、エラー0。総合/配布はcf70対象、CI専用9差分は別検証と明記。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | 手順18 検収開始 | PR#2のhead0ac5f9af2c7c10f16e5772dbfb6d49c359803fd2・tree99d4a30d080a896de20676155167922a994999b4・base/main d44f5eeをGitHubとローカルで照合。自動PR run45169714634のみ、Linux job/check137675745422がcompleted/success。check-runs計1、成果物0件、mergeable clean。annotated-pr-ci.jsonを保存、rootも別GETで再照合。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | 手順18 🖐 検収完了 | PR#2のhead0ac5f9af2c7c10f16e5772dbfb6d49c359803fd2・tree99d4a30d080a896de20676155167922a994999b4・base/main d44f5eeをGitHubとローカルで照合。自動PR run45169714634のみ、Linux job/check137675745422がcompleted/success。check-runs計1、成果物0件、mergeable clean。annotated-pr-ci.jsonを保存、rootも別GETで再照合。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | 手順18 🔎 検収完了 | PR#2のhead0ac5f9af2c7c10f16e5772dbfb6d49c359803fd2・tree99d4a30d080a896de20676155167922a994999b4・base/main d44f5eeをGitHubとローカルで照合。自動PR run45169714634のみ、Linux job/check137675745422がcompleted/success。check-runs計1、成果物0件、mergeable clean。annotated-pr-ci.jsonを保存、rootも別GETで再照合。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | 手順18 🧪 検収完了 | PR#2のhead0ac5f9af2c7c10f16e5772dbfb6d49c359803fd2・tree99d4a30d080a896de20676155167922a994999b4・base/main d44f5eeをGitHubとローカルで照合。自動PR run45169714634のみ、Linux job/check137675745422がcompleted/success。check-runs計1、成果物0件、mergeable clean。annotated-pr-ci.jsonを保存、rootも別GETで再照合。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | 手順18 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | 手順D9 検収開始 | 新headの実行はLinux自動1workflow/1job、成功、artifact0件。3定義の構造と独立レビューでmain pushなし、文書のみPR除外、重い2定義は手動/Linux/集計JSON保存1日、自動依存cacheなしを確認。旧設定の途中実行と取消未実施は別履歴に保持。 |
+| 2026-11-23 | 20:59:26 JST+0900 | 主担当 | D9 検収完了 | 新headの実行はLinux自動1workflow/1job、成功、artifact0件。3定義の構造と独立レビューでmain pushなし、文書のみPR除外、重い2定義は手動/Linux/集計JSON保存1日、自動依存cacheなしを確認。旧設定の途中実行と取消未実施は別履歴に保持。 |
+| 2026-11-23 | 21:00:34 JST+0900 | 主担当 | 手順19 検収開始 | expected_head_sha=0ac5f9aを指定しPR#2をマージ。GitHub merged=true、merge d66d6a2aae9645112b7ba955b26260452c5e16b1、両親d44f5ee/0ac5f9aを確認。GitHub mainとローカルorigin/main一致、tree99d4a30d080a896de20676155167922a994999b4は検収済みheadと完全一致。main pushや手動CIは起動していない。 |
+| 2026-11-23 | 21:00:34 JST+0900 | 主担当 | 手順19 🖐 検収完了 | expected_head_sha=0ac5f9aを指定しPR#2をマージ。GitHub merged=true、merge d66d6a2aae9645112b7ba955b26260452c5e16b1、両親d44f5ee/0ac5f9aを確認。GitHub mainとローカルorigin/main一致、tree99d4a30d080a896de20676155167922a994999b4は検収済みheadと完全一致。main pushや手動CIは起動していない。 |
+| 2026-11-23 | 21:00:34 JST+0900 | 主担当 | 手順19 🔎 検収完了 | expected_head_sha=0ac5f9aを指定しPR#2をマージ。GitHub merged=true、merge d66d6a2aae9645112b7ba955b26260452c5e16b1、両親d44f5ee/0ac5f9aを確認。GitHub mainとローカルorigin/main一致、tree99d4a30d080a896de20676155167922a994999b4は検収済みheadと完全一致。main pushや手動CIは起動していない。 |
+| 2026-11-23 | 21:00:34 JST+0900 | 主担当 | 手順19 🧪 検収完了 | expected_head_sha=0ac5f9aを指定しPR#2をマージ。GitHub merged=true、merge d66d6a2aae9645112b7ba955b26260452c5e16b1、両親d44f5ee/0ac5f9aを確認。GitHub mainとローカルorigin/main一致、tree99d4a30d080a896de20676155167922a994999b4は検収済みheadと完全一致。main pushや手動CIは起動していない。 |
+| 2026-11-23 | 21:00:34 JST+0900 | 主担当 | 手順19 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |

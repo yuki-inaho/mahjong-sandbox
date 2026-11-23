@@ -1,0 +1,33 @@
+{
+  "schema": "suzume-annotated-completion/1",
+  "recorded_at": "2026-11-23T21:00:34.272087+09:00",
+  "repository": "yuki-inaho/mahjong-sandbox",
+  "pr_number": 2,
+  "pr_url": "https://github.com/yuki-inaho/mahjong-sandbox/pull/2",
+  "product_commit": "cf70f1ccc40db5f2cb5804d1a9d84aa2e1ba0686",
+  "verified_head_sha": "0ac5f9af2c7c10f16e5772dbfb6d49c359803fd2",
+  "base_sha": "d44f5ee499102fd35d81fbba5eb1e42da2e0a318",
+  "merge_commit_sha": "d66d6a2aae9645112b7ba955b26260452c5e16b1",
+  "merged_at": "2026-11-23T20:59:28+09:00",
+  "head_tree_sha": "99d4a30d080a896de20676155167922a994999b4",
+  "merge_tree_sha": "99d4a30d080a896de20676155167922a994999b4",
+  "merge_tree_matches_verified_head": true,
+  "github_main_and_local_origin_main_match_merge": true,
+  "ci_run_id": 45169714634,
+  "ci_job_id": 137675745422,
+  "ci_receipt": "annotated-pr-ci.json",
+  "ci_workflows": 1,
+  "ci_jobs": 1,
+  "ci_success": true,
+  "ci_artifacts": 0,
+  "final_source_count": 142,
+  "final_source_map_sha256": "488010d47e6c8f2774aedab30ce53ef03f37ed02038e75f6067ecd4c90b08539",
+  "source_matches_reviewed_configuration": true,
+  "source_scope_receipt": "annotated-ci-scope-change.json",
+  "post_merge_ci_requested": false,
+  "completion_document_ci_requested": false,
+  "completion_record_publication": {
+    "status": "pending",
+    "scope": "documentation only; no additional CI required"
+  }
+}
