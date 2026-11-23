@@ -1,0 +1,166 @@
+{
+  "schema": "suzume-publication-audit/1",
+  "reviewed_at_utc": "2026-11-23T11:28:30.806018+00:00",
+  "verdict": "PASS",
+  "subject": {
+    "repository": "yuki-inaho/mahjong-sandbox",
+    "branch": "feat/mjai-annotated-records",
+    "base_commit": "c9a5d5fa4458eb9f46db7827b52e0170eeed7be5",
+    "merge_target": "main",
+    "package_run": "20261123T112458Z-bef50e0ea7",
+    "full_verification_run": "20261123T112111Z-6cc0ea319a"
+  },
+  "source_review_snapshot": {
+    "checked_at_utc": "2026-11-23T11:25:57.914147+00:00",
+    "files": 99,
+    "annotated_logs": 44,
+    "private_real_path_candidates": 0,
+    "credential_candidates": 0,
+    "external_record_candidates": 0,
+    "synthetic_redaction_path_locations_reviewed": 2,
+    "name_substring_candidates_reviewed_as_protocol_or_build_terms": true
+  },
+  "archive_review": {
+    "checked_at_utc": "2026-11-23T11:25:58.712439+00:00",
+    "archives": 7,
+    "archive_file_entries": 482,
+    "auxiliary_lock_files": 1,
+    "metadata_and_log_files": 39,
+    "artifact_manifest_matches": true,
+    "archive_metadata_candidates": 0,
+    "unexpected_archive_member_names": 0,
+    "known_private_path_matches": 0,
+    "generic_private_path_candidates": 0,
+    "credential_candidates": 0,
+    "external_record_candidates": 0,
+    "unclassified_name_candidate_entries": 0,
+    "encodings": [
+      "UTF-8",
+      "UTF-16LE",
+      "UTF-16BE"
+    ]
+  },
+  "artifacts": [
+    {
+      "file": "suzume-api-0.2.0.crate",
+      "bytes": 45755,
+      "sha256": "98c15c28abf4737e714c0edebf38d36bf16a6f189b8d550e8f389c009a305791"
+    },
+    {
+      "file": "suzume-0.2.0.crate",
+      "bytes": 94007,
+      "sha256": "3a5d6efd05c9474d01d383354819074011d57bf0e0cff5ae8dd941b76a86319b"
+    },
+    {
+      "file": "suzume-cli-0.2.0.crate",
+      "bytes": 14366,
+      "sha256": "038a6cbafa6e8b5df58da121ad031222b886ac3281f22e488c7726395562c630"
+    },
+    {
+      "file": "suzume-wasm-0.2.0.crate",
+      "bytes": 2150,
+      "sha256": "973c7cff8cdca34f7895fa1ed69edae52b1ee8dd466cef81f110a818fcb10880"
+    },
+    {
+      "file": "mahjong-sandbox-sdk-0.2.0.tgz",
+      "bytes": 663353,
+      "sha256": "9fa4e822001e2cf71da972db748604796fbd214838b8739e5e2db5ce6b5ea154"
+    },
+    {
+      "file": "suzume-source-0.2.0.tar.gz",
+      "bytes": 645221,
+      "sha256": "b2b763834863fb29a62bc45a8b24550d9ab20c9c0e3d99a8afff7c2532d6ee7e"
+    },
+    {
+      "file": "suzume-0.2.0-linux-x64.tar.gz",
+      "bytes": 1555654,
+      "sha256": "24e37cdbb0e78c96086b8e61337df9b98dda20c85afa7bb855c2f77bcdc22d1e"
+    },
+    {
+      "file": "workspace-Cargo.lock",
+      "bytes": 11108,
+      "sha256": "f5e794297c66b91059d5bfc129cb33d61c2b8d09d291a7c65f8fe8d1e6e2210b"
+    }
+  ],
+  "required_binary_entries": [
+    {
+      "archive": "mahjong-sandbox-sdk-0.2.0.tgz",
+      "entry": "package/wasm/node/suzume_wasm_bg.wasm",
+      "bytes": 1088189,
+      "sha256": "d89b583be065e587b2d0a0e74db839e674899667178557d1f812999c845b8f2f",
+      "known_private_prefix_matches": 0,
+      "generic_private_path_candidates": 0
+    },
+    {
+      "archive": "mahjong-sandbox-sdk-0.2.0.tgz",
+      "entry": "package/wasm/web/suzume_wasm_bg.wasm",
+      "bytes": 1088189,
+      "sha256": "d89b583be065e587b2d0a0e74db839e674899667178557d1f812999c845b8f2f",
+      "known_private_prefix_matches": 0,
+      "generic_private_path_candidates": 0
+    },
+    {
+      "archive": "suzume-0.2.0-linux-x64.tar.gz",
+      "entry": "suzume-0.2.0/suzume",
+      "bytes": 1327032,
+      "sha256": "ca53826ddee4a874a16f74e333f550b5f23a12ae855148cb2d0d4ffa379740bf",
+      "known_private_prefix_matches": 0,
+      "generic_private_path_candidates": 0
+    },
+    {
+      "archive": "suzume-0.2.0-linux-x64.tar.gz",
+      "entry": "suzume-0.2.0/suzume-api",
+      "bytes": 2510200,
+      "sha256": "bfc04fd370afdcdf21a16b374871e2fb5ccb927e314ff270a62ff5cd03bf84e1",
+      "known_private_prefix_matches": 0,
+      "generic_private_path_candidates": 0
+    }
+  ],
+  "source_provenance": {
+    "source_bundle_files": 355,
+    "source_bundle_matches_manifest": true,
+    "source_bundle_contains_dist": false,
+    "full_and_package_same_sources": true,
+    "current_and_package_same_sources": true,
+    "source_file_count": 140,
+    "package_success": true,
+    "package_checks": 17
+  },
+  "corpus_provenance": {
+    "success": true,
+    "expected_cases": 20,
+    "evaluated_cases": 20,
+    "passed_cases": 20,
+    "failed_cases": 0,
+    "unevaluated_cases": 0,
+    "excluded_cases": 0,
+    "expected_roundtrip_events": 2310,
+    "roundtrip_events": 2310,
+    "expected_observations": 9240,
+    "compared_observations": 9240,
+    "manifest_sha256": "5a887548dfdd6ba48f05e5663f80dc7c38e33889b24edc50b50797af1459769a",
+    "verifier_sha256": "29166c637d0e495f9def0b972dfb1ccb856b5512ef6bb2aa15a00cacd3cd710c",
+    "analyzer_sha256": "d103d9c46f871093441dfcd48c1573eca3a709881bd0b27c2b7eff94ef7a67c8",
+    "verifier_matches_package_sources": true,
+    "manifest_matches_package_sources": true,
+    "debug_analyzer_matches": true,
+    "rounds": 23
+  },
+  "package_manifest_sha256": "655d5a3a6409277fd82b713441a95aa9cdb35420a0df41aaf969e8b895779623",
+  "package_path_report_sha256": "756ce084aee14e2b70f2809a85a3e4462b817d6f886231d9e0cdd8084f557345",
+  "methods": [
+    "製品の検査関数とは別の処理で書庫memberと付随記録の実バイト列を確認",
+    "固定20事例のSHAを検証後、長い原文断片との一致候補を非公開の作業領域で照合",
+    "source書庫の全ファイルをmanifestの個別SHAと照合し、検証対象ソース140件を総合検査・配布・現在状態で照合",
+    "合成事例・本文・生成処理・CI保存範囲の内容と由来を読取り確認"
+  ],
+  "publication_decisions": {
+    "public_repository_and_upstream_references": "再現に必要な公開URL・ref・commitを保持",
+    "external_game_bodies": "dist/mjai-real配下へ限定し、書庫・公開記録へ複写しない",
+    "initial_embedded_path_finding": "初回記録を保持し、再構築後の正式4項目で解消を確認"
+  },
+  "not_in_this_verdict": [
+    "この点検後に作成・変更されるPRの題名・本文・コメントと最終commit metadata",
+    "Linux x64以外で今後作成される配布書庫"
+  ]
+}

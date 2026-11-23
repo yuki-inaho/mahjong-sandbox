@@ -1,0 +1,11 @@
+
+running 1 test
+test report_failure_explicitly_identifies_the_already_published_file ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.85s
+     Running tests/mjai_annotated_cli.rs (target/debug/build/suzume-api/a9c303db9537d0f6/out/mjai_annotated_cli-a9c303db9537d0f6)
+
+exit_code=0

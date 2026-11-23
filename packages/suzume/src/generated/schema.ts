@@ -1836,6 +1836,14 @@ export const protocolSchema: unknown = {
         }
       ]
     },
+    "MjaiFormat": {
+      "description": "Explicit record format; omission in existing requests means standard mjai.",
+      "type": "string",
+      "enum": [
+        "mjai",
+        "annotated_mjai"
+      ]
+    },
     "MjaiLastDiscard": {
       "type": "object",
       "required": [
@@ -2574,7 +2582,7 @@ export const protocolSchema: unknown = {
           "additionalProperties": false
         },
         {
-          "description": "Inspect a decompressed mjson record without changing an active session.",
+          "description": "Inspect decompressed standard or annotated mjai without changing a session.",
           "type": "object",
           "required": [
             "mjson",
@@ -2582,6 +2590,14 @@ export const protocolSchema: unknown = {
             "version"
           ],
           "properties": {
+            "format": {
+              "default": "mjai",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/MjaiFormat"
+                }
+              ]
+            },
             "mjson": {
               "type": "string"
             },
@@ -3005,7 +3021,7 @@ export const protocolSchema: unknown = {
           "minimum": 0.0
         },
         "red_events": {
-          "description": "Number of raw events containing at least one red tile spelling.",
+          "description": "Events with a red tile in a known tile field, excluding names/metadata.",
           "type": "integer",
           "format": "uint32",
           "minimum": 0.0

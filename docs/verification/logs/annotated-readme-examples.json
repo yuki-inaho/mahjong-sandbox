@@ -1,0 +1,12 @@
+{
+  "sdk": {
+    "records": 2,
+    "dropped_annotation_records": 0,
+    "success": true
+  },
+  "cli": {
+    "records": 8,
+    "roundtrip_equal": true,
+    "success": true
+  }
+}

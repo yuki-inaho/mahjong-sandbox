@@ -15,7 +15,7 @@ import sys
 import tarfile
 import tempfile
 
-from platform_support import ROOT, SDK, Run, capture, digest, distribution_files, environment_report, platform_key, redact, source_hashes, validate_documentation, write_json
+from platform_support import ROOT, SDK, Run, capture, digest, distribution_files, environment_report, platform_key, private_path_matches, private_path_prefixes, redact, release_environment, source_hashes, validate_documentation, write_json
 
 
 # 独自コアで生成した8操作の旧replayから変換する例。外部牌譜ではありません。
@@ -27,11 +27,66 @@ SAMPLE_MJAI_SUMMARY = {
 SAMPLE_FILES = ("examples/eight-actions.mjson", "examples/replay-eight-actions.jsonl")
 
 
+NATIVE_MJAI_CONSUMER = r'''"""展開した実行ファイルだけで形式間の保持を検査します。"""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+binary = sys.argv[1]
+
+def command(*arguments):
+    result = subprocess.run([binary, "mjai", *arguments], capture_output=True, text=True, check=False)
+    if result.returncode:
+        raise RuntimeError("native_mjai_command_failed_" + arguments[0])
+    return result.stdout
+
+original = Path("examples/eight-actions.mjson")
+summary = json.loads(command("analyze", str(original)))
+command("wrap", str(original), "--output", "wrapped.annotated.jsonl")
+annotated = json.loads(command("analyze", "wrapped.annotated.jsonl", "--format", "annotated_mjai"))
+if summary != annotated:
+    raise RuntimeError("native_annotated_summary_mismatch")
+command("unwrap", "wrapped.annotated.jsonl", "--output", "restored.mjson")
+restored = Path("restored.mjson")
+if original.read_bytes() != restored.read_bytes():
+    raise RuntimeError("native_event_bytes_mismatch")
+events = [json.loads(line) for line in original.read_bytes().splitlines()]
+if len(events) != summary["records"] or len(events) == 0:
+    raise RuntimeError("native_roundtrip_count_mismatch")
+observations = 0
+for seat in range(4):
+    standard_view = Path("standard-seat-" + str(seat) + ".jsonl")
+    annotated_view = Path("annotated-seat-" + str(seat) + ".jsonl")
+    command("observations", str(original), "--seat", str(seat), "--output", str(standard_view))
+    command("observations", "wrapped.annotated.jsonl", "--seat", str(seat),
+            "--output", str(annotated_view), "--format", "annotated_mjai")
+    if standard_view.read_bytes() != annotated_view.read_bytes():
+        raise RuntimeError("native_observation_bytes_mismatch")
+    rows = [json.loads(line) for line in standard_view.read_bytes().splitlines()]
+    if len(rows) != len(events):
+        raise RuntimeError("native_observation_count_mismatch")
+    for index, (row, event) in enumerate(zip(rows, events), 1):
+        if (set(row) != {"schema_version", "line", "type", "observation"}
+                or row["line"] != index or row["type"] != event["type"]
+                or row["observation"]["viewer"] != seat):
+            raise RuntimeError("native_observation_position_or_viewer_mismatch")
+    observations += len(rows)
+print(json.dumps({"marker": "NATIVE_MJAI_CONSUMER_OK", "summary": summary,
+                  "roundtrip_records": len(events), "compared_observations": observations,
+                  "original_sha256": hashlib.sha256(original.read_bytes()).hexdigest(),
+                  "restored_sha256": hashlib.sha256(restored.read_bytes()).hexdigest()}))
+'''
+
+
 CONSUMER_JS = r'''import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
-import { parseJson, ProtocolError, readMjaiEvents } from "@mahjong-sandbox/sdk";
+import { parseJson, ProtocolError, readMjaiEvents, parseMjaiRecord, parseAnnotatedMjaiRecord,
+  readAnnotatedMjaiRecords, encodeAnnotatedMjaiRecord, wrapMjaiRecords,
+  unwrapAnnotatedMjaiRecords } from "@mahjong-sandbox/sdk";
 import { createNodeEngine } from "@mahjong-sandbox/sdk/node";
 import { createBrowserEngine } from "@mahjong-sandbox/sdk/browser";
 import { Engine as NodeEngine } from "@mahjong-sandbox/sdk/wasm/node";
@@ -86,6 +141,45 @@ await assert.rejects(node.analyzeMjai(mjson, 4), ProtocolError);
 assert.deepEqual(await node.view(), beforeMjaiNode);
 const spectator = await node.analyzeMjai(mjson);
 assert.equal(spectator.observation.own_hand, null);
+const wrappedLines = [];
+const wrapReport = await wrapMjaiRecords(mjaiChunks(), line => { wrappedLines.push(line); });
+assert.deepEqual(wrapReport, { records: expectedMjai.records, droppedAnnotationRecords: 0 });
+const wrappedText = wrappedLines.join("");
+function chunksOf(text) {
+  const data = new TextEncoder().encode(text);
+  return (async function* () {
+    for (let offset = 0; offset < data.length; offset += 13) yield data.subarray(offset, offset + 13);
+  })();
+}
+const wrappedRecords = [];
+for await (const record of readAnnotatedMjaiRecords(chunksOf(wrappedText))) wrappedRecords.push(record);
+assert.equal(wrappedRecords.length, expectedMjai.records);
+for (const [index, line] of mjson.trimEnd().split("\n").entries()) {
+  assert.equal(wrappedRecords[index].eventJson, parseMjaiRecord(line).json);
+  assert.equal(wrappedRecords[index].index, index + 1);
+}
+const restoredLines = [];
+const unwrapReport = await unwrapAnnotatedMjaiRecords(chunksOf(wrappedText), line => { restoredLines.push(line); });
+assert.deepEqual(unwrapReport, { records: expectedMjai.records, droppedAnnotationRecords: 0 });
+assert.equal(restoredLines.join(""), mjson);
+const noteJson = '{"analysis":{"number":9007199254740993e0,"reason":"synthetic"}}';
+const firstWithNote = encodeAnnotatedMjaiRecord(wrappedRecords[0].eventJson, 1, noteJson);
+assert.equal(parseAnnotatedMjaiRecord(firstWithNote).annotationsJson, noteJson);
+const annotatedText = firstWithNote + "\n" + wrappedLines.slice(1).join("");
+await assert.rejects(unwrapAnnotatedMjaiRecords(chunksOf(annotatedText), () => {}), ProtocolError);
+const droppedLines = [];
+const dropped = await unwrapAnnotatedMjaiRecords(chunksOf(annotatedText), line => { droppedLines.push(line); },
+                                                { dropAnnotations: true });
+assert.deepEqual(dropped, { records: expectedMjai.records, droppedAnnotationRecords: 1 });
+assert.equal(droppedLines.join(""), mjson);
+for (let seat = 0; seat < 4; seat++) {
+  const standardNode = seat === 0 ? mjaiNode : await node.analyzeMjai(mjson, seat);
+  const standardWeb = seat === 0 ? mjaiWeb : await web.analyzeMjai(mjson, seat);
+  assert.deepEqual(await node.analyzeMjai(annotatedText, seat, "annotated_mjai"), standardNode);
+  assert.deepEqual(await web.analyzeMjai(annotatedText, seat, "annotated_mjai"), standardWeb);
+}
+assert.deepEqual(await node.analyzeMjai(annotatedText, undefined, "annotated_mjai"), spectator);
+await assert.rejects(node.analyzeMjai(annotatedText, 0, "unknown_format"), ProtocolError);
 assert.deepEqual(await node.view(), beforeMjaiNode);
 assert.deepEqual(await web.view(), beforeMjaiWeb);
 for (const Engine of [NodeEngine, WebEngine]) {
@@ -96,25 +190,42 @@ for (const Engine of [NodeEngine, WebEngine]) {
 }
 await node.close();
 await web.close();
-console.log("PACKAGE_CONSUMER_OK node web mjai");
+console.log("PACKAGE_CONSUMER_OK node web mjai annotated");
 '''
 
 CONSUMER_TS = '''import { createNodeEngine } from "@mahjong-sandbox/sdk/node";
 import { createBrowserEngine } from "@mahjong-sandbox/sdk/browser";
 import { Engine } from "@mahjong-sandbox/sdk/wasm/node";
-import { readMjaiEvents } from "@mahjong-sandbox/sdk";
+import { readMjaiEvents, parseMjaiRecord, parseAnnotatedMjaiRecord,
+  readAnnotatedMjaiRecords, encodeAnnotatedMjaiRecord,
+  wrapMjaiRecords, unwrapAnnotatedMjaiRecords } from "@mahjong-sandbox/sdk";
 const raw = new Engine();
 raw.free();
 const client = createNodeEngine();
 void client.newGame();
 void client.view();
 void client.analyzeMjai("", 0);
+void client.analyzeMjai("", 0, "annotated_mjai");
 void readMjaiEvents([new Uint8Array()]);
+const parsedEventJson: string = parseMjaiRecord('{"type":"start_game"}').json;
+const annotated = encodeAnnotatedMjaiRecord(parsedEventJson, 1, '{}');
+const annotationJson: string = parseAnnotatedMjaiRecord(annotated).annotationsJson;
+void annotationJson;
+void readAnnotatedMjaiRecords([new Uint8Array()]);
+const write = async (line: string): Promise<void> => { void line; };
+const report: Promise<{ records: number; droppedAnnotationRecords: number }> =
+  wrapMjaiRecords([new Uint8Array()], write);
+void report;
+void unwrapAnnotatedMjaiRecords([new Uint8Array()], write, { dropAnnotations: true });
 void createBrowserEngine(new Uint8Array());
 // @ts-expect-error 公開要求は任意オブジェクトやanyを受理しません。
 void client.command({ unknownOperation: true });
 // @ts-expect-error mjsonの閲覧席に文字列は指定できません。
 void client.analyzeMjai("", "east");
+// @ts-expect-error 公開する形式選択は閉じた列挙です。
+void client.analyzeMjai("", 0, "unknown_format");
+// @ts-expect-error 保存には注釈の原文が必要で、オブジェクトを暗黙に再直列化しません。
+void encodeAnnotatedMjaiRecord(parsedEventJson, 1, { analysis: 1 });
 client.close();
 '''
 
@@ -153,6 +264,35 @@ def check_archive(path: Path, required: set[str]) -> None:
         raise RuntimeError(f"配布範囲が不正です: {path.name}; 不足={sorted(missing)}; 不要な記録={unexpected}")
 
 
+def scan_distribution_paths(archives: list[tuple[Path, set[str]]], env: dict[str, str] | None = None) -> dict:
+    """書庫内の必須native/WASMを検査。実環境prefixそのものは返しません。"""
+    prefixes = private_path_prefixes(env)
+    entries = []
+    missing = []
+    required_count = sum(len(required) for _, required in archives)
+    valid = bool(archives) and all(required for _, required in archives)
+    for path, required in archives:
+        seen = set()
+        with tarfile.open(path) as archive:
+            for member in archive:
+                if member.name not in required or not member.isfile():
+                    continue
+                if member.name in seen:
+                    valid = False
+                seen.add(member.name)
+                with archive.extractfile(member) as source:
+                    data = source.read()
+                matches = private_path_matches(data, prefixes)
+                entries.append({"archive": path.name, "entry": member.name,
+                                "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
+                                "private_prefix_matches": matches, "success": bool(data) and matches == 0})
+        missing.extend({"archive": path.name, "entry": name} for name in sorted(required - seen))
+    success = valid and required_count > 0 and len(entries) == required_count and not missing
+    success = success and all(entry["success"] for entry in entries)
+    return {"success": bool(success), "required": required_count, "checked": len(entries),
+            "entries": entries, "missing": missing}
+
+
 def json_output(output: str, is_expected) -> object:
     """npm等がJSONの前後へ警告を出しても、期待する構造のJSONだけを採用します。"""
     decoder = json.JSONDecoder()
@@ -177,6 +317,22 @@ def validate_mjai_sample(output: str) -> dict:
     return {"success": valid, "detail": "自作例の8イベント・1局・各25000点・truncatedを確認", "summary": summary}
 
 
+def validate_native_mjai_consumer(output: str) -> dict:
+    """1つの配布消費段階で実行した各形式の照合結果を、固定母数で検査します。"""
+    result = json_output(output, lambda value: isinstance(value, dict)
+                         and value.get("marker") == "NATIVE_MJAI_CONSUMER_OK")
+    summary = validate_mjai_sample(json.dumps(result.get("summary")))
+    valid = summary["success"] and type(result.get("roundtrip_records")) is int
+    valid = valid and result["roundtrip_records"] == SAMPLE_MJAI_SUMMARY["records"]
+    valid = valid and type(result.get("compared_observations")) is int
+    valid = valid and result["compared_observations"] == SAMPLE_MJAI_SUMMARY["records"] * 4
+    expected_digest = digest(ROOT / SAMPLE_FILES[0])
+    valid = valid and result.get("original_sha256") == result.get("restored_sha256") == expected_digest
+    return {"success": valid, "detail": "配布nativeの原文往復・2形式の集計・8イベント後の全4席32観測を照合",
+            "summary": summary["summary"], "roundtrip_records": result.get("roundtrip_records"),
+            "compared_observations": result.get("compared_observations")}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--native-only", action="store_true", help="Rustの配布物だけを作成・消費検査します。SDK検査は含みません")
@@ -186,8 +342,8 @@ def main() -> int:
     report = environment_report("native" if args.native_only else "frontend")
     products: list[Path] = []
 
-    def require(name: str, command: list[str], cwd: Path = ROOT, timeout: int = 900, validator=None) -> None:
-        if not run.execute(name, command, cwd=cwd, timeout=timeout, validator=validator)["success"]:
+    def require(name: str, command: list[str], cwd: Path = ROOT, timeout: int = 900, validator=None, env=None) -> None:
+        if not run.execute(name, command, cwd=cwd, timeout=timeout, validator=validator, env=env)["success"]:
             raise RuntimeError(f"配布検査が失敗しました: {name}")
 
     try:
@@ -200,7 +356,8 @@ def main() -> int:
         version = next(package["version"] for package in members if package["name"] == "suzume")
         if len({package["version"] for package in members}) != 1:
             raise RuntimeError("配布するworkspaceの版が一致していません")
-        require("native-build", ["cargo", "build", "--locked", "--release", "--target-dir", str(ROOT / "target"), "-p", "suzume-cli", "-p", "suzume-api", "--bins"])
+        require("native-build", ["cargo", "build", "--locked", "--release", "--target-dir", str(ROOT / "target"), "-p", "suzume-cli", "-p", "suzume-api", "--bins"],
+                env=release_environment())
         if not args.native_only:
             require("wasm-build", [sys.executable, "scripts/build_wasm.py"], timeout=1200)
             require("sdk-build", ["npm", "--prefix", str(SDK), "run", "build"], timeout=300)
@@ -235,6 +392,9 @@ def main() -> int:
                                  "書庫を展開して、端末で次を実行してください。RustやNodeの導入は不要です。\n\n"
                                  f"```sh\n./suzume{extension} --plain --seed 0\n./suzume-api{extension} --help\n"
                                  f"./suzume-api{extension} mjai analyze examples/eight-actions.mjson\n"
+                                 f"./suzume-api{extension} mjai wrap examples/eight-actions.mjson --output wrapped.annotated.jsonl\n"
+                                 f"./suzume-api{extension} mjai analyze wrapped.annotated.jsonl --format annotated_mjai\n"
+                                 f"./suzume-api{extension} mjai unwrap wrapped.annotated.jsonl --output restored.mjson\n"
                                  f"./suzume-api{extension} mjai convert examples/replay-eight-actions.jsonl --output converted.mjson\n```\n\n"
                                  "同梱例は本コアで生成した8操作の途中記録です。外部の実牌譜ではありません。\n"
                                  "解析結果は8イベント・1局・各25000点、complete=false、termination=truncatedです。\n\n"
@@ -245,6 +405,14 @@ def main() -> int:
                       executables={name for _, name in binaries})
         check_archive(native_archive, {name for _, name in binaries} | set(SAMPLE_FILES) | {"README.md", "LICENSE"})
         products.append(native_archive)
+        path_scan_inputs = [(native_archive, {f"suzume-{version}/{name}" for _, name in binaries})]
+        if not args.native_only:
+            path_scan_inputs.append((npm_archive, {
+                "package/wasm/node/suzume_wasm_bg.wasm", "package/wasm/web/suzume_wasm_bg.wasm"}))
+        path_scan = scan_distribution_paths(path_scan_inputs)
+        write_json(run.directory / "distribution-path-checks.json", path_scan)
+        if not path_scan["success"]:
+            raise RuntimeError("配布native/WASMの必須entryまたは既知の私的prefix検査が失敗しました。distribution-path-checks.jsonを確認してください")
         workspace_lock = run.directory / "workspace-Cargo.lock"
         shutil.copy2(ROOT / "Cargo.lock", workspace_lock)
         products.append(workspace_lock)
@@ -272,8 +440,9 @@ def main() -> int:
                     validator=lambda output: {"success": "\x1b" not in output and "乱数種: 0" in output, "detail": "配布する実行ファイルを実際に起動"})
             native_root = native / f"suzume-{version}"
             native_api = str(native_root / ("suzume-api" + extension))
-            require("native-consumer-mjai", [native_api, "mjai", "analyze", "examples/eight-actions.mjson"],
-                    cwd=native_root, timeout=60, validator=validate_mjai_sample)
+            (native_root / "consume_mjai.py").write_text(NATIVE_MJAI_CONSUMER, encoding="utf-8")
+            require("native-consumer-mjai", [sys.executable, "consume_mjai.py", native_api],
+                    cwd=native_root, timeout=120, validator=validate_native_mjai_consumer)
             require("native-consumer-convert", [native_api, "mjai", "convert", "examples/replay-eight-actions.jsonl", "--output", "converted.mjson"],
                     cwd=native_root, timeout=60)
             require("native-consumer-converted-mjai", [native_api, "mjai", "analyze", "converted.mjson"],
@@ -289,8 +458,8 @@ def main() -> int:
                 (js / "mjai-expected.json").write_text(json.dumps(SAMPLE_MJAI_SUMMARY), encoding="utf-8")
                 require("npm-consumer-types", ["tsc", "--strict", "--noUncheckedIndexedAccess", "--exactOptionalPropertyTypes", "--noEmit", "--module", "NodeNext", "--target", "ES2022", "--lib", "ES2022,DOM", "consumer.ts"], cwd=js, timeout=120)
                 require("npm-consumer-runtime", ["node", "consumer.mjs"], cwd=js, timeout=120,
-                        validator=lambda output: {"success": "PACKAGE_CONSUMER_OK node web mjai" in output,
-                                                  "detail": "公開SDK・Node/Web実WASMで対局とmjsonを解析し、逐次件数・最終点・視点・対局状態の不変を確認"})
+                        validator=lambda output: {"success": "PACKAGE_CONSUMER_OK node web mjai annotated" in output,
+                                                  "detail": "公開SDKの原文往復・注釈破棄報告とNode/Web実WASMの4席解析一致・状態不変を確認"})
             source = consumer / "source"
             source.mkdir()
             extract(source_archive, source)
@@ -307,18 +476,21 @@ def main() -> int:
                     "environment": report, "source_sha256": after, "source_bundle_sha256_by_file": distribution_hashes,
                     "artifacts": [{"file": path.name, "bytes": path.stat().st_size, "sha256": digest(path)} for path in products],
                     "external_corpus_included": False,
-                    "consumption": ["crateを固定lock付きbuild", "配布CLIを実行", "配布nativeでmjsonを解析", "旧replayをmjsonへ変換して結果を照合",
+                    "private_path_scan": "distribution-path-checks.json",
+                    "consumption": ["crateを固定lock付きbuild", "配布CLIを実行", "配布nativeのmjson・注釈付き原文往復と32観測を照合", "旧replayをmjsonへ変換して結果を照合",
                                     "source bundleをbuild", "source bundle内の文書リンクとコマンド入口を検査"]
                                    + ([] if args.native_only else ["npm tarballをoffline install", "公開TypeScript型を検査",
-                                                                  "Nodeとweb用WASMでmjsonを解析", "公開mjson逐次読込みの全件完了を確認"])}
+                                                                  "Nodeとweb用WASMで両形式の4席解析を照合", "公開SDKの原文保持・注釈読書き・明示破棄と件数報告を確認"])}
         write_json(run.directory / "manifest.json", manifest)
         with (run.directory / "SHA256SUMS").open("x", encoding="utf-8", newline="\n") as output:
             for path in products:
                 output.write(f"{digest(path)}  {path.name}\n")
-        return 0 if run.finish({"environment": report, "manifest": "manifest.json", "sources_unchanged": True}) else 1
+        return 0 if run.finish({"environment": report, "manifest": "manifest.json", "sources_unchanged": True,
+                               "private_path_scan": "distribution-path-checks.json"}) else 1
     except (OSError, RuntimeError, ValueError, KeyError, StopIteration) as error:
         print(redact(str(error)), flush=True)
         run.finish({"environment": report, "success": False, "error": redact(str(error)),
+                    "private_path_scan": "distribution-path-checks.json" if (run.directory / "distribution-path-checks.json").exists() else None,
                     "source_sha256_before": before, "source_sha256_after": source_hashes()})
         return 1
 

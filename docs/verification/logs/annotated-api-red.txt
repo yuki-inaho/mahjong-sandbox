@@ -1,0 +1,44 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.75s
+     Running tests/mjai_api.rs (target/debug/build/suzume-api/ce36825237713d1a/out/mjai_api-ce36825237713d1a)
+
+running 3 tests
+test unknown_formats_and_wrong_explicit_formats_are_rejected ... FAILED
+test annotated_invalid_inputs_preserve_the_active_session_and_report_a_line ... FAILED
+test standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions ... FAILED
+
+failures:
+
+---- unknown_formats_and_wrong_explicit_formats_are_rejected stdout ----
+
+thread 'unknown_formats_and_wrong_explicit_formats_are_rejected' (86) panicked at crates/suzume-api/tests/mjai_api.rs:78:9:
+assertion `left == right` failed
+  left: String("invalid_request")
+ right: "log_error"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- annotated_invalid_inputs_preserve_the_active_session_and_report_a_line stdout ----
+
+thread 'annotated_invalid_inputs_preserve_the_active_session_and_report_a_line' (84) panicked at crates/suzume-api/tests/mjai_api.rs:98:9:
+assertion `left == right` failed
+  left: String("invalid_request")
+ right: "log_error"
+
+---- standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions stdout ----
+
+thread 'standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions' (85) panicked at crates/suzume-api/tests/mjai_api.rs:40:13:
+assertion `left == right` failed
+  left: Object {"code": String("invalid_request"), "message": String("unknown field `format`, expected one of `version`, `mjson`, `viewer`"), "revision": Number(0), "session_id": Number(1), "status": String("error"), "version": Number(1)}
+ right: Object {"data": Object {"kind": String("mjai"), "observation": Object {"bakaze": String("E"), "dealer": Number(0), "dora_markers": Array [String("1p")], "game_ended": Bool(false), "honba": Number(0), "kyoku": Number(1), "last_discard": Null, "own_hand": Null, "own_last_draw": Null, "players": Array [Object {"discards": Array [Object {"called": Bool(false), "pai": String("1p"), "tsumogiri": Bool(false)}], "hand_count": Number(13), "melds": Array [], "reach_accepted": Bool(false), "reach_declared": Bool(false)}, Object {"discards": Array [Object {"called": Bool(false), "pai": String("7p"), "tsumogiri": Bool(true)}], "hand_count": Number(13), "melds": Array [], "reach_accepted": Bool(false), "reach_declared": Bool(false)}, Object {"discards": Array [], "hand_count": Number(14), "melds": Array [], "reach_accepted": Bool(false), "reach_declared": Bool(false)}, Object {"discards": Array [], "hand_count": Number(13), "melds": Array [], "reach_accepted": Bool(false), "reach_declared": Bool(false)}], "record_ended": Bool(true), "riichi_sticks": Number(0), "round_ended": Bool(false), "scores": Array [Number(25000), Number(25000), Number(25000), Number(25000)], "viewer": Null}, "summary": Object {"calls": Number(0), "complete": Bool(false), "draws": Number(0), "final_scores": Array [Number(25000), Number(25000), Number(25000), Number(25000)], "records": Number(8), "red_events": Number(0), "riichi_sticks": Number(0), "rounds": Number(1), "termination": String("truncated"), "wins": Number(0)}}, "status": String("ok"), "version": Number(1)}
+
+
+failures:
+    annotated_invalid_inputs_preserve_the_active_session_and_report_a_line
+    standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions
+    unknown_formats_and_wrong_explicit_formats_are_rejected
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --test mjai_api`
+
+exit_code=101

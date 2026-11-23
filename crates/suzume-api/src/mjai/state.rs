@@ -112,7 +112,7 @@ impl ReplayState {
             .map_err(|message| error(record.line, record.event.kind(), message))?;
         increment(&mut candidate.summary.records)
             .map_err(|message| error(record.line, record.event.kind(), message))?;
-        if contains_red(&record.raw) {
+        if contains_red(&record.event) {
             increment(&mut candidate.summary.red_events)
                 .map_err(|message| error(record.line, record.event.kind(), message))?;
         }
@@ -720,11 +720,31 @@ fn same_kind(tiles: &[Pai]) -> Result<(), String> {
         .then_some(())
         .ok_or_else(|| "pon/kan tiles must have the same kind".into())
 }
-fn contains_red(value: &Value) -> bool {
-    match value {
-        Value::String(text) => matches!(text.as_str(), "5mr" | "5pr" | "5sr"),
-        Value::Array(values) => values.iter().any(contains_red),
-        Value::Object(values) => values.values().any(contains_red),
-        _ => false,
+fn contains_red(event: &Event) -> bool {
+    match event {
+        Event::StartKyoku {
+            dora_marker,
+            tehais,
+            ..
+        } => dora_marker.is_red() || tehais.iter().flatten().any(Pai::is_red),
+        Event::Tsumo { pai, .. } | Event::Dahai { pai, .. } => pai.is_red(),
+        Event::Chi { pai, consumed, .. } | Event::Pon { pai, consumed, .. } => {
+            pai.is_red() || consumed.iter().any(Pai::is_red)
+        }
+        Event::Daiminkan { pai, consumed, .. } | Event::Kakan { pai, consumed, .. } => {
+            pai.is_red() || consumed.iter().any(Pai::is_red)
+        }
+        Event::Ankan { consumed, .. } => consumed.iter().any(Pai::is_red),
+        Event::Dora { dora_marker } => dora_marker.is_red(),
+        Event::Hora { ura_markers, .. } => ura_markers
+            .as_deref()
+            .is_some_and(|tiles| tiles.iter().any(Pai::is_red)),
+        Event::StartGame { .. }
+        | Event::Reach { .. }
+        | Event::ReachAccepted { .. }
+        | Event::Ryukyoku { .. }
+        | Event::EndKyoku
+        | Event::EndGame
+        | Event::None => false,
     }
 }

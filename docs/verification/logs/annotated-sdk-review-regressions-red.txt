@@ -1,0 +1,137 @@
+command=['node', '--test', '--test-reporter=tap', 'packages/suzume/tests/mjai-annotated.test.mjs']
+TAP version 13
+# Subtest: source records retain the exact numeric spelling, aliases, nulls and unknown fields
+ok 1 - source records retain the exact numeric spelling, aliases, nulls and unknown fields
+  ---
+  duration_ms: 4.686901
+  type: 'test'
+  ...
+# Subtest: annotated parsing and encoding preserve the event and annotation source independently
+ok 2 - annotated parsing and encoding preserve the event and annotation source independently
+  ---
+  duration_ms: 1.597523
+  type: 'test'
+  ...
+# Subtest: annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+ok 3 - annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+  ---
+  duration_ms: 1.088524
+  type: 'test'
+  ...
+# Subtest: single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+ok 4 - single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+  ---
+  duration_ms: 0.685666
+  type: 'test'
+  ...
+# Subtest: stream conversion preserves every source record and reports completion after asynchronous writes
+ok 5 - stream conversion preserves every source record and reports completion after asynchronous writes
+  ---
+  duration_ms: 14.118871
+  type: 'test'
+  ...
+# Subtest: annotations cannot be silently discarded and explicit removal reports affected records
+ok 6 - annotations cannot be silently discarded and explicit removal reports affected records
+  ---
+  duration_ms: 1.320786
+  type: 'test'
+  ...
+# Subtest: annotated streams enforce consecutive indexes and complete event lifecycles
+ok 7 - annotated streams enforce consecutive indexes and complete event lifecycles
+  ---
+  duration_ms: 4.414278
+  type: 'test'
+  ...
+# Subtest: input and output budgets include UTF-8 framing and wrapper overhead
+ok 8 - input and output budgets include UTF-8 framing and wrapper overhead
+  ---
+  duration_ms: 30.114867
+  type: 'test'
+  ...
+# Subtest: incomplete input and failed sinks never produce a successful conversion report
+ok 9 - incomplete input and failed sinks never produce a successful conversion report
+  ---
+  duration_ms: 3.414168
+  type: 'test'
+  ...
+# Subtest: existing event-only reading keeps internal CR compatibility while saved records reject it
+not ok 10 - existing event-only reading keeps internal CR compatibility while saved records reject it
+  ---
+  duration_ms: 1.074904
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai-annotated.test.mjs:151:1'
+  failureType: 'testCodeFailure'
+  error: 'mjson line 1 (start_game): A saved JSON record must occupy one physical line'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ProtocolError'
+  stack: |-
+    sourceRecord (file://<repository>/packages/suzume/dist/mjai.js:94:15)
+    readValidatedRecords (file://<repository>/packages/suzume/dist/mjai.js:209:28)
+    async Module.readMjaiEvents (file://<repository>/packages/suzume/dist/mjai.js:238:22)
+    async collect (file://<repository>/packages/suzume/tests/mjai-annotated.test.mjs:10:71)
+    async TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai-annotated.test.mjs:153:18)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: discard policy does not inherit authorization from the options prototype
+not ok 11 - discard policy does not inherit authorization from the options prototype
+  ---
+  duration_ms: 1.030927
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai-annotated.test.mjs:159:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai-annotated.test.mjs:162:3)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: discard policy remains the value at invocation despite input-side mutation
+not ok 12 - discard policy remains the value at invocation despite input-side mutation
+  ---
+  duration_ms: 0.391502
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai-annotated.test.mjs:166:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai-annotated.test.mjs:170:3)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: discard policy reads an own getter exactly once before consuming input
+not ok 13 - discard policy reads an own getter exactly once before consuming input
+  ---
+  duration_ms: 0.45679
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai-annotated.test.mjs:177:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai-annotated.test.mjs:181:3)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 9
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 184.416453
+
+exit_code=1

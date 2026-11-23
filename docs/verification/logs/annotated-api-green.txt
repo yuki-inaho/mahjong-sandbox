@@ -1,0 +1,14 @@
+command=['cargo', 'test', '--locked', '-p', 'suzume-api', '--test', 'mjai_api']
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+     Running tests/mjai_api.rs (target/debug/build/suzume-api/29bf38200476187d/out/mjai_api-29bf38200476187d)
+
+running 3 tests
+test unknown_formats_and_wrong_explicit_formats_are_rejected ... ok
+test annotated_invalid_inputs_preserve_the_active_session_and_report_a_line ... ok
+test standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+exit_code=0

@@ -1,0 +1,35 @@
+Diff in <repository>/crates/suzume-api/tests/mjai_api.rs:43:
+             assert!(actual["data"]["observation"].get("annotations").is_none());
+         }
+     }
+-    assert_eq!(request(&mut engine, json!({"version":1,"op":"view"})), before);
++    assert_eq!(
++        request(&mut engine, json!({"version":1,"op":"view"})),
++        before
++    );
+     let environment = request(
+         &mut engine,
+         json!({"version":1,"op":"environment_reset","seed":"17","max_steps":10}),
+Diff in <repository>/crates/suzume-api/tests/mjai_api.rs:50:
+     );
+     assert_eq!(
+-        request(&mut engine, json!({"version":1,"op":"analyze_mjai","format":"annotated_mjai","mjson":wrapped}))["status"],
++        request(
++            &mut engine,
++            json!({"version":1,"op":"analyze_mjai","format":"annotated_mjai","mjson":wrapped})
++        )["status"],
+         "ok"
+     );
+     assert_eq!(
+Diff in <repository>/crates/suzume-api/tests/mjai_api.rs:97:
+         assert_eq!(result["status"], "error");
+         assert_eq!(result["code"], "log_error");
+         assert!(result["message"].as_str().unwrap().contains("line"));
+-        assert_eq!(request(&mut engine, json!({"version":1,"op":"view"})), before);
++        assert_eq!(
++            request(&mut engine, json!({"version":1,"op":"view"})),
++            before
++        );
+     }
+ }
+ 

@@ -12,6 +12,7 @@
 | 画面や別のアプリへ組み込む | [API版1](api/README.md)、[JS/TS SDK](../packages/suzume/README.md)、[ブラウザ例](../examples/browser/README.md) |
 | TOMLで席と算法を設定する | [共通設定](api/configuration.md)、[人間1人の例](ai/example.toml)、[全員AIの例](ai/simulation.toml) |
 | 感想戦・外部牌譜解析・観測出力 | [mjsonログ仕様](logging/README.md)、[外部形式と実牌譜検査](logging/mjai-compatibility.md)、[自作8操作のmjson例](../examples/eight-actions.mjson) |
+| 解析注釈の保存・標準mjsonへの往復 | [注釈付きmjai仕様](logging/annotated-mjai.md)、[SDKの保存入口](../packages/suzume/README.md#原文を保持して注釈を付ける) |
 | 同じコアでの厳密再生・AI判断保存 | [旧replayの互換仕様](logging/legacy-jsonl.md)、[旧8操作の再生例](../examples/replay-eight-actions.jsonl) |
 | 木探索・強化学習を試す | [189行動の環境](api/environment.md)、[算法追加の接続点](ai/extension.md) |
 | AIの判断と評価を調べる | [算法・予算](ai/algorithms.md)、[事前固定した評価条件](ai/evaluation.md)、[全64東風戦の結果](ai/results.md) |
@@ -37,12 +38,14 @@
 | [0005](adr/0005-game-records.md) | 完全再生ログ、共有記録、解析用遷移 |
 | [0006](adr/0006-ai-environment-config.md) | AI算法、研究環境、共通設定 |
 | [0007](adr/0007-mjai-records.md) | mjsonへの既定出力移行、外部解析、情報制限、旧形式との互換性 |
+| [0008](adr/0008-annotated-mjai.md) | 注釈付き記録、原文を保持する往復、数値・注釈・集計の境界 |
 
 ## 開発と検査の根拠
 
 [作業手順](development/workflow.md)は、作業書の作成、独立レビュー、実装、実測、検収の対応を説明します。
-現行の[作業書](workdocs/workdoc_Nov23-2026_mjson.md)、[着手時レビュー](reviews/mjson-baseline-review.md)、
-[独立実装レビュー](reviews/mjson-final-review.md)、[mjson検証結果](verification/mjson-results.md)を入口にしてください。
+現行の[作業書](workdocs/workdoc_Nov23-2026_mjai_annotated.md)、[着手時レビュー](reviews/annotated-baseline-review.md)、
+[作業書の独立レビュー](workdocs/review_Nov23-2026_mjai_annotated.md)を入口にしてください。
+[前回のmjson作業書](workdocs/workdoc_Nov23-2026_mjson.md)、[独立実装レビュー](reviews/mjson-final-review.md)、[mjson検証結果](verification/mjson-results.md)は移行時の記録です。
 従前の[基盤整備作業書](workdocs/workdoc_Nov23-2026_platform.md)、[作業書レビュー](workdocs/review_Nov23-2026_platform.md)、
 [実装監査](reviews/platform-review.md)は当時の要求と結果を保持しています。
 

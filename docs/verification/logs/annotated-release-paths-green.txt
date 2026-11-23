@@ -1,0 +1,20 @@
+Command: python -m unittest discover -s scripts/tests -p test_platform_checks.py
+Exit: 0
+[child-environment] python3 -c import os; print(os.environ.get('SUZUME_TEST_CHILD_ONLY', 'absent'))
+  成功 / exit=0 / 0.02秒
+[missing] suzume-deliberately-absent-executable
+  失敗 / exit=127 / 0.001秒
+コマンドが見つかりません: suzume-deliberately-absent-executable
+
+終了値を確認
+[timeout] python3 -c import time; time.sleep(30)
+  失敗 / exit=124 / 1.004秒
+
+TIMEOUT: 1秒の上限に到達しました。
+
+終了値を確認
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 1.046s
+
+OK

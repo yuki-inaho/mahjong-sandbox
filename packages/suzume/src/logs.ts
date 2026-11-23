@@ -7,6 +7,13 @@ export interface LogLimits {
   readonly maxTotalBytes?: number;
 }
 
+/** Internal shared limits for input and output transports. */
+export function resolveLogLimits(limits: LogLimits): { readonly line: number; readonly records: number; readonly total: number } {
+  const maximum = { line: limits.maxLineBytes ?? 1_048_576, records: limits.maxRecords ?? 10_002, total: limits.maxTotalBytes ?? 268_435_456 };
+  for (const limit of Object.values(maximum)) if (!Number.isSafeInteger(limit) || limit <= 0) throw new ProtocolError('Log limits must be positive safe integers');
+  return maximum;
+}
+
 /** A record parser validates structure only. It does not replay mahjong rules. */
 export function parseLogRecord(text: string): LogRecord {
   const value = parseJson(text); validateDefinition('LogRecord', value); return value as LogRecord;
@@ -17,8 +24,7 @@ export function parseTransition(text: string): DatasetTransition {
 
 /** Shared bounded UTF-8 JSON-lines transport. Consumers define record semantics. */
 export async function* readJsonLines(chunks: AsyncIterable<Uint8Array> | Iterable<Uint8Array>, limits: LogLimits): AsyncGenerator<string> {
-  const maximum = { line: limits.maxLineBytes ?? 1_048_576, records: limits.maxRecords ?? 10_002, total: limits.maxTotalBytes ?? 268_435_456 };
-  for (const limit of Object.values(maximum)) if (!Number.isSafeInteger(limit) || limit <= 0) throw new ProtocolError('Log limits must be positive safe integers');
+  const maximum = resolveLogLimits(limits);
   // The shared record parser has its own 1 MiB cap. A higher line value cannot disable it.
   const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
   const encoder = new TextEncoder();

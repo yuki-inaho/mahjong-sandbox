@@ -56,7 +56,72 @@ def tool_environment() -> dict[str, str]:
     return env
 
 
-def redact(text: str) -> str:
+def _path_spellings(value: str) -> set[str]:
+    """rustcの置換は文字列比較なので、両方の区切り表記を扱います。"""
+    return {value.replace("\\", "/"), value.replace("/", "\\")}
+
+
+def _private_path_remappings(env: dict[str, str]) -> list[tuple[str, str]]:
+    # WindowsのMSYS形式HOMEと実際のユーザーディレクトリは同一とは限りません。
+    home_key = "USERPROFILE" if os.name == "nt" else "HOME"
+    home = Path(env.get(home_key) or str(Path.home()))
+    paths = [(ROOT.parent, "workspace"), (Path.home(), "home"), (home, "home"),
+             (Path(env.get("CARGO_HOME") or str(home / ".cargo")), "cargo"),
+             (Path(env.get("RUSTUP_HOME") or str(home / ".rustup")), "rustup"),
+             (ROOT, "repository")]
+    paths.extend((Path(env[key]), "home") for key in ("HOME", "USERPROFILE") if env.get(key))
+    for key, label in (("CARGO_TARGET_DIR", "target"), ("CARGO_BUILD_BUILD_DIR", "build")):
+        if env.get(key):
+            paths.append((Path(env[key]), label))
+    temporary = Path(tempfile.gettempdir())
+    # /tmpなどの一般的なOS定数は、私的な作業ディレクトリとは区別します。
+    if temporary.parent != Path(temporary.anchor):
+        paths.append((temporary, "temporary"))
+    mappings = {}
+    for path, label in paths:
+        absolute = path if path.is_absolute() else ROOT / path
+        for candidate in (absolute.absolute(), absolute.resolve()):
+            if candidate == Path(candidate.anchor):
+                continue
+            for source in _path_spellings(str(candidate)):
+                if "\x1f" in source:
+                    raise ValueError("配布用経路に環境引数で表現できない区切り文字があります")
+                mappings[source] = f"/suzume/{label}"
+    # rustcは最後に一致した指定を使うため、祖先を先、具体的な経路を後にします。
+    return sorted(mappings.items(), key=lambda pair: (len(pair[0]), pair[0]))
+
+
+def release_environment(base: dict[str, str] | None = None) -> dict[str, str]:
+    """既存の有効なrustflagsを保ち、配布ビルドの子環境だけへ経路置換を追加。"""
+    env = (tool_environment() if base is None else base).copy()
+    # Cargoの優先順位を維持します。設定済みの空encoded値もRUSTFLAGSより優先。
+    if "CARGO_ENCODED_RUSTFLAGS" in env:
+        encoded = env["CARGO_ENCODED_RUSTFLAGS"]
+        flags = encoded.split("\x1f") if encoded else []
+    else:
+        # Cargo本来の空白分割です。シェルの引用符解釈を新たに導入しません。
+        flags = env.get("RUSTFLAGS", "").split()
+    flags.extend(f"--remap-path-prefix={source}={target}" for source, target in _private_path_remappings(env))
+    env["CARGO_ENCODED_RUSTFLAGS"] = "\x1f".join(flags)
+    return env
+
+
+def private_path_prefixes(env: dict[str, str] | None = None) -> tuple[str, ...]:
+    """既知の実環境prefix。値は成果物や公開ログへ保存しません。"""
+    return tuple(source for source, _ in _private_path_remappings(tool_environment() if env is None else env))
+
+
+def private_path_matches(data: bytes, prefixes: tuple[str, ...]) -> int:
+    """既知prefixの一致数。Windowsの区切りとUTF-16 LE/BEも検査します。"""
+    needles = {spelling.encode(encoding) for prefix in prefixes for spelling in _path_spellings(prefix)
+               for encoding in ("utf-8", "utf-16-le", "utf-16-be") if spelling}
+    return sum(data.count(needle) for needle in needles)
+
+
+def redact(text: str, env: dict[str, str] | None = None) -> str:
+    for source, target in reversed(_private_path_remappings(tool_environment() if env is None else env)):
+        label = f"<{target.rsplit('/', 1)[1]}>"
+        text = text.replace(source.replace("\\", "\\\\"), label).replace(source, label)
     for path, label in ((ROOT, "<repository>"), (ROOT.parent, "<workspace>"), (Path.home(), "<home>"), (Path(tempfile.gettempdir()), "<temporary>")):
         text = text.replace(str(path), label).replace(str(path).replace("\\", "/"), label)
     return text
@@ -167,15 +232,15 @@ class Run:
         self.results: list[dict] = []
 
     def execute(self, name: str, command: list[str], cwd: Path = ROOT, timeout: int = 600,
-                validator=None) -> dict:
+                validator=None, env: dict[str, str] | None = None) -> dict:
         if not re.fullmatch(r"[a-z0-9_-]+", name) or any(r["id"] == name for r in self.results):
             raise ValueError(f"検査IDが不正または重複しています: {name}")
         log = self.directory / f"{name}.log"
-        env = tool_environment()
+        env = tool_environment() if env is None else env.copy()
         executable = shutil.which(command[0], path=env["PATH"])
         started = time.monotonic()
         timed_out = False
-        displayed = ["python3" if str(c) == sys.executable else redact(str(c)) for c in command]
+        displayed = ["python3" if str(c) == sys.executable else redact(str(c), env) for c in command]
         print(f"[{name}] {' '.join(displayed)}", flush=True)
         with log.open("x", encoding="utf-8", newline="\n") as stream:
             if not executable:
@@ -214,7 +279,7 @@ class Run:
                             if chunk is None:
                                 ended = True
                             else:
-                                stream.write(redact(chunk))
+                                stream.write(redact(chunk, env))
                                 stream.flush()
                         except queue.Empty:
                             if timed_out and time.monotonic() - started > timeout + 20:
@@ -227,7 +292,7 @@ class Run:
                         stream.write(f"\nTIMEOUT: {timeout}秒の上限に到達しました。\n")
                 except (OSError, subprocess.TimeoutExpired) as error:
                     code = 127
-                    stream.write(redact(str(error)) + "\n")
+                    stream.write(redact(str(error), env) + "\n")
         output = log.read_text(encoding="utf-8")
         semantic = {"success": True, "detail": "終了値を確認"}
         if code == 0 and validator is not None:
@@ -236,7 +301,7 @@ class Run:
             except (ValueError, KeyError, TypeError) as error:
                 semantic = {"success": False, "detail": f"結果を解釈できません: {error}"}
         result = {"id": name, "command": displayed,
-                  "cwd": redact(str(cwd)), "timeout_seconds": timeout, "exit_code": code,
+                  "cwd": redact(str(cwd), env), "timeout_seconds": timeout, "exit_code": code,
                   "timed_out": timed_out, "seconds": round(time.monotonic() - started, 3),
                   "success": code == 0 and not timed_out and semantic["success"], "semantic": semantic,
                   "log": log.name, "log_sha256": digest(log)}

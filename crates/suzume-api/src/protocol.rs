@@ -11,6 +11,16 @@ use serde::{Deserialize, Serialize};
 fn default_limit() -> u32 {
     10_000
 }
+
+/// Explicit record format; omission in existing requests means standard mjai.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MjaiFormat {
+    #[default]
+    Mjai,
+    AnnotatedMjai,
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "op", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Request {
@@ -47,10 +57,12 @@ pub enum Request {
         version: Version,
         toml: String,
     },
-    /// Inspect a decompressed mjson record without changing an active session.
+    /// Inspect decompressed standard or annotated mjai without changing a session.
     AnalyzeMjai {
         version: Version,
         mjson: String,
+        #[serde(default)]
+        format: MjaiFormat,
         #[serde(default)]
         viewer: Option<SeatId>,
     },

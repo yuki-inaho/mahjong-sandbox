@@ -56,6 +56,8 @@ SchemaとSDKは構造・列挙・基本的な整数範囲を検査します。�
 
 `{"version":1,"op":"analyze_mjai","mjson":"...","viewer":0}` は、渡された展開済みUTF-8のmjaiイベント列を解析します。`mjson` は必須文字列、`viewer` は省略またはnullで公開観測、0〜3で指定席の観測です。正常応答の `data.kind` は `mjai`、`summary` はイベント・局・結果の集計、`observation` は終端時の `AgentObservation` です。開始済み対局は不要で、実行中の対局・研究環境・識別子・操作履歴を変更しません。
 
+`format` は省略時に `mjai`、注釈付き記録には `annotated_mjai` を明示します。未知の形式は `invalid_request` です。注釈付きでは外側の版・連番・重複も検査し、内部の原イベントを同じRust解析器へ渡します。注釈を集計・観測へ追加せず、同じイベント列は同じ結果を返します。保存用形式の契約は [注釈付きmjai](../logging/annotated-mjai.md) を参照してください。
+
 要求のJSON全体は既存の1,048,576バイト上限に従います。圧縮バイト列やファイルパスを文字列の代わりに解釈しません。大きい入力とgzipはネイティブの `suzume-api mjai analyze PATH` を使用します。各時点の観測を逐次出力する場合は `suzume-api mjai observations PATH --seat N --output PATH` を使用します。
 
 Rustの `mjai::visit` を通じて型・上限・重複キー・イベント順序・牌の増減・点数と供託を検査します。形式や席型が不正なAPI要求は `invalid_request`、mjson内の構文・意味・末尾の不整合は `log_error` となり、牌譜内の行番号とイベント型を説明に含めます。不正な入力を読み飛ばした集計は返しません。
@@ -70,7 +72,7 @@ Rustの `mjai::visit` を通じて型・上限・重複キー・イベント順�
 
 記録終端と正常終局は別です。`_suzume.reason` で明示する中断・打切りは、まだ終わっていない局を終局と扱いません。終端行そのものが欠落している場合は不完全入力として拒否します。既知の最終持点・供託だけを返し、入力にない情報はnullで示します。
 
-JavaScript/TypeScriptでは `Client.analyzeMjai(mjson, viewer?)` がこの要求を実行します。`parseMjaiEvent` と `readMjaiEvents` は展開済みデータを構造・順序の面から読む入口で、牌の移動や点数の意味検査はRust/WASMへ委ねます。Schemaの `MjaiEvent` は既知項目の投影です。生のmjsonは追加項目を保持するため、その全体へ閉じたSchemaを直接適用しません。通常のAPI要求とは異なり、mjsonの追加メタデータには有限な小数を許容します。詳細な上限と型は[SDK](../../packages/suzume/README.md)に記載しています。
+JavaScript/TypeScriptでは `Client.analyzeMjai(mjson, viewer?, format?)` がこの要求を実行します。`parseMjaiEvent` と `readMjaiEvents` は展開済みデータを構造・順序の面から読む入口で、牌の移動や点数の意味検査はRust/WASMへ委ねます。保存用の原文も必要なら `parseMjaiRecord` / `readMjaiRecords` を使用します。Schemaの `MjaiEvent` は既知項目の投影です。生のmjsonは追加項目を保持するため、その全体へ閉じたSchemaを直接適用しません。通常のAPI要求とは異なり、mjsonの追加メタデータには有限な小数を許容します。解析用の数値は丸められる場合があるため、保存には原文を使います。詳細な上限と型は[SDK](../../packages/suzume/README.md)に記載しています。
 
 この解析は外部規則のすべての役・得点の証明、合法手マスクの生成、自作coreへの完全再生を提供しません。従来のseedと操作列を用いた完全再生は、独自replay形式の入口として維持します。
 

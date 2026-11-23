@@ -118,6 +118,10 @@ python3 scripts/package.py --native-only
 | `suzume-<版>-<OS/CPU>.tar.gz` | その環境でビルドした端末用とAPI用の実行ファイル、MIT本文、起動案内 |
 | `manifest.json` / `SHA256SUMS` | 版、環境、Gitの参照と未コミット状態、ソースと各配布物のハッシュ |
 
+配布用のnative・WASMビルドは、リポジトリ、利用者のホーム、Cargo・Rustupの保存先を `--remap-path-prefix` で一般化します。依存crateも対象にし、既存の `CARGO_ENCODED_RUSTFLAGS`、未設定なら `RUSTFLAGS` を引き継いだ子プロセスの環境だけへ設定します。Cargoの設定ファイルやbuild/target用の指定にあるflagsも必要な場合は、このいずれかへ明示してください。[Cargoの優先順位](https://doc.rust-lang.org/cargo/reference/config.html#buildrustflags)に従い、これらの指定は自動合成されません。
+
+作成したnative書庫の実行ファイル2本とnpm書庫のNode/Web WASM2本について、必須項目の存在と、ビルド環境から得た既知の私的経路の残存を実バイト列で検査します。`--native-only` は実行ファイル2本を対象とします。残存や対象欠落があれば配布検査を失敗させ、公開する結果には私的経路を含めず、相対ファイル名・件数・ハッシュと判定を残します。
+
 未公開の内部依存を含むため、Cargoの書庫作成時だけ `--no-verify --exclude-lockfile` を使用します。その後、作成した全書庫を**別の一時ディレクトリ**に展開し、内部クレートへ向ける `patch.crates-io` と元の `Cargo.lock` を設定します。そこから `cargo build --workspace --locked --offline` を成功させ、出来上がったCLIを起動するまでを必須にします。書庫作成だけを配布検証の成功には数えません。
 
 SDKも別の一時ディレクトリで、実際のnpm書庫を `npm install --offline --ignore-scripts` して検査します。公開されたNode用・Web用の入口から同じ初期対局が得られ、打牌とCPUの一手の結果が一致することを確認します。古いリビジョンの要求は拒否され、状態が変わらないことも検査します。不正JSONのエラー応答を含め、配布したWASMそのものを実行します。公開型の消費試験は `strict`、`noUncheckedIndexedAccess`、`exactOptionalPropertyTypes` を有効にし、要求型が `any` に退化した場合も失敗する例を含みます。

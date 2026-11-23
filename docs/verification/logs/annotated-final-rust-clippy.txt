@@ -1,0 +1,2 @@
+    Checking suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.26s

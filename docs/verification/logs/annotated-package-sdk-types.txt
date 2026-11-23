@@ -1,0 +1,4 @@
+Checked at: 2026-11-23T10:53:41.634039+00:00
+Command: tsc --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noEmit --module NodeNext --target ES2022 --lib ES2022,DOM dist/private-probes/continuation/sdk-consumer/consumer.ts
+
+Exit code: 0

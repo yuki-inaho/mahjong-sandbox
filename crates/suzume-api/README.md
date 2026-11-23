@@ -20,6 +20,22 @@ native CLIは `suzume-api mjai analyze PATH` で非圧縮またはgzipの牌譜�
 Rust reader、JSON APIの `analyze_mjai`、WASMへの入力は展開済みテキストです。
 乱数種・内部操作の厳密再生とAI判断の保存には、旧 `replay` 形式を明示して使用できます。
 
+`mjai::ParsedEvent.json` は保存用の原JSON、`event` と `raw` は解析用です。
+数値の丸め、未知項目や明示nullの欠落を避けるため、原文を型付き値から再生成しません。
+`ParsedEvent` を構造体リテラルで直接生成するRustコードは、追加された `json` 項目への対応が必要です。
+通常は `mjai::parse_record` または `mjai::visit` から受け取り、検査済みの原文と解析値を一緒に扱ってください。
+`mjai::annotated::{wrap, unwrap}` は原文を保持する注釈付き記録との逐次変換、
+`visit_records` と `encode_record` は注釈の読出し・保存に使えます。
+非空注釈の取出しは既定で拒否し、`AnnotationPolicy::Drop` でのみ破棄します。
+戻り値は集計と破棄した注釈行数を含み、全体の正常終端前の出力は暫定です。
+
+CLIの `mjai wrap INPUT --output OUTPUT` と `mjai unwrap INPUT --output OUTPUT` は、
+末尾まで検査した後だけ新規ファイルを公開します。破棄指定は `--drop-annotations` です。
+注釈付き入力の解析・観測には `--format annotated_mjai` を指定します。
+APIの `analyze_mjai.format` も `annotated_mjai` を受理し、省略時は従来の `mjai` です。
+Rustで `Request::AnalyzeMjai` を列挙型リテラルとして直接生成するコードは、
+標準形式なら追加項目 `format: MjaiFormat::Mjai` を指定してください。JSON要求での省略は引き続き有効です。
+
 仕様、再現手順、再生ログの信頼境界は同じリポジトリの `docs/api/`、`docs/logging/`、`docs/development/reproducibility.md` にあります。
 
 ライセンス: MIT。

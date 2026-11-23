@@ -13,7 +13,17 @@ pub fn parse_event(text: &str) -> Result<Event, ApiError> {
     if text.len() > LogLimits::default().max_line_bytes {
         return Err(error(1, "json", "line byte limit exceeded"));
     }
-    Ok(parse_record(text.as_bytes(), 1)?.event)
+    Ok(parse_record_at(text.as_bytes(), 1)?.event)
+}
+
+/// Parse one physical JSON line, retaining its original event object for saving.
+/// This validates structure only; use `visit` for a complete stream's semantics.
+pub fn parse_record(text: &str) -> Result<ParsedEvent, ApiError> {
+    if text.len() > LogLimits::default().max_line_bytes {
+        return Err(error(1, "json", "line byte limit exceeded"));
+    }
+    let text = single_line_fragment(text, 1, "json")?;
+    parse_record_at(text.as_bytes(), 1)
 }
 
 pub fn analyze<R: BufRead + ?Sized>(
@@ -34,10 +44,39 @@ pub fn visit<R: BufRead + ?Sized, F>(
 where
     F: FnMut(&ParsedEvent, &ReplayState) -> Result<(), ApiError>,
 {
+    let mut state = ReplayState::new();
+    let count = visit_lines(reader, limits, |bytes, line| {
+        let record = parse_record_at(bytes, line)?;
+        state.apply(&record)?;
+        consumer(&record, &state).map_err(|cause| {
+            error(
+                line,
+                record.event.kind(),
+                format!("consumer failed: {cause}"),
+            )
+        })
+    })?;
+    finish(&state, count)
+}
+
+pub(super) fn validate_limits(limits: LogLimits) -> Result<(), ApiError> {
     if limits.max_line_bytes == 0 || limits.max_records == 0 || limits.max_total_bytes == 0 {
         return Err(error(1, "limits", "all limits must be positive"));
     }
-    let mut state = ReplayState::new();
+    Ok(())
+}
+
+/// Shared bounded transport. CR counts toward the input line limit; LF counts
+/// toward the total limit. Consumers receive the line without its CRLF/LF.
+pub(super) fn visit_lines<R: BufRead + ?Sized, F>(
+    reader: &mut R,
+    limits: LogLimits,
+    mut consumer: F,
+) -> Result<usize, ApiError>
+where
+    F: FnMut(&[u8], usize) -> Result<(), ApiError>,
+{
+    validate_limits(limits)?;
     let mut count = 0usize;
     let mut total = 0usize;
     loop {
@@ -83,16 +122,12 @@ where
         if bytes.last() == Some(&b'\r') {
             bytes.pop();
         }
-        let record = parse_record(&bytes, count)?;
-        state.apply(&record)?;
-        consumer(&record, &state).map_err(|cause| {
-            error(
-                count,
-                record.event.kind(),
-                format!("consumer failed: {cause}"),
-            )
-        })?;
+        consumer(&bytes, count)?;
     }
+    Ok(count)
+}
+
+pub(super) fn finish(state: &ReplayState, count: usize) -> Result<Summary, ApiError> {
     if !state.is_finished() {
         return Err(error(
             count + 1,
@@ -103,20 +138,39 @@ where
     Ok(state.summary().clone())
 }
 
-fn parse_record(bytes: &[u8], line: usize) -> Result<ParsedEvent, ApiError> {
-    let raw: UniqueValue =
-        serde_json::from_slice(bytes).map_err(|cause| error(line, "json", cause))?;
-    let kind = raw
-        .0
-        .get("type")
-        .and_then(Value::as_str)
-        .unwrap_or("unknown");
-    let event = serde_json::from_value(raw.0.clone()).map_err(|cause| error(line, kind, cause))?;
+pub(super) fn parse_record_at(bytes: &[u8], line: usize) -> Result<ParsedEvent, ApiError> {
+    let raw = parse_unique_json(bytes, line, "json")?;
+    let kind = raw.get("type").and_then(Value::as_str).unwrap_or("unknown");
+    let event = serde_json::from_value(raw.clone()).map_err(|cause| error(line, kind, cause))?;
+    let text = std::str::from_utf8(bytes).map_err(|cause| error(line, "json", cause))?;
     Ok(ParsedEvent {
         line,
         event,
-        raw: raw.0,
+        raw,
+        json: trim_json_whitespace(text).to_owned(),
     })
+}
+
+pub(super) fn parse_unique_json(bytes: &[u8], line: usize, kind: &str) -> Result<Value, ApiError> {
+    let raw: UniqueValue =
+        serde_json::from_slice(bytes).map_err(|cause| error(line, kind, cause))?;
+    Ok(raw.0)
+}
+
+fn trim_json_whitespace(text: &str) -> &str {
+    text.trim_matches([' ', '\t', '\r', '\n'])
+}
+
+pub(super) fn single_line_fragment<'a>(
+    text: &'a str,
+    line: usize,
+    kind: &str,
+) -> Result<&'a str, ApiError> {
+    let text = trim_json_whitespace(text);
+    if text.contains(['\r', '\n']) {
+        return Err(error(line, kind, "JSON must occupy one physical line"));
+    }
+    Ok(text)
 }
 
 // A Value alone would lose duplicate object keys before serde sees the event.

@@ -1,0 +1,173 @@
+Checked at: 2026-11-23T10:44:50.074265+00:00
+Command: uv run --no-project python -m unittest discover -s scripts/tests -p test_mjai_real.py
+Initial failure kind: new comparison helpers are not implemented (AttributeError); no product success claimed.
+...E.EEEEE....EEE...EEEEEE...
+======================================================================
+ERROR: test_equal_final_observation_cannot_hide_a_changed_prefix (test_mjai_real.MjaiRealChecks.test_equal_final_observation_cannot_hide_a_changed_prefix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 208, in test_equal_final_observation_cannot_hide_a_changed_prefix
+    self.compare_observations(rows)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 195, in compare_observations
+    return VERIFY.check_observations(*paths, ["start_game", "none", "none", "end_game"], 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_observations'
+
+======================================================================
+ERROR: test_frozen_corpus_roundtrip_checks_complete_bytes_as_well_as_lines (test_mjai_real.MjaiRealChecks.test_frozen_corpus_roundtrip_checks_complete_bytes_as_well_as_lines)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 188, in test_frozen_corpus_roundtrip_checks_complete_bytes_as_well_as_lines
+    self.compare_roundtrip(SYNTHETIC_RECORD.replace(b'\n', b'\r\n'))
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+======================================================================
+ERROR: test_identical_outputs_cannot_hide_opponent_hand_fields (test_mjai_real.MjaiRealChecks.test_identical_outputs_cannot_hide_opponent_hand_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 232, in test_identical_outputs_cannot_hide_opponent_hand_fields
+    self.compare_observations(rows, expected=rows)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 195, in compare_observations
+    return VERIFY.check_observations(*paths, ["start_game", "none", "none", "end_game"], 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_observations'
+
+======================================================================
+ERROR: test_identical_outputs_cannot_hide_raw_record_leakage (test_mjai_real.MjaiRealChecks.test_identical_outputs_cannot_hide_raw_record_leakage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 226, in test_identical_outputs_cannot_hide_raw_record_leakage
+    self.compare_observations(rows, expected=rows)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 195, in compare_observations
+    return VERIFY.check_observations(*paths, ["start_game", "none", "none", "end_game"], 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_observations'
+
+======================================================================
+ERROR: test_independent_red_counter_counts_events_and_accepts_the_ura_alias (test_mjai_real.MjaiRealChecks.test_independent_red_counter_counts_events_and_accepts_the_ura_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 250, in test_independent_red_counter_counts_events_and_accepts_the_ura_alias
+    self.assertEqual(VERIFY.count_known_red_events(events), 5)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'count_known_red_events'
+
+======================================================================
+ERROR: test_independent_red_counter_ignores_names_and_extensions (test_mjai_real.MjaiRealChecks.test_independent_red_counter_ignores_names_and_extensions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 240, in test_independent_red_counter_ignores_names_and_extensions
+    self.assertEqual(VERIFY.count_known_red_events(events), 0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'count_known_red_events'
+
+======================================================================
+ERROR: test_observations_compare_all_event_positions (test_mjai_real.MjaiRealChecks.test_observations_compare_all_event_positions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 198, in test_observations_compare_all_event_positions
+    result = self.compare_observations(synthetic_observations())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/tests/test_mjai_real.py", line 195, in compare_observations
+    return VERIFY.check_observations(*paths, ["start_game", "none", "none", "end_game"], 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_observations'
+
+======================================================================
+ERROR: test_observations_reject_missing_prefix_even_if_final_matches (test_mjai_real.MjaiRealChecks.test_observations_reject_missing_prefix_even_if_final_matches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 214, in test_observations_reject_missing_prefix_even_if_final_matches
+    self.compare_observations(rows)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 195, in compare_observations
+    return VERIFY.check_observations(*paths, ["start_game", "none", "none", "end_game"], 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_observations'
+
+======================================================================
+ERROR: test_observations_require_the_requested_seat (test_mjai_real.MjaiRealChecks.test_observations_require_the_requested_seat)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 220, in test_observations_require_the_requested_seat
+    self.compare_observations(rows)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 195, in compare_observations
+    return VERIFY.check_observations(*paths, ["start_game", "none", "none", "end_game"], 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_observations'
+
+======================================================================
+ERROR: test_roundtrip_checks_every_event_and_preserves_number_tokens (test_mjai_real.MjaiRealChecks.test_roundtrip_checks_every_event_and_preserves_number_tokens)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 155, in test_roundtrip_checks_every_event_and_preserves_number_tokens
+    result = self.compare_roundtrip(SYNTHETIC_RECORD)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+======================================================================
+ERROR: test_roundtrip_does_not_treat_rounded_numbers_as_equal (test_mjai_real.MjaiRealChecks.test_roundtrip_does_not_treat_rounded_numbers_as_equal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 184, in test_roundtrip_does_not_treat_rounded_numbers_as_equal
+    self.compare_roundtrip(changed)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+======================================================================
+ERROR: test_roundtrip_rejects_loss_of_explicit_null (test_mjai_real.MjaiRealChecks.test_roundtrip_rejects_loss_of_explicit_null)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 168, in test_roundtrip_rejects_loss_of_explicit_null
+    self.compare_roundtrip(changed)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+======================================================================
+ERROR: test_roundtrip_rejects_one_deleted_extension_field (test_mjai_real.MjaiRealChecks.test_roundtrip_rejects_one_deleted_extension_field)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 163, in test_roundtrip_rejects_one_deleted_extension_field
+    self.compare_roundtrip(changed)
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+======================================================================
+ERROR: test_roundtrip_rejects_one_missing_event (test_mjai_real.MjaiRealChecks.test_roundtrip_rejects_one_missing_event)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 179, in test_roundtrip_rejects_one_missing_event
+    self.compare_roundtrip(b''.join(lines[:1] + lines[2:]))
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+======================================================================
+ERROR: test_roundtrip_rejects_reordering_with_identical_type_counts (test_mjai_real.MjaiRealChecks.test_roundtrip_rejects_reordering_with_identical_type_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_mjai_real.py", line 174, in test_roundtrip_rejects_reordering_with_identical_type_counts
+    self.compare_roundtrip(b''.join(lines))
+  File "<repository>/scripts/tests/test_mjai_real.py", line 152, in compare_roundtrip
+    return VERIFY.check_roundtrip(original, restored, 4)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_mjai_real' has no attribute 'check_roundtrip'
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.020s
+
+FAILED (errors=15)
+
+Exit code: 1

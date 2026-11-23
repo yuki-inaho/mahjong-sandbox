@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createNodeEngine } from '../dist/node.js';
 import { createBrowserEngine } from '../dist/browser.js';
 import { Engine } from '../wasm/node/suzume_wasm.js';
-import { ApiFault, ProtocolError, parseResponse } from '../dist/index.js';
+import { ApiFault, ProtocolError, parseResponse, encodeAnnotatedMjaiRecord } from '../dist/index.js';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 
@@ -137,5 +137,50 @@ test('mjson analysis uses the same real Node/Web WASM and native semantics witho
     assert.equal(native.error, undefined); assert.equal(native.status, 0, native.stderr);
     const nativeResult = parseResponse(native.stdout);
     assert.equal(nativeResult.status, 'ok'); assert.deepEqual(nativeResult.data, result);
+  } finally { node.close(); web.close(); }
+});
+
+test('annotated input matches standard analysis for all viewers in native and both real WASM bindings', async () => {
+  const mjson = readFileSync(new URL('../../../examples/eight-actions.mjson', import.meta.url), 'utf8');
+  const annotations = '{"private":"ANNOTATION_PRIVATE_SENTINEL","numeric":9007199254740993e0,"tiny":1e-400}';
+  const wrapped = mjson.trimEnd().split('\n').map((event, index) => encodeAnnotatedMjaiRecord(event, index + 1, annotations)).join('\n') + '\n';
+  const wasmBytes = readFileSync(new URL('../wasm/web/suzume_wasm_bg.wasm', import.meta.url));
+  const node = createNodeEngine();
+  const web = await createBrowserEngine(wasmBytes);
+  const requests = [];
+  const expectedNative = [];
+  try {
+    const before = await node.newGame();
+    for (const viewer of [undefined, 0, 1, 2, 3]) {
+      const expected = await node.analyzeMjai(mjson, viewer);
+      assert.deepEqual(await node.analyzeMjai(mjson, viewer, 'mjai'), expected);
+      for (const client of [node, web]) {
+        const actual = await client.analyzeMjai(wrapped, viewer, 'annotated_mjai');
+        assert.deepEqual(actual, expected);
+        assert.equal(JSON.stringify(actual).includes('ANNOTATION_PRIVATE_SENTINEL'), false);
+        assert.equal('annotations' in actual.observation, false);
+        assert.equal('event' in actual.observation, false);
+      }
+      requests.push(JSON.stringify({ version: 1, op: 'analyze_mjai', format: 'annotated_mjai', mjson: wrapped, ...(viewer === undefined ? {} : { viewer }) }));
+      expectedNative.push(expected);
+    }
+    assert.deepEqual(await node.view(), before);
+    const environment = await node.environmentReset('17', 10);
+    await node.analyzeMjai(wrapped, 0, 'annotated_mjai');
+    assert.deepEqual(await node.environmentView(), environment);
+    const invalid = wrapped.replace('"actor":0', '"actor":0.0');
+    assert.notEqual(invalid, wrapped);
+    await assert.rejects(node.analyzeMjai(invalid, 0, 'annotated_mjai'), error => error instanceof ApiFault && error.code === 'log_error');
+    await assert.rejects(node.analyzeMjai(wrapped, 0, 'unknown'), ProtocolError);
+    await assert.rejects(node.analyzeMjai(wrapped), error => error instanceof ApiFault && error.code === 'log_error');
+    assert.deepEqual(await node.environmentView(), environment);
+    const native = spawnSync('cargo', ['run', '--quiet', '--locked', '-p', 'suzume-api', '--bin', 'suzume-api', '--', 'serve'], {
+      cwd: root, input: requests.join('\n') + '\n', encoding: 'utf8', timeout: 120_000,
+    });
+    assert.equal(native.error, undefined); assert.equal(native.status, 0, native.stderr);
+    const actualNative = native.stdout.trimEnd().split('\n').map(line => {
+      const result = parseResponse(line); assert.equal(result.status, 'ok'); return result.data;
+    });
+    assert.deepEqual(actualNative, expectedNative);
   } finally { node.close(); web.close(); }
 });

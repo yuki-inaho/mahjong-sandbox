@@ -1,0 +1,57 @@
+{
+  "schema": "suzume-run/1",
+  "id": "20261123T111629Z-249d004401",
+  "started_at": "2026-11-23T11:16:29.757319+00:00",
+  "finished_at": "2026-11-23T11:17:13.476824+00:00",
+  "checks": [
+    {
+      "id": "remapped-native-build",
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--release",
+        "--target-dir",
+        "<repository>/target",
+        "-p",
+        "suzume-cli",
+        "-p",
+        "suzume-api",
+        "--bins"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 42.638,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "remapped-native-build.log",
+      "log_sha256": "eaff1ad3076068a4ef1e29e3b6e0fb57431a45029bb36f95f5579e3852b3ba78"
+    },
+    {
+      "id": "remapped-wasm-build",
+      "command": [
+        "python3",
+        "scripts/build_wasm.py"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 1200,
+      "exit_code": 1,
+      "timed_out": false,
+      "seconds": 0.315,
+      "success": false,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "remapped-wasm-build.log",
+      "log_sha256": "eac556d6557efc1fc3f61f3037dd165b12ce63884d1d2d487983f267b3ddfc57"
+    }
+  ],
+  "scope": "release native and wasm build only",
+  "success": false
+}

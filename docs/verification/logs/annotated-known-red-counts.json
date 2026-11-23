@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "cases": [
+    {
+      "id": "chankan",
+      "known_red_events": 2,
+      "frozen_expected": 2,
+      "matches": true
+    },
+    {
+      "id": "complex_nakis_0",
+      "known_red_events": 1,
+      "frozen_expected": 1,
+      "matches": true
+    },
+    {
+      "id": "complex_nakis_1",
+      "known_red_events": 2,
+      "frozen_expected": 2,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_0",
+      "known_red_events": 6,
+      "frozen_expected": 6,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_1",
+      "known_red_events": 2,
+      "frozen_expected": 2,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_2",
+      "known_red_events": 0,
+      "frozen_expected": 0,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_3",
+      "known_red_events": 1,
+      "frozen_expected": 1,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_4",
+      "known_red_events": 4,
+      "frozen_expected": 4,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_5",
+      "known_red_events": 3,
+      "frozen_expected": 3,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_6",
+      "known_red_events": 4,
+      "frozen_expected": 4,
+      "matches": true
+    },
+    {
+      "id": "confusing_nakis_7",
+      "known_red_events": 1,
+      "frozen_expected": 1,
+      "matches": true
+    },
+    {
+      "id": "double_kakan_then_chankan",
+      "known_red_events": 2,
+      "frozen_expected": 2,
+      "matches": true
+    },
+    {
+      "id": "double_ron",
+      "known_red_events": 1,
+      "frozen_expected": 1,
+      "matches": true
+    },
+    {
+      "id": "four_reach",
+      "known_red_events": 4,
+      "frozen_expected": 4,
+      "matches": true
+    },
+    {
+      "id": "kyushukyuhai",
+      "known_red_events": 1,
+      "frozen_expected": 1,
+      "matches": true
+    },
+    {
+      "id": "ranked_game",
+      "known_red_events": 10,
+      "frozen_expected": 10,
+      "matches": true
+    },
+    {
+      "id": "rinshan",
+      "known_red_events": 1,
+      "frozen_expected": 1,
+      "matches": true
+    },
+    {
+      "id": "ryukyoku",
+      "known_red_events": 2,
+      "frozen_expected": 2,
+      "matches": true
+    },
+    {
+      "id": "suukantsu_0",
+      "known_red_events": 5,
+      "frozen_expected": 5,
+      "matches": true
+    },
+    {
+      "id": "suukantsu_1",
+      "known_red_events": 6,
+      "frozen_expected": 6,
+      "matches": true
+    }
+  ],
+  "checked_cases": 20,
+  "known_red_events": 58
+}

@@ -1,0 +1,370 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.68s
+     Running unittests src/lib.rs (target/debug/build/suzume/d442d5cf5ed2c178/out/suzume-d442d5cf5ed2c178)
+
+running 66 tests
+test contracts::tests::dora_wraps_inside_each_family ... ok
+test contracts::tests::points_transfer_preserves_total_including_escrow ... ok
+test contracts::tests::checked_in_declarations_match_generated_outputs ... ok
+test contracts::tests::rejected_transfer_leaves_every_account_unchanged ... ok
+test ai::tests::win_has_priority_over_call_and_pass ... ok
+test contracts::tests::next_seat_wraps_and_rejects_invalid ... ok
+test contracts::tests::riichi_requires_every_declared_precondition ... ok
+test contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full ... ok
+test ai::tests::chi_with_a_terminal_is_not_treated_as_open_tanyao ... ok
+test game::core_boundary_tests::action_labels_handle_invalid_indexes_without_panicking ... ok
+test game::tests::dealer_tsumo_rounds_each_payment_and_continues_the_dealership ... ok
+test game::tests::chi_is_only_from_the_left_and_forbids_both_kuikae_tiles ... ok
+test game::tests::calling_the_declaration_tile_establishes_riichi_but_cancels_ippatsu ... ok
+test game::tests::exhaustive_draw_rotates_a_not_ready_dealer_but_keeps_honba ... ok
+test game::tests::exhaustive_draw_with_two_ready_players_transfers_fifteen_hundred_each ... ok
+test game::tests::last_discard_after_rinshan_can_award_houtei ... ok
+test game::platform_tests::temporary_furiten_expires_after_called_discard ... ok
+test contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid ... ok
+test game::tests::nondealer_tsumo_includes_honba_and_the_riichi_pot ... ok
+test game::tests::head_bump_uses_distance_from_the_discarder ... ok
+test game::tests::open_kan_draws_from_the_dead_wall_and_preserves_inventory ... ok
+test game::core_boundary_tests::seat_lookup_handles_the_full_usize_domain_without_panicking ... ok
+test game::tests::rinshan_does_not_combine_with_haitei_when_the_live_wall_becomes_empty ... ok
+test game::tests::riichi_is_deferred_until_declaration_tile_survives ... ok
+test game::tests::ron_on_declaration_tile_cancels_the_riichi_deposit ... ok
+test game::tests::ron_has_priority_over_pon_and_chi ... ok
+test game::core_boundary_tests::validated_seat_rejects_before_narrowing_the_integer ... ok
+test game::tests::temporary_furiten_expires_on_the_next_draw ... ok
+test game::tests::pon_has_priority_over_chi_and_does_not_create_a_tsumo ... ok
+test hand::tests::does_not_join_sequences_across_suits ... ok
+test hand::tests::handles_four_open_groups_and_pair_wait ... ok
+test hand::tests::keeps_ambiguous_decompositions_for_scoring ... ok
+test hand::tests::quads_are_not_two_pairs ... ok
+test hand::tests::a_wait_requiring_a_fifth_tile_is_not_tenpai ... ok
+test hand::tests::recognizes_standard_seven_pairs_and_orphans ... ok
+test hand::tests::validates_size_multiplicity_and_open_meld_count ... ok
+test scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape ... ok
+test scoring::tests::closed_edge_inside_and_pair_waits_add_fu ... ok
+test scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu ... ok
+test scoring::tests::dora_alone_cannot_make_a_yaku ... ok
+test scoring::tests::double_riichi_replaces_riichi_and_ippatsu_combines ... ok
+test scoring::tests::double_wind_pair_counts_four_fu ... ok
+test scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu ... ok
+test scoring::tests::four_kans_accept_eighteen_physical_tiles ... ok
+test scoring::tests::inconsistent_context_and_absent_winning_tile_are_rejected ... ok
+test scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman ... ok
+test scoring::tests::open_tanyao_without_other_fu_is_thirty_fu ... ok
+test scoring::tests::malformed_melds_and_fifth_physical_tile_are_rejected ... ok
+test scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty ... ok
+test scoring::tests::points_follow_declared_limits_without_kiriage ... ok
+test scoring::tests::recognizes_nine_gates_green_and_big_dragons ... ok
+test scoring::tests::recognizes_sequence_and_outside_yaku ... ok
+test scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets ... ok
+test hand::tests::enumerates_both_waits_and_thirteen_orphan_waits ... ok
+test game::tests::riichi_furiten_survives_the_next_draw_and_discard_is_locked ... ok
+test scoring::tests::seven_pairs_uses_fixed_twenty_five_fu ... ok
+test tile::tests::dora_wraps_each_suit_and_honor_family ... ok
+test scoring::tests::ura_is_only_counted_for_riichi ... ok
+test tile::tests::counting_arbitrary_input_does_not_overflow ... ok
+test tile::tests::compact_text_round_trips_all_tiles ... ok
+test scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled ... ok
+test tile::tests::every_byte_is_valid_exactly_for_34_tiles ... ok
+test tile::tests::parser_rejects_red_incomplete_and_fifth_copies ... ok
+test game::tests::yaku_less_completion_still_causes_temporary_furiten ... ok
+test game::core_boundary_tests::committing_an_action_keeps_existing_log_storage ... ok
+test ai::tests::ai_returns_only_legal_actions ... ok
+
+test result: ok. 66 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+     Running unittests src/bin/suzume-ai-eval.rs (target/debug/build/suzume/11744090bccff6d6/out/suzume_ai_eval-11744090bccff6d6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/ai_contracts.rs (target/debug/build/suzume/0e8a3bd6c53d4812/out/ai_contracts-0e8a3bd6c53d4812)
+
+running 9 tests
+test ai_config_rejects_conflicting_algorithm_parameters ... ok
+test ai_public_tile_counts_do_not_double_count_called_discard ... ok
+test ai_rejects_invalid_observations_and_action_indices ... ok
+test ai_does_not_treat_a_fifth_owned_tile_as_tenpai ... ok
+test ai_depth_two_reports_measured_lookahead ... ok
+test ai_never_exceeds_declared_evaluation_budget ... ok
+test ai_ukeire_avoids_publicly_exhausted_wait ... ok
+test ai_is_deterministic_for_same_inputs_and_seed ... ok
+test ai_all_algorithms_stay_legal_on_real_transitions ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.08s
+
+     Running tests/ai_evaluation_cli.rs (target/debug/build/suzume/9b1ca2a37a0a8e0e/out/ai_evaluation_cli-9b1ca2a37a0a8e0e)
+
+running 3 tests
+test evaluation_rejects_overriding_the_frozen_experiment ... ok
+test evaluation_rejects_holdout_seeds_in_development_mode ... ok
+test evaluation_reports_frozen_denominators_and_resolved_configs ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/game_contracts.rs (target/debug/build/suzume/d92596c711a50bad/out/game_contracts-d92596c711a50bad)
+
+running 4 tests
+test opponent_observation_exposes_only_public_information ... ok
+test illegal_action_is_atomic ... ok
+test a_seed_and_action_history_replay_identically ... ok
+test seeded_games_preserve_invariants ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.24s
+
+     Running unittests src/lib.rs (target/debug/build/suzume-api/1b94301273fb3219/out/suzume_api-1b94301273fb3219)
+
+running 2 tests
+test mjai_api_tests::mjai_analysis_preserves_session_and_redacts_other_hands ... ok
+test mjai_api_tests::mjai_analysis_reports_input_position_without_mutating_environment ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running unittests src/bin/export-schema.rs (target/debug/build/suzume-api/bdf785badc05d626/out/export_schema-bdf785badc05d626)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/suzume-api.rs (target/debug/build/suzume-api/29521c598e5bf081/out/suzume_api-29521c598e5bf081)
+
+running 1 test
+test tests::refuses_to_remove_a_temporary_file_it_did_not_create ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/api_boundary.rs (target/debug/build/suzume-api/cc5a9792670a926c/out/api_boundary-cc5a9792670a926c)
+
+running 4 tests
+test malformed_unknown_and_unsupported_requests_are_explicit_errors ... ok
+test new_game_hides_other_hands_and_seed ... ok
+test old_session_action_cannot_affect_a_restarted_game ... ok
+test stale_and_illegal_requests_leave_every_observable_field_unchanged ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/config_environment.rs (target/debug/build/suzume-api/100fa6f867a18219/out/config_environment-100fa6f867a18219)
+
+running 5 tests
+test seeds_preserve_the_entire_unsigned_64_bit_domain ... ok
+test configuration_rejects_unknown_duplicate_conflicting_and_out_of_range_values ... ok
+test configuration_toml_roundtrip_including_public_viewer ... ok
+test invalid_and_reserved_environment_actions_are_atomic ... ok
+test environment_reset_branch_masks_rewards_and_truncation_are_explicit ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/environment_match.rs (target/debug/build/suzume-api/7cc07ed7a3b28df2/out/environment_match-7cc07ed7a3b28df2)
+
+running 1 test
+test every_legal_action_roundtrips_to_a_legal_canonical_action_through_a_complete_match ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.85s
+
+     Running tests/file_cli.rs (target/debug/build/suzume-api/5406206519e7ee16/out/file_cli-5406206519e7ee16)
+
+running 2 tests
+test malformed_late_input_does_not_publish_a_partial_dataset ... ok
+test replay_and_dataset_use_the_shipped_recording ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/logging.rs (target/debug/build/suzume-api/1880d4abff7ba1dc/out/logging-1880d4abff7ba1dc)
+
+running 16 tests
+test full_log_records_resolved_configuration_and_roundtrips_schema_types ... ok
+test duplicate_keys_at_top_level_and_inside_nested_types_are_rejected ... ok
+test complete_final_line_without_newline_and_crlf_are_accepted ... ok
+test line_count_total_and_buffer_limits_are_enforced ... ok
+test decision_metadata_is_consistent_and_never_appears_in_public_output ... ok
+test interrupted_empty_and_nonempty_logs_are_explicitly_truncated_datasets ... ok
+test public_log_contains_only_public_views_and_semantic_actions ... ok
+test writer_rejects_skips_wrong_actor_and_false_termination ... ok
+test streaming_output_is_provisional_until_the_footer_and_eof_are_validated ... ok
+test io_and_callback_failures_are_not_successful_logs ... ok
+test truncated_logs_keep_the_last_observation_for_value_bootstrapping ... ok
+test missing_reordered_extra_or_truncated_records_never_count_as_complete ... ok
+test malformed_versions_metadata_fields_and_sequences_are_rejected ... ok
+test dataset_uses_the_same_observations_actions_and_rewards_as_environment ... ok
+test replay_restores_full_game_and_exact_hand_index_history ... ok
+test a_complete_match_is_distinct_from_an_external_cutoff ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.23s
+
+     Running tests/mjai_annotated.rs (target/debug/build/suzume-api/d057b5dd2da299b4/out/mjai_annotated-d057b5dd2da299b4)
+
+running 13 tests
+test encoder_enforces_index_single_physical_line_and_json_ascii_whitespace ... ok
+test output_line_and_total_limits_count_utf8_and_final_lf ... ok
+test encoder_preserves_both_originals_without_trusting_mutated_projections ... ok
+test annotated_input_limits_cover_crlf_records_and_invalid_utf8 ... ok
+test annotations_require_explicit_drop_and_count_annotated_records ... ok
+test conversions_never_report_success_before_clean_eof_and_successful_writes ... ok
+test rejects_bad_outer_contract_duplicates_and_integer_lexemes ... ok
+test single_record_retains_original_json_with_precision_null_and_key_order ... ok
+test wrap_rejects_internal_cr_before_writing_an_unreadable_envelope ... ok
+test wrap_and_unwrap_preserve_event_originals_and_summary ... ok
+test visits_validate_contiguous_indexes_end_game_and_semantics ... ok
+test wrappers_do_not_change_replay_observations_or_count_annotation_red_tiles ... ok
+test raw_subtrees_preserve_the_existing_depth_and_finite_number_limits ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/mjai_annotated_cli.rs (target/debug/build/suzume-api/a86c7414c118b0f5/out/mjai_annotated_cli-a86c7414c118b0f5)
+
+running 7 tests
+test annotations_require_explicit_discard_and_report_affected_rows ... ok
+test report_failure_explicitly_identifies_the_already_published_file ... ok
+test wrap_and_unwrap_keep_original_json_and_refuse_overwrite ... ok
+test gzip_is_detected_for_both_conversion_directions ... ok
+test late_corruption_and_truncated_gzip_never_publish_converted_files ... ok
+test annotated_analysis_and_observations_match_standard_without_annotations ... ok
+test wrapping_refuses_output_that_exceeds_line_limit ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/mjai_api.rs (target/debug/build/suzume-api/c15ed52fab6b7635/out/mjai_api-c15ed52fab6b7635)
+
+running 3 tests
+test unknown_formats_and_wrong_explicit_formats_are_rejected ... ok
+test annotated_invalid_inputs_preserve_the_active_session_and_report_a_line ... ok
+test standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/mjai_cli.rs (target/debug/build/suzume-api/2f5019cfd39e2c6c/out/mjai_cli-2f5019cfd39e2c6c)
+
+running 6 tests
+test cli_rejects_truncated_gzip ... ok
+test corrupt_tail_never_publishes_observations ... ok
+test observations_do_not_expose_other_hands ... ok
+test cli_analyzes_plain_and_gzip_by_content ... ok
+test cli_converts_legacy_and_refuses_existing_destination ... ok
+test gzip_cannot_bypass_decompressed_line_limit ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/mjai_parser.rs (target/debug/build/suzume-api/3a189b32807910bf/out/mjai_parser-3a189b32807910bf)
+
+running 32 tests
+test accepts_original_uradora_alias_without_erasing_raw_fields ... ok
+test accepts_exact_limits_without_an_off_by_one_rejection ... ok
+test accounts_for_accepted_reach_and_winning_deposit_without_inventing_scores ... ok
+test does_not_call_consumer_after_an_invalid_event ... ok
+test consumes_four_tiles_and_requires_replacement_draw_after_ankan ... ok
+test explicit_interruption_is_distinct_from_clean_completion_and_missing_footer ... ok
+test missing_score_deltas_are_unknown_instead_of_assumed_zero ... ok
+test enforces_stream_limits_and_rejects_invalid_utf8 ... ok
+test propagates_consumer_failure_instead_of_returning_complete_success ... ok
+test multiple_ron_on_one_discard_still_accumulates_each_settlement ... ok
+test rejected_late_settlement_does_not_mutate_the_accepted_prefix ... ok
+test red_events_excludes_names_and_uninterpreted_extension_strings ... ok
+test observations_distinguish_input_end_from_natural_round_and_game_end ... ok
+test rejects_duplicate_keys_before_typed_deserialization ... ok
+test rejects_impossible_fifth_copy_in_known_initial_hands ... ok
+test rejects_invalid_tile_actor_and_three_player_input ... ok
+test counts_a_called_discard_only_in_the_meld_at_the_136_tile_boundary ... ok
+test rejects_duplicate_reach_acceptance_and_score_overflow ... ok
+test rejects_meld_shapes_and_calls_from_the_wrong_seat ... ok
+test preserves_red_unknown_and_extension_data_but_masks_other_hands ... ok
+test rejects_missing_end_and_events_after_completion ... ok
+test rejects_scores_changed_without_a_recorded_settlement_between_rounds ... ok
+test rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn ... ok
+test requires_clean_eof_even_after_end_game ... ok
+test tedashi_with_an_identical_known_copy_preserves_the_draw ... ok
+test supports_crlf_and_missing_last_newline ... ok
+test ron_after_tsumo_is_rejected_without_changing_the_settled_state ... ok
+test unknown_tedashi_retains_the_known_just_drawn_tile ... ok
+test semantic_failures_include_line_and_event_type ... ok
+test unknown_tsumogiri_consumes_the_known_just_drawn_tile ... ok
+test rejects_a_137th_retained_tile_including_unknowns_without_mutation ... ok
+test validates_native_final_deposit_payout_without_arbitrary_score_override ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/mjai_writer.rs (target/debug/build/suzume-api/a92fd658a8f3d929/out/mjai_writer-a92fd658a8f3d929)
+
+running 8 tests
+test partial_io_failure_is_reported ... ok
+test partial_record_write_poison_cannot_be_retried ... ok
+test public_mjai_masks_all_initial_hands_and_draws ... ok
+test partial_reactions_emit_no_fictitious_draw_or_call ... ok
+test initial_dealer_draw_is_separate_from_thirteen_tile_hands ... ok
+test writer_rejects_skipped_operations_and_wrong_finish_reason ... ok
+test reach_acceptance_precedes_call_from_a_lower_numbered_seat ... ok
+test complete_native_games_match_mjai_rounds_and_final_scores ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.41s
+
+     Running tests/transport.rs (target/debug/build/suzume-api/c885722d8286af15/out/transport-c885722d8286af15)
+
+running 3 tests
+test output_failure_is_propagated ... ok
+test too_large_or_invalid_configuration_preserves_the_active_game ... ok
+test oversized_invalid_utf8_and_malformed_lines_do_not_desynchronize_transport ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/main.rs (target/debug/build/suzume-cli/f9cb7ab18ced4213/out/suzume-f9cb7ab18ced4213)
+
+running 6 tests
+test ui::tests::ambiguous_calls_require_an_explicit_menu_choice ... ok
+test ui::tests::invalid_input_does_not_become_a_discard ... ok
+test tests::cli_help_and_invalid_arguments ... ok
+test ui::tests::numbered_discards_and_riichi_are_distinct ... ok
+test ui::tests::japanese_width_and_color_do_not_break_the_frame ... ok
+test tests::cli_accepts_each_documented_mode ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli.rs (target/debug/build/suzume-cli/de8fb23a80727690/out/cli-de8fb23a80727690)
+
+running 20 tests
+test cli_config_and_seed_are_rejected_as_conflicting ... ok
+test cli_config_applies_the_operation_limit ... ok
+test cli_default_seed_is_reproducible ... ok
+test cli_config_applies_seed_to_snapshot ... ok
+test cli_config_rejects_oversize_utf8_and_fixed_viewer_mismatch ... ok
+test cli_config_rejects_incompatible_controllers ... ok
+test cli_config_reuses_shared_validation ... ok
+test cli_mjai_public_masks_dealt_and_drawn_tiles ... ok
+test help_is_available_without_starting_a_game ... ok
+test cli_log_rejects_multiple_matches_and_existing_files ... ok
+test invalid_human_input_recovers_and_quit_exits ... ok
+test invalid_cli_arguments_fail_with_a_reason ... ok
+test eof_closes_the_game_without_waiting ... ok
+test plain_snapshot_has_no_terminal_control_sequences ... ok
+test cli_early_stops_write_valid_interrupted_logs ... ok
+test cli_public_log_omits_private_data ... ok
+test cli_configured_policies_and_replay_match_actual_actions ... ok
+test cli_demo_stops_after_one_round_and_records_interruption ... ok
+test cli_default_log_is_mjson_and_matches_final_scores ... ok
+test cli_complete_simulation_log_replays ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.79s
+
+     Running unittests src/lib.rs (target/debug/build/suzume-wasm/09771204dc8c2df6/out/suzume_wasm-09771204dc8c2df6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests suzume
+
+running 1 test
+test src/contracts.rs - contracts (line 7) - compile fail ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+   Doc-tests suzume_api
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests suzume_wasm
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

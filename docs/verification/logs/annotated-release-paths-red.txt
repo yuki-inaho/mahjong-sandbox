@@ -1,0 +1,133 @@
+Command: python -m unittest scripts.tests.test_platform_checks.ReleasePrivacyTests
+Exit: 1
+EEEEEEEEEEEEEE
+======================================================================
+ERROR: test_archive_scan_rejects_embedded_prefix_without_disclosing_its_value (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_archive_scan_rejects_embedded_prefix_without_disclosing_its_value)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 111, in test_archive_scan_rejects_embedded_prefix_without_disclosing_its_value
+    report = distribution.scan_distribution_paths([(archive, {
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'package' has no attribute 'scan_distribution_paths'
+
+======================================================================
+ERROR: test_archive_scan_requires_every_binary_and_rejects_empty_checks (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_archive_scan_requires_every_binary_and_rejects_empty_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 95, in test_archive_scan_requires_every_binary_and_rejects_empty_checks
+    report = distribution.scan_distribution_paths([(archive, required)])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'package' has no attribute 'scan_distribution_paths'
+
+======================================================================
+ERROR: test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces) (empty=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 41, in test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces
+    release = platform_support.release_environment(original)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'release_environment'
+
+======================================================================
+ERROR: test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces) (empty=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 41, in test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces
+    release = platform_support.release_environment(original)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'release_environment'
+
+======================================================================
+ERROR: test_more_specific_remaps_follow_ancestors_and_preserve_spaces (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_more_specific_remaps_follow_ancestors_and_preserve_spaces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 57, in test_more_specific_remaps_follow_ancestors_and_preserve_spaces
+    flags = platform_support.release_environment(env)["CARGO_ENCODED_RUSTFLAGS"].split("\x1f")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'release_environment'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16) (encoding='utf-8', forward_slashes=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 83, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16) (encoding='utf-16-le', forward_slashes=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 83, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16) (encoding='utf-16-be', forward_slashes=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 83, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16) (encoding='utf-8', forward_slashes=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 83, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16) (encoding='utf-16-le', forward_slashes=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 83, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16) (encoding='utf-16-be', forward_slashes=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 83, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_private_prefix_detection_covers_windows_separators_and_utf16 (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_private_prefix_detection_covers_windows_separators_and_utf16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 84, in test_private_prefix_detection_covers_windows_separators_and_utf16
+    self.assertEqual(platform_support.private_path_matches(b"/suzume/cargo/registry/source.rs", (prefix,)), 0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'private_path_matches'
+
+======================================================================
+ERROR: test_release_environment_preserves_plain_flags_without_mutating_caller (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_release_environment_preserves_plain_flags_without_mutating_caller)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 28, in test_release_environment_preserves_plain_flags_without_mutating_caller
+    release = platform_support.release_environment(original)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'platform_support' has no attribute 'release_environment'
+
+======================================================================
+ERROR: test_run_uses_an_explicit_child_environment_without_process_changes (scripts.tests.test_platform_checks.ReleasePrivacyTests.test_run_uses_an_explicit_child_environment_without_process_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/scripts/tests/test_platform_checks.py", line 71, in test_run_uses_an_explicit_child_environment_without_process_changes
+    result = run.execute("child-environment", [sys.executable, "-c",
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Run.execute() got an unexpected keyword argument 'env'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.009s
+
+FAILED (errors=14)

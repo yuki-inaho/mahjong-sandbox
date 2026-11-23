@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "required": 4,
+  "checked": 4,
+  "entries": [
+    {
+      "archive": "suzume-0.2.0-local.tar.gz",
+      "entry": "suzume-0.2.0/suzume",
+      "sha256": "ca53826ddee4a874a16f74e333f550b5f23a12ae855148cb2d0d4ffa379740bf",
+      "bytes": 1327032,
+      "private_prefix_matches": 0,
+      "success": true
+    },
+    {
+      "archive": "suzume-0.2.0-local.tar.gz",
+      "entry": "suzume-0.2.0/suzume-api",
+      "sha256": "bfc04fd370afdcdf21a16b374871e2fb5ccb927e314ff270a62ff5cd03bf84e1",
+      "bytes": 2510200,
+      "private_prefix_matches": 0,
+      "success": true
+    },
+    {
+      "archive": "mahjong-sandbox-sdk-0.2.0.tgz",
+      "entry": "package/wasm/node/suzume_wasm_bg.wasm",
+      "sha256": "d89b583be065e587b2d0a0e74db839e674899667178557d1f812999c845b8f2f",
+      "bytes": 1088189,
+      "private_prefix_matches": 0,
+      "success": true
+    },
+    {
+      "archive": "mahjong-sandbox-sdk-0.2.0.tgz",
+      "entry": "package/wasm/web/suzume_wasm_bg.wasm",
+      "sha256": "d89b583be065e587b2d0a0e74db839e674899667178557d1f812999c845b8f2f",
+      "bytes": 1088189,
+      "private_prefix_matches": 0,
+      "success": true
+    }
+  ],
+  "missing": []
+}

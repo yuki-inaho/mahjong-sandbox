@@ -210,8 +210,12 @@ impl Event {
 pub struct ParsedEvent {
     pub line: usize,
     pub event: Event,
-    /// Original JSON including producer-specific metadata and optional fields.
+    /// Parsed projection including producer-specific fields. Unknown numbers may
+    /// be rounded; use `json`, not this value or `event`, when saving the record.
     pub raw: Value,
+    /// Validated original event JSON, excluding surrounding JSON whitespace.
+    /// Internal key order, whitespace, aliases, nulls and number tokens survive.
+    pub json: String,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize, JsonSchema)]
@@ -291,7 +295,7 @@ pub struct Summary {
     pub wins: u32,
     pub draws: u32,
     pub calls: u32,
-    /// Number of raw events containing at least one red tile spelling.
+    /// Events with a red tile in a known tile field, excluding names/metadata.
     pub red_events: u32,
     pub final_scores: Option<[i32; 4]>,
     pub riichi_sticks: Option<u32>,

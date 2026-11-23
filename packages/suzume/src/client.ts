@@ -1,4 +1,4 @@
-import type { ActionId, AiConfigSpec, AppConfig, DecisionView, EnvironmentTransition, ErrorCode, GameView, Request, Response, ResponseData, SeatId, Seed, WireAction } from './generated/types.js';
+import type { ActionId, AiConfigSpec, AppConfig, DecisionView, EnvironmentTransition, ErrorCode, GameView, MjaiFormat, Request, Response, ResponseData, SeatId, Seed, WireAction } from './generated/types.js';
 import { assertRequest, parseResponse, ProtocolError } from './validation.js';
 
 export interface Transport {
@@ -64,11 +64,10 @@ export class Client {
   async apply(action: WireAction): Promise<GameView> { return (await this.expect('game', { version: 1, op: 'apply', ...this.stamp(), action })).state; }
   async stepBot(): Promise<GameView> { return (await this.expect('game', { version: 1, op: 'step', ...this.stamp() })).state; }
   async analyze(config: AiConfigSpec = {}): Promise<DecisionView> { return (await this.expect('analysis', { version: 1, op: 'analyze', ...this.stamp(), config })).decision; }
-  /** Inspect decompressed mjson without changing the current game or training environment. */
-  async analyzeMjai(mjson: string, viewer?: SeatId): Promise<Extract<ResponseData, { kind: 'mjai' }>> {
-    const request: Request = viewer === undefined
-      ? { version: 1, op: 'analyze_mjai', mjson }
-      : { version: 1, op: 'analyze_mjai', mjson, viewer };
+  /** Inspect decompressed records without changing the game; omitted format means mjai. */
+  async analyzeMjai(mjson: string, viewer?: SeatId, format?: MjaiFormat): Promise<Extract<ResponseData, { kind: 'mjai' }>> {
+    const request: Request = { version: 1, op: 'analyze_mjai', mjson,
+      ...(viewer === undefined ? {} : { viewer }), ...(format === undefined ? {} : { format }) };
     return this.expect('mjai', request);
   }
   async environmentReset(seed: Seed = '0', maxSteps = 10_000): Promise<EnvironmentTransition> {

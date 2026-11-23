@@ -1,0 +1,2 @@
+Initial launcher attempt: cargo was absent from the inherited PATH; no tests executed. Retried with the repository tool_environment().
+

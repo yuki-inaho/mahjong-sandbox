@@ -7,6 +7,8 @@ use std::{
 };
 use suzume_api::{
     logging::{self, LogLimits},
+    mjai::{self, annotated::AnnotationPolicy},
+    protocol::MjaiFormat,
     types::{ApiError, ErrorCode},
 };
 
@@ -18,9 +20,9 @@ impl Drop for PendingFile {
 }
 
 /// Publishes a fully validated output atomically without replacing an existing path.
-fn publish_output<F>(destination: &Path, produce: F) -> Result<(), Box<dyn std::error::Error>>
+fn publish_output<F, T>(destination: &Path, produce: F) -> Result<T, Box<dyn std::error::Error>>
 where
-    F: FnOnce(&mut BufWriter<File>) -> Result<(), Box<dyn std::error::Error>>,
+    F: FnOnce(&mut BufWriter<File>) -> Result<T, Box<dyn std::error::Error>>,
 {
     if destination.exists() {
         return Err("出力先が存在します。別のファイル名を指定してください。".into());
@@ -36,12 +38,12 @@ where
         .open(&temporary_path)?;
     let temporary = PendingFile(temporary_path);
     let mut output = BufWriter::new(file);
-    produce(&mut output)?;
+    let result = produce(&mut output)?;
     output.flush()?;
     output.get_ref().sync_all()?;
     drop(output);
     std::fs::hard_link(&temporary.0, destination)?;
-    Ok(())
+    Ok(result)
 }
 
 fn json_line<T: serde::Serialize>(output: &mut impl Write, value: &T) -> Result<(), ApiError> {
@@ -108,22 +110,87 @@ fn convert_mjai(input: &Path, destination: &Path) -> Result<(), Box<dyn std::err
     })
 }
 
+enum MjaiConversion {
+    Wrap,
+    Unwrap(AnnotationPolicy),
+}
+
+fn transcode_mjai(
+    input: &Path,
+    destination: &Path,
+    conversion: MjaiConversion,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let report = publish_output(destination, |output| {
+        let mut reader = open_mjai(input)?;
+        let limits = LogLimits::default();
+        Ok(match conversion {
+            MjaiConversion::Wrap => mjai::annotated::wrap(&mut reader, output, limits)?,
+            MjaiConversion::Unwrap(policy) => {
+                mjai::annotated::unwrap(&mut reader, output, limits, policy)?
+            }
+        })
+    })?;
+    // Report success only after validation, flush, sync and publication succeed.
+    let report = serde_json::json!({
+        "summary": report.summary,
+        "dropped_annotation_records": report.dropped_annotation_records,
+    });
+    let report_result = (|| -> Result<(), Box<dyn std::error::Error>> {
+        writeln!(
+            io::stdout().lock(),
+            "{}",
+            serde_json::to_string_pretty(&report)?
+        )?;
+        Ok(())
+    })();
+    report_result.map_err(|cause| {
+        format!(
+            "出力は {} に公開済みです。結果報告に失敗しました: {cause}",
+            destination.display()
+        )
+        .into()
+    })
+}
+
+fn mjai_format(arguments: &[&str]) -> Result<MjaiFormat, Box<dyn std::error::Error>> {
+    match arguments {
+        [] => Ok(MjaiFormat::default()),
+        ["--format", format] => Ok(serde_json::from_value(serde_json::Value::String(
+            (*format).to_owned(),
+        ))?),
+        _ => Err("形式は --format mjai または --format annotated_mjai で指定してください。".into()),
+    }
+}
+
+fn visit_mjai<F>(
+    input: &Path,
+    format: MjaiFormat,
+    consumer: F,
+) -> Result<mjai::Summary, Box<dyn std::error::Error>>
+where
+    F: FnMut(&mjai::ParsedEvent, &mjai::ReplayState) -> Result<(), ApiError>,
+{
+    let mut reader = open_mjai(input)?;
+    let limits = LogLimits::default();
+    Ok(match format {
+        MjaiFormat::Mjai => mjai::visit(&mut reader, limits, consumer)?,
+        MjaiFormat::AnnotatedMjai => mjai::annotated::visit(&mut reader, limits, consumer)?,
+    })
+}
+
 fn export_observations(
     input: &Path,
     destination: &Path,
     viewer: suzume_api::types::SeatId,
+    format: MjaiFormat,
 ) -> Result<(), Box<dyn std::error::Error>> {
     publish_output(destination, |output| {
-        suzume_api::mjai::visit(
-            &mut open_mjai(input)?,
-            LogLimits::default(),
-            |record, state| {
-                // Do not include raw events: their hands and draws can be private to other seats.
-                let row = serde_json::json!({"schema_version":1,"line":record.line,
+        visit_mjai(input, format, |record, state| {
+            // Do not include raw events: their hands and draws can be private to other seats.
+            let row = serde_json::json!({"schema_version":1,"line":record.line,
                 "type":record.raw["type"],"observation":state.observe(Some(viewer))});
-                json_line(output, &row)
-            },
-        )?;
+            json_line(output, &row)
+        })?;
         Ok(())
     })
 }
@@ -146,17 +213,26 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             writeln!(io::stdout().lock(), "{}", serde_json::to_string_pretty(&summary)?)?;
         },
         ["dataset", path, "--output", destination] => export_dataset(Path::new(path), Path::new(destination))?,
-        ["mjai", "analyze", path] => {
-            let summary=suzume_api::mjai::analyze(&mut open_mjai(Path::new(path))?, LogLimits::default())?;
+        ["mjai", "analyze", path, format_args @ ..] => {
+            let summary=visit_mjai(Path::new(path), mjai_format(format_args)?, |_, _| Ok(()))?;
             writeln!(io::stdout().lock(),"{}",serde_json::to_string_pretty(&summary)?)?;
         },
         ["mjai", "convert", path, "--output", destination] => convert_mjai(Path::new(path),Path::new(destination))?,
-        ["mjai", "observations", path, "--seat", seat, "--output", destination] => {
+        ["mjai", "wrap", path, "--output", destination] => transcode_mjai(Path::new(path),Path::new(destination),MjaiConversion::Wrap)?,
+        ["mjai", "unwrap", path, "--output", destination, options @ ..] => {
+            let policy = match options {
+                [] => AnnotationPolicy::Reject,
+                ["--drop-annotations"] => AnnotationPolicy::Drop,
+                _ => return Err("注釈を破棄する場合だけ --drop-annotations を指定してください。".into()),
+            };
+            transcode_mjai(Path::new(path),Path::new(destination),MjaiConversion::Unwrap(policy))?;
+        },
+        ["mjai", "observations", path, "--seat", seat, "--output", destination, format_args @ ..] => {
             let viewer=seat.parse::<u8>().ok().and_then(suzume_api::types::SeatId::new).ok_or("--seatは0〜3を指定してください。")?;
-            export_observations(Path::new(path),Path::new(destination),viewer)?;
+            export_observations(Path::new(path),Path::new(destination),viewer,mjai_format(format_args)?)?;
         },
 
-        ["--help"] | ["-h"] => writeln!(io::stdout().lock(), "suzume-api mjai analyze PATH\n  mjsonまたはgzipを内容から判定し、記録局面を検査・集計します。\nsuzume-api mjai convert LEGACY --output PATH\n  旧replayの全検証後にmjsonへ変換します。\nsuzume-api mjai observations PATH --seat 0..3 --output PATH\n  指定席の視点別観測を各イベント後に出力します。\nsuzume-api [serve]\n  版1のJSON要求を標準入力から1行ずつ読み、JSON応答を出力します。\nsuzume-api config PATH\n  TOML設定を検査し、設定と実効AI値を表示します。\nsuzume-api replay PATH\n  完全ログを末尾まで検査・再生して終了状態を表示します。\nsuzume-api dataset PATH --output PATH\n  完全ログから学習用JSONLを作ります。全検証成功後に新しい出力先へ確定します。")?,
+        ["--help"] | ["-h"] => writeln!(io::stdout().lock(), "suzume-api mjai analyze PATH [--format mjai|annotated_mjai]\n  指定形式の記録局面を検査・集計します。gzipは内容から判定します。\nsuzume-api mjai wrap INPUT --output OUTPUT\n  原イベントを保持して空の注釈を付けます。\nsuzume-api mjai unwrap INPUT --output OUTPUT [--drop-annotations]\n  標準mjsonへ戻します。非空注釈の破棄には明示指定が必要です。\nsuzume-api mjai convert LEGACY --output PATH\n  旧replayの全検証後にmjsonへ変換します。\nsuzume-api mjai observations PATH --seat 0..3 --output PATH [--format mjai|annotated_mjai]\n  指定席の視点別観測を各イベント後に出力します。\nsuzume-api [serve]\n  版1のJSON要求を標準入力から1行ずつ読み、JSON応答を出力します。\nsuzume-api config PATH\n  TOML設定を検査し、設定と実効AI値を表示します。\nsuzume-api replay PATH\n  完全ログを末尾まで検査・再生して終了状態を表示します。\nsuzume-api dataset PATH --output PATH\n  完全ログから学習用JSONLを作ります。全検証成功後に新しい出力先へ確定します。")?,
         _ => return Err("未対応の引数です。suzume-api --helpで使用方法を確認してください。".into()),
     }
     Ok(())

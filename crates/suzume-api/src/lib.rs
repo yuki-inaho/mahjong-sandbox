@@ -15,7 +15,7 @@ pub mod view;
 use config::{AppConfig, Controller};
 use decision::DecisionView;
 use environment::Environment;
-use protocol::{Request, Response, ResponseData};
+use protocol::{MjaiFormat, Request, Response, ResponseData};
 use suzume::{
     ai::ConfiguredAi,
     game::{Game, Phase},
@@ -170,7 +170,12 @@ impl Engine {
                     effective_ai,
                 })
             }
-            Request::AnalyzeMjai { mjson, viewer, .. } => {
+            Request::AnalyzeMjai {
+                mjson,
+                viewer,
+                format,
+                ..
+            } => {
                 if mjson.len() > MAX_REQUEST_BYTES {
                     return Err(ApiError::new(
                         ErrorCode::InvalidRequest,
@@ -178,16 +183,20 @@ impl Engine {
                     ));
                 }
                 let mut observation = None;
-                let summary = mjai::visit(
-                    &mut std::io::Cursor::new(mjson.as_bytes()),
-                    logging::LogLimits::default(),
-                    |record, state| {
-                        if matches!(record.event, mjai::Event::EndGame) {
-                            observation = Some(Box::new(state.observe(viewer)));
-                        }
-                        Ok(())
-                    },
-                )?;
+                let mut reader = std::io::Cursor::new(mjson.as_bytes());
+                let limits = logging::LogLimits::default();
+                let observe = |record: &mjai::ParsedEvent, state: &mjai::ReplayState| {
+                    if matches!(record.event, mjai::Event::EndGame) {
+                        observation = Some(Box::new(state.observe(viewer)));
+                    }
+                    Ok(())
+                };
+                let summary = match format {
+                    MjaiFormat::Mjai => mjai::visit(&mut reader, limits, observe)?,
+                    MjaiFormat::AnnotatedMjai => {
+                        mjai::annotated::visit(&mut reader, limits, observe)?
+                    }
+                };
                 Ok(ResponseData::Mjai {
                     summary,
                     observation: observation.ok_or_else(|| {

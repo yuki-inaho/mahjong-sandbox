@@ -1,0 +1,72 @@
+Command: cargo test --locked -p suzume-api --test mjai_annotated --test mjai_parser
+Exit: 0
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.95s
+     Running tests/mjai_annotated.rs (target/debug/build/suzume-api/14feef176646d25c/out/mjai_annotated-14feef176646d25c)
+
+running 13 tests
+test annotated_input_limits_cover_crlf_records_and_invalid_utf8 ... ok
+test annotations_require_explicit_drop_and_count_annotated_records ... ok
+test encoder_preserves_both_originals_without_trusting_mutated_projections ... ok
+test encoder_enforces_index_single_physical_line_and_json_ascii_whitespace ... ok
+test wrap_rejects_internal_cr_before_writing_an_unreadable_envelope ... ok
+test conversions_never_report_success_before_clean_eof_and_successful_writes ... ok
+test output_line_and_total_limits_count_utf8_and_final_lf ... ok
+test wrap_and_unwrap_preserve_event_originals_and_summary ... ok
+test rejects_bad_outer_contract_duplicates_and_integer_lexemes ... ok
+test visits_validate_contiguous_indexes_end_game_and_semantics ... ok
+test wrappers_do_not_change_replay_observations_or_count_annotation_red_tiles ... ok
+test single_record_retains_original_json_with_precision_null_and_key_order ... ok
+test raw_subtrees_preserve_the_existing_depth_and_finite_number_limits ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/mjai_parser.rs (target/debug/build/suzume-api/c84ec25e00a77b22/out/mjai_parser-c84ec25e00a77b22)
+
+running 32 tests
+test accepts_exact_limits_without_an_off_by_one_rejection ... ok
+test does_not_call_consumer_after_an_invalid_event ... ok
+test accounts_for_accepted_reach_and_winning_deposit_without_inventing_scores ... ok
+test accepts_original_uradora_alias_without_erasing_raw_fields ... ok
+test enforces_stream_limits_and_rejects_invalid_utf8 ... ok
+test consumes_four_tiles_and_requires_replacement_draw_after_ankan ... ok
+test explicit_interruption_is_distinct_from_clean_completion_and_missing_footer ... ok
+test missing_score_deltas_are_unknown_instead_of_assumed_zero ... ok
+test propagates_consumer_failure_instead_of_returning_complete_success ... ok
+test multiple_ron_on_one_discard_still_accumulates_each_settlement ... ok
+test preserves_red_unknown_and_extension_data_but_masks_other_hands ... ok
+test rejects_duplicate_keys_before_typed_deserialization ... ok
+test rejected_late_settlement_does_not_mutate_the_accepted_prefix ... ok
+test rejects_impossible_fifth_copy_in_known_initial_hands ... ok
+test observations_distinguish_input_end_from_natural_round_and_game_end ... ok
+test red_events_excludes_names_and_uninterpreted_extension_strings ... ok
+test rejects_duplicate_reach_acceptance_and_score_overflow ... ok
+test rejects_invalid_tile_actor_and_three_player_input ... ok
+test rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn ... ok
+test rejects_scores_changed_without_a_recorded_settlement_between_rounds ... ok
+test requires_clean_eof_even_after_end_game ... ok
+test rejects_meld_shapes_and_calls_from_the_wrong_seat ... ok
+test ron_after_tsumo_is_rejected_without_changing_the_settled_state ... ok
+test semantic_failures_include_line_and_event_type ... ok
+test rejects_missing_end_and_events_after_completion ... ok
+test supports_crlf_and_missing_last_newline ... ok
+test tedashi_with_an_identical_known_copy_preserves_the_draw ... ok
+test unknown_tsumogiri_consumes_the_known_just_drawn_tile ... ok
+test unknown_tedashi_retains_the_known_just_drawn_tile ... ok
+test validates_native_final_deposit_payout_without_arbitrary_score_override ... ok
+test counts_a_called_discard_only_in_the_meld_at_the_136_tile_boundary ... ok
+test rejects_a_137th_retained_tile_including_unknowns_without_mutation ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+Command: cargo clippy --locked -p suzume-api --all-targets -- -D warnings
+Exit: 0
+    Checking serde_json v1.0.154
+    Checking schemars v0.8.22
+    Checking suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.22s
+
+Command: rustfmt --edition 2021 --check crates/suzume-api/src/mjai/annotated.rs crates/suzume-api/src/mjai/reader.rs crates/suzume-api/src/mjai/state.rs crates/suzume-api/src/mjai/types.rs crates/suzume-api/tests/mjai_annotated.rs crates/suzume-api/tests/mjai_parser.rs
+Exit: 0
+

@@ -1,0 +1,7 @@
+Checked at: 2026-11-23T10:49:33.224073+00:00
+Development native consumer script check against the current development binary; synthetic bundled example only.
+Already supported at probe time; exit 0 is not a red test and this is not archive consumption.
+{"marker": "NATIVE_MJAI_CONSUMER_OK", "summary": {"records": 8, "rounds": 1, "wins": 0, "draws": 0, "calls": 0, "red_events": 0, "final_scores": [25000, 25000, 25000, 25000], "riichi_sticks": 0, "complete": false, "termination": "truncated"}, "roundtrip_records": 8, "compared_observations": 32, "original_sha256": "d3c3bb4e560f275e14da838cafc56f4600fdb697b6f1936949d725a235fc95cc", "restored_sha256": "d3c3bb4e560f275e14da838cafc56f4600fdb697b6f1936949d725a235fc95cc"}
+
+Exit code: 0
+Binary SHA256: 823a021a0dfc30a6d0bf585c7f24aa62437bdf82ca621a3e54c47488ad4ef6de

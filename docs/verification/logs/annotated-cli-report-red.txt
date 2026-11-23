@@ -1,0 +1,25 @@
+
+running 1 test
+test report_failure_explicitly_identifies_the_already_published_file ... FAILED
+
+failures:
+
+---- report_failure_explicitly_identifies_the_already_published_file stdout ----
+
+thread 'report_failure_explicitly_identifies_the_already_published_file' (141) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:310:5:
+実行エラー: No space left on device (os error 28)
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    report_failure_explicitly_identifies_the_already_published_file
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.74s
+     Running tests/mjai_annotated_cli.rs (target/debug/build/suzume-api/a9c303db9537d0f6/out/mjai_annotated_cli-a9c303db9537d0f6)
+error: test failed, to rerun pass `-p suzume-api --test mjai_annotated_cli`
+
+exit_code=101
