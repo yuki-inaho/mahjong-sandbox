@@ -68,7 +68,7 @@ cargo run --locked -p suzume-cli -- --snapshot --plain
 
 # 席別の設定で1東風戦を実行し、新しいログへ記録
 cargo run --locked -p suzume-cli --release -- \
-  --config docs/ai/simulation.toml --simulate 1 --log match.jsonl
+  --config docs/ai/simulation.toml --simulate 1 --log match.mjson --log-format mjai
 
 # 設定を省略すると全員Greedy。種0〜31の32東風戦を実行
 cargo run --locked -p suzume-cli --release -- --simulate 32 --seed 0
@@ -127,17 +127,32 @@ cargo run --locked -p suzume-api --bin suzume-api -- serve
 詳しい入出力は[API版1](docs/api/README.md)、設定は[共通設定](docs/api/configuration.md)を参照してください。
 
 ```sh
-# 8操作の同梱例を最後まで検査・再生
-cargo run --locked -p suzume-api --bin suzume-api -- replay examples/replay-eight-actions.jsonl
+# 自作対局のmjson例を解析。8操作で打切りのためcomplete=false
+cargo run --locked -p suzume-api --bin suzume-api -- mjai analyze examples/eight-actions.mjson
 
-# 同じ例から解析・学習用の遷移を新しいファイルへ出力
+# 旧replayを全件検査してmjsonへ変換
+cargo run --locked -p suzume-api --bin suzume-api -- \
+  mjai convert examples/replay-eight-actions.jsonl --output converted.mjson
+
+# 席0から見える情報を各イベント後に出力
+cargo run --locked -p suzume-api --bin suzume-api -- \
+  mjai observations examples/eight-actions.mjson --seat 0 --output observations.jsonl
+
+# 旧replayの厳密再生と学習用の遷移も引き続き利用可能
+cargo run --locked -p suzume-api --bin suzume-api -- replay examples/replay-eight-actions.jsonl
 cargo run --locked -p suzume-api --bin suzume-api -- \
   dataset examples/replay-eight-actions.jsonl --output transitions.jsonl
 ```
 
-[JSONLログ](docs/logging/README.md)は、配牌を復元できる`replay`と非公開情報を省いた`public`を分けます。
-共有用はTUIで`--log-format public`を指定できます。再生用には完全な設定とAI判断を記録します。
-末尾の記録が欠けたログや、版・連番・操作・局面の照合が一致しないログを拒否します。
+[標準の対局ログ](docs/logging/README.md)は、1行1イベントの `.mjson` です。
+`mjai`は全席の手牌を含む分析用、`mjai_public`は伏せ牌を省いた共有用です。
+CLIはgzip圧縮された `.mjson` も内容から判別します。SDKでは `readMjaiEvents` で構造を逐次読み、
+`client.analyzeMjai` で同じRustの意味解析を呼びます。API/WASM・TSへの入力は展開済みデータです。
+
+乱数種・内部操作による厳密再生とAI判断の保存には、`--log-format replay` を明示します。
+[旧replay/publicの互換仕様](docs/logging/legacy-jsonl.md)を維持し、旧replayからmjsonへ変換できます。
+外部牌譜の解析は記録上の局面を復元する機能であり、全ルールの合法性検証や合法手マスクの生成ではありません。
+[実牌譜との互換性](docs/logging/mjai-compatibility.md)では、固定した20ケース・23局を使う再現検査を定義しています。
 
 [研究用環境](docs/api/environment.md)は`reset`・`step`・観測・189要素の合法行動マスクを提供します。
 1回の`step`は1席の1操作で、報酬は4席の点数差です。通常終局と操作上限による打切りを区別します。
@@ -150,7 +165,8 @@ cargo run --locked -p suzume-api --bin suzume-api -- \
 通常形・七対子・国士、一般的な役と役満、符と翻、本場・供託・流局精算を実装しています。
 
 現行の固定ルールでは、赤牌・加槓・リーチ後の槓・途中流局・流し満貫・天和/地和・包を採用しません。
-複数ロンは頭ハネ、喰い断あり、食い替えなしです。通信対戦や他サービスの牌譜互換は含みません。
+複数ロンは頭ハネ、喰い断あり、食い替えなしです。通信対戦は含みません。
+外部mjsonの赤牌・加槓・複数ロンを記録として解析する機能は、この対局コアの採用規則とは別です。
 TOMLでAIを設定することと、麻雀ルールの変更は別です。
 細則は[ルール仕様](docs/rules/riichi.md)と[機械可読の宣言](rules/riichi.rules)にまとめています。
 
@@ -163,13 +179,16 @@ TOMLでAIを設定することと、麻雀ルールの変更は別です。
 | 実Rustの基本契約 | Kaniの6ハーネス。ゲームが使用する契約関数を検査 |
 | 数学的な性質 | Leanの18定理。モデル・前提・許可公理を明記 |
 | 対局の実行時検査 | 各種4枚・計136枚、局面ごとの構造枚数、供託込み総点など |
-| 外部境界 | Rust/TSの型と実行時検査、API/WASM比較、ログ再生、CLI・ブラウザ検査 |
+| 外部境界 | Rust/TSの型と実行時検査、API/WASM比較、mjsonの実牌譜検査、旧ログ再生、CLI・ブラウザ検査 |
 
 ```sh
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
 python3 scripts/check_documentation.py
+
+# 固定した外部牌譜を取得・変換し、mjsonとgzipの解析を検査
+python3 scripts/verify_mjai_real.py
 
 # 必要な形式検証ツールも導入した環境で実行
 python3 scripts/verify_platform.py --profile full
@@ -189,7 +208,8 @@ python3 scripts/package.py
 - [コンセプト](docs/concept/overview.md)と[共有する開発基盤](docs/concept/platform.md)。
 - [責務と依存関係](docs/architecture.md)、[設計判断ADR](docs/adr/)。
 - [契約の対応表](docs/contracts/README.md)、[公開境界](docs/contracts/platform-boundaries.md)、[形式検証の限界](docs/verification/README.md)。
-- [現行の作業計画書兼記録書](docs/workdocs/workdoc_Nov23-2026_platform.md)と[独立レビュー](docs/workdocs/review_Nov23-2026_platform.md)。
+- [mjson移行の作業計画書兼記録書](docs/workdocs/workdoc_Nov23-2026_mjson.md)と[着手時の厳格レビュー](docs/reviews/mjson-baseline-review.md)。
+- [基盤整備時の作業書](docs/workdocs/workdoc_Nov23-2026_platform.md)と[その独立レビュー](docs/workdocs/review_Nov23-2026_platform.md)は当時の記録です。
 - [初版の作業書](docs/workdocs/workdoc_Nov23-2026_suzume.md)、[初版検証結果](docs/verification/results.md)、[初版のOS確認](docs/verification/portability.md)は履歴です。
 
 MITライセンスです。外部コードを取り込まずに参照した観点は[コンセプトの出典](docs/concept/overview.md#参考にした公開資料)に記録しています。

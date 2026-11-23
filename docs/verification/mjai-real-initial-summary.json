@@ -1,0 +1,419 @@
+{
+  "schema_version": 1,
+  "started_at_utc": "2026-11-23T08:44:51.318918+00:00",
+  "manifest": "tests/fixtures/mjai/manifest.json",
+  "upstream_revision": "f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb",
+  "rust_version": "1.100.0",
+  "expected_cases": 20,
+  "cases": [
+    {
+      "id": "chankan",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "complex_nakis_0",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "complex_nakis_1",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_0",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_1",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_2",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_3",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_4",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_5",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_6",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "confusing_nakis_7",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "double_kakan_then_chankan",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "double_ron",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "four_reach",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "kyushukyuhai",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "ranked_game",
+      "category": "real_game",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "rinshan",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "ryukyoku",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "suukantsu_0",
+      "category": "external_regression",
+      "success": false,
+      "error": "command_failed"
+    },
+    {
+      "id": "suukantsu_1",
+      "category": "real_game",
+      "success": false,
+      "error": "command_failed"
+    }
+  ],
+  "checks": [
+    {
+      "stage": "upstream-revision",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "upstream-origin",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "upstream-tracked-clean",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.028
+    },
+    {
+      "stage": "upstream-untracked",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "build-converter",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 9.288
+    },
+    {
+      "stage": "convert-chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-chankan",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.002
+    },
+    {
+      "stage": "convert-complex_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-complex_nakis_0",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.003
+    },
+    {
+      "stage": "convert-complex_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-complex_nakis_1",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_0",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_1",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.001
+    },
+    {
+      "stage": "analyze-confusing_nakis_2",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_3",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_4",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_4",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_5",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_5",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_6",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_6",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-confusing_nakis_7",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_7",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-double_kakan_then_chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-double_kakan_then_chankan",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-double_ron",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-double_ron",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-four_reach",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-four_reach",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-kyushukyuhai",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.001
+    },
+    {
+      "stage": "analyze-kyushukyuhai",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-ranked_game",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-ranked_game",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-rinshan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.001
+    },
+    {
+      "stage": "analyze-rinshan",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-ryukyoku",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-ryukyoku",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-suukantsu_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-suukantsu_0",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "convert-suukantsu_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-suukantsu_1",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    },
+    {
+      "stage": "analyze-gzip-same-extension",
+      "success": false,
+      "exit_code": 1,
+      "seconds": 0.001
+    }
+  ],
+  "gzip": {
+    "case": "ranked_game",
+    "success": false,
+    "error": "command_failed"
+  },
+  "success": false,
+  "manifest_sha256": "5a887548dfdd6ba48f05e5663f80dc7c38e33889b24edc50b50797af1459769a",
+  "analyzer_sha256": "3d278e4ff7d077dd112c5dc1afb85fad94a1e59315c177b2457a7d6d75af43df",
+  "evaluated_cases": 20,
+  "passed_cases": 0,
+  "finished_at_utc": "2026-11-23T08:45:00.907408+00:00"
+}

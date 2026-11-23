@@ -1,0 +1,8 @@
+{"_suzume":{"engine":"0.2.0","information":"full","rules_sha256":"7f084cbbcf279f61f64dc76d93cbd662a53d57669afb0151d0276b266570e1ea","version":1},"aka_flag":false,"kyoku_first":0,"names":["あなた","CPU 青葉","CPU 琥珀","CPU 白雪"],"type":"start_game"}
+{"bakaze":"E","dora_marker":"1p","honba":0,"kyoku":1,"kyotaku":0,"oya":0,"scores":[25000,25000,25000,25000],"tehais":[["1p","4p","4p","6p","7p","2s","5s","8s","S","W","P","C","C"],["1m","2m","6m","3p","5p","5p","3s","5s","7s","S","S","W","F"],["1m","7m","9m","2p","2p","3p","4p","6p","7p","7s","7s","F","C"],["5m","9m","9p","1s","2s","3s","4s","5s","6s","9s","9s","N","P"]],"type":"start_kyoku"}
+{"actor":0,"pai":"E","type":"tsumo"}
+{"actor":0,"pai":"1p","tsumogiri":false,"type":"dahai"}
+{"actor":1,"pai":"7p","type":"tsumo"}
+{"actor":1,"pai":"7p","tsumogiri":true,"type":"dahai"}
+{"actor":2,"pai":"S","type":"tsumo"}
+{"_suzume":{"action_count":8,"kyotaku":0,"reason":"truncated"},"scores":[25000,25000,25000,25000],"type":"end_game"}

@@ -34,9 +34,23 @@ const invalidSurrogate = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF]
 
 /** Strict protocol JSON: integer tokens only; no duplicate keys or lone surrogates. */
 export function parseJson(text: string): unknown {
+  return parseJsonTree(text, false).value;
+}
+
+/**
+ * mjai producer metadata may use finite decimals. Record their JSON-pointer
+ * paths so the typed event projection can still require integer wire tokens.
+ * Integer tokens beyond JavaScript's exact range are rejected, never rounded.
+ */
+export function parseExtensionJson(text: string): { readonly value: unknown; readonly decimalPaths: ReadonlySet<string> } {
+  return parseJsonTree(text, true);
+}
+
+function parseJsonTree(text: string, extensions: boolean): { readonly value: Json; readonly decimalPaths: ReadonlySet<string> } {
   if (text.length > LIMIT || new TextEncoder().encode(text).length > LIMIT) throw new ProtocolError('JSON exceeds 1048576 bytes');
   let cursor = 0;
   let nodes = 0;
+  const decimalPaths = new Set<string>();
   const fail = (): never => { throw new ProtocolError(`Invalid JSON at character ${cursor}`); };
   const space = (): void => { while (/^[\t\n\r ]$/.test(text[cursor] ?? '')) cursor++; };
   const quoted = (): string => {
@@ -53,7 +67,7 @@ export function parseJson(text: string): unknown {
     }
     return fail();
   };
-  const value = (depth: number): Json => {
+  const value = (depth: number, path = ''): Json => {
     if (depth > 64 || ++nodes > MAX_NODES) throw new ProtocolError('JSON structure limit exceeded');
     space();
     if (text[cursor] === '"') return quoted();
@@ -66,7 +80,7 @@ export function parseJson(text: string): unknown {
         const key = quoted();
         if (own(result, key)) throw new ProtocolError(`Duplicate JSON property: ${key}`);
         space(); if (text[cursor++] !== ':') return fail();
-        result[key] = value(depth + 1); space();
+        result[key] = value(depth + 1, `${path}/${key.replaceAll('~', '~0').replaceAll('/', '~1')}`); space();
         if (text[cursor] === '}') { cursor++; return result; }
         if (text[cursor++] !== ',') return fail();
       }
@@ -76,7 +90,7 @@ export function parseJson(text: string): unknown {
       const result: Json[] = [];
       if (text[cursor] === ']') { cursor++; return result; }
       while (true) {
-        result.push(value(depth + 1)); space();
+        result.push(value(depth + 1, `${path}/${result.length}`)); space();
         if (text[cursor] === ']') { cursor++; return result; }
         if (text[cursor++] !== ',') return fail();
       }
@@ -87,14 +101,16 @@ export function parseJson(text: string): unknown {
     const token = /^-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?/.exec(text.slice(cursor));
     if (!token) return fail();
     cursor += token[0].length;
-    if (token[0] === '-0' || /[.eE]/.test(token[0])) throw new ProtocolError('Integer wire fields do not accept negative zero, decimal or exponent notation');
+    const decimal = token[0] === '-0' || /[.eE]/.test(token[0]);
+    if (decimal && !extensions) throw new ProtocolError('Integer wire fields do not accept negative zero, decimal or exponent notation');
     const result = Number(token[0]);
-    if (!Number.isSafeInteger(result)) return fail();
+    if (!Number.isFinite(result) || (!decimal && !Number.isSafeInteger(result))) return fail();
+    if (decimal) decimalPaths.add(path);
     return result;
   };
   const result = value(0); space();
   if (cursor !== text.length) return fail();
-  return result;
+  return { value: result, decimalPaths };
 }
 
 function checkStructure(value: unknown): void {

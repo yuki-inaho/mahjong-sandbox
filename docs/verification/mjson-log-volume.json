@@ -1,0 +1,83 @@
+{
+  "at_utc": "2026-11-23T09:13:15.869608+00:00",
+  "seed": 0,
+  "matches_per_format": 1,
+  "policy": "all Greedy (simulate default)",
+  "measurement": "uncompressed UTF-8 bytes including newline; each format contains different metadata",
+  "binary_sha256": {
+    "target/release/suzume": "47d957ea83e002678d0216ac09f0b265351b1698fd157921d615e93daa7c251d",
+    "target/release/suzume-api": "14b222ce521d8afb23ad82263928368dd785f0eaf9a12bd705998aa09603bab2"
+  },
+  "results": [
+    {
+      "format": "replay",
+      "bytes": 1101344,
+      "lines": 1237,
+      "sha256": "fd0a1b9cbfcd22a837794c8a24d280aed70208a35794d7502b646a1639ddad4f",
+      "simulation": [
+        "1/1  seed=0  成功  1235操作  点数=[11300, 19700, 49400, 19600]  供託=0点"
+      ]
+    },
+    {
+      "format": "public",
+      "bytes": 2474962,
+      "lines": 1237,
+      "sha256": "b334811bf527f17c5fa06407c2b5ef15bb074fc957e4f3ebd86e3fe8d6a05fcf",
+      "simulation": [
+        "1/1  seed=0  成功  1235操作  点数=[11300, 19700, 49400, 19600]  供託=0点"
+      ]
+    },
+    {
+      "format": "mjai",
+      "bytes": 32632,
+      "lines": 649,
+      "sha256": "bcf7f9337dceda8356e4ade9c53cbad3c9df437a6f0cb34e92e27d0b2555a9fc",
+      "simulation": [
+        "1/1  seed=0  成功  1235操作  点数=[11300, 19700, 49400, 19600]  供託=0点"
+      ],
+      "analysis": {
+        "records": 649,
+        "rounds": 6,
+        "wins": 6,
+        "draws": 0,
+        "calls": 10,
+        "red_events": 0,
+        "final_scores": [
+          11300,
+          19700,
+          49400,
+          19600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      }
+    },
+    {
+      "format": "mjai_public",
+      "bytes": 32147,
+      "lines": 649,
+      "sha256": "9352a275de4213c87157af49709418d496f1d13d94b7b87865ce23a83af0ab6f",
+      "simulation": [
+        "1/1  seed=0  成功  1235操作  点数=[11300, 19700, 49400, 19600]  供託=0点"
+      ],
+      "analysis": {
+        "records": 649,
+        "rounds": 6,
+        "wins": 6,
+        "draws": 0,
+        "calls": 10,
+        "red_events": 0,
+        "final_scores": [
+          11300,
+          19700,
+          49400,
+          19600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      }
+    }
+  ]
+}

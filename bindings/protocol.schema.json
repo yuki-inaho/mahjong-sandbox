@@ -7,6 +7,7 @@
     "config",
     "dataset_transition",
     "log_record",
+    "mjai_event",
     "request",
     "response"
   ],
@@ -20,6 +21,14 @@
     "log_record": {
       "$ref": "#/definitions/LogRecord"
     },
+    "mjai_event": {
+      "description": "Known event fields only; streaming readers preserve producer extensions.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MjaiEvent"
+        }
+      ]
+    },
     "request": {
       "$ref": "#/definitions/Request"
     },
@@ -32,6 +41,141 @@
       "type": "integer",
       "maximum": 188.0,
       "minimum": 0.0
+    },
+    "AgentObservation": {
+      "description": "A prefix observation. It intentionally contains no hidden opponent tile, future event, seed, legal-action mask, or claim of external rule legality.",
+      "type": "object",
+      "required": [
+        "dora_markers",
+        "game_ended",
+        "players",
+        "record_ended",
+        "round_ended"
+      ],
+      "properties": {
+        "bakaze": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dealer": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dora_markers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MjaiPai"
+          }
+        },
+        "game_ended": {
+          "description": "The record explicitly declares natural completion, rather than interruption.",
+          "type": "boolean"
+        },
+        "honba": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "kyoku": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "last_discard": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/MjaiLastDiscard"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "own_hand": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MjaiPai"
+          }
+        },
+        "own_last_draw": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MjaiPlayer"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "record_ended": {
+          "description": "An explicit end_game was consumed, including interrupted/truncated records.",
+          "type": "boolean"
+        },
+        "riichi_sticks": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "round_ended": {
+          "description": "A hora or ryukyoku has settled the current round; input end alone does not.",
+          "type": "boolean"
+        },
+        "scores": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "viewer": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
     },
     "AiConfigSpec": {
       "type": "object",
@@ -124,7 +268,7 @@
         },
         "logging": {
           "default": {
-            "format": "replay"
+            "format": "mjai"
           },
           "allOf": [
             {
@@ -823,6 +967,8 @@
     "LogFormat": {
       "type": "string",
       "enum": [
+        "mjai",
+        "mjai_public",
         "replay",
         "public"
       ]
@@ -1122,7 +1268,7 @@
       "type": "object",
       "properties": {
         "format": {
-          "default": "replay",
+          "default": "mjai",
           "allOf": [
             {
               "$ref": "#/definitions/LogFormat"
@@ -1131,6 +1277,16 @@
         }
       },
       "additionalProperties": false
+    },
+    "MeldKind": {
+      "type": "string",
+      "enum": [
+        "chi",
+        "pon",
+        "daiminkan",
+        "ankan",
+        "kakan"
+      ]
     },
     "MeldType": {
       "type": "string",
@@ -1166,6 +1322,600 @@
           "items": {
             "$ref": "#/definitions/TileId"
           }
+        }
+      },
+      "additionalProperties": false
+    },
+    "MjaiDiscard": {
+      "type": "object",
+      "required": [
+        "called",
+        "pai",
+        "tsumogiri"
+      ],
+      "properties": {
+        "called": {
+          "type": "boolean"
+        },
+        "pai": {
+          "$ref": "#/definitions/MjaiPai"
+        },
+        "tsumogiri": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MjaiEvent": {
+      "description": "Known event fields. Unknown fields are retained in [`ParsedEvent::raw`]. Parsing this type alone validates structure, not event order or tile flow. The closed JSON Schema describes this known-field projection, not the raw producer object: consumers must retain extension fields separately.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "names": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "start_game"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "bakaze",
+            "dora_marker",
+            "honba",
+            "kyoku",
+            "kyotaku",
+            "oya",
+            "scores",
+            "tehais",
+            "type"
+          ],
+          "properties": {
+            "bakaze": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "dora_marker": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "honba": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "kyoku": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            "kyotaku": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "oya": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "scores": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "tehais": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/MjaiPai"
+                }
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "start_kyoku"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "pai",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "pai": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "tsumo"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "pai",
+            "tsumogiri",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "pai": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "tsumogiri": {
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "dahai"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "consumed",
+            "pai",
+            "target",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "consumed": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MjaiPai"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            },
+            "pai": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "target": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "chi"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "consumed",
+            "pai",
+            "target",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "consumed": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MjaiPai"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            },
+            "pai": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "target": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "pon"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "consumed",
+            "pai",
+            "target",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "consumed": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MjaiPai"
+              },
+              "maxItems": 3,
+              "minItems": 3
+            },
+            "pai": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "target": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "daiminkan"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "consumed",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "consumed": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MjaiPai"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "ankan"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "consumed",
+            "pai",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "consumed": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MjaiPai"
+              },
+              "maxItems": 3,
+              "minItems": 3
+            },
+            "pai": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "kakan"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "dora_marker",
+            "type"
+          ],
+          "properties": {
+            "dora_marker": {
+              "$ref": "#/definitions/MjaiPai"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "dora"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "reach"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "reach_accepted"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "actor",
+            "target",
+            "type"
+          ],
+          "properties": {
+            "actor": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "deltas": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "target": {
+              "$ref": "#/definitions/SeatId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "hora"
+              ]
+            },
+            "ura_markers": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/definitions/MjaiPai"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "deltas": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "maxItems": 4,
+              "minItems": 4
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "ryukyoku"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "end_kyoku"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "end_game"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "none"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "MjaiLastDiscard": {
+      "type": "object",
+      "required": [
+        "actor",
+        "pai"
+      ],
+      "properties": {
+        "actor": {
+          "$ref": "#/definitions/SeatId"
+        },
+        "pai": {
+          "$ref": "#/definitions/MjaiPai"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MjaiMeld": {
+      "type": "object",
+      "required": [
+        "kind",
+        "tiles"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/MeldKind"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SeatId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MjaiPai"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "MjaiPai": {
+      "type": "string",
+      "pattern": "^([1-9][mps]|5[mps]r|[ESWNPFC]|\\?)$"
+    },
+    "MjaiPlayer": {
+      "type": "object",
+      "required": [
+        "discards",
+        "hand_count",
+        "melds",
+        "reach_accepted",
+        "reach_declared"
+      ],
+      "properties": {
+        "discards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MjaiDiscard"
+          }
+        },
+        "hand_count": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "melds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MjaiMeld"
+          }
+        },
+        "reach_accepted": {
+          "type": "boolean"
+        },
+        "reach_declared": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false
@@ -1596,7 +2346,7 @@
                   "viewer": 0
                 },
                 "logging": {
-                  "format": "replay"
+                  "format": "mjai"
                 },
                 "players": [
                   {
@@ -1818,6 +2568,41 @@
             },
             "version": {
               "$ref": "#/definitions/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "Inspect a decompressed mjson record without changing an active session.",
+          "type": "object",
+          "required": [
+            "mjson",
+            "op",
+            "version"
+          ],
+          "properties": {
+            "mjson": {
+              "type": "string"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "analyze_mjai"
+              ]
+            },
+            "version": {
+              "$ref": "#/definitions/Version"
+            },
+            "viewer": {
+              "default": null,
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SeatId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "additionalProperties": false
@@ -2082,6 +2867,29 @@
             }
           },
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "observation",
+            "summary"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mjai"
+              ]
+            },
+            "observation": {
+              "$ref": "#/definitions/AgentObservation"
+            },
+            "summary": {
+              "$ref": "#/definitions/Summary"
+            }
+          },
+          "additionalProperties": false
         }
       ]
     },
@@ -2150,6 +2958,80 @@
       "type": "string",
       "format": "int64-decimal",
       "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+    },
+    "Summary": {
+      "description": "Counts refer to accepted events, never internal Suzume operations.",
+      "type": "object",
+      "required": [
+        "calls",
+        "complete",
+        "draws",
+        "records",
+        "red_events",
+        "rounds",
+        "termination",
+        "wins"
+      ],
+      "properties": {
+        "calls": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "draws": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "final_scores": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        "records": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "red_events": {
+          "description": "Number of raw events containing at least one red tile spelling.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "riichi_sticks": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "rounds": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "termination": {
+          "$ref": "#/definitions/EndReason"
+        },
+        "wins": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
     },
     "TileId": {
       "type": "integer",

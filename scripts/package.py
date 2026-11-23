@@ -18,10 +18,20 @@ import tempfile
 from platform_support import ROOT, SDK, Run, capture, digest, distribution_files, environment_report, platform_key, redact, source_hashes, validate_documentation, write_json
 
 
+# 独自コアで生成した8操作の旧replayから変換する例。外部牌譜ではありません。
+SAMPLE_MJAI_SUMMARY = {
+    "records": 8, "rounds": 1, "wins": 0, "draws": 0, "calls": 0, "red_events": 0,
+    "final_scores": [25000, 25000, 25000, 25000], "riichi_sticks": 0,
+    "complete": False, "termination": "truncated",
+}
+SAMPLE_FILES = ("examples/eight-actions.mjson", "examples/replay-eight-actions.jsonl")
+
+
 CONSUMER_JS = r'''import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
+import { parseJson, ProtocolError, readMjaiEvents } from "@mahjong-sandbox/sdk";
 import { createNodeEngine } from "@mahjong-sandbox/sdk/node";
 import { createBrowserEngine } from "@mahjong-sandbox/sdk/browser";
 import { Engine as NodeEngine } from "@mahjong-sandbox/sdk/wasm/node";
@@ -50,6 +60,34 @@ const stale = await node.command({ version: 1, op: "apply", session_id: initialN
 assert.equal(stale.status, "error");
 assert.equal(stale.code, "stale_revision");
 assert.deepEqual(await node.view(), beforeRejected);
+const mjson = await readFile(new URL("./eight-actions.mjson", import.meta.url), "utf8");
+const expectedMjai = parseJson(await readFile(new URL("./mjai-expected.json", import.meta.url), "utf8"));
+const encoded = new TextEncoder().encode(mjson);
+async function* mjaiChunks() {
+  // 日本語を含むUTF-8を文字境界に依存しない小片で渡します。
+  for (let offset = 0; offset < encoded.byteLength; offset += 13) yield encoded.subarray(offset, offset + 13);
+}
+const events = [];
+for await (const event of readMjaiEvents(mjaiChunks())) events.push(event);
+assert.ok(events.length > 0);
+assert.equal(events.length, expectedMjai.records);
+assert.equal(events[0].type, "start_game");
+assert.equal(events.at(-1).type, "end_game");
+const beforeMjaiNode = await node.view();
+const beforeMjaiWeb = await web.view();
+const mjaiNode = await node.analyzeMjai(mjson, 0);
+const mjaiWeb = await web.analyzeMjai(mjson, 0);
+assert.equal(mjaiNode.kind, "mjai");
+assert.deepEqual(mjaiNode, mjaiWeb);
+assert.deepEqual(mjaiNode.summary, expectedMjai);
+assert.equal(mjaiNode.observation.own_hand.length, 13);
+assert.equal("legal_mask" in mjaiNode.observation, false);
+await assert.rejects(node.analyzeMjai(mjson, 4), ProtocolError);
+assert.deepEqual(await node.view(), beforeMjaiNode);
+const spectator = await node.analyzeMjai(mjson);
+assert.equal(spectator.observation.own_hand, null);
+assert.deepEqual(await node.view(), beforeMjaiNode);
+assert.deepEqual(await web.view(), beforeMjaiWeb);
 for (const Engine of [NodeEngine, WebEngine]) {
   const engine = new Engine();
   const rejected = JSON.parse(engine.request("{"));
@@ -58,20 +96,25 @@ for (const Engine of [NodeEngine, WebEngine]) {
 }
 await node.close();
 await web.close();
-console.log("PACKAGE_CONSUMER_OK node web");
+console.log("PACKAGE_CONSUMER_OK node web mjai");
 '''
 
 CONSUMER_TS = '''import { createNodeEngine } from "@mahjong-sandbox/sdk/node";
 import { createBrowserEngine } from "@mahjong-sandbox/sdk/browser";
 import { Engine } from "@mahjong-sandbox/sdk/wasm/node";
+import { readMjaiEvents } from "@mahjong-sandbox/sdk";
 const raw = new Engine();
 raw.free();
 const client = createNodeEngine();
 void client.newGame();
 void client.view();
+void client.analyzeMjai("", 0);
+void readMjaiEvents([new Uint8Array()]);
 void createBrowserEngine(new Uint8Array());
 // @ts-expect-error 公開要求は任意オブジェクトやanyを受理しません。
 void client.command({ unknownOperation: true });
+// @ts-expect-error mjsonの閲覧席に文字列は指定できません。
+void client.analyzeMjai("", "east");
 client.close();
 '''
 
@@ -103,7 +146,9 @@ def check_archive(path: Path, required: set[str]) -> None:
     with tarfile.open(path) as archive:
         names = {entry.name.split("/", 1)[1] for entry in archive.getmembers() if entry.isfile() and "/" in entry.name}
     missing = required - names
-    unexpected = sorted(name for name in names if "/workdocs/" in name or "/verification/logs/" in name or name.startswith("node_modules/"))
+    unexpected = sorted(name for name in names if "/workdocs/" in name or "/verification/logs/" in name
+                        or name.startswith("node_modules/") or name.startswith("dist/mjai-real/")
+                        or "/dist/mjai-real/" in name)
     if missing or unexpected:
         raise RuntimeError(f"配布範囲が不正です: {path.name}; 不足={sorted(missing)}; 不要な記録={unexpected}")
 
@@ -121,6 +166,15 @@ def json_output(output: str, is_expected) -> object:
         if is_expected(value):
             return value
     raise ValueError("期待する構造のJSON出力が見つかりません")
+
+
+def validate_mjai_sample(output: str) -> dict:
+    """固定した自作例の非空件数・点数・打切りを配布バイナリで確認します。"""
+    summary = json_output(output, lambda value: isinstance(value, dict) and "records" in value)
+    counters = ("records", "rounds", "wins", "draws", "calls", "red_events", "riichi_sticks")
+    valid = summary == SAMPLE_MJAI_SUMMARY and all(type(summary.get(key)) is int for key in counters)
+    valid = valid and summary.get("records", 0) > 0 and summary.get("rounds", 0) > 0 and summary.get("complete") is False
+    return {"success": valid, "detail": "自作例の8イベント・1局・各25000点・truncatedを確認", "summary": summary}
 
 
 def main() -> int:
@@ -167,8 +221,11 @@ def main() -> int:
             check_archive(npm_archive, {"package.json", "LICENSE", "wasm/node/suzume_wasm_bg.wasm", "wasm/web/suzume_wasm_bg.wasm"})
             products.append(npm_archive)
         source_archive = run.directory / f"suzume-source-{version}.tar.gz"
+        source_files = [(path, path.relative_to(ROOT).as_posix()) for path in distribution_files()]
+        if any(relative.startswith("dist/") for _, relative in source_files):
+            raise RuntimeError("検査用の外部牌譜や作業用出力をソース配布物へ含めません")
         distribution_hashes = archive_files(source_archive, f"suzume-source-{version}",
-                                           [(path, path.relative_to(ROOT).as_posix()) for path in distribution_files()])
+                                           source_files)
         products.append(source_archive)
         native_archive = run.directory / f"suzume-{version}-{platform_key()}.tar.gz"
         extension = ".exe" if os.name == "nt" else ""
@@ -176,11 +233,17 @@ def main() -> int:
         native_readme = run.directory / "native-readme.md"
         native_readme.write_text(f"# すずめ {version}\n\n対象: {platform_key()}。作成環境の詳細はmanifest.jsonに記録しています。\n\n"
                                  "書庫を展開して、端末で次を実行してください。RustやNodeの導入は不要です。\n\n"
-                                 f"```sh\n./suzume{extension} --plain --seed 0\n./suzume-api{extension} --help\n```\n\n"
+                                 f"```sh\n./suzume{extension} --plain --seed 0\n./suzume-api{extension} --help\n"
+                                 f"./suzume-api{extension} mjai analyze examples/eight-actions.mjson\n"
+                                 f"./suzume-api{extension} mjai convert examples/replay-eight-actions.jsonl --output converted.mjson\n```\n\n"
+                                 "同梱例は本コアで生成した8操作の途中記録です。外部の実牌譜ではありません。\n"
+                                 "解析結果は8イベント・1局・各25000点、complete=false、termination=truncatedです。\n\n"
                                  "APIとルールの説明: https://github.com/yuki-inaho/mahjong-sandbox\n"
                                  "Linux版は作成環境のlibcに依存します。未確認のOSやCPUへの互換性は保証していません。\n", encoding="utf-8")
-        archive_files(native_archive, f"suzume-{version}", binaries + [(ROOT / "LICENSE", "LICENSE"), (native_readme, "README.md")],
+        archive_files(native_archive, f"suzume-{version}", binaries + [(ROOT / "LICENSE", "LICENSE"), (native_readme, "README.md")]
+                      + [(ROOT / relative, relative) for relative in SAMPLE_FILES],
                       executables={name for _, name in binaries})
+        check_archive(native_archive, {name for _, name in binaries} | set(SAMPLE_FILES) | {"README.md", "LICENSE"})
         products.append(native_archive)
         workspace_lock = run.directory / "workspace-Cargo.lock"
         shutil.copy2(ROOT / "Cargo.lock", workspace_lock)
@@ -207,6 +270,14 @@ def main() -> int:
             extract(native_archive, native)
             require("native-consumer-play", [str(native / f"suzume-{version}" / ("suzume" + extension)), "--snapshot", "--plain", "--seed", "0"], cwd=native, timeout=60,
                     validator=lambda output: {"success": "\x1b" not in output and "乱数種: 0" in output, "detail": "配布する実行ファイルを実際に起動"})
+            native_root = native / f"suzume-{version}"
+            native_api = str(native_root / ("suzume-api" + extension))
+            require("native-consumer-mjai", [native_api, "mjai", "analyze", "examples/eight-actions.mjson"],
+                    cwd=native_root, timeout=60, validator=validate_mjai_sample)
+            require("native-consumer-convert", [native_api, "mjai", "convert", "examples/replay-eight-actions.jsonl", "--output", "converted.mjson"],
+                    cwd=native_root, timeout=60)
+            require("native-consumer-converted-mjai", [native_api, "mjai", "analyze", "converted.mjson"],
+                    cwd=native_root, timeout=60, validator=validate_mjai_sample)
             if not args.native_only:
                 js = consumer / "javascript"
                 js.mkdir()
@@ -214,9 +285,12 @@ def main() -> int:
                 require("npm-consumer-install", ["npm", "install", "--offline", "--ignore-scripts", "--no-audit", "--no-fund", str(npm_archive)], cwd=js, timeout=180)
                 (js / "consumer.mjs").write_text(CONSUMER_JS, encoding="utf-8")
                 (js / "consumer.ts").write_text(CONSUMER_TS, encoding="utf-8")
+                shutil.copy2(native_root / "examples/eight-actions.mjson", js / "eight-actions.mjson")
+                (js / "mjai-expected.json").write_text(json.dumps(SAMPLE_MJAI_SUMMARY), encoding="utf-8")
                 require("npm-consumer-types", ["tsc", "--strict", "--noUncheckedIndexedAccess", "--exactOptionalPropertyTypes", "--noEmit", "--module", "NodeNext", "--target", "ES2022", "--lib", "ES2022,DOM", "consumer.ts"], cwd=js, timeout=120)
                 require("npm-consumer-runtime", ["node", "consumer.mjs"], cwd=js, timeout=120,
-                        validator=lambda output: {"success": "PACKAGE_CONSUMER_OK node web" in output, "detail": "公開SDKのNode/Web入口と配布された実WASMを実行"})
+                        validator=lambda output: {"success": "PACKAGE_CONSUMER_OK node web mjai" in output,
+                                                  "detail": "公開SDK・Node/Web実WASMで対局とmjsonを解析し、逐次件数・最終点・視点・対局状態の不変を確認"})
             source = consumer / "source"
             source.mkdir()
             extract(source_archive, source)
@@ -232,8 +306,11 @@ def main() -> int:
                     "git_head": head.strip() if code == 0 else None, "working_tree_dirty": bool(status.strip()),
                     "environment": report, "source_sha256": after, "source_bundle_sha256_by_file": distribution_hashes,
                     "artifacts": [{"file": path.name, "bytes": path.stat().st_size, "sha256": digest(path)} for path in products],
-                    "consumption": ["crateを固定lock付きbuild", "配布CLIを実行", "source bundleをbuild", "source bundle内の文書リンクとコマンド入口を検査"]
-                                   + ([] if args.native_only else ["npm tarballをoffline install", "公開TypeScript型を検査", "Nodeとweb用WASMを実行"])}
+                    "external_corpus_included": False,
+                    "consumption": ["crateを固定lock付きbuild", "配布CLIを実行", "配布nativeでmjsonを解析", "旧replayをmjsonへ変換して結果を照合",
+                                    "source bundleをbuild", "source bundle内の文書リンクとコマンド入口を検査"]
+                                   + ([] if args.native_only else ["npm tarballをoffline install", "公開TypeScript型を検査",
+                                                                  "Nodeとweb用WASMでmjsonを解析", "公開mjson逐次読込みの全件完了を確認"])}
         write_json(run.directory / "manifest.json", manifest)
         with (run.directory / "SHA256SUMS").open("x", encoding="utf-8", newline="\n") as output:
             for path in products:

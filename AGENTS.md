@@ -3,7 +3,8 @@
 ## 目的と作業入口
 
 Rustで独自実装する端末用の四人リーチ麻雀「すずめ」です。
-現在の作業の正本は `docs/workdocs/workdoc_Nov23-2026_platform.md` です。
+現在の作業の正本は `docs/workdocs/workdoc_Nov23-2026_mjson.md` です。
+API基盤拡張の記録は `docs/workdocs/workdoc_Nov23-2026_platform.md` に保持します。
 初版の記録は `docs/workdocs/workdoc_Nov23-2026_suzume.md` に保持します。
 コンセプト・仕様・契約・ADRは `docs/`、宣言されたルールは `rules/` に置きます。
 

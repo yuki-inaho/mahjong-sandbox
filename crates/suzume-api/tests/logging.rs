@@ -14,8 +14,15 @@ use suzume_api::logging::{
 };
 use suzume_api::types::{ActionId, ApiError, ErrorCode, Seed};
 
-fn fixture(seed: u64, steps: u32, format: LogFormat) -> (Vec<u8>, Game) {
+// These tests retain the exact legacy replay contract after the canonical default changes.
+fn replay_config() -> AppConfig {
     let mut config = AppConfig::default();
+    config.logging.format = LogFormat::Replay;
+    config
+}
+
+fn fixture(seed: u64, steps: u32, format: LogFormat) -> (Vec<u8>, Game) {
+    let mut config = replay_config();
     config.game.seed = Seed::from(seed);
     config.game.max_steps = steps;
     config.logging.format = format;
@@ -263,7 +270,7 @@ fn public_log_contains_only_public_views_and_semantic_actions() {
 
 #[test]
 fn writer_rejects_skips_wrong_actor_and_false_termination() {
-    let config = AppConfig::default();
+    let config = replay_config();
     let mut game = Game::new(0).unwrap();
     let mut writer = LogWriter::new(Vec::new(), &config, &game).unwrap();
     assert!(writer.record(0, &Action::Discard(0), &game, None).is_err());
@@ -283,7 +290,7 @@ fn writer_rejects_skips_wrong_actor_and_false_termination() {
 #[test]
 fn interrupted_empty_and_nonempty_logs_are_explicitly_truncated_datasets() {
     for steps in [0, 2] {
-        let config = AppConfig::default();
+        let config = replay_config();
         let mut game = Game::new(0).unwrap();
         let mut writer = LogWriter::new(Vec::new(), &config, &game).unwrap();
         for _ in 0..steps {
@@ -315,7 +322,7 @@ fn interrupted_empty_and_nonempty_logs_are_explicitly_truncated_datasets() {
 
 #[test]
 fn dataset_uses_the_same_observations_actions_and_rewards_as_environment() {
-    let mut config = AppConfig::default();
+    let mut config = replay_config();
     config.game.seed = 27_u64.into();
     config.game.max_steps = 32;
     let mut env = Environment::new(&config.game.seed, 32, 1).unwrap();
@@ -397,7 +404,7 @@ fn io_and_callback_failures_are_not_successful_logs() {
         .unwrap_err()
         .message
         .contains("read failure"));
-    let config = AppConfig::default();
+    let config = replay_config();
     let mut game = Game::new(0).unwrap();
     let remaining = Rc::new(Cell::new(0));
     assert!(LogWriter::new(
@@ -449,7 +456,7 @@ fn io_and_callback_failures_are_not_successful_logs() {
 
 #[test]
 fn a_complete_match_is_distinct_from_an_external_cutoff() {
-    let config = AppConfig::default();
+    let config = replay_config();
     let mut game = Game::new(0).unwrap();
     let mut writer = LogWriter::new(Vec::new(), &config, &game).unwrap();
     while !matches!(game.phase(), Phase::MatchEnd) {
@@ -475,7 +482,7 @@ fn a_complete_match_is_distinct_from_an_external_cutoff() {
 
 #[test]
 fn decision_metadata_is_consistent_and_never_appears_in_public_output() {
-    let mut config = AppConfig::default();
+    let mut config = replay_config();
     config.game.viewer = Viewer::Public(PublicViewer::Public);
     config.game.max_steps = 1;
     config.players = std::array::from_fn(|index| Controller::Ai {

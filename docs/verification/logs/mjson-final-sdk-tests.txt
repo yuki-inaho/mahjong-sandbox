@@ -1,0 +1,139 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 test
+> npm run build && npm run typecheck && node --test --test-reporter=tap tests/*.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 build
+> tsc -p tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 typecheck
+> tsc -p tsconfig.tests.json
+
+TAP version 13
+# Subtest: native Rust and real Node WASM produce identical versioned responses
+ok 1 - native Rust and real Node WASM produce identical versioned responses
+  ---
+  duration_ms: 171.320849
+  type: 'test'
+  ...
+# Subtest: typed client checks stale actions, private views and terminal masks using real WASM
+ok 2 - typed client checks stale actions, private views and terminal masks using real WASM
+  ---
+  duration_ms: 5.939788
+  type: 'test'
+  ...
+# Subtest: browser ESM binding instantiates packaged bytes without Node-specific browser code
+ok 3 - browser ESM binding instantiates packaged bytes without Node-specific browser code
+  ---
+  duration_ms: 5.040941
+  type: 'test'
+  ...
+# Subtest: mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions
+ok 4 - mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions
+  ---
+  duration_ms: 43.960932
+  type: 'test'
+  ...
+# Subtest: streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+ok 5 - streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+  ---
+  duration_ms: 27.22222
+  type: 'test'
+  ...
+# Subtest: streaming parser refuses missing footer, duplicate keys and configured limits
+ok 6 - streaming parser refuses missing footer, duplicate keys and configured limits
+  ---
+  duration_ms: 22.910791
+  type: 'test'
+  ...
+# Subtest: native replay exports transitions consumed by the typed streaming parser
+ok 7 - native replay exports transitions consumed by the typed streaming parser
+  ---
+  duration_ms: 114.674605
+  type: 'test'
+  ...
+# Subtest: mjai structure preserves red and unknown tiles and producer metadata
+ok 8 - mjai structure preserves red and unknown tiles and producer metadata
+  ---
+  duration_ms: 2.736301
+  type: 'test'
+  ...
+# Subtest: mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+ok 9 - mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+  ---
+  duration_ms: 4.493365
+  type: 'test'
+  ...
+# Subtest: mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+ok 10 - mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+  ---
+  duration_ms: 6.653015
+  type: 'test'
+  ...
+# Subtest: mjai streaming validates lifecycle and distinguishes declared interruption
+ok 11 - mjai streaming validates lifecycle and distinguishes declared interruption
+  ---
+  duration_ms: 8.007174
+  type: 'test'
+  ...
+# Subtest: mjai limits and malformed stream diagnostics identify the failing line
+ok 12 - mjai limits and malformed stream diagnostics identify the failing line
+  ---
+  duration_ms: 2.658463
+  type: 'test'
+  ...
+# Subtest: mjai structural streaming does not claim to validate tile movement
+ok 13 - mjai structural streaming does not claim to validate tile movement
+  ---
+  duration_ms: 3.893669
+  type: 'test'
+  ...
+# Subtest: strict parsing rejects duplicates, malformed text and excessive structure
+ok 14 - strict parsing rejects duplicates, malformed text and excessive structure
+  ---
+  duration_ms: 4.771238
+  type: 'test'
+  ...
+# Subtest: runtime request validation enforces bounds, literal tags and exact seed text
+ok 15 - runtime request validation enforces bounds, literal tags and exact seed text
+  ---
+  duration_ms: 2.723742
+  type: 'test'
+  ...
+# Subtest: untrusted responses and closed clients do not enter application state
+ok 16 - untrusted responses and closed clients do not enter application state
+  ---
+  duration_ms: 0.613586
+  type: 'test'
+  ...
+# Subtest: cyclic, accessor and sparse values are rejected before JSON serialization
+ok 17 - cyclic, accessor and sparse values are rejected before JSON serialization
+  ---
+  duration_ms: 0.280854
+  type: 'test'
+  ...
+# Subtest: prototype names cannot bypass schema property and definition lookup
+ok 18 - prototype names cannot bypass schema property and definition lookup
+  ---
+  duration_ms: 0.381226
+  type: 'test'
+  ...
+# Subtest: integer wire values reject lossy decimal and exponent spellings like Rust
+ok 19 - integer wire values reject lossy decimal and exponent spellings like Rust
+  ---
+  duration_ms: 0.388576
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 343.92163

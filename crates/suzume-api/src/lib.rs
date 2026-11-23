@@ -6,6 +6,7 @@ pub mod config;
 pub mod decision;
 pub mod environment;
 pub mod logging;
+pub mod mjai;
 pub mod protocol;
 pub mod transport;
 pub mod types;
@@ -169,6 +170,31 @@ impl Engine {
                     effective_ai,
                 })
             }
+            Request::AnalyzeMjai { mjson, viewer, .. } => {
+                if mjson.len() > MAX_REQUEST_BYTES {
+                    return Err(ApiError::new(
+                        ErrorCode::InvalidRequest,
+                        "mjson exceeds 1048576 bytes; use the native file interface for larger records",
+                    ));
+                }
+                let mut observation = None;
+                let summary = mjai::visit(
+                    &mut std::io::Cursor::new(mjson.as_bytes()),
+                    logging::LogLimits::default(),
+                    |record, state| {
+                        if matches!(record.event, mjai::Event::EndGame) {
+                            observation = Some(Box::new(state.observe(viewer)));
+                        }
+                        Ok(())
+                    },
+                )?;
+                Ok(ResponseData::Mjai {
+                    summary,
+                    observation: observation.ok_or_else(|| {
+                        ApiError::new(ErrorCode::LogError, "mjson has no final observation")
+                    })?,
+                })
+            }
             Request::View { .. } => {
                 let session = self.session_mut()?;
                 Ok(ResponseData::Game {
@@ -322,5 +348,97 @@ impl Engine {
                 })
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod mjai_api_tests {
+    use super::*;
+    use serde_json::{json, Value};
+
+    fn record() -> String {
+        let mut hands = vec![vec!["?"; 13]; 4];
+        hands[1][0] = "9s";
+        [
+            json!({"type":"start_game"}),
+            json!({"type":"start_kyoku","bakaze":"E","dora_marker":"1p","kyoku":1,
+                "honba":0,"kyotaku":0,"oya":0,"scores":[25000,25000,25000,25000],"tehais":hands}),
+            json!({"type":"tsumo","actor":0,"pai":"5mr"}),
+            json!({"type":"dahai","actor":0,"pai":"5mr","tsumogiri":true}),
+            json!({"type":"ryukyoku","deltas":[0,0,0,0]}),
+            json!({"type":"end_kyoku"}),
+            json!({"type":"end_game"}),
+        ]
+        .iter()
+        .map(Value::to_string)
+        .collect::<Vec<_>>()
+        .join("\n")
+    }
+
+    fn call(engine: &mut Engine, request: Value) -> Value {
+        serde_json::from_str(&engine.request(&request.to_string())).unwrap()
+    }
+
+    #[test]
+    fn mjai_analysis_preserves_session_and_redacts_other_hands() {
+        let mut engine = Engine::new();
+        let initial = call(&mut engine, json!({"version":1,"op":"new"}));
+        let response = call(
+            &mut engine,
+            json!({"version":1,"op":"analyze_mjai","mjson":record(),"viewer":0}),
+        );
+        assert_eq!(response["status"], "ok", "{response}");
+        assert_eq!(response["data"]["kind"], "mjai");
+        assert_eq!(response["data"]["summary"]["records"], 7);
+        assert_eq!(response["data"]["summary"]["rounds"], 1);
+        assert_eq!(response["data"]["summary"]["red_events"], 2);
+        assert_eq!(
+            response["data"]["observation"]["own_hand"]
+                .as_array()
+                .unwrap()
+                .len(),
+            13
+        );
+        assert!(!response.to_string().contains("9s"));
+        assert_eq!(call(&mut engine, json!({"version":1,"op":"view"})), initial);
+        let public = call(
+            &mut engine,
+            json!({"version":1,"op":"analyze_mjai","mjson":record()}),
+        );
+        assert_eq!(public["status"], "ok");
+        assert!(public["data"]["observation"]["own_hand"].is_null());
+    }
+
+    #[test]
+    fn mjai_analysis_reports_input_position_without_mutating_environment() {
+        let mut engine = Engine::new();
+        let initial = call(
+            &mut engine,
+            json!({"version":1,"op":"environment_reset","seed":"1"}),
+        );
+        let response = call(
+            &mut engine,
+            json!({"version":1,"op":"analyze_mjai",
+            "mjson":"{\"type\":\"start_game\"}\n{\"type\":\"tsumo\",\"actor\":0,\"pai\":\"1m\"}"}),
+        );
+        assert_eq!(response["code"], "log_error", "{response}");
+        assert!(response["message"]
+            .as_str()
+            .unwrap()
+            .contains("line 2 (tsumo)"));
+        assert_eq!(
+            call(&mut engine, json!({"version":1,"op":"environment_view"})),
+            initial
+        );
+        let invalid = call(
+            &mut engine,
+            json!({"version":1,"op":"analyze_mjai","mjson":record(),"viewer":4}),
+        );
+        assert_eq!(invalid["code"], "invalid_request");
+        let oversized = call(
+            &mut engine,
+            json!({"version":1,"op":"analyze_mjai","mjson":" ".repeat(MAX_REQUEST_BYTES)}),
+        );
+        assert_eq!(oversized["code"], "invalid_request");
     }
 }

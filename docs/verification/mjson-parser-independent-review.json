@@ -1,0 +1,23 @@
+{
+  "cases": [
+    {
+      "case": "tedashi-loses-known-draw",
+      "passed": true,
+      "input_sha256": "9a17d5e1e9d872c9cf61b5c1ce0a0dbf9f02cd85f239d040ca5e9a1947354f47"
+    },
+    {
+      "case": "tsumo-followed-by-ron",
+      "passed": true,
+      "input_sha256": "d6c22b70dbfaa7826d2eac15db16f3185fa801c1e16dbf01a132ded98858e1a8"
+    },
+    {
+      "case": "unknown-physical-overflow",
+      "passed": true,
+      "input_sha256": "9a6187639a0a2596e7ac0d3003ba54c4e9d4a5f613063d68eaed594e5916554b"
+    }
+  ],
+  "input_sha256": {
+    "target/debug/suzume-api": "5c1f6a7f8c1320e0ae29db9cf7a5ebaf18c40e41a4126fab698d703de84ecd8c",
+    "crates/suzume-api/src/mjai/state.rs": "6611187f22208dc7564a6d0c83b2b61e2f848022c9018c4a1c689eeb9d845241"
+  }
+}

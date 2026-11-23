@@ -1,8 +1,9 @@
-//! Versioned, bounded JSON Lines for trusted replay and public sharing.
+//! Output format selection and the legacy bounded JSON Lines replay protocol.
 //!
-//! Full logs reveal every hidden tile through their seed. Public logs cannot be
-//! replayed and never contain private indices, AI decisions, or hidden hashes.
-//! Replay hashes cover a bounded view projection, not the complete internal Game.
+//! [`LogWriter`] defaults to the mjai event writer in [`crate::mjai`]. Explicit
+//! legacy replay logs reveal hidden tiles through their seed; legacy public logs
+//! cannot be replayed and omit private indices, decisions and hidden hashes.
+//! Legacy replay hashes cover a bounded view projection, not the internal Game.
 //! Stream exporters may have called the consumer before a later input error;
 //! publish an output file only after the complete input has been accepted.
 
@@ -24,11 +25,11 @@ use suzume::game::{Game, Phase};
 pub const SHUFFLE_ALGORITHM: &str = "splitmix64-fisher-yates-v1";
 const LOG_SESSION_ID: u32 = 1;
 
-fn error(message: impl Into<String>) -> ApiError {
+pub(crate) fn error(message: impl Into<String>) -> ApiError {
     ApiError::new(ErrorCode::LogError, message)
 }
 
-fn seat(value: usize) -> Result<SeatId, ApiError> {
+pub(crate) fn seat(value: usize) -> Result<SeatId, ApiError> {
     u8::try_from(value)
         .ok()
         .and_then(SeatId::new)
@@ -51,7 +52,7 @@ fn position_sha256(game: &Game, revision: u32) -> Result<String, ApiError> {
     Ok(format!("{:x}", Sha256::digest(bytes)))
 }
 
-fn validate_reason(
+pub(crate) fn validate_reason(
     game: &Game,
     sequence: u32,
     max_steps: u32,
@@ -71,7 +72,7 @@ fn validate_reason(
     Ok(())
 }
 
-fn validate_decision(
+pub(crate) fn validate_decision(
     decision: Option<&DecisionView>,
     action: &WireAction,
     effective: Option<&EffectiveAiConfig>,

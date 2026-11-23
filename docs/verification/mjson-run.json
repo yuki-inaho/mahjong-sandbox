@@ -1,0 +1,916 @@
+{
+  "schema": "suzume-run/1",
+  "id": "20261123T091254Z-191b89c602",
+  "started_at": "2026-11-23T09:12:54.259760+00:00",
+  "finished_at": "2026-11-23T09:15:15.735967+00:00",
+  "checks": [
+    {
+      "id": "tool-versions",
+      "command": [
+        "python3",
+        "scripts/doctor.py",
+        "--profile",
+        "full",
+        "--json"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 180,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.397,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "固定版・対象・Python最小版を照合"
+      },
+      "log": "tool-versions.log",
+      "log_sha256": "1312be68d2538ea2b6b128aa7e46cecd2543b0920cce48734d778de1ff18189d"
+    },
+    {
+      "id": "documentation-links",
+      "command": [
+        "python3",
+        "scripts/check_documentation.py",
+        "--json"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.243,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "文書・相対リンク・コマンド入口の非空な検査とエラー0件を確認",
+        "report": {
+          "success": true,
+          "documents": 51,
+          "local_links": 425,
+          "external_links": 51,
+          "repository_commands": 98,
+          "historical_command_documents": 11,
+          "errors": []
+        }
+      },
+      "log": "documentation-links.log",
+      "log_sha256": "8bf5061a24b9f631798ca7ad56c5e445c5216f3577f23758a1190ba9a354f308"
+    },
+    {
+      "id": "documentation-checker-tests",
+      "command": [
+        "python3",
+        "scripts/check_documentation.py",
+        "--self-test"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.101,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Pythonテストの必要最小数10件と省略なしの成功を確認",
+        "counts": [
+          "10"
+        ]
+      },
+      "log": "documentation-checker-tests.log",
+      "log_sha256": "eec7a83aeffe08b3b7475d6794737b3e51b4ae20606bf0b91ee596d4abd32bea"
+    },
+    {
+      "id": "rule-sync",
+      "command": [
+        "python3",
+        "scripts/generate_rules.py",
+        "--check"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.036,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "rule-sync.log",
+      "log_sha256": "309998594a6d7f36400d2403792705212d0b2ae1c46b0c6a5b3414829e060e73"
+    },
+    {
+      "id": "generator-tests",
+      "command": [
+        "python3",
+        "scripts/test_generate_rules.py"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.124,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Pythonテストの必要最小数19件と省略なしの成功を確認",
+        "counts": [
+          "19"
+        ]
+      },
+      "log": "generator-tests.log",
+      "log_sha256": "25c57990a4f7f44d3d8361c8b8cecd4dd375bbc1abc3435c2803b1893626852e"
+    },
+    {
+      "id": "generator-rust-lean-semantics",
+      "command": [
+        "python3",
+        "scripts/check_generator_semantics.py"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.657,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "実Rust/Leanを使う7関係・19例の照合を確認",
+        "counts": [
+          [
+            "7",
+            "19"
+          ]
+        ]
+      },
+      "log": "generator-rust-lean-semantics.log",
+      "log_sha256": "b8077498e123e19f1a247ff94d03c3de41ac0b8812e2443e0dca4ca71523d8c3"
+    },
+    {
+      "id": "verifier-self-tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_platform_checks.py"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.124,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Pythonテストの必要最小数13件と省略なしの成功を確認",
+        "counts": [
+          "13"
+        ]
+      },
+      "log": "verifier-self-tests.log",
+      "log_sha256": "0085420f91e2535c6b0def560eb97a87362902da73218e8181bd9910ff57ea8e"
+    },
+    {
+      "id": "rust-format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.187,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "rust-format.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "rust-clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--locked",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.298,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "rust-clippy.log",
+      "log_sha256": "299f16a2c523be18fef769975d2df00e0505521db047540feea3a74b94666887"
+    },
+    {
+      "id": "rust-tests",
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--locked"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 19.726,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Rustテスト 188件、必要最小数 76件。失敗・無視・絞込は0件を要求",
+        "passed": 188
+      },
+      "log": "rust-tests.log",
+      "log_sha256": "190cd3249e7249ffb74eb0f03b1b01a1ad1d996c09a32c7f819b21891cd3f130"
+    },
+    {
+      "id": "simulation-32",
+      "command": [
+        "cargo",
+        "run",
+        "-p",
+        "suzume-cli",
+        "--bin",
+        "suzume",
+        "--locked",
+        "--release",
+        "--",
+        "--simulate",
+        "32",
+        "--seed",
+        "0"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 600,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.668,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "種0〜31の母数固定検査",
+        "successful_seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ]
+      },
+      "log": "simulation-32.log",
+      "log_sha256": "b415f9cfbbb822f956d505a7e110bed849a2933c784c4b9d5e030eac65175c58"
+    },
+    {
+      "id": "api-schema-sync",
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "-p",
+        "suzume-api",
+        "--bin",
+        "export-schema",
+        "--",
+        "--check"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 600,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.136,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "api-schema-sync.log",
+      "log_sha256": "1c06dde56d8653c0e51589fc5fca6c14d9b4e16a7b56c356eb899028010195e1"
+    },
+    {
+      "id": "typescript-protocol-sync",
+      "command": [
+        "python3",
+        "scripts/generate_protocol_ts.py",
+        "--check"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.05,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "typescript-protocol-sync.log",
+      "log_sha256": "32dde9a2fee520dc9b9adf34df33617d74cc7ece490c73decbf4ca902e578e0c"
+    },
+    {
+      "id": "wasm-build",
+      "command": [
+        "python3",
+        "scripts/build_wasm.py"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 1200,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.843,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "wasm-build.log",
+      "log_sha256": "1c6677e9ace1b27638d46ad361dc421f4e17d10b039006e1fa499415c586ad5e"
+    },
+    {
+      "id": "sdk-build",
+      "command": [
+        "npm",
+        "--prefix",
+        "<repository>/packages/suzume",
+        "run",
+        "build"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.928,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "sdk-build.log",
+      "log_sha256": "7458a5f27af78c9a9fed21330b87a0dcf819960aa59c491d4a16e35dd933b6d9"
+    },
+    {
+      "id": "sdk-tests",
+      "command": [
+        "npm",
+        "--prefix",
+        "<repository>/packages/suzume",
+        "test"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.605,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "NodeのTAP集計を検査。0件・失敗・中断・省略を拒否",
+        "counts": {
+          "tests": [
+            "19"
+          ],
+          "pass": [
+            "19"
+          ],
+          "fail": [
+            "0"
+          ],
+          "cancelled": [
+            "0"
+          ],
+          "skipped": [
+            "0"
+          ],
+          "todo": [
+            "0"
+          ]
+        }
+      },
+      "log": "sdk-tests.log",
+      "log_sha256": "5f804a135bd7b5a62e4f4a5ecaa578261be000ce9bf275fb656a273a5cef8e80"
+    },
+    {
+      "id": "lean-build",
+      "command": [
+        "lake",
+        "build"
+      ],
+      "cwd": "<repository>/proofs",
+      "timeout_seconds": 600,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.178,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "lean-build.log",
+      "log_sha256": "a582e478e194b77121d30065392318daae65ee7006c9488ce3a7cd4fbdf3b3d9"
+    },
+    {
+      "id": "lean-axioms",
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "Mahjong/Audit.lean"
+      ],
+      "cwd": "<repository>/proofs",
+      "timeout_seconds": 180,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.703,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "全期待定理と許可公理だけを確認",
+        "theorem_count": 18,
+        "missing": [],
+        "unexpected": [],
+        "axioms": [
+          "Classical.choice",
+          "Quot.sound",
+          "propext"
+        ],
+        "rejected_axioms": []
+      },
+      "log": "lean-axioms.log",
+      "log_sha256": "8e50c7550798edb2a5d40c0a4fa8111abfbe7a76b204f3e0140f2278896bb5e7"
+    },
+    {
+      "id": "kani",
+      "command": [
+        "cargo",
+        "kani",
+        "-p",
+        "suzume",
+        "--lib",
+        "--output-format",
+        "terse"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 1200,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 111.203,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "全期待ハーネスの成功を確認",
+        "harness_count": 6,
+        "missing": [],
+        "successful": [
+          "contracts::proofs::discard_refines_declaration",
+          "contracts::proofs::dora_refines_declaration",
+          "contracts::proofs::move_one_refines_declaration_and_conserves",
+          "contracts::proofs::next_seat_refines_declaration",
+          "contracts::proofs::point_transfer_refines_declaration_and_is_atomic",
+          "contracts::proofs::riichi_refines_declaration"
+        ]
+      },
+      "log": "kani.log",
+      "log_sha256": "a3514fa58ce1a0bf2eed2532ae03be278891deb645afffeb5c5b25de918dbe21"
+    },
+    {
+      "id": "negative-controls",
+      "command": [
+        "python3",
+        "scripts/check_contract_negatives.py",
+        "--log",
+        "<repository>/dist/verification/20261123T091254Z-191b89c602/negative-controls-detail.log"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.797,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "5件の否定検査それぞれの拒否と集計を確認",
+        "identifiers": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05"
+        ]
+      },
+      "log": "negative-controls.log",
+      "log_sha256": "31cdfe4567ada5be51cf582433b02ecb4dddbbcacc8a8ab741527629091a9915"
+    }
+  ],
+  "profile": "full",
+  "full_verification": true,
+  "omitted_profiles": [],
+  "environment": {
+    "schema": "suzume-environment/1",
+    "profile": "full",
+    "os": "Linux",
+    "os_release": "6.18.57",
+    "architecture": "x86_64",
+    "libc": [
+      "glibc",
+      "2.41"
+    ],
+    "python": "3.12.14",
+    "rust_details": "rustc 1.100.0 (0ef1bc386 2026-11-09)\nbinary: rustc\ncommit-hash: 0ef1bc386059596dada8fb65b50425aab2ea637a\ncommit-date: 2026-11-09\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0\nLLVM version: 23.1.5",
+    "checks": {
+      "rust": {
+        "expected": "1.100.0",
+        "observed": "1.100.0",
+        "exit_code": 0,
+        "success": true,
+        "detail": "rustc 1.100.0 (0ef1bc386 2026-11-09)"
+      },
+      "cargo": {
+        "expected": "1.100.0",
+        "observed": "1.100.0",
+        "exit_code": 0,
+        "success": true,
+        "detail": "cargo 1.100.0 (3acc79c0c 2026-11-05)"
+      },
+      "rustup": {
+        "expected": "1.29.3",
+        "observed": "1.29.3",
+        "exit_code": 0,
+        "success": true,
+        "detail": "rustup 1.29.3 (edbc831ce 2026-11-02)\ninfo: This is the version for the rustup toolchain manager, not the rustc compiler.\ninfo: the currently active `rustc` version is `rustc 1.100.0 (0ef1bc386 2026-11-09)`"
+      },
+      "node": {
+        "expected": "24.22.3",
+        "observed": "24.22.3",
+        "exit_code": 0,
+        "success": true,
+        "detail": "v24.22.3"
+      },
+      "npm": {
+        "expected": "11.19.1",
+        "observed": "11.19.1",
+        "exit_code": 0,
+        "success": true,
+        "detail": "11.19.1"
+      },
+      "typescript": {
+        "expected": "7.0.2",
+        "observed": "7.0.2",
+        "exit_code": 0,
+        "success": true,
+        "detail": "Version 7.0.2"
+      },
+      "wasm_bindgen": {
+        "expected": "0.2.130",
+        "observed": "0.2.130",
+        "exit_code": 0,
+        "success": true,
+        "detail": "wasm-bindgen 0.2.130"
+      },
+      "kani": {
+        "expected": "0.68.0",
+        "observed": "0.68.0",
+        "exit_code": 0,
+        "success": true,
+        "detail": "Kani Rust Verifier 0.68.0 (cargo plugin)\nCBMC 6.11.0"
+      },
+      "lean": {
+        "expected": "4.36.0",
+        "observed": "4.36.0",
+        "exit_code": 0,
+        "success": true,
+        "detail": "Lean (version 4.36.0, x86_64-unknown-linux-gnu, commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release)"
+      },
+      "wasm_target": {
+        "success": true,
+        "detail": "wasm32-unknown-unknown\nx86_64-unknown-linux-gnu"
+      },
+      "python": {
+        "expected_minimum": "3.12",
+        "observed": "3.12.14",
+        "success": true
+      }
+    },
+    "success": true
+  },
+  "source_sha256_before": {
+    ".gitattributes": "1e3d8a5dbdad293eca60d0b66a553b0f25024539335dd850d5df18df09907382",
+    ".github/workflows/ci.yml": "362e77b82835b9af42805bc25b6f944b6211f7de1d9e2cb0b8f41779b2ebc7b9",
+    ".github/workflows/mjai.yml": "9786b85632c3d20ec146499cf4b6974c3fe740d397c32a496106d293a65eef53",
+    ".github/workflows/platform.yml": "350614775783c3de7c5831087e41a6edb9fcee66e97425ec7e7f655b21e79cab",
+    "Cargo.lock": "f5e794297c66b91059d5bfc129cb33d61c2b8d09d291a7c65f8fe8d1e6e2210b",
+    "Cargo.toml": "caa42c53f6eae56c92a391e7ac07ef9f9187909753c4ff02923a056d4492cb52",
+    "LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "README.md": "e2a8803d46862ceee5904ee8942112821286858f6fd2c7e67b21f368a867c77a",
+    "bindings/protocol.schema.json": "2d50f5d6b843ccf8f90671ca1bf6317e14c63b5a5121164787456e569bbdecd3",
+    "config/default.toml": "73e480276147d4494ab153809f8de080f5471b214624b3544a8be5fdd0937fc2",
+    "crates/suzume-api/Cargo.toml": "b503d8e9a7866ab3a9bd36f70054bd652c7d77a2b93a43a9f16a49a711ab4155",
+    "crates/suzume-api/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "crates/suzume-api/README.md": "858052c21f9bdee106442d6e9921126c229f37ab08d2b1548c843805ca669cd9",
+    "crates/suzume-api/examples/record.rs": "565f053a6525752d8294a0b0032b656c91346b534b0bc023e63605da9e72b58c",
+    "crates/suzume-api/src/actions.rs": "95d5fe1f4d91140b9d8bd5bb7b70c682b9afe02eebca83e0b3d10d8c7bea10df",
+    "crates/suzume-api/src/bin/export-schema.rs": "fa3a169c28b6fdc93ce1bd9630888a037f2284d7f75ccc81b5de3f68aab8fc63",
+    "crates/suzume-api/src/bin/suzume-api.rs": "6dddda15aa19c4338d8029c82b99856989b218d06b9cea2a38cd2929784d00c8",
+    "crates/suzume-api/src/config.rs": "4cedde39ee995a616b4a077a0914df73a50014433e7f8afcdfef1c90566e2e98",
+    "crates/suzume-api/src/decision.rs": "4ae42c392907c97c72adc8e9f2415901d5df9469d2d8bd96eb6efddb8bac2d88",
+    "crates/suzume-api/src/environment.rs": "8b6d146a6396c043c4372d72a4a71b2b9b6f35abfff33318d02136e41e4f3242",
+    "crates/suzume-api/src/lib.rs": "ca38b77692978fb73619546719abc810238d95fc37dcc4bbea7ec5108cf8fa9e",
+    "crates/suzume-api/src/logging/mod.rs": "35664d9170c6ce4073ba0274a0e34aced9d631d5b953f01a6601f84d5e437c0b",
+    "crates/suzume-api/src/logging/reader.rs": "a213cae311a50ccb8059d7b73b4d61e79621c76b58391cf1e25611b78f852bd3",
+    "crates/suzume-api/src/logging/types.rs": "7716180776d31e3d1a7775b7fcc1ee618096a2f139ce278aeb7df1e1d921eb72",
+    "crates/suzume-api/src/logging/writer.rs": "5e442bec13959394f9b380628c909da5ac35416c955633b88acf74065b3187b4",
+    "crates/suzume-api/src/mjai/mod.rs": "c62554353d364700aef158c942bbd41ad5155febd923d97a3b600220ccbdfcd2",
+    "crates/suzume-api/src/mjai/reader.rs": "d1e38f44f20aa1873b59dea05a3104ee533b3f7fe42d49e97aedd2b5c88c8843",
+    "crates/suzume-api/src/mjai/state.rs": "6611187f22208dc7564a6d0c83b2b61e2f848022c9018c4a1c689eeb9d845241",
+    "crates/suzume-api/src/mjai/types.rs": "ca8086a72bee14e4fe053793eea7c768fb84ee2a5de6e5f739c22d74430e84db",
+    "crates/suzume-api/src/mjai/writer.rs": "fd420e83fc9a541a1d9c830615f47bd1e4dbb8ba52159a016ff38c5da2f96be3",
+    "crates/suzume-api/src/protocol.rs": "1c1d9745613aaf10d0c0b448fb1f7b18fa5e62ced42a0b2b860eb8fffdcc8e98",
+    "crates/suzume-api/src/transport.rs": "576ff6760775de689762f8b3b2865d596bdd0ede82528ab52b0fe9bf433abd55",
+    "crates/suzume-api/src/types.rs": "4563d54e30b841ffbdb352229e70a1bd8f28bd45155f974c6b07ae00e1bc26fa",
+    "crates/suzume-api/src/view.rs": "26cc30339d2d5454da10f4906883cf03d067d53958f03d3eefb4751ddb71024b",
+    "crates/suzume-api/tests/api_boundary.rs": "753e7ee358cbaad8b42842512999886c0eca6cd0bc4410c4a1f50cc5223792ef",
+    "crates/suzume-api/tests/config_environment.rs": "7f5a91eb6765a0717ff0b32b7cc774764cbca9cf98ab593f07a37ac60da9d6b7",
+    "crates/suzume-api/tests/environment_match.rs": "2ec6953b84be659d4bf4a7db075451d75da899d2d39f89c63bef671b7cdd4560",
+    "crates/suzume-api/tests/file_cli.rs": "7ac9d979212e034e59ddcbc637a7365234e51b54efb7430b0831c7ad943123bc",
+    "crates/suzume-api/tests/logging.rs": "aa1d1f09e54637b8ce2e0f3f9743574cdcbe69f81b47009e66db1c7d716328b9",
+    "crates/suzume-api/tests/mjai_cli.rs": "78da47e342d8706aa7db1be830e035417f578c8fbf0f763f9eb5e34180c5b69b",
+    "crates/suzume-api/tests/mjai_parser.rs": "e062f980934c9b5ec33cb515486f727aa1ab0c0567d74cd516fe6e496791e920",
+    "crates/suzume-api/tests/mjai_writer.rs": "4e3be6594596c25e06f7dfa5c60f17c9712dc2fa99f505eb11728a2f850c6bd7",
+    "crates/suzume-api/tests/transport.rs": "017755f101d8c1498c06bd311aed55e668599fd17f181f048c6488711f1c30dc",
+    "crates/suzume-cli/Cargo.toml": "d07f366e95ed00444ac8cdfc4b89f0067ab74e9992aee9aca3ec7c65b562de76",
+    "crates/suzume-cli/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "crates/suzume-cli/src/main.rs": "7828a262d4a592af380712ae9dc2b46896ac8ab7b8780278ace67017ea799922",
+    "crates/suzume-cli/src/ui.rs": "d8e9d2e94b325bbc46de880e97258be722f82fbe5518165843e80ad1464b7bb8",
+    "crates/suzume-cli/tests/cli.rs": "fdb496aab34b8bea8b845651b50a010eaca7b55185e1f0b224982c1ec87efd1c",
+    "crates/suzume-wasm/Cargo.toml": "3119e2027da680bc96092821101f150656b2db099b81c4e22196f162df08c4c9",
+    "crates/suzume-wasm/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "crates/suzume-wasm/src/lib.rs": "2ba3ebe33d997f173ed8b5def6466e351e2b09ae16371f18e71b4b616762c62a",
+    "docs/architecture.md": "9c89d9721ab477ff15acdcd5923658bc8ca726c01750abcffadc426b7ed4eaea",
+    "docs/development/reproducibility.md": "345eabbe22bac5e5e30e1e29d73a8944fff337a21d050a458a13f8883d69daae",
+    "evaluations/ai-protocol.json": "886ce0f772eef30a62e1736d6f12043b7cc74e73a33438d4b221f6d4edc2ad81",
+    "evaluations/ai-results.csv": "63974ead7e5d7cd59ce974eb8e675136a8f979a4e82ff2d5dd5f68996bd5accf",
+    "evaluations/ai-summary.json": "2a44793ceea93791e8abcf31d05a3a91b9a1d45cead9c5675436fa994731da60",
+    "examples/browser/README.md": "e13eccdee828aae7ab66c6157231fb4e620d68ba26cf1692583339ffdd6a3a43",
+    "examples/browser/app.js": "47b4d81fdfb51a4a3dff4b1f3fa818588ac97b4b1cb572247a5f21d75fc6c627",
+    "examples/browser/index.html": "e9c5d71ff1bdbff983fa1af65464c8ad00759a2e806bff032df8a0c7ef94017b",
+    "examples/browser/style.css": "726de7688da3824ea19b760ef4c0c24b4957fccffb76bd09e967bf1da06fa35e",
+    "examples/eight-actions.mjson": "d3c3bb4e560f275e14da838cafc56f4600fdb697b6f1936949d725a235fc95cc",
+    "examples/replay-eight-actions.jsonl": "28216d44712a09f49ae4bd9029aa5cb074a74d052ca90d47bd4fd15a3a195e35",
+    "packages/suzume/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "packages/suzume/README.md": "c9624625842a0a905b0a1bfc846db640a438d6b88d3b8fde13c2cdd3ecc87e7a",
+    "packages/suzume/package-lock.json": "aadb618970ed54c73933810412aa917cd32959c3d4e3f881370b277688cf7621",
+    "packages/suzume/package.json": "b4bdb271cbcf95fee39a665ba0d24768e1ee7dc505a6f2a71b05ad896f84430d",
+    "packages/suzume/src/browser.ts": "ea3b687c8c7cfc15fa373aa660983f0f133ffc659ccf37711fb6d7516858a0fb",
+    "packages/suzume/src/client.ts": "a60c6ae558a0b3e4bcd62e4df6021c9c29d284fee9ca71dba4d0ff87b744a4c8",
+    "packages/suzume/src/generated/schema.ts": "cd12c9c50fcfc6ba1f5258a6eaf03f72e31f4c856b770488d461bf5b103f20c7",
+    "packages/suzume/src/generated/types.ts": "910c8a6cfa8c56b1e9d7219c3976151575fdf0d0a58dea333d9114db46eb2b05",
+    "packages/suzume/src/index.ts": "ed6705d7ce275cc87161585b8a87634e7a717277ea7ff43b48921590ff67806a",
+    "packages/suzume/src/logs.ts": "acc1f42b9f96b6b4b39e0e911f91192e561bbea4a7dc30e381b0c543421feb18",
+    "packages/suzume/src/mjai.ts": "cb009181f895d6761eccba9ebb80e32d495d05f6eb9e8be0a46f10334bbd03bb",
+    "packages/suzume/src/node.ts": "d549e5bdea9d02c936bc0cb46a1f80156c2bc2a7d74e171172e6906700123646",
+    "packages/suzume/src/validation.ts": "f6882f951a447d8fc930c89ce3e674f6cc54191ed0054f27e00c13dc219559b5",
+    "packages/suzume/tests/integration.test.mjs": "5c0dcf99ba50c3b677d75ff4f3e233baa6e7c27d9026aabd2d5ce8fc3d08b227",
+    "packages/suzume/tests/logs.test.mjs": "88fb765f2be1e3b482917a6ae89065b2b519727b6909adb8552f87ae4a92bb47",
+    "packages/suzume/tests/mjai.test.mjs": "fd5a9a85ae1d2d3d88aa73cc3080ed91f9184e0271652c3cd2ee0e8587678bbf",
+    "packages/suzume/tests/types.ts": "a6459e08ab29f27702cf4f4e29ded228cbf6a26fba35a1b69ec633b2e8c0dd63",
+    "packages/suzume/tests/validation.test.mjs": "5b1d1d52625541034b5be223b84513ccc04166ebed81d79f342b07861839607a",
+    "packages/suzume/tsconfig.json": "a037bb26dfd82502b9e9b64ea698ade42965bde616afd1cb27660808b160a1f6",
+    "packages/suzume/tsconfig.tests.json": "c41e0f721038680288c410a2aba387f908db60afa7b80ede4cd3b2a3ee9c71d4",
+    "proofs/Mahjong/Audit.lean": "5a1132a7984a3f77db2bb0b783b3781ea32f8d52daf2e25d4e611d337753b659",
+    "proofs/Mahjong/Contracts.lean": "e5bf5037f187c6a6fa0dffa1dee54a61095061fbc17c2c401d6f08a85dc33c79",
+    "proofs/Mahjong/GeneratedContracts.lean": "45bdad02cedcf48d35087315aa29503e5d9896fa8940be49bfeb727dff353718",
+    "proofs/Mahjong/GeneratedRules.lean": "a103471dffb6d2dc39143821b4d812ff949407422856b003fa734c2e88b7e226",
+    "proofs/Mahjong.lean": "92ef2825aea84a5387e9f0758bd934c9bf3981145e43a487f0f7d6e944a3956d",
+    "proofs/lake-manifest.json": "d9565dca493816d75dedead65a8d31b4378a7db7010a4977e68cdbfdb1e64d2b",
+    "proofs/lakefile.toml": "a33b1d7395233997297d6c2ab0823e7b904b797e3797e094646131cf821a4d7b",
+    "proofs/lean-toolchain": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a",
+    "rules/contracts.json": "b4dc7534a83aa6cd5ef5b5df052e1b78bd1384bda9138f419649087620de4f54",
+    "rules/riichi.rules": "d95ce5749bd3229fe0bcb7e8ee7b202f32c8056347bb5c62e7950dbe674aa1cf",
+    "rust-toolchain.toml": "bd2d8e381fd3a45ba36d2e969cec8ef30387b494d4a39bc6bce06dc6d6b3e433",
+    "scripts/bootstrap.py": "3e866ec665c78dd04ca7315f4d432ae53f0ef3e472380c060081a5f0ca57958c",
+    "scripts/build_wasm.py": "01140bca23b13e9a73313d6646d2ead7785fcb903c5f2da3e27acb00dda694d6",
+    "scripts/check_browser.py": "a0d88bf30372d845b9f2d8602cded79b6226df1060a442b04130c877c06a2a53",
+    "scripts/check_contract_negatives.py": "831c1ac43e5154b017c33d116baf63c10c307521fb738f12f5eef229c0414a55",
+    "scripts/check_documentation.py": "73fb785c53e6b8d871a80e049d2767f97f227e28b463bb9f7acad09e63989614",
+    "scripts/check_generator_semantics.py": "95f484b42bcdeb0ff417f44b39afc6b5156b3079e0ec70f165a6db969e23adc4",
+    "scripts/doctor.py": "747f93ac4771602b3601bdebda79b4db1ae39f080ec835008f80ab5a175b67f9",
+    "scripts/generate_protocol_ts.py": "8fff0b0dad974e0b041c1b538c62ea4b2c4f7ce69b702427ee66d011b0f0621a",
+    "scripts/generate_rules.py": "3d60e8fc9bd492e1cbec67f02dd012142686d538c84d23b4ed30444a1a203c8b",
+    "scripts/package.py": "8bdcf5354a9c4f142f9df321ab77a2ef699905072002fea64f13fa2d5411eaa6",
+    "scripts/platform_support.py": "d7af252dd4d9de9f0c5d4906b8e9dc113e7c6367b742a43b924766f3b5ffaf63",
+    "scripts/test_generate_rules.py": "4e0fd817a400355e26c3947d5252a451ceeedfcaccb209e2b7af33a9cc93121a",
+    "scripts/tests/test_mjai_real.py": "2ac8f2c010e30073651727b94fba199014f09f4d40139d6c61121ba8e50929fd",
+    "scripts/tests/test_platform_checks.py": "ece44aad84fe206893c4c52adf7f3a42ab998384ee89036bdeec5815a048d68e",
+    "scripts/verify.py": "8810f72a32496088ae0b7c09169069d86c8ae8b3b4539d3deb5191ca4923a4c7",
+    "scripts/verify_mjai_real.py": "f1bda6d27be576f1d1b1699ae89bf606b44ae6cefec3aeb7b2d781c397d24749",
+    "scripts/verify_platform.py": "ea89516b6f07ef534ec2c1bba3902ae913e1ee2be05131623376222e6d4bdd11",
+    "scripts/worklog.py": "4cb66447457c18ee6ad4f30b79132806d6b8d93ea33c9107210f921474fef5ee",
+    "src/ai/config.rs": "cceb920272afb7d6b61fd4f5d27a4af128de561ad3f693339eeebf1265e10bc3",
+    "src/ai/search.rs": "e508f22a194dd9bc21e518dbe924517169c67de623683db68957df04dd6a8782",
+    "src/ai/tests.rs": "a71a64f3e9291c6164fef2e7bdcd0623150a8e2b51fc2fefe1ea9403739700f6",
+    "src/ai/validation.rs": "e1f17b7caf70faec24a8b5e21f26bfb1e51f3462481ee04f41bc9a7f259c49d7",
+    "src/ai.rs": "5014262d15c556b0777801b0f40186b72ec7c7eff0915558d721198b99ee88be",
+    "src/bin/suzume-ai-eval.rs": "4e47596c9dd4d0235651509eee03e718aa56e1dfde9858851b088d41924ede29",
+    "src/contracts.rs": "b47ef89f2f9c2db3f8a5cb4c52ec5e0f00ff1bcff43e9a9d99df251498583e69",
+    "src/game/core_boundary_tests.rs": "e909561dbdb3c871607789bc9de27f5631b6cb9fa7ad618012342a361fafe395",
+    "src/game/platform_tests.rs": "7a4b2dd5bf6e1786260a020fec7421692da7f1793a7d368ec3c3a6f21346aecf",
+    "src/game/tests.rs": "2e735c0e73aaf6d46fea9536c745a34c144ee5853bd9d575b7d4d184e4fdf92a",
+    "src/game.rs": "b3936c4ec24c69f66d82ea0602b0f56d01e482d05435ded780987aa2f8083b52",
+    "src/generated_contracts.rs": "be24fbced55ae14c5c6de9f5fda81c71b96f28dae636e965b5fd91ffd58fd978",
+    "src/hand.rs": "528637d8340076c9e25f80b399375bdc356164c28a55175d48c50e1ecc41779c",
+    "src/lib.rs": "0edda763f528fe8cf00f6fc67febdf05b8952ede3cdc7f77437f87d3fe8ee312",
+    "src/rule_constants.rs": "ab1b48fb976a05163ac3e905e9df2cc89a00566b1767dc679684499f7de0e437",
+    "src/scoring.rs": "5de5089b80614af107e713aa27a46921b0d3fe122249b5edf098f2ce1ebfce14",
+    "src/tile.rs": "7fbe82216dc3caa6969100b62633e87132323fc6964c45bb9825da536f768bed",
+    "tests/ai_contracts.rs": "6bbff8f5b5880c3721bd3a0cf3cc259f98c75938fa8ce3b56b5bd1c602fa2f84",
+    "tests/ai_evaluation_cli.rs": "b2abd67f92ff3a64d0a00164378aa2326c3a5754c5dbaec4d6f7eece8cd7f49c",
+    "tests/fixtures/mjai/manifest.json": "5a887548dfdd6ba48f05e5663f80dc7c38e33889b24edc50b50797af1459769a",
+    "tests/game_contracts.rs": "fea044c27d3d5c9b48cadffe8f4e23e97dcaa9ec68e8f12de49195e7a4c9cae9",
+    "tools/browser/package-lock.json": "4004b79cd895cbba974fc0b39bf6fb782fb37d6eb123a05ccf29d6a9a76d67cf",
+    "tools/browser/package.json": "8dfd91af4afac4c948e5daf4a5f1af4ede0aadf8dca8f7f86d1c63a35888772c",
+    "tools/versions.json": "86840c31c7e2de9a6d01fa87a5c12fc581e672a7cc611b2f90181fe869d065bc"
+  },
+  "source_sha256_after": {
+    ".gitattributes": "1e3d8a5dbdad293eca60d0b66a553b0f25024539335dd850d5df18df09907382",
+    ".github/workflows/ci.yml": "362e77b82835b9af42805bc25b6f944b6211f7de1d9e2cb0b8f41779b2ebc7b9",
+    ".github/workflows/mjai.yml": "9786b85632c3d20ec146499cf4b6974c3fe740d397c32a496106d293a65eef53",
+    ".github/workflows/platform.yml": "350614775783c3de7c5831087e41a6edb9fcee66e97425ec7e7f655b21e79cab",
+    "Cargo.lock": "f5e794297c66b91059d5bfc129cb33d61c2b8d09d291a7c65f8fe8d1e6e2210b",
+    "Cargo.toml": "caa42c53f6eae56c92a391e7ac07ef9f9187909753c4ff02923a056d4492cb52",
+    "LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "README.md": "e2a8803d46862ceee5904ee8942112821286858f6fd2c7e67b21f368a867c77a",
+    "bindings/protocol.schema.json": "2d50f5d6b843ccf8f90671ca1bf6317e14c63b5a5121164787456e569bbdecd3",
+    "config/default.toml": "73e480276147d4494ab153809f8de080f5471b214624b3544a8be5fdd0937fc2",
+    "crates/suzume-api/Cargo.toml": "b503d8e9a7866ab3a9bd36f70054bd652c7d77a2b93a43a9f16a49a711ab4155",
+    "crates/suzume-api/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "crates/suzume-api/README.md": "858052c21f9bdee106442d6e9921126c229f37ab08d2b1548c843805ca669cd9",
+    "crates/suzume-api/examples/record.rs": "565f053a6525752d8294a0b0032b656c91346b534b0bc023e63605da9e72b58c",
+    "crates/suzume-api/src/actions.rs": "95d5fe1f4d91140b9d8bd5bb7b70c682b9afe02eebca83e0b3d10d8c7bea10df",
+    "crates/suzume-api/src/bin/export-schema.rs": "fa3a169c28b6fdc93ce1bd9630888a037f2284d7f75ccc81b5de3f68aab8fc63",
+    "crates/suzume-api/src/bin/suzume-api.rs": "6dddda15aa19c4338d8029c82b99856989b218d06b9cea2a38cd2929784d00c8",
+    "crates/suzume-api/src/config.rs": "4cedde39ee995a616b4a077a0914df73a50014433e7f8afcdfef1c90566e2e98",
+    "crates/suzume-api/src/decision.rs": "4ae42c392907c97c72adc8e9f2415901d5df9469d2d8bd96eb6efddb8bac2d88",
+    "crates/suzume-api/src/environment.rs": "8b6d146a6396c043c4372d72a4a71b2b9b6f35abfff33318d02136e41e4f3242",
+    "crates/suzume-api/src/lib.rs": "ca38b77692978fb73619546719abc810238d95fc37dcc4bbea7ec5108cf8fa9e",
+    "crates/suzume-api/src/logging/mod.rs": "35664d9170c6ce4073ba0274a0e34aced9d631d5b953f01a6601f84d5e437c0b",
+    "crates/suzume-api/src/logging/reader.rs": "a213cae311a50ccb8059d7b73b4d61e79621c76b58391cf1e25611b78f852bd3",
+    "crates/suzume-api/src/logging/types.rs": "7716180776d31e3d1a7775b7fcc1ee618096a2f139ce278aeb7df1e1d921eb72",
+    "crates/suzume-api/src/logging/writer.rs": "5e442bec13959394f9b380628c909da5ac35416c955633b88acf74065b3187b4",
+    "crates/suzume-api/src/mjai/mod.rs": "c62554353d364700aef158c942bbd41ad5155febd923d97a3b600220ccbdfcd2",
+    "crates/suzume-api/src/mjai/reader.rs": "d1e38f44f20aa1873b59dea05a3104ee533b3f7fe42d49e97aedd2b5c88c8843",
+    "crates/suzume-api/src/mjai/state.rs": "6611187f22208dc7564a6d0c83b2b61e2f848022c9018c4a1c689eeb9d845241",
+    "crates/suzume-api/src/mjai/types.rs": "ca8086a72bee14e4fe053793eea7c768fb84ee2a5de6e5f739c22d74430e84db",
+    "crates/suzume-api/src/mjai/writer.rs": "fd420e83fc9a541a1d9c830615f47bd1e4dbb8ba52159a016ff38c5da2f96be3",
+    "crates/suzume-api/src/protocol.rs": "1c1d9745613aaf10d0c0b448fb1f7b18fa5e62ced42a0b2b860eb8fffdcc8e98",
+    "crates/suzume-api/src/transport.rs": "576ff6760775de689762f8b3b2865d596bdd0ede82528ab52b0fe9bf433abd55",
+    "crates/suzume-api/src/types.rs": "4563d54e30b841ffbdb352229e70a1bd8f28bd45155f974c6b07ae00e1bc26fa",
+    "crates/suzume-api/src/view.rs": "26cc30339d2d5454da10f4906883cf03d067d53958f03d3eefb4751ddb71024b",
+    "crates/suzume-api/tests/api_boundary.rs": "753e7ee358cbaad8b42842512999886c0eca6cd0bc4410c4a1f50cc5223792ef",
+    "crates/suzume-api/tests/config_environment.rs": "7f5a91eb6765a0717ff0b32b7cc774764cbca9cf98ab593f07a37ac60da9d6b7",
+    "crates/suzume-api/tests/environment_match.rs": "2ec6953b84be659d4bf4a7db075451d75da899d2d39f89c63bef671b7cdd4560",
+    "crates/suzume-api/tests/file_cli.rs": "7ac9d979212e034e59ddcbc637a7365234e51b54efb7430b0831c7ad943123bc",
+    "crates/suzume-api/tests/logging.rs": "aa1d1f09e54637b8ce2e0f3f9743574cdcbe69f81b47009e66db1c7d716328b9",
+    "crates/suzume-api/tests/mjai_cli.rs": "78da47e342d8706aa7db1be830e035417f578c8fbf0f763f9eb5e34180c5b69b",
+    "crates/suzume-api/tests/mjai_parser.rs": "e062f980934c9b5ec33cb515486f727aa1ab0c0567d74cd516fe6e496791e920",
+    "crates/suzume-api/tests/mjai_writer.rs": "4e3be6594596c25e06f7dfa5c60f17c9712dc2fa99f505eb11728a2f850c6bd7",
+    "crates/suzume-api/tests/transport.rs": "017755f101d8c1498c06bd311aed55e668599fd17f181f048c6488711f1c30dc",
+    "crates/suzume-cli/Cargo.toml": "d07f366e95ed00444ac8cdfc4b89f0067ab74e9992aee9aca3ec7c65b562de76",
+    "crates/suzume-cli/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "crates/suzume-cli/src/main.rs": "7828a262d4a592af380712ae9dc2b46896ac8ab7b8780278ace67017ea799922",
+    "crates/suzume-cli/src/ui.rs": "d8e9d2e94b325bbc46de880e97258be722f82fbe5518165843e80ad1464b7bb8",
+    "crates/suzume-cli/tests/cli.rs": "fdb496aab34b8bea8b845651b50a010eaca7b55185e1f0b224982c1ec87efd1c",
+    "crates/suzume-wasm/Cargo.toml": "3119e2027da680bc96092821101f150656b2db099b81c4e22196f162df08c4c9",
+    "crates/suzume-wasm/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "crates/suzume-wasm/src/lib.rs": "2ba3ebe33d997f173ed8b5def6466e351e2b09ae16371f18e71b4b616762c62a",
+    "docs/architecture.md": "9c89d9721ab477ff15acdcd5923658bc8ca726c01750abcffadc426b7ed4eaea",
+    "docs/development/reproducibility.md": "345eabbe22bac5e5e30e1e29d73a8944fff337a21d050a458a13f8883d69daae",
+    "evaluations/ai-protocol.json": "886ce0f772eef30a62e1736d6f12043b7cc74e73a33438d4b221f6d4edc2ad81",
+    "evaluations/ai-results.csv": "63974ead7e5d7cd59ce974eb8e675136a8f979a4e82ff2d5dd5f68996bd5accf",
+    "evaluations/ai-summary.json": "2a44793ceea93791e8abcf31d05a3a91b9a1d45cead9c5675436fa994731da60",
+    "examples/browser/README.md": "e13eccdee828aae7ab66c6157231fb4e620d68ba26cf1692583339ffdd6a3a43",
+    "examples/browser/app.js": "47b4d81fdfb51a4a3dff4b1f3fa818588ac97b4b1cb572247a5f21d75fc6c627",
+    "examples/browser/index.html": "e9c5d71ff1bdbff983fa1af65464c8ad00759a2e806bff032df8a0c7ef94017b",
+    "examples/browser/style.css": "726de7688da3824ea19b760ef4c0c24b4957fccffb76bd09e967bf1da06fa35e",
+    "examples/eight-actions.mjson": "d3c3bb4e560f275e14da838cafc56f4600fdb697b6f1936949d725a235fc95cc",
+    "examples/replay-eight-actions.jsonl": "28216d44712a09f49ae4bd9029aa5cb074a74d052ca90d47bd4fd15a3a195e35",
+    "packages/suzume/LICENSE": "7e917350d7e8c562009e51156e3edd32788b5ca8e293efed0fef0d307580e045",
+    "packages/suzume/README.md": "c9624625842a0a905b0a1bfc846db640a438d6b88d3b8fde13c2cdd3ecc87e7a",
+    "packages/suzume/package-lock.json": "aadb618970ed54c73933810412aa917cd32959c3d4e3f881370b277688cf7621",
+    "packages/suzume/package.json": "b4bdb271cbcf95fee39a665ba0d24768e1ee7dc505a6f2a71b05ad896f84430d",
+    "packages/suzume/src/browser.ts": "ea3b687c8c7cfc15fa373aa660983f0f133ffc659ccf37711fb6d7516858a0fb",
+    "packages/suzume/src/client.ts": "a60c6ae558a0b3e4bcd62e4df6021c9c29d284fee9ca71dba4d0ff87b744a4c8",
+    "packages/suzume/src/generated/schema.ts": "cd12c9c50fcfc6ba1f5258a6eaf03f72e31f4c856b770488d461bf5b103f20c7",
+    "packages/suzume/src/generated/types.ts": "910c8a6cfa8c56b1e9d7219c3976151575fdf0d0a58dea333d9114db46eb2b05",
+    "packages/suzume/src/index.ts": "ed6705d7ce275cc87161585b8a87634e7a717277ea7ff43b48921590ff67806a",
+    "packages/suzume/src/logs.ts": "acc1f42b9f96b6b4b39e0e911f91192e561bbea4a7dc30e381b0c543421feb18",
+    "packages/suzume/src/mjai.ts": "cb009181f895d6761eccba9ebb80e32d495d05f6eb9e8be0a46f10334bbd03bb",
+    "packages/suzume/src/node.ts": "d549e5bdea9d02c936bc0cb46a1f80156c2bc2a7d74e171172e6906700123646",
+    "packages/suzume/src/validation.ts": "f6882f951a447d8fc930c89ce3e674f6cc54191ed0054f27e00c13dc219559b5",
+    "packages/suzume/tests/integration.test.mjs": "5c0dcf99ba50c3b677d75ff4f3e233baa6e7c27d9026aabd2d5ce8fc3d08b227",
+    "packages/suzume/tests/logs.test.mjs": "88fb765f2be1e3b482917a6ae89065b2b519727b6909adb8552f87ae4a92bb47",
+    "packages/suzume/tests/mjai.test.mjs": "fd5a9a85ae1d2d3d88aa73cc3080ed91f9184e0271652c3cd2ee0e8587678bbf",
+    "packages/suzume/tests/types.ts": "a6459e08ab29f27702cf4f4e29ded228cbf6a26fba35a1b69ec633b2e8c0dd63",
+    "packages/suzume/tests/validation.test.mjs": "5b1d1d52625541034b5be223b84513ccc04166ebed81d79f342b07861839607a",
+    "packages/suzume/tsconfig.json": "a037bb26dfd82502b9e9b64ea698ade42965bde616afd1cb27660808b160a1f6",
+    "packages/suzume/tsconfig.tests.json": "c41e0f721038680288c410a2aba387f908db60afa7b80ede4cd3b2a3ee9c71d4",
+    "proofs/Mahjong/Audit.lean": "5a1132a7984a3f77db2bb0b783b3781ea32f8d52daf2e25d4e611d337753b659",
+    "proofs/Mahjong/Contracts.lean": "e5bf5037f187c6a6fa0dffa1dee54a61095061fbc17c2c401d6f08a85dc33c79",
+    "proofs/Mahjong/GeneratedContracts.lean": "45bdad02cedcf48d35087315aa29503e5d9896fa8940be49bfeb727dff353718",
+    "proofs/Mahjong/GeneratedRules.lean": "a103471dffb6d2dc39143821b4d812ff949407422856b003fa734c2e88b7e226",
+    "proofs/Mahjong.lean": "92ef2825aea84a5387e9f0758bd934c9bf3981145e43a487f0f7d6e944a3956d",
+    "proofs/lake-manifest.json": "d9565dca493816d75dedead65a8d31b4378a7db7010a4977e68cdbfdb1e64d2b",
+    "proofs/lakefile.toml": "a33b1d7395233997297d6c2ab0823e7b904b797e3797e094646131cf821a4d7b",
+    "proofs/lean-toolchain": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a",
+    "rules/contracts.json": "b4dc7534a83aa6cd5ef5b5df052e1b78bd1384bda9138f419649087620de4f54",
+    "rules/riichi.rules": "d95ce5749bd3229fe0bcb7e8ee7b202f32c8056347bb5c62e7950dbe674aa1cf",
+    "rust-toolchain.toml": "bd2d8e381fd3a45ba36d2e969cec8ef30387b494d4a39bc6bce06dc6d6b3e433",
+    "scripts/bootstrap.py": "3e866ec665c78dd04ca7315f4d432ae53f0ef3e472380c060081a5f0ca57958c",
+    "scripts/build_wasm.py": "01140bca23b13e9a73313d6646d2ead7785fcb903c5f2da3e27acb00dda694d6",
+    "scripts/check_browser.py": "a0d88bf30372d845b9f2d8602cded79b6226df1060a442b04130c877c06a2a53",
+    "scripts/check_contract_negatives.py": "831c1ac43e5154b017c33d116baf63c10c307521fb738f12f5eef229c0414a55",
+    "scripts/check_documentation.py": "73fb785c53e6b8d871a80e049d2767f97f227e28b463bb9f7acad09e63989614",
+    "scripts/check_generator_semantics.py": "95f484b42bcdeb0ff417f44b39afc6b5156b3079e0ec70f165a6db969e23adc4",
+    "scripts/doctor.py": "747f93ac4771602b3601bdebda79b4db1ae39f080ec835008f80ab5a175b67f9",
+    "scripts/generate_protocol_ts.py": "8fff0b0dad974e0b041c1b538c62ea4b2c4f7ce69b702427ee66d011b0f0621a",
+    "scripts/generate_rules.py": "3d60e8fc9bd492e1cbec67f02dd012142686d538c84d23b4ed30444a1a203c8b",
+    "scripts/package.py": "8bdcf5354a9c4f142f9df321ab77a2ef699905072002fea64f13fa2d5411eaa6",
+    "scripts/platform_support.py": "d7af252dd4d9de9f0c5d4906b8e9dc113e7c6367b742a43b924766f3b5ffaf63",
+    "scripts/test_generate_rules.py": "4e0fd817a400355e26c3947d5252a451ceeedfcaccb209e2b7af33a9cc93121a",
+    "scripts/tests/test_mjai_real.py": "2ac8f2c010e30073651727b94fba199014f09f4d40139d6c61121ba8e50929fd",
+    "scripts/tests/test_platform_checks.py": "ece44aad84fe206893c4c52adf7f3a42ab998384ee89036bdeec5815a048d68e",
+    "scripts/verify.py": "8810f72a32496088ae0b7c09169069d86c8ae8b3b4539d3deb5191ca4923a4c7",
+    "scripts/verify_mjai_real.py": "f1bda6d27be576f1d1b1699ae89bf606b44ae6cefec3aeb7b2d781c397d24749",
+    "scripts/verify_platform.py": "ea89516b6f07ef534ec2c1bba3902ae913e1ee2be05131623376222e6d4bdd11",
+    "scripts/worklog.py": "4cb66447457c18ee6ad4f30b79132806d6b8d93ea33c9107210f921474fef5ee",
+    "src/ai/config.rs": "cceb920272afb7d6b61fd4f5d27a4af128de561ad3f693339eeebf1265e10bc3",
+    "src/ai/search.rs": "e508f22a194dd9bc21e518dbe924517169c67de623683db68957df04dd6a8782",
+    "src/ai/tests.rs": "a71a64f3e9291c6164fef2e7bdcd0623150a8e2b51fc2fefe1ea9403739700f6",
+    "src/ai/validation.rs": "e1f17b7caf70faec24a8b5e21f26bfb1e51f3462481ee04f41bc9a7f259c49d7",
+    "src/ai.rs": "5014262d15c556b0777801b0f40186b72ec7c7eff0915558d721198b99ee88be",
+    "src/bin/suzume-ai-eval.rs": "4e47596c9dd4d0235651509eee03e718aa56e1dfde9858851b088d41924ede29",
+    "src/contracts.rs": "b47ef89f2f9c2db3f8a5cb4c52ec5e0f00ff1bcff43e9a9d99df251498583e69",
+    "src/game/core_boundary_tests.rs": "e909561dbdb3c871607789bc9de27f5631b6cb9fa7ad618012342a361fafe395",
+    "src/game/platform_tests.rs": "7a4b2dd5bf6e1786260a020fec7421692da7f1793a7d368ec3c3a6f21346aecf",
+    "src/game/tests.rs": "2e735c0e73aaf6d46fea9536c745a34c144ee5853bd9d575b7d4d184e4fdf92a",
+    "src/game.rs": "b3936c4ec24c69f66d82ea0602b0f56d01e482d05435ded780987aa2f8083b52",
+    "src/generated_contracts.rs": "be24fbced55ae14c5c6de9f5fda81c71b96f28dae636e965b5fd91ffd58fd978",
+    "src/hand.rs": "528637d8340076c9e25f80b399375bdc356164c28a55175d48c50e1ecc41779c",
+    "src/lib.rs": "0edda763f528fe8cf00f6fc67febdf05b8952ede3cdc7f77437f87d3fe8ee312",
+    "src/rule_constants.rs": "ab1b48fb976a05163ac3e905e9df2cc89a00566b1767dc679684499f7de0e437",
+    "src/scoring.rs": "5de5089b80614af107e713aa27a46921b0d3fe122249b5edf098f2ce1ebfce14",
+    "src/tile.rs": "7fbe82216dc3caa6969100b62633e87132323fc6964c45bb9825da536f768bed",
+    "tests/ai_contracts.rs": "6bbff8f5b5880c3721bd3a0cf3cc259f98c75938fa8ce3b56b5bd1c602fa2f84",
+    "tests/ai_evaluation_cli.rs": "b2abd67f92ff3a64d0a00164378aa2326c3a5754c5dbaec4d6f7eece8cd7f49c",
+    "tests/fixtures/mjai/manifest.json": "5a887548dfdd6ba48f05e5663f80dc7c38e33889b24edc50b50797af1459769a",
+    "tests/game_contracts.rs": "fea044c27d3d5c9b48cadffe8f4e23e97dcaa9ec68e8f12de49195e7a4c9cae9",
+    "tools/browser/package-lock.json": "4004b79cd895cbba974fc0b39bf6fb782fb37d6eb123a05ccf29d6a9a76d67cf",
+    "tools/browser/package.json": "8dfd91af4afac4c948e5daf4a5f1af4ede0aadf8dca8f7f86d1c63a35888772c",
+    "tools/versions.json": "86840c31c7e2de9a6d01fa87a5c12fc581e672a7cc611b2f90181fe869d065bc"
+  },
+  "sources_unchanged": true,
+  "changed_sources": [],
+  "success": true
+}

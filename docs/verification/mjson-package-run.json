@@ -1,0 +1,518 @@
+{
+  "schema": "suzume-run/1",
+  "id": "20261123T091233Z-d3d6bdcaea",
+  "started_at": "2026-11-23T09:12:33.380466+00:00",
+  "finished_at": "2026-11-23T09:12:57.627495+00:00",
+  "checks": [
+    {
+      "id": "metadata",
+      "command": [
+        "cargo",
+        "metadata",
+        "--locked",
+        "--no-deps",
+        "--format-version",
+        "1"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.016,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "metadata.log",
+      "log_sha256": "b6c2a59ac3f7e336cda245a47280ef9998b3be9acc90f8cb29cd07b64c6dd380"
+    },
+    {
+      "id": "native-build",
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--release",
+        "--target-dir",
+        "<repository>/target",
+        "-p",
+        "suzume-cli",
+        "-p",
+        "suzume-api",
+        "--bins"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.07,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "native-build.log",
+      "log_sha256": "92434e198f27984c035c376ec77a7cf9e6ebdde782f8ccb1336ae3329b66ddb7"
+    },
+    {
+      "id": "wasm-build",
+      "command": [
+        "python3",
+        "scripts/build_wasm.py"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 1200,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.167,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "wasm-build.log",
+      "log_sha256": "60ca5cac823dfbf8fdbe1686a36d0ac40b9b5801dcfad6243182d3aed0d81eae"
+    },
+    {
+      "id": "sdk-build",
+      "command": [
+        "npm",
+        "--prefix",
+        "<repository>/packages/suzume",
+        "run",
+        "build"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 300,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.68,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "sdk-build.log",
+      "log_sha256": "7458a5f27af78c9a9fed21330b87a0dcf819960aa59c491d4a16e35dd933b6d9"
+    },
+    {
+      "id": "crate-archives",
+      "command": [
+        "cargo",
+        "package",
+        "--workspace",
+        "--target-dir",
+        "<repository>/target",
+        "--allow-dirty",
+        "--no-verify",
+        "--exclude-lockfile",
+        "--offline"
+      ],
+      "cwd": "<repository>",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.079,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "crate-archives.log",
+      "log_sha256": "d446b5ddd6083f3bdde4bfa26db52b63e28958b9879fb39b7fbcb92d5672681b"
+    },
+    {
+      "id": "npm-pack",
+      "command": [
+        "npm",
+        "pack",
+        "--ignore-scripts",
+        "--json",
+        "--pack-destination",
+        "<repository>/dist/packages/20261123T091233Z-d3d6bdcaea"
+      ],
+      "cwd": "<repository>/packages/suzume",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.399,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "npm-pack.log",
+      "log_sha256": "61732ee135b18980436ee4b353841dad1aaeee1381f574e687a208f40eeab67a"
+    },
+    {
+      "id": "crate-consumer-build",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--locked",
+        "--offline",
+        "--target-dir",
+        "<temporary>/suzume-package-consumer-k_q9cjps/rust/target"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/rust",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 11.335,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "crate-consumer-build.log",
+      "log_sha256": "0720105aff5b6e5be364c9b8d89e0f27bdfdf545d28458e36fb064554b9d2fa3"
+    },
+    {
+      "id": "crate-consumer-play",
+      "command": [
+        "<temporary>/suzume-package-consumer-k_q9cjps/rust/target/debug/suzume",
+        "--snapshot",
+        "--plain",
+        "--seed",
+        "0"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/rust",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.004,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "展開したCLIが制御文字なしの配牌を表示"
+      },
+      "log": "crate-consumer-play.log",
+      "log_sha256": "e126efdfa85b5c6a8da94e8fea1ed5c414cf2008d03c5d41d525e30265ad815c"
+    },
+    {
+      "id": "native-consumer-play",
+      "command": [
+        "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0/suzume",
+        "--snapshot",
+        "--plain",
+        "--seed",
+        "0"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/native",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.002,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "配布する実行ファイルを実際に起動"
+      },
+      "log": "native-consumer-play.log",
+      "log_sha256": "e126efdfa85b5c6a8da94e8fea1ed5c414cf2008d03c5d41d525e30265ad815c"
+    },
+    {
+      "id": "native-consumer-mjai",
+      "command": [
+        "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0/suzume-api",
+        "mjai",
+        "analyze",
+        "examples/eight-actions.mjson"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.002,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "自作例の8イベント・1局・各25000点・truncatedを確認",
+        "summary": {
+          "records": 8,
+          "rounds": 1,
+          "wins": 0,
+          "draws": 0,
+          "calls": 0,
+          "red_events": 0,
+          "final_scores": [
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "riichi_sticks": 0,
+          "complete": false,
+          "termination": "truncated"
+        }
+      },
+      "log": "native-consumer-mjai.log",
+      "log_sha256": "0dba92e883791e0180517ea41e02ab26af04485fa7eab7030de3034aa23df47b"
+    },
+    {
+      "id": "native-consumer-convert",
+      "command": [
+        "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0/suzume-api",
+        "mjai",
+        "convert",
+        "examples/replay-eight-actions.jsonl",
+        "--output",
+        "converted.mjson"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.002,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "native-consumer-convert.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "native-consumer-converted-mjai",
+      "command": [
+        "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0/suzume-api",
+        "mjai",
+        "analyze",
+        "converted.mjson"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/native/suzume-0.2.0",
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.002,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "自作例の8イベント・1局・各25000点・truncatedを確認",
+        "summary": {
+          "records": 8,
+          "rounds": 1,
+          "wins": 0,
+          "draws": 0,
+          "calls": 0,
+          "red_events": 0,
+          "final_scores": [
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "riichi_sticks": 0,
+          "complete": false,
+          "termination": "truncated"
+        }
+      },
+      "log": "native-consumer-converted-mjai.log",
+      "log_sha256": "0dba92e883791e0180517ea41e02ab26af04485fa7eab7030de3034aa23df47b"
+    },
+    {
+      "id": "npm-consumer-install",
+      "command": [
+        "npm",
+        "install",
+        "--offline",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund",
+        "<repository>/dist/packages/20261123T091233Z-d3d6bdcaea/mahjong-sandbox-sdk-0.2.0.tgz"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/javascript",
+      "timeout_seconds": 180,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.345,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "npm-consumer-install.log",
+      "log_sha256": "a80b43f155e41274a6ffc397b494ca0ead07d3b53b48d33102e0ab17c5816583"
+    },
+    {
+      "id": "npm-consumer-types",
+      "command": [
+        "tsc",
+        "--strict",
+        "--noUncheckedIndexedAccess",
+        "--exactOptionalPropertyTypes",
+        "--noEmit",
+        "--module",
+        "NodeNext",
+        "--target",
+        "ES2022",
+        "--lib",
+        "ES2022,DOM",
+        "consumer.ts"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/javascript",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.372,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "npm-consumer-types.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "npm-consumer-runtime",
+      "command": [
+        "node",
+        "consumer.mjs"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/javascript",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.101,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "公開SDK・Node/Web実WASMで対局とmjsonを解析し、逐次件数・最終点・視点・対局状態の不変を確認"
+      },
+      "log": "npm-consumer-runtime.log",
+      "log_sha256": "01f7d41658c3b7fdf10d021e45b57195e89d1a652bb82ea019c8f6220d8b14cb"
+    },
+    {
+      "id": "source-consumer-build",
+      "command": [
+        "cargo",
+        "check",
+        "--workspace",
+        "--locked",
+        "--offline",
+        "--target-dir",
+        "<temporary>/suzume-package-consumer-k_q9cjps/source/target"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/source/suzume-source-0.2.0",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 8.087,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "source-consumer-build.log",
+      "log_sha256": "cf811a3618822018a042c24212a9961263cd455b93d89d25b4b0d700d38d621c"
+    },
+    {
+      "id": "source-consumer-documentation",
+      "command": [
+        "python3",
+        "scripts/check_documentation.py",
+        "--json"
+      ],
+      "cwd": "<temporary>/suzume-package-consumer-k_q9cjps/source/suzume-source-0.2.0",
+      "timeout_seconds": 120,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.236,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "文書・相対リンク・コマンド入口の非空な検査とエラー0件を確認",
+        "report": {
+          "success": true,
+          "documents": 51,
+          "local_links": 425,
+          "external_links": 51,
+          "repository_commands": 98,
+          "historical_command_documents": 11,
+          "errors": []
+        }
+      },
+      "log": "source-consumer-documentation.log",
+      "log_sha256": "8bf5061a24b9f631798ca7ad56c5e445c5216f3577f23758a1190ba9a354f308"
+    }
+  ],
+  "environment": {
+    "schema": "suzume-environment/1",
+    "profile": "frontend",
+    "os": "Linux",
+    "os_release": "6.18.57",
+    "architecture": "x86_64",
+    "libc": [
+      "glibc",
+      "2.41"
+    ],
+    "python": "3.12.14",
+    "rust_details": "rustc 1.100.0 (0ef1bc386 2026-11-09)\nbinary: rustc\ncommit-hash: 0ef1bc386059596dada8fb65b50425aab2ea637a\ncommit-date: 2026-11-09\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0\nLLVM version: 23.1.5",
+    "checks": {
+      "rust": {
+        "expected": "1.100.0",
+        "observed": "1.100.0",
+        "exit_code": 0,
+        "success": true,
+        "detail": "rustc 1.100.0 (0ef1bc386 2026-11-09)"
+      },
+      "cargo": {
+        "expected": "1.100.0",
+        "observed": "1.100.0",
+        "exit_code": 0,
+        "success": true,
+        "detail": "cargo 1.100.0 (3acc79c0c 2026-11-05)"
+      },
+      "rustup": {
+        "expected": "1.29.3",
+        "observed": "1.29.3",
+        "exit_code": 0,
+        "success": true,
+        "detail": "rustup 1.29.3 (edbc831ce 2026-11-02)\ninfo: This is the version for the rustup toolchain manager, not the rustc compiler.\ninfo: the currently active `rustc` version is `rustc 1.100.0 (0ef1bc386 2026-11-09)`"
+      },
+      "node": {
+        "expected": "24.22.3",
+        "observed": "24.22.3",
+        "exit_code": 0,
+        "success": true,
+        "detail": "v24.22.3"
+      },
+      "npm": {
+        "expected": "11.19.1",
+        "observed": "11.19.1",
+        "exit_code": 0,
+        "success": true,
+        "detail": "11.19.1"
+      },
+      "typescript": {
+        "expected": "7.0.2",
+        "observed": "7.0.2",
+        "exit_code": 0,
+        "success": true,
+        "detail": "Version 7.0.2"
+      },
+      "wasm_bindgen": {
+        "expected": "0.2.130",
+        "observed": "0.2.130",
+        "exit_code": 0,
+        "success": true,
+        "detail": "wasm-bindgen 0.2.130"
+      },
+      "wasm_target": {
+        "success": true,
+        "detail": "wasm32-unknown-unknown\nx86_64-unknown-linux-gnu"
+      },
+      "python": {
+        "expected_minimum": "3.12",
+        "observed": "3.12.14",
+        "success": true
+      }
+    },
+    "success": true
+  },
+  "manifest": "manifest.json",
+  "sources_unchanged": true,
+  "success": true
+}

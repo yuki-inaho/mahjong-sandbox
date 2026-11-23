@@ -55,6 +55,7 @@ fn read_replay(path: &Path) -> ReplayResult {
 fn all_ai_config(max_steps: u32) -> String {
     format!(
         "schema_version = 1\n\
+         [logging]\nformat = \"replay\"\n\
          [game]\nseed = \"777\"\nviewer = \"public\"\nmax_steps = {max_steps}\n\
          [[players]]\nkind = \"ai\"\n[players.config]\npreset = \"beginner\"\nseed = \"11\"\n\
          [[players]]\nkind = \"ai\"\n[players.config]\nalgorithm = \"greedy\"\nseed = \"12\"\nmax_evaluations = 64\n\
@@ -217,7 +218,7 @@ fn cli_complete_simulation_log_replays() {
     let files = TestFiles::new();
     let path = files.path("complete.jsonl");
     let output = Command::new(env!("CARGO_BIN_EXE_suzume"))
-        .args(["--simulate", "1", "--log"])
+        .args(["--simulate", "1", "--log-format", "replay", "--log"])
         .arg(&path)
         .output()
         .unwrap();
@@ -280,7 +281,7 @@ fn cli_early_stops_write_valid_interrupted_logs() {
         let path = files.path("interrupted.jsonl");
         let output = Command::new(env!("CARGO_BIN_EXE_suzume"))
             .args(arguments)
-            .args(["--plain", "--log"])
+            .args(["--plain", "--log-format", "replay", "--log"])
             .arg(&path)
             .stdin(Stdio::null())
             .output()
@@ -437,4 +438,59 @@ fn invalid_human_input_recovers_and_quit_exits() {
     assert!(text.contains("入力を解釈できません"));
     assert!(text.contains("操作方法"));
     assert!(text.contains("対局を終了しました"));
+}
+
+#[test]
+fn cli_default_log_is_mjson_and_matches_final_scores() {
+    let files = TestFiles::new();
+    let path = files.path("complete.mjson");
+    let output = Command::new(env!("CARGO_BIN_EXE_suzume"))
+        .args(["--simulate", "1", "--log"])
+        .arg(&path)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let text = std::fs::read_to_string(&path).unwrap();
+    assert!(matches!(
+        suzume_api::mjai::parse_event(text.lines().next().unwrap()).unwrap(),
+        suzume_api::mjai::Event::StartGame { .. }
+    ));
+    let summary =
+        suzume_api::mjai::analyze(&mut std::io::Cursor::new(text), LogLimits::default()).unwrap();
+    assert!(summary.complete);
+    assert!(summary.rounds >= 4);
+    assert!(String::from_utf8_lossy(&output.stdout)
+        .contains(&format!("点数={:?}", summary.final_scores.unwrap())));
+}
+
+#[test]
+fn cli_mjai_public_masks_dealt_and_drawn_tiles() {
+    let files = TestFiles::new();
+    let path = files.path("public.mjson");
+    let output = Command::new(env!("CARGO_BIN_EXE_suzume"))
+        .args(["--snapshot", "--log-format", "mjai_public", "--log"])
+        .arg(&path)
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    let text = std::fs::read_to_string(&path).unwrap();
+    let rows: Vec<_> = text
+        .lines()
+        .map(|line| suzume_api::mjai::parse_event(line).unwrap())
+        .collect();
+    let suzume_api::mjai::Event::StartKyoku { tehais, .. } = &rows[1] else {
+        panic!("expected start_kyoku")
+    };
+    assert!(tehais.iter().flatten().all(|pai| pai.is_unknown()));
+    let suzume_api::mjai::Event::Tsumo { pai, .. } = &rows[2] else {
+        panic!("expected tsumo")
+    };
+    assert!(pai.is_unknown());
+    assert!(
+        suzume_api::mjai::analyze(&mut std::io::Cursor::new(text), LogLimits::default()).is_ok()
+    );
 }

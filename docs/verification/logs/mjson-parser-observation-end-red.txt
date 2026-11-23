@@ -1,0 +1,22 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+     Running tests/mjai_parser.rs (target/debug/build/suzume-api/83d679426695fc62/out/mjai_parser-83d679426695fc62)
+
+running 1 test
+test observations_distinguish_input_end_from_natural_round_and_game_end ... FAILED
+
+failures:
+
+---- observations_distinguish_input_end_from_natural_round_and_game_end stdout ----
+
+thread 'observations_distinguish_input_end_from_natural_round_and_game_end' (124) panicked at crates/suzume-api/tests/mjai_parser.rs:191:17:
+the active round was not settled
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    observations_distinguish_input_end_from_natural_round_and_game_end
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 23 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --test mjai_parser`

@@ -15,7 +15,8 @@ export function parseTransition(text: string): DatasetTransition {
   const value = parseJson(text); validateDefinition('DatasetTransition', value); return value as DatasetTransition;
 }
 
-async function* lines(chunks: AsyncIterable<Uint8Array> | Iterable<Uint8Array>, limits: LogLimits): AsyncGenerator<string> {
+/** Shared bounded UTF-8 JSON-lines transport. Consumers define record semantics. */
+export async function* readJsonLines(chunks: AsyncIterable<Uint8Array> | Iterable<Uint8Array>, limits: LogLimits): AsyncGenerator<string> {
   const maximum = { line: limits.maxLineBytes ?? 1_048_576, records: limits.maxRecords ?? 10_002, total: limits.maxTotalBytes ?? 268_435_456 };
   for (const limit of Object.values(maximum)) if (!Number.isSafeInteger(limit) || limit <= 0) throw new ProtocolError('Log limits must be positive safe integers');
   // The shared record parser has its own 1 MiB cap. A higher line value cannot disable it.
@@ -65,7 +66,7 @@ export async function* readLogRecords(chunks: AsyncIterable<Uint8Array> | Iterab
   let sequence = 0;
   let maximum = 0;
   let ended = false;
-  for await (const line of lines(chunks, limits)) {
+  for await (const line of readJsonLines(chunks, limits)) {
     const record = parseLogRecord(line);
     if (ended) throw new ProtocolError('Records after the footer are not permitted');
     if (mode === null) {
@@ -92,7 +93,7 @@ export async function* readLogRecords(chunks: AsyncIterable<Uint8Array> | Iterab
 export async function* readTransitions(chunks: AsyncIterable<Uint8Array> | Iterable<Uint8Array>, limits: LogLimits = {}): AsyncGenerator<DatasetTransition> {
   let sequence = 0;
   let ended = false;
-  for await (const line of lines(chunks, limits)) {
+  for await (const line of readJsonLines(chunks, limits)) {
     const row = parseTransition(line);
     if (ended || row.sequence !== ++sequence) throw new ProtocolError('Invalid dataset sequence');
     if (row.actor !== row.observation.actor || row.observation.legal_mask[row.action_id] !== true) throw new ProtocolError('Action does not match the actor observation');

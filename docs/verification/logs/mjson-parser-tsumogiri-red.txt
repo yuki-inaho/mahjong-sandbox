@@ -1,0 +1,22 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.29s
+     Running tests/mjai_parser.rs (target/debug/build/suzume-api/83d679426695fc62/out/mjai_parser-83d679426695fc62)
+
+running 1 test
+test rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn ... FAILED
+
+failures:
+
+---- rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn stdout ----
+
+thread 'rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn' (275) panicked at crates/suzume-api/tests/mjai_parser.rs:165:34:
+called `Result::unwrap_err()` on an `Ok` value: Summary { records: 11, rounds: 1, wins: 1, draws: 0, calls: 0, red_events: 1, final_scores: Some([33000, 17000, 25000, 25000]), riichi_sticks: Some(0), complete: true, termination: Completed }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 22 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --test mjai_parser`

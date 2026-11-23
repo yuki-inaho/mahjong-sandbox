@@ -1,0 +1,41 @@
+name: 外部mjson牌譜の互換性
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: never
+  PYTHONUTF8: '1'
+  RUSTUP_TOOLCHAIN: '1.100.0'
+
+jobs:
+  real-game-records:
+    name: 実対局2件・回帰18件 / mjson・gzip
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12.10'
+      - name: 固定したRustを準備
+        run: rustup toolchain install 1.100.0 --profile minimal
+      - name: 検査器の欠落・改変・失敗検出を確認
+        run: python -m unittest discover -s scripts/tests -p test_mjai_real.py
+      - name: 固定した外部牌譜20件を取得して変換・解析
+        run: python scripts/verify_mjai_real.py
+      - name: 牌譜本文を含まない検査集計だけを保存
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mjai-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: dist/verification/mjai-real-*-summary.json
+          if-no-files-found: error

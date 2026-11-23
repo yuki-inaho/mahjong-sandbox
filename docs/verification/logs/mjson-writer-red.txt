@@ -1,0 +1,21 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+error[E0583]: file not found for module `reader`
+  --> crates/suzume-api/src/mjai/mod.rs:11:1
+   |
+11 | mod reader;
+   | ^^^^^^^^^^^
+   |
+   = help: to create the module `reader`, create file "crates/suzume-api/src/mjai/reader.rs" or "crates/suzume-api/src/mjai/reader/mod.rs"
+   = note: if there is a `mod reader` elsewhere in the crate already, import it with `use crate::...` instead
+
+error[E0583]: file not found for module `state`
+  --> crates/suzume-api/src/mjai/mod.rs:12:1
+   |
+12 | mod state;
+   | ^^^^^^^^^^
+   |
+   = help: to create the module `state`, create file "crates/suzume-api/src/mjai/state.rs" or "crates/suzume-api/src/mjai/state/mod.rs"
+   = note: if there is a `mod state` elsewhere in the crate already, import it with `use crate::...` instead
+
+For more information about this error, try `rustc --explain E0583`.
+error: could not compile `suzume-api` (lib) due to 2 previous errors

@@ -86,3 +86,56 @@ test('browser ESM binding instantiates packaged bytes without Node-specific brow
     assert.equal((await client.inspectConfig('schema_version = 1')).effective_ai[1].algorithm, 'greedy');
   } finally { client.close(); }
 });
+
+test('mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions', async () => {
+  const hands = Array.from({ length: 4 }, () => Array(13).fill('?'));
+  hands[1][0] = '9s';
+  const events = [
+    { type: 'start_game' },
+    { type: 'start_kyoku', bakaze: 'E', dora_marker: '1p', kyoku: 1, honba: 0, kyotaku: 0,
+      oya: 0, scores: [25000, 25000, 25000, 25000], tehais: hands },
+    { type: 'tsumo', actor: 0, pai: '5mr' },
+    { type: 'dahai', actor: 0, pai: '5mr', tsumogiri: true },
+    { type: 'ryukyoku', deltas: [0, 0, 0, 0] }, { type: 'end_kyoku' }, { type: 'end_game' },
+  ];
+  const mjson = events.map(event => JSON.stringify(event)).join('\n');
+  const bytes = readFileSync(new URL('../wasm/web/suzume_wasm_bg.wasm', import.meta.url));
+  const node = createNodeEngine();
+  const web = await createBrowserEngine(bytes);
+  try {
+    const before = await node.newGame();
+    const result = await node.analyzeMjai(mjson, 0);
+    assert.equal(result.summary.records, 7);
+    assert.equal(result.summary.red_events, 2);
+    assert.equal(result.summary.complete, true);
+    assert.equal(result.observation.record_ended, true);
+    assert.equal(result.observation.game_ended, true);
+    assert.equal(result.observation.own_hand.length, 13);
+    assert.equal(JSON.stringify(result).includes('9s'), false);
+    assert.deepEqual(await node.view(), before);
+    assert.deepEqual(await web.analyzeMjai(mjson, 0), result);
+    const publicResult = await node.analyzeMjai(mjson);
+    assert.equal(publicResult.observation.own_hand, null);
+    assert.equal(publicResult.observation.viewer, null);
+    const interrupted = [...events.slice(0, 3), { type: 'end_game', _suzume: { reason: 'interrupted', complete: false } }];
+    const cutoff = await node.analyzeMjai(interrupted.map(event => JSON.stringify(event)).join('\n'), 0);
+    assert.equal(cutoff.summary.complete, false);
+    assert.equal(cutoff.observation.record_ended, true);
+    assert.equal(cutoff.observation.game_ended, false);
+    assert.equal(cutoff.observation.round_ended, false);
+    const environment = await node.environmentReset('17', 10);
+    await node.analyzeMjai(mjson);
+    assert.deepEqual(await node.environmentView(), environment);
+    const broken = [...events]; broken[2] = { ...events[2], actor: 2 };
+    await assert.rejects(node.analyzeMjai(broken.map(event => JSON.stringify(event)).join('\n')),
+      error => error instanceof ApiFault && error.code === 'log_error' && /line 3 \(tsumo\)/.test(error.message));
+    assert.deepEqual(await node.environmentView(), environment);
+    const request = { version: 1, op: 'analyze_mjai', mjson, viewer: 0 };
+    const native = spawnSync('cargo', ['run', '--quiet', '--locked', '-p', 'suzume-api', '--bin', 'suzume-api', '--', 'serve'], {
+      cwd: root, input: JSON.stringify(request) + '\n', encoding: 'utf8', timeout: 120_000,
+    });
+    assert.equal(native.error, undefined); assert.equal(native.status, 0, native.stderr);
+    const nativeResult = parseResponse(native.stdout);
+    assert.equal(nativeResult.status, 'ok'); assert.deepEqual(nativeResult.data, result);
+  } finally { node.close(); web.close(); }
+});

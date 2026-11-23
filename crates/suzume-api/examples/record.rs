@@ -1,13 +1,14 @@
 //! A deterministic eight-action recording used by the documented parser examples.
 use suzume::{ai::ConfiguredAi, game::Game};
 use suzume_api::{
-    config::{AiConfigSpec, AppConfig, Controller, Preset, PublicViewer, Viewer},
+    config::{AiConfigSpec, AppConfig, Controller, LogFormat, Preset, PublicViewer, Viewer},
     decision::DecisionView,
     logging::{EndReason, LogWriter},
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut config = AppConfig::default();
+    config.logging.format = LogFormat::Replay;
     config.game.max_steps = 8;
     config.game.viewer = Viewer::Public(PublicViewer::Public);
     config.players = std::array::from_fn(|seat| Controller::Ai {
