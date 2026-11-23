@@ -156,7 +156,7 @@ Linuxの実行ファイルは作成環境のlibcに依存します。現段階�
 
 作業環境で実ブラウザの起動や公式配布物の取得が制限された場合は、その失敗を成功へ読み替えません。GitHub CIで実行したブラウザの版、assertion結果、PNGのSHA、対象コミットを確認してから、その条件での成功を記録します。
 
-直接参照するActionは存在を確認したコミットに固定しています。`actions/checkout` は `3d3c42e5aac5ba805825da76410c181273ba90b1`、`actions/setup-python` は `6d4fd22b20465ccc0f7354476588e8df7c9ca0e0`、`actions/upload-artifact` は `cf430e030ddbb5b0abf93d22962f4752f3646cd9` です。CIで使用するPythonは3.12.14です。GitHub管理のOSイメージ内の全ファイルまで固定したという意味ではありません。
+直接参照するActionは存在を確認したコミットに固定しています。`actions/checkout` は `3d3c42e5aac5ba805825da76410c181273ba90b1`、`actions/setup-python` は `6d4fd22b20465ccc0f7354476588e8df7c9ca0e0`、`actions/upload-artifact` は `cf430e030ddbb5b0abf93d22962f4752f3646cd9` です。CIで使用するPythonは3.12.10です。GitHub管理のOSイメージ内の全ファイルまで固定したという意味ではありません。
 
 - [rustupのツールチェーン指定](https://rust-lang.github.io/rustup/overrides.html)
 - [Cargoの配布とpackageの検査](https://doc.rust-lang.org/cargo/reference/publishing.html)

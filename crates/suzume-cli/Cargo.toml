@@ -11,6 +11,7 @@ include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
 [[bin]]
 name = "suzume"
 path = "src/main.rs"
+doc = false
 
 [dependencies]
 suzume = { version = "=0.2.0", path = "../.." }

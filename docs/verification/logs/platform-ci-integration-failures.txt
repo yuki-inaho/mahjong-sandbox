@@ -1,0 +1,26 @@
+Observed GitHub Actions run: 45132738378
+Commit: 8405e74361978ed79a8aaa3bbac40ebd589ab147
+
+Job 137551747213
+2026-11-23T07:40:01.6058882Z   python-version: 3.12.14
+2026-11-23T07:40:01.6061687Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+2026-11-23T07:40:01.7628881Z Version 3.12.14 was not found in the local cache
+2026-11-23T07:40:05.5600899Z ##[error]The version '3.12.14' with architecture 'x64' was not found for Windows 2025.
+The list of all available versions can be found here: https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+2026-11-23T07:40:05.7753287Z ##[error]No files were found with the provided path: dist/bootstrap/
+
+Job 137551747450
+2026-11-23T07:39:55.9511080Z   python-version: 3.12.14
+2026-11-23T07:39:55.9519610Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+2026-11-23T07:39:56.0783440Z Version 3.12.14 was not found in the local cache
+2026-11-23T07:39:57.0928610Z ##[error]The version '3.12.14' with architecture 'arm64' was not found for macOS 15.8.2.
+The list of all available versions can be found here: https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+2026-11-23T07:39:57.2502800Z ##[error]No files were found with the provided path: dist/bootstrap/
+
+Browser job 137551747462: actual interactions.log
+{
+  "isError": true,
+  "error": "locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByLabel('CPUの設定', { exact: true })\n"
+}
+
+Corrections prepared: Python 3.12.10 (official manifest has darwin arm64, win32 x64 and linux 24.04 x64); explicit aria-labelledby for CPU selector. These failed runs remain failed; success requires a new CI run.

@@ -1,0 +1,73 @@
+{
+  "started_from": "copied exact doctor/platform_support/versions in isolated directory",
+  "time": "2026-11-23T16:41:51.174460+09:00",
+  "success": true,
+  "cases": [
+    {
+      "case": "missing",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "checks": {
+        "rust": {
+          "expected": "1.100.0",
+          "observed": null,
+          "exit_code": 127,
+          "success": false,
+          "detail": "コマンドが見つかりません: rustc"
+        },
+        "cargo": {
+          "expected": "1.100.0",
+          "observed": null,
+          "exit_code": 127,
+          "success": false,
+          "detail": "コマンドが見つかりません: cargo"
+        },
+        "rustup": {
+          "expected": "1.29.3",
+          "observed": null,
+          "exit_code": 127,
+          "success": false,
+          "detail": "コマンドが見つかりません: rustup"
+        },
+        "python": {
+          "expected_minimum": "3.12",
+          "observed": "3.12.14",
+          "success": true
+        }
+      }
+    },
+    {
+      "case": "wrong-version",
+      "exit_code": 1,
+      "expected_rejection": true,
+      "checks": {
+        "rust": {
+          "expected": "1.100.0",
+          "observed": "0.0.0",
+          "exit_code": 0,
+          "success": false,
+          "detail": "rustc 0.0.0"
+        },
+        "cargo": {
+          "expected": "1.100.0",
+          "observed": "0.0.0",
+          "exit_code": 0,
+          "success": false,
+          "detail": "cargo 0.0.0"
+        },
+        "rustup": {
+          "expected": "1.29.3",
+          "observed": "0.0.0",
+          "exit_code": 0,
+          "success": false,
+          "detail": "rustup 0.0.0"
+        },
+        "python": {
+          "expected_minimum": "3.12",
+          "observed": "3.12.14",
+          "success": true
+        }
+      }
+    }
+  ]
+}

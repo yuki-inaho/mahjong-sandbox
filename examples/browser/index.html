@@ -13,7 +13,7 @@
     <header class="heading"><div><p class="eyebrow">四人リーチ麻雀 · 東風戦</p><h1>すずめ <span>麻雀の実験卓</span></h1></div><a href="../../docs/api/README.md">API仕様</a></header>
     <section class="setup" aria-label="対局設定">
       <label>対局の乱数種<input id="seed" value="0" inputmode="numeric" maxlength="20" spellcheck="false"></label>
-      <label>CPUの設定<select id="preset"><option value="standard">標準 · 向聴数と防御</option><option value="beginner">入門 · ランダム</option><option value="strong">探索 · 有効牌と先読み</option></select></label>
+      <label><span id="cpu-settings-label">CPUの設定</span><select id="preset" aria-labelledby="cpu-settings-label"><option value="standard">標準 · 向聴数と防御</option><option value="beginner">入門 · ランダム</option><option value="strong">探索 · 有効牌と先読み</option></select></label>
       <button id="new-game" class="primary">新しい対局</button>
     </section>
     <section class="table" aria-label="麻雀卓">
