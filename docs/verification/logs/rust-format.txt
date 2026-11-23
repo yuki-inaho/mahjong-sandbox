@@ -1,0 +1,4 @@
+COMMAND: cargo fmt --check
+EXIT CODE: 0
+SECONDS: 0.552
+

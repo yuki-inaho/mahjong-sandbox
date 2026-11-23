@@ -1,0 +1,5 @@
+COMMAND: lake build
+EXIT CODE: 0
+SECONDS: 0.730
+
+Build completed successfully (10 jobs).

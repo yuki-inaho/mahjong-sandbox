@@ -37,7 +37,7 @@ Failed Checks: assertion failed: specification::next_seat_relation(u16::from(sea
  File: "<temporary-copy>/src/contracts.rs", line 126, in contracts::proofs::next_seat_refines_declaration
 
 VERIFICATION:- FAILED
-Verification Time: 0.067107774s
+Verification Time: 0.068934254s
 
 Manual Harness Summary:
 Verification failed for - contracts::proofs::next_seat_refines_declaration

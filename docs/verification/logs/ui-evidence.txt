@@ -1,0 +1,6 @@
+CHECK ID: ui-evidence
+EXIT CODE: 0
+SOURCE: verified recorded-check receipt; private environment paths omitted.
+
+Manual PTY evidence integrity: all six observations and transcript hashes verified.
+This command validates retained evidence; it does not claim to perform the manual interaction.

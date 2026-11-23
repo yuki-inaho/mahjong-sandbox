@@ -1,0 +1,157 @@
+{
+  "started_at": "2026-11-23T05:06:13.399798+00:00",
+  "finished_at": "2026-11-23T05:08:28.498622+00:00",
+  "mode": "full",
+  "success": true,
+  "sources_unchanged_during_run": true,
+  "source_sha256": {
+    "Cargo.lock": "4fe05bf133ba32bedf8db2ca9757d10be83ca846ed9e347c03b9dd31b34065a7",
+    "Cargo.toml": "243f49be2984ea2bc7c1bb813d5778cbe9413c11ea69cb2ceb34067b2b989075",
+    "proofs/Mahjong/Audit.lean": "5a1132a7984a3f77db2bb0b783b3781ea32f8d52daf2e25d4e611d337753b659",
+    "proofs/Mahjong/Contracts.lean": "e5bf5037f187c6a6fa0dffa1dee54a61095061fbc17c2c401d6f08a85dc33c79",
+    "proofs/Mahjong/GeneratedContracts.lean": "53d037d8a22df29bbc005b9aebaa69eecb151ab10d575b7703bd0860b7c180a2",
+    "proofs/Mahjong/GeneratedRules.lean": "a103471dffb6d2dc39143821b4d812ff949407422856b003fa734c2e88b7e226",
+    "proofs/Mahjong.lean": "92ef2825aea84a5387e9f0758bd934c9bf3981145e43a487f0f7d6e944a3956d",
+    "proofs/lake-manifest.json": "d9565dca493816d75dedead65a8d31b4378a7db7010a4977e68cdbfdb1e64d2b",
+    "proofs/lakefile.toml": "a33b1d7395233997297d6c2ab0823e7b904b797e3797e094646131cf821a4d7b",
+    "proofs/lean-toolchain": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a",
+    "rules/contracts.json": "644b28382cc2bf60ff7ddef674b9c7904586167fa17a2881963e13c2fc1c7bcd",
+    "rules/riichi.rules": "d95ce5749bd3229fe0bcb7e8ee7b202f32c8056347bb5c62e7950dbe674aa1cf",
+    "scripts/check_contract_negatives.py": "1291317a98f48400bec3742ab7f26de7eab907876b075af2e008b5cde1840bb1",
+    "scripts/generate_rules.py": "c9fe7571340341e32bbd59054db9bda404238b75da8ee6465470f9553c99dfe2",
+    "scripts/verify.py": "8810f72a32496088ae0b7c09169069d86c8ae8b3b4539d3deb5191ca4923a4c7",
+    "scripts/worklog.py": "4cb66447457c18ee6ad4f30b79132806d6b8d93ea33c9107210f921474fef5ee",
+    "src/ai.rs": "c44b4132c2c861f2841ec37efe7d788e0435cb2f2928452d6b3f4e139db8668a",
+    "src/contracts.rs": "ca5f2dfea07068a22af86fdc0ede5d81557c855be8209176163197a5cd764947",
+    "src/game/tests.rs": "2e735c0e73aaf6d46fea9536c745a34c144ee5853bd9d575b7d4d184e4fdf92a",
+    "src/game.rs": "079febdb1c4aa8c17d8a1028939084ed41f97f33d3f2b0eee1100f5218a83376",
+    "src/generated_contracts.rs": "8406b6b8797bbf946a12573fa0221e1cf7cc5c3531f6d2473d3a97b76ee0292e",
+    "src/hand.rs": "528637d8340076c9e25f80b399375bdc356164c28a55175d48c50e1ecc41779c",
+    "src/lib.rs": "0edda763f528fe8cf00f6fc67febdf05b8952ede3cdc7f77437f87d3fe8ee312",
+    "src/main.rs": "98aa89ea95b0189a419da21fb9b2d423a57bbecafbf73c7ca427c1fdf8b593e8",
+    "src/rule_constants.rs": "972d6d036345c5794eb24fe9c60c36a540663eae541f6c6dffd7cd4df5c8c8c1",
+    "src/scoring.rs": "5de5089b80614af107e713aa27a46921b0d3fe122249b5edf098f2ce1ebfce14",
+    "src/tile.rs": "7fbe82216dc3caa6969100b62633e87132323fc6964c45bb9825da536f768bed",
+    "src/ui.rs": "05776488ef770f95b049b60049df24cf4149da6429d097d87a4107e2608dbfa4",
+    "tests/cli.rs": "039a6df0f87bb07c386472a7a2616f2811b459fb39347f79e66debf3131a18de",
+    "tests/game_contracts.rs": "fea044c27d3d5c9b48cadffe8f4e23e97dcaa9ec68e8f12de49195e7a4c9cae9"
+  },
+  "checks": [
+    {
+      "id": "rule-sync",
+      "command": [
+        "python3",
+        "scripts/generate_rules.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.036,
+      "log": "docs/verification/logs/rule-sync.txt",
+      "log_sha256": "0944d6d4ded12426e3aff5eef752dbdf39e1fda42bb80591d1d585a2b5019b99"
+    },
+    {
+      "id": "rust-format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.552,
+      "log": "docs/verification/logs/rust-format.txt",
+      "log_sha256": "17fb23a37a0b6d2265c1fe59e706ccf57a19fa132d8f6aac365a5b9faffecf74"
+    },
+    {
+      "id": "rust-clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "seconds": 0.049,
+      "log": "docs/verification/logs/rust-clippy.txt",
+      "log_sha256": "763ecb54fcec8a7237fb005b0b7a60a7f6d3ce756886729f32fe334ad04156e5"
+    },
+    {
+      "id": "rust-tests",
+      "command": [
+        "cargo",
+        "test"
+      ],
+      "exit_code": 0,
+      "seconds": 6.347,
+      "log": "docs/verification/logs/rust-tests.txt",
+      "log_sha256": "ef29e068e31da1a8012978841e6e11c454b50c7b624f236203d7f9991a195816"
+    },
+    {
+      "id": "simulation-32",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--",
+        "--simulate",
+        "32",
+        "--seed",
+        "0"
+      ],
+      "exit_code": 0,
+      "seconds": 2.833,
+      "log": "docs/verification/logs/simulation-32.txt",
+      "log_sha256": "388f87b0e8c8bf44bf60c76455efadcd466ca27e20f8b8de7065fe3b8544a36a"
+    },
+    {
+      "id": "lean",
+      "command": [
+        "lake",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 0.73,
+      "log": "docs/verification/logs/lean.txt",
+      "log_sha256": "06856c042061d926d3e93d12f75d5797f0130fa8ffe6001c89a113569a564081"
+    },
+    {
+      "id": "lean-audit",
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "Mahjong/Audit.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 2.74,
+      "log": "docs/verification/logs/lean-audit.txt",
+      "log_sha256": "08dab3835a4c60f1ea32f5600c84b4d98036a842708ce666f887aad23d73db9f"
+    },
+    {
+      "id": "kani",
+      "command": [
+        "cargo",
+        "kani",
+        "--lib",
+        "--output-format",
+        "terse"
+      ],
+      "exit_code": 0,
+      "seconds": 119.409,
+      "log": "docs/verification/logs/kani.txt",
+      "log_sha256": "fd0615ecdea5b519f77b7e8ef753adb51d78bbce91ca7b8b41593169912c2fba"
+    },
+    {
+      "id": "negative-checks",
+      "command": [
+        "python3",
+        "scripts/check_contract_negatives.py"
+      ],
+      "exit_code": 0,
+      "seconds": 1.23,
+      "log": "docs/verification/logs/negative-checks.txt",
+      "log_sha256": "93c79a805f54918d77b991294da0bdea7604830767499928094f89f9858ce2f2"
+    }
+  ]
+}

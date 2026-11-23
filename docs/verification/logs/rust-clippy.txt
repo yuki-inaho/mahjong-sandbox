@@ -1,0 +1,5 @@
+COMMAND: cargo clippy --all-targets -- -D warnings
+EXIT CODE: 0
+SECONDS: 0.049
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s

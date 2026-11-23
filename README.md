@@ -71,6 +71,8 @@ cargo run -- --help
 ```
 
 CPUの強さや勝率を保証する評価は行っていません。向聴数、牌のつながり、公開された河を使う簡潔な判断方式です。
+手動対局・実演・自動対局には共通で1試合10,000操作の実行上限があります。見送りと次局への移行も数えます。
+上限に達した場合は乱数種を表示して非0で終了し、通常の終局や検査成功には数えません。
 
 ## 契約と検証
 
@@ -119,6 +121,8 @@ Pythonの補助スクリプトは標準ライブラリのみを使います。`u
 - [責務と依存関係](docs/architecture.md)
 - [契約の対応表](docs/contracts/README.md)
 - [形式検証の前提と限界](docs/verification/README.md)
+- [検査結果と実行記録](docs/verification/results.md)
+- [各OSとRust版の確認](docs/verification/portability.md)
 - [作業計画書兼記録書](docs/workdocs/workdoc_Nov23-2026_suzume.md)
 - [設計判断 ADR](docs/adr/)
 

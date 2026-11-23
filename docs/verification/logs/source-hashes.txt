@@ -1,0 +1,5 @@
+CHECK ID: source-hashes
+EXIT CODE: 0
+SOURCE: verified recorded-check receipt; private environment paths omitted.
+
+Frozen source integrity: 31 files match; Kani and Lean receipts bind the same source bytes.
