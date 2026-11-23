@@ -1,0 +1,109 @@
+{
+  "schema": "completion-policy/1",
+  "task_id": "suzume-rust-contract-mahjong-v1",
+  "requirement_provenance": {
+    "kind": "visible_user_message_summary",
+    "confirmation_scope": "inherited_visible_context_and_parent_confirmed_visible_context",
+    "source_is_raw_log": false,
+    "source_refs": [
+      "visible-user-message-U01", "visible-user-message-U02", "visible-user-message-U03",
+      "visible-user-message-U04", "visible-user-message-U05", "visible-user-message-U06",
+      "visible-user-message-U07", "visible-user-message-U08", "visible-user-message-U09"
+    ],
+    "mapping": "docs/verification/completion-scope.md",
+    "delegation_is_new_user_authorization": false
+  },
+  "required_dod_ids": [
+    "DOD-01", "DOD-02", "DOD-03", "DOD-04", "DOD-05", "DOD-06", "DOD-07", "DOD-08", "DOD-09"
+  ],
+  "required_artifacts": [
+    {"id": "cargo-project", "path": "Cargo.toml"},
+    {"id": "library-boundary", "path": "src/lib.rs"},
+    {"id": "tile-model", "path": "src/tile.rs"},
+    {"id": "hand-analysis", "path": "src/hand.rs"},
+    {"id": "scoring", "path": "src/scoring.rs"},
+    {"id": "runtime-contracts", "path": "src/contracts.rs"},
+    {"id": "rust-generated-specification", "path": "src/generated_contracts.rs"},
+    {"id": "rust-generated-rules", "path": "src/rule_constants.rs"},
+    {"id": "game-engine", "path": "src/game.rs"},
+    {"id": "cpu-player", "path": "src/ai.rs"},
+    {"id": "terminal-interface", "path": "src/ui.rs"},
+    {"id": "application-entry", "path": "src/main.rs"},
+    {"id": "rule-declaration", "path": "rules/riichi.rules"},
+    {"id": "contract-declaration", "path": "rules/contracts.json"},
+    {"id": "lean-contracts", "path": "proofs/Mahjong/Contracts.lean"},
+    {"id": "lean-generated-specification", "path": "proofs/Mahjong/GeneratedContracts.lean"},
+    {"id": "lean-generated-rules", "path": "proofs/Mahjong/GeneratedRules.lean"},
+    {"id": "lean-axiom-audit", "path": "proofs/Mahjong/Audit.lean"},
+    {"id": "lean-version", "path": "proofs/lean-toolchain"},
+    {"id": "lean-build-project", "path": "proofs/lakefile.toml"},
+    {"id": "rule-generator", "path": "scripts/generate_rules.py"},
+    {"id": "negative-controls", "path": "scripts/check_contract_negatives.py"},
+    {"id": "verification-entry", "path": "scripts/verify.py"},
+    {"id": "cli-integration-tests", "path": "tests/cli.rs"},
+    {"id": "game-integration-tests", "path": "tests/game_contracts.rs"},
+    {"id": "readme", "path": "README.md"},
+    {"id": "documentation-index", "path": "docs/README.md"},
+    {"id": "concept", "path": "docs/concept/overview.md"},
+    {"id": "declared-rule-explanation", "path": "docs/rules/riichi.md"},
+    {"id": "contract-mapping", "path": "docs/contracts/README.md"},
+    {"id": "verification-scope", "path": "docs/verification/README.md"},
+    {"id": "adr-engine", "path": "docs/adr/0001-independent-engine.md"},
+    {"id": "adr-rules", "path": "docs/adr/0002-declared-rules.md"},
+    {"id": "adr-formal", "path": "docs/adr/0003-formal-contracts.md"},
+    {"id": "development-workflow", "path": "docs/development/workflow.md"},
+    {"id": "workdoc", "path": "docs/workdocs/workdoc_Nov23-2026_suzume.md"},
+    {"id": "workdoc-review", "path": "docs/workdocs/review_Nov23-2026_suzume.md"},
+    {"id": "completion-scope", "path": "docs/verification/completion-scope.md"},
+    {"id": "completion-policy-acceptance", "path": "docs/verification/completion-acceptance.md"}
+  ],
+  "required_checks": [
+    "source-sync", "rust-format", "rust-clippy", "rust-tests", "simulation-32",
+    "kani-contracts", "lean-model", "lean-axioms", "negative-controls", "source-hashes",
+    "ui-evidence", "git-final"
+  ],
+  "required_execution_items": [
+    {
+      "id": "generated-declarations",
+      "required_check_ids": ["source-sync", "source-hashes"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "rust-application-verification",
+      "required_check_ids": ["rust-format", "rust-clippy", "rust-tests"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "seeded-gameplay",
+      "required_check_ids": ["simulation-32"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "kani-code-verification",
+      "required_check_ids": ["kani-contracts", "source-hashes"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "lean-model-verification",
+      "required_check_ids": ["lean-model", "lean-axioms", "source-hashes"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "negative-control-execution",
+      "required_check_ids": ["negative-controls"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "terminal-playthrough",
+      "required_check_ids": ["ui-evidence"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    },
+    {
+      "id": "publication-verification",
+      "required_check_ids": ["git-final"],
+      "basis_evidence": [{"path": "docs/verification/completion-scope.md", "sha256": "feb71313903cc9fd066b665d708c303a119d6941f9d1af6f1da92e92c9e70265"}]
+    }
+  ],
+  "not_before": null,
+  "not_before_instruction_ref": null
+}

@@ -1,0 +1,53 @@
+Observed implementation run; no tests skipped.
+Time: 2026-11-23T13:38:40.193518+09:00
+Command: isolated rustc test harness containing the checked-in tile, hand, scoring and contract modules; --nocapture
+Exit: 0
+src/tile.rs SHA256=7fbe82216dc3caa6969100b62633e87132323fc6964c45bb9825da536f768bed
+src/hand.rs SHA256=528637d8340076c9e25f80b399375bdc356164c28a55175d48c50e1ecc41779c
+src/scoring.rs SHA256=5de5089b80614af107e713aa27a46921b0d3fe122249b5edf098f2ce1ebfce14
+
+
+running 41 tests
+test contracts::tests::dora_wraps_inside_each_family ... ok
+test contracts::tests::checked_in_declarations_match_generated_outputs ... ok
+test contracts::tests::next_seat_wraps_and_rejects_invalid ... ok
+test contracts::tests::points_transfer_preserves_total_including_escrow ... ok
+test contracts::tests::rejected_transfer_leaves_every_account_unchanged ... ok
+test contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid ... ok
+test contracts::tests::riichi_requires_every_declared_precondition ... ok
+test contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full ... ok
+test hand::tests::does_not_join_sequences_across_suits ... ok
+test hand::tests::handles_four_open_groups_and_pair_wait ... ok
+test hand::tests::keeps_ambiguous_decompositions_for_scoring ... ok
+test scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape ... ok
+test scoring::tests::closed_edge_inside_and_pair_waits_add_fu ... ok
+test scoring::tests::double_riichi_replaces_riichi_and_ippatsu_combines ... ok
+test scoring::tests::double_wind_pair_counts_four_fu ... ok
+test scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu ... ok
+test hand::tests::quads_are_not_two_pairs ... ok
+test hand::tests::a_wait_requiring_a_fifth_tile_is_not_tenpai ... ok
+test hand::tests::recognizes_standard_seven_pairs_and_orphans ... ok
+test hand::tests::enumerates_both_waits_and_thirteen_orphan_waits ... ok
+test scoring::tests::four_kans_accept_eighteen_physical_tiles ... ok
+test hand::tests::validates_size_multiplicity_and_open_meld_count ... ok
+test scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu ... ok
+test scoring::tests::dora_alone_cannot_make_a_yaku ... ok
+test scoring::tests::open_tanyao_without_other_fu_is_thirty_fu ... ok
+test scoring::tests::malformed_melds_and_fifth_physical_tile_are_rejected ... ok
+test scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty ... ok
+test scoring::tests::points_follow_declared_limits_without_kiriage ... ok
+test scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman ... ok
+test scoring::tests::inconsistent_context_and_absent_winning_tile_are_rejected ... ok
+test scoring::tests::recognizes_nine_gates_green_and_big_dragons ... ok
+test scoring::tests::recognizes_sequence_and_outside_yaku ... ok
+test scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets ... ok
+test scoring::tests::seven_pairs_uses_fixed_twenty_five_fu ... ok
+test scoring::tests::ura_is_only_counted_for_riichi ... ok
+test scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled ... ok
+test tile::tests::counting_arbitrary_input_does_not_overflow ... ok
+test tile::tests::compact_text_round_trips_all_tiles ... ok
+test tile::tests::every_byte_is_valid_exactly_for_34_tiles ... ok
+test tile::tests::parser_rejects_red_incomplete_and_fifth_copies ... ok
+test tile::tests::dora_wraps_each_suit_and_honor_family ... ok
+
+test result: ok. 41 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s

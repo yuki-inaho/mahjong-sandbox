@@ -1,0 +1,22 @@
+{
+  "command": [
+    "cargo",
+    "kani",
+    "--lib",
+    "--output-format",
+    "terse"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-11-23T13:42:49.270214+09:00",
+  "finished_at": "2026-11-23T13:44:52.347585+09:00",
+  "source_sha256": {
+    "src/contracts.rs": "ca5f2dfea07068a22af86fdc0ede5d81557c855be8209176163197a5cd764947",
+    "src/generated_contracts.rs": "8406b6b8797bbf946a12573fa0221e1cf7cc5c3531f6d2473d3a97b76ee0292e",
+    "src/rule_constants.rs": "972d6d036345c5794eb24fe9c60c36a540663eae541f6c6dffd7cd4df5c8c8c1",
+    "rules/contracts.json": "644b28382cc2bf60ff7ddef674b9c7904586167fa17a2881963e13c2fc1c7bcd",
+    "rules/riichi.rules": "d95ce5749bd3229fe0bcb7e8ee7b202f32c8056347bb5c62e7950dbe674aa1cf",
+    "Cargo.toml": "243f49be2984ea2bc7c1bb813d5778cbe9413c11ea69cb2ceb34067b2b989075"
+  },
+  "sources_unchanged_during_run": true,
+  "log": "docs/verification/logs/kani-contracts-cargo.txt"
+}

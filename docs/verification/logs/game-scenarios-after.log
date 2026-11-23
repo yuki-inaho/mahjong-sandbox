@@ -1,0 +1,34 @@
+Command: cargo test --lib game::tests -- --nocapture
+Time: 2026-11-23T13:56:07.585476+09:00
+Exit: 0
+Scope: 17 legal-state transition tests, inventory preserved by one 136-tile pool.
+Late-wall fixtures distribute 17 past discards to each player; final normal draw uses Game.apply.
+src/game.rs SHA256=079febdb1c4aa8c17d8a1028939084ed41f97f33d3f2b0eee1100f5218a83376
+src/game/tests.rs SHA256=b04e8fd942e0a7f695fd9beb2b29a0df22d6f8dffb2aea7221629c2c50b56e90
+src/ai.rs SHA256=23c6d899f9cbe452377050425b21a7f154480f061b9a7d2e0cd0628cfd2109a8
+
+
+running 17 tests
+test game::tests::exhaustive_draw_rotates_a_not_ready_dealer_but_keeps_honba ... ok
+test game::tests::calling_the_declaration_tile_establishes_riichi_but_cancels_ippatsu ... ok
+test game::tests::chi_is_only_from_the_left_and_forbids_both_kuikae_tiles ... ok
+test game::tests::last_discard_after_rinshan_can_award_houtei ... ok
+test game::tests::exhaustive_draw_with_two_ready_players_transfers_fifteen_hundred_each ... ok
+test game::tests::dealer_tsumo_rounds_each_payment_and_continues_the_dealership ... ok
+test game::tests::head_bump_uses_distance_from_the_discarder ... ok
+test game::tests::nondealer_tsumo_includes_honba_and_the_riichi_pot ... ok
+test game::tests::open_kan_draws_from_the_dead_wall_and_preserves_inventory ... ok
+test game::tests::rinshan_does_not_combine_with_haitei_when_the_live_wall_becomes_empty ... ok
+test game::tests::pon_has_priority_over_chi_and_does_not_create_a_tsumo ... ok
+test game::tests::ron_on_declaration_tile_cancels_the_riichi_deposit ... ok
+test game::tests::ron_has_priority_over_pon_and_chi ... ok
+test game::tests::riichi_is_deferred_until_declaration_tile_survives ... ok
+test game::tests::temporary_furiten_expires_on_the_next_draw ... ok
+test game::tests::yaku_less_completion_still_causes_temporary_furiten ... ok
+test game::tests::riichi_furiten_survives_the_next_draw_and_discard_is_locked ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 43 filtered out; finished in 0.01s
+
+   Compiling suzume v0.1.0 (.)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.81s
+     Running unittests src/lib.rs (target/debug/build/suzume/49a83d7f9800b79a/out/suzume-49a83d7f9800b79a)

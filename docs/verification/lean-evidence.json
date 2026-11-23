@@ -1,0 +1,24 @@
+{
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "Mahjong/Contracts.lean"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-11-23T13:44:05.665587+09:00",
+  "finished_at": "2026-11-23T13:44:07.039912+09:00",
+  "source_sha256": {
+    "proofs/Mahjong/Contracts.lean": "e5bf5037f187c6a6fa0dffa1dee54a61095061fbc17c2c401d6f08a85dc33c79",
+    "proofs/Mahjong/GeneratedContracts.lean": "53d037d8a22df29bbc005b9aebaa69eecb151ab10d575b7703bd0860b7c180a2",
+    "proofs/Mahjong/GeneratedRules.lean": "a103471dffb6d2dc39143821b4d812ff949407422856b003fa734c2e88b7e226",
+    "proofs/Mahjong/Audit.lean": "5a1132a7984a3f77db2bb0b783b3781ea32f8d52daf2e25d4e611d337753b659",
+    "proofs/lean-toolchain": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a",
+    "proofs/lakefile.toml": "a33b1d7395233997297d6c2ab0823e7b904b797e3797e094646131cf821a4d7b",
+    "rules/contracts.json": "644b28382cc2bf60ff7ddef674b9c7904586167fa17a2881963e13c2fc1c7bcd",
+    "rules/riichi.rules": "d95ce5749bd3229fe0bcb7e8ee7b202f32c8056347bb5c62e7950dbe674aa1cf"
+  },
+  "sources_unchanged_during_run": true,
+  "theorem_count": 18,
+  "log": "docs/verification/logs/lean-contracts.txt"
+}

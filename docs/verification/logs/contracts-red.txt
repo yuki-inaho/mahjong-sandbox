@@ -1,0 +1,63 @@
+Command: rustc --edition 2021 --test formal-tests.rs; ./formal-tests
+Implementation stage: intentionally unimplemented contract functions.
+Exit: 101
+
+running 8 tests
+test contracts::tests::checked_in_declarations_match_generated_outputs ... ok
+test contracts::tests::dora_wraps_inside_each_family ... FAILED
+test contracts::tests::next_seat_wraps_and_rejects_invalid ... FAILED
+test contracts::tests::points_transfer_preserves_total_including_escrow ... FAILED
+test contracts::tests::rejected_transfer_leaves_every_account_unchanged ... ok
+test contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid ... FAILED
+test contracts::tests::riichi_requires_every_declared_precondition ... FAILED
+test contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full ... FAILED
+
+failures:
+
+---- contracts::tests::dora_wraps_inside_each_family stdout ----
+
+thread 'contracts::tests::dora_wraps_inside_each_family' (36) panicked at test-harness/../mahjong-sandbox/src/contracts.rs:102:13:
+assertion `left == right` failed
+  left: None
+ right: Some(1)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- contracts::tests::next_seat_wraps_and_rejects_invalid stdout ----
+
+thread 'contracts::tests::next_seat_wraps_and_rejects_invalid' (37) panicked at test-harness/../mahjong-sandbox/src/contracts.rs:93:9:
+assertion `left == right` failed
+  left: None
+ right: Some(1)
+
+---- contracts::tests::points_transfer_preserves_total_including_escrow stdout ----
+
+thread 'contracts::tests::points_transfer_preserves_total_including_escrow' (38) panicked at test-harness/../mahjong-sandbox/src/contracts.rs:119:52:
+called `Result::unwrap()` on an `Err` value: InvalidAccount
+
+---- contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid stdout ----
+
+thread 'contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid' (40) panicked at test-harness/../mahjong-sandbox/src/contracts.rs:147:9:
+assertion failed: discard_allowed(false, 1, 2)
+
+---- contracts::tests::riichi_requires_every_declared_precondition stdout ----
+
+thread 'contracts::tests::riichi_requires_every_declared_precondition' (41) panicked at test-harness/../mahjong-sandbox/src/contracts.rs:137:9:
+assertion failed: can_declare_riichi(true, true, 1000, 4, false)
+
+---- contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full stdout ----
+
+thread 'contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full' (42) panicked at test-harness/../mahjong-sandbox/src/contracts.rs:109:9:
+assertion `left == right` failed
+  left: None
+ right: Some((3, 1))
+
+
+failures:
+    contracts::tests::dora_wraps_inside_each_family
+    contracts::tests::next_seat_wraps_and_rejects_invalid
+    contracts::tests::points_transfer_preserves_total_including_escrow
+    contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid
+    contracts::tests::riichi_requires_every_declared_precondition
+    contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full
+
+test result: FAILED. 2 passed; 6 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

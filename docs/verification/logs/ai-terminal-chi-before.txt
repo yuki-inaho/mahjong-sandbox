@@ -1,0 +1,25 @@
+EXIT CODE: 101
+
+running 1 test
+test ai::tests::chi_with_a_terminal_is_not_treated_as_open_tanyao ... FAILED
+
+failures:
+
+---- ai::tests::chi_with_a_terminal_is_not_treated_as_open_tanyao stdout ----
+
+thread 'ai::tests::chi_with_a_terminal_is_not_treated_as_open_tanyao' (169) panicked at src/ai.rs:216:9:
+assertion `left == right` failed
+  left: Some(Chi([Tile(0), Tile(2)]))
+ right: Some(Pass)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    ai::tests::chi_with_a_terminal_is_not_treated_as_open_tanyao
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 60 filtered out; finished in 0.00s
+
+   Compiling suzume v0.1.0 (<repository>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.63s
+     Running unittests src/lib.rs (target/debug/build/suzume/49a83d7f9800b79a/out/suzume-49a83d7f9800b79a)
+error: test failed, to rerun pass `--lib`

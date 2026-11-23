@@ -1,0 +1,54 @@
+Contract negative controls: rejection is the expected result.
+
+N-01 unknown rule
+Exit: 1
+ルール宣言を拒否しました: riichi.rules:32: 未知または重複した項目 UNKNOWN_RULE
+
+
+N-02 unsupported rule value
+Exit: 1
+ルール宣言を拒否しました: RED_FIVES: この版では未対応の値 true
+
+
+N-03 generated artifact drift
+Exit: 1
+宣言と生成物が不一致: src/rule_constants.rs
+
+
+N-04 mutated next seat
+Exit: 1
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+warning: 1 warning emitted
+
+Checking harness contracts::proofs::next_seat_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 1 of 18 failed
+Failed Checks: assertion failed: specification::next_seat_relation(u16::from(seat), u16::from(next))
+ File: "<temporary-copy>/src/contracts.rs", line 126, in contracts::proofs::next_seat_refines_declaration
+
+VERIFICATION:- FAILED
+Verification Time: 0.067107774s
+
+Manual Harness Summary:
+Verification failed for - contracts::proofs::next_seat_refines_declaration
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+
+N-05 false Lean theorem
+Exit: 1
+<temporary-copy>/FalseClaim.lean:2:50: error: Tactic `decide` proved that the proposition
+  Mahjong.Model.nextSeat 0 = some 2
+is false
+
+
+Result: 5 / 5 expected rejections observed; original project unchanged.

@@ -1,0 +1,85 @@
+Observed initial run: evaluate returns None before implementation.
+Command: isolated rustc test harness, scoring::tests --nocapture
+
+
+running 17 tests
+test scoring::tests::dora_alone_cannot_make_a_yaku ... ok
+test scoring::tests::inconsistent_context_and_absent_winning_tile_are_rejected ... ok
+test scoring::tests::malformed_melds_and_fifth_physical_tile_are_rejected ... ok
+
+thread 'scoring::tests::closed_edge_inside_and_pair_waits_add_fu' (36) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape' (35) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+
+thread 'scoring::tests::double_wind_pair_counts_four_fu' (39) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+
+thread 'scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu' (37) panicked at src/scoring.rs:194:11:
+called `Option::unwrap()` on a `None` value
+
+thread 'scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu' (40) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+
+thread 'scoring::tests::four_kans_accept_eighteen_physical_tiles' (41) panicked at src/scoring.rs:249:91:
+called `Option::unwrap()` on a `None` value
+test scoring::tests::closed_edge_inside_and_pair_waits_add_fu ... FAILED
+
+thread 'scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman' (43) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+
+thread 'scoring::tests::open_tanyao_without_other_fu_is_thirty_fu' (45) panicked at src/scoring.rs:153:11:
+called `Option::unwrap()` on a `None` value
+
+thread 'scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty' (46) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+test scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape ... FAILED
+test scoring::tests::double_wind_pair_counts_four_fu ... FAILED
+
+thread 'scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets' (49) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+test scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu ... FAILED
+test scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu ... FAILED
+
+thread 'scoring::tests::seven_pairs_uses_fixed_twenty_five_fu' (50) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+test scoring::tests::four_kans_accept_eighteen_physical_tiles ... FAILED
+test scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman ... FAILED
+test scoring::tests::open_tanyao_without_other_fu_is_thirty_fu ... FAILED
+test scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty ... FAILED
+test scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets ... FAILED
+test scoring::tests::seven_pairs_uses_fixed_twenty_five_fu ... FAILED
+
+thread 'scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled' (51) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+test scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled ... FAILED
+
+thread 'scoring::tests::recognizes_sequence_and_outside_yaku' (48) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+
+thread 'scoring::tests::recognizes_nine_gates_green_and_big_dragons' (47) panicked at src/scoring.rs:86:57:
+合法な役付き和了
+test scoring::tests::recognizes_sequence_and_outside_yaku ... FAILED
+test scoring::tests::recognizes_nine_gates_green_and_big_dragons ... FAILED
+
+failures:
+
+failures:
+    scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape
+    scoring::tests::closed_edge_inside_and_pair_waits_add_fu
+    scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu
+    scoring::tests::double_wind_pair_counts_four_fu
+    scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu
+    scoring::tests::four_kans_accept_eighteen_physical_tiles
+    scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman
+    scoring::tests::open_tanyao_without_other_fu_is_thirty_fu
+    scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty
+    scoring::tests::recognizes_nine_gates_green_and_big_dragons
+    scoring::tests::recognizes_sequence_and_outside_yaku
+    scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets
+    scoring::tests::seven_pairs_uses_fixed_twenty_five_fu
+    scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled
+
+test result: FAILED. 3 passed; 14 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s

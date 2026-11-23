@@ -1,0 +1,3 @@
+Command: python3 scripts/generate_rules.py --check
+Exit: 0
+ルールと契約の同期検査: 4 ファイル成功

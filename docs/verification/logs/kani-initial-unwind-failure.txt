@@ -1,0 +1,22 @@
+Command: kani formal-tests.rs --output-format terse
+Tool: Kani 0.68.0 / CBMC 6.11.0
+Stage: Initial contract implementation, standalone module harness.
+Exit: 1
+
+Observed output excerpt:
+Checking harness contracts::proofs::point_transfer_refines_declaration_and_is_atomic...
+VERIFICATION RESULT:
+ ** 1 of 161 failed (160 undetermined)
+Failed Checks: unwinding assertion loop 0
+ File: "<builtin-library-memcmp>", line 25, in memcmp
+VERIFICATION:- FAILED
+Verification Time: 128.74817s
+
+Complete - 5 successfully verified harnesses, 1 failures, 6 total.
+
+Resolution:
+The failed equality check compared [i32; 5] through a 20-byte memcmp loop.
+Its unwinding requirement exceeded the declared 6 iterations.
+The failure assertion was retained; no unwinding assertion was disabled.
+The harness now compares the five accounts individually in a bounded loop.
+This preserves the equality property and makes the bound match the logical domain.

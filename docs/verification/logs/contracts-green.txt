@@ -1,0 +1,14 @@
+Command: ./formal-tests
+Exit: 0
+
+running 8 tests
+test contracts::tests::dora_wraps_inside_each_family ... ok
+test contracts::tests::points_transfer_preserves_total_including_escrow ... ok
+test contracts::tests::rejected_transfer_leaves_every_account_unchanged ... ok
+test contracts::tests::riichi_requires_every_declared_precondition ... ok
+test contracts::tests::checked_in_declarations_match_generated_outputs ... ok
+test contracts::tests::next_seat_wraps_and_rejects_invalid ... ok
+test contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full ... ok
+test contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

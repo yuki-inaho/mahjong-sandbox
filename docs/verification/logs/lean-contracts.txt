@@ -1,0 +1,4 @@
+Command: lake env lean Mahjong/Contracts.lean
+Exit: 0
+Start: 2026-11-23T13:44:05.665587+09:00
+End: 2026-11-23T13:44:07.039912+09:00

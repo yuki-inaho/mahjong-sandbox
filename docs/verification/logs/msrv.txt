@@ -1,0 +1,159 @@
+DATE: 2026-11-23T14:00:48.054138+09:00
+PLATFORM: Linux x86_64
+CARGO_TARGET_DIR: target/msrv-1.80.1
+SCOPE: Rust 1.80.1 compatibility after AI regression fix; excludes Kani and Lean
+PREVIOUS FAILURE: msrv-initial-failure.txt (game houtei behavior, subsequently fixed)
+PREVIOUS SUCCESS: msrv-before-ai-fix.txt (75 tests before the additional AI regression test)
+
+COMMAND: rustc +1.80.1 --version
+EXIT CODE: 0
+SECONDS: 0.428
+rustc 1.80.1 (3f5fd8dd4 2024-08-06)
+
+
+COMMAND: cargo +1.80.1 --version
+EXIT CODE: 0
+SECONDS: 0.047
+cargo 1.80.1 (376290515 2024-07-16)
+
+
+COMMAND: cargo +1.80.1 test --locked
+EXIT CODE: 0
+SECONDS: 7.468
+   Compiling suzume v0.1.0 (<repository>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.44s
+     Running unittests src/lib.rs (target/msrv-1.80.1/debug/deps/suzume-a0ae510bf013115e)
+
+running 61 tests
+test contracts::tests::checked_in_declarations_match_generated_outputs ... ok
+test contracts::tests::dora_wraps_inside_each_family ... ok
+test contracts::tests::next_seat_wraps_and_rejects_invalid ... ok
+test contracts::tests::rejected_transfer_leaves_every_account_unchanged ... ok
+test contracts::tests::riichi_requires_every_declared_precondition ... ok
+test contracts::tests::riichi_discard_is_drawn_tile_and_ids_are_valid ... ok
+test ai::tests::win_has_priority_over_call_and_pass ... ok
+test contracts::tests::tile_move_preserves_count_and_rejects_empty_or_full ... ok
+test ai::tests::chi_with_a_terminal_is_not_treated_as_open_tanyao ... ok
+test game::tests::chi_is_only_from_the_left_and_forbids_both_kuikae_tiles ... ok
+test contracts::tests::points_transfer_preserves_total_including_escrow ... ok
+test game::tests::calling_the_declaration_tile_establishes_riichi_but_cancels_ippatsu ... ok
+test game::tests::dealer_tsumo_rounds_each_payment_and_continues_the_dealership ... ok
+test game::tests::exhaustive_draw_with_two_ready_players_transfers_fifteen_hundred_each ... ok
+test game::tests::pon_has_priority_over_chi_and_does_not_create_a_tsumo ... ok
+test game::tests::head_bump_uses_distance_from_the_discarder ... ok
+test game::tests::open_kan_draws_from_the_dead_wall_and_preserves_inventory ... ok
+test game::tests::exhaustive_draw_rotates_a_not_ready_dealer_but_keeps_honba ... ok
+test game::tests::rinshan_does_not_combine_with_haitei_when_the_live_wall_becomes_empty ... ok
+test game::tests::last_discard_after_rinshan_can_award_houtei ... ok
+test game::tests::ron_on_declaration_tile_cancels_the_riichi_deposit ... ok
+test game::tests::nondealer_tsumo_includes_honba_and_the_riichi_pot ... ok
+test hand::tests::does_not_join_sequences_across_suits ... ok
+test game::tests::ron_has_priority_over_pon_and_chi ... ok
+test hand::tests::a_wait_requiring_a_fifth_tile_is_not_tenpai ... ok
+test game::tests::riichi_is_deferred_until_declaration_tile_survives ... ok
+test hand::tests::enumerates_both_waits_and_thirteen_orphan_waits ... ok
+test hand::tests::keeps_ambiguous_decompositions_for_scoring ... ok
+test hand::tests::handles_four_open_groups_and_pair_wait ... ok
+test hand::tests::validates_size_multiplicity_and_open_meld_count ... ok
+test scoring::tests::ambiguous_seven_pairs_chooses_ryanpeikou_shape ... ok
+test scoring::tests::closed_kan_keeps_menzen_and_adds_thirty_two_fu ... ok
+test scoring::tests::double_riichi_replaces_riichi_and_ippatsu_combines ... ok
+test scoring::tests::closed_edge_inside_and_pair_waits_add_fu ... ok
+test scoring::tests::dora_alone_cannot_make_a_yaku ... ok
+test scoring::tests::double_wind_pair_counts_four_fu ... ok
+test scoring::tests::dragon_triplet_adds_yaku_and_concealed_fu ... ok
+test scoring::tests::four_kans_accept_eighteen_physical_tiles ... ok
+test scoring::tests::inconsistent_context_and_absent_winning_tile_are_rejected ... ok
+test scoring::tests::malformed_melds_and_fifth_physical_tile_are_rejected ... ok
+test hand::tests::quads_are_not_two_pairs ... ok
+test scoring::tests::kokushi_and_four_concealed_triplets_are_yakuman ... ok
+test hand::tests::recognizes_standard_seven_pairs_and_orphans ... ok
+test scoring::tests::open_tanyao_without_other_fu_is_thirty_fu ... ok
+test scoring::tests::points_follow_declared_limits_without_kiriage ... ok
+test scoring::tests::pinfu_tsumo_is_twenty_fu_and_ron_is_thirty ... ok
+test scoring::tests::ron_triplet_is_open_for_fu_and_three_concealed_triplets ... ok
+test scoring::tests::recognizes_nine_gates_green_and_big_dragons ... ok
+test scoring::tests::seven_pairs_uses_fixed_twenty_five_fu ... ok
+test scoring::tests::recognizes_sequence_and_outside_yaku ... ok
+test tile::tests::dora_wraps_each_suit_and_honor_family ... ok
+test scoring::tests::ura_is_only_counted_for_riichi ... ok
+test scoring::tests::yakuman_can_stack_but_special_waits_are_not_doubled ... ok
+test tile::tests::compact_text_round_trips_all_tiles ... ok
+test tile::tests::every_byte_is_valid_exactly_for_34_tiles ... ok
+test tile::tests::counting_arbitrary_input_does_not_overflow ... ok
+test tile::tests::parser_rejects_red_incomplete_and_fifth_copies ... ok
+test game::tests::yaku_less_completion_still_causes_temporary_furiten ... ok
+test game::tests::temporary_furiten_expires_on_the_next_draw ... ok
+test game::tests::riichi_furiten_survives_the_next_draw_and_discard_is_locked ... ok
+test ai::tests::ai_returns_only_legal_actions ... ok
+
+test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s
+
+     Running unittests src/main.rs (target/msrv-1.80.1/debug/deps/suzume-810b418d59a141a1)
+
+running 6 tests
+test tests::cli_accepts_each_documented_mode ... ok
+test tests::cli_help_and_invalid_arguments ... ok
+test ui::tests::ambiguous_calls_require_an_explicit_menu_choice ... ok
+test ui::tests::japanese_width_and_color_do_not_break_the_frame ... ok
+test ui::tests::invalid_input_does_not_become_a_discard ... ok
+test ui::tests::numbered_discards_and_riichi_are_distinct ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli.rs (target/msrv-1.80.1/debug/deps/cli-1f21cecf1cc5e456)
+
+running 5 tests
+test help_is_available_without_starting_a_game ... ok
+test plain_snapshot_has_no_terminal_control_sequences ... ok
+test eof_closes_the_game_without_waiting ... ok
+test invalid_human_input_recovers_and_quit_exits ... ok
+test invalid_cli_arguments_fail_with_a_reason ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/game_contracts.rs (target/msrv-1.80.1/debug/deps/game_contracts-d7d85e568444a9ea)
+
+running 4 tests
+test opponent_observation_exposes_only_public_information ... ok
+test illegal_action_is_atomic ... ok
+test a_seed_and_action_history_replay_identically ... ok
+test seeded_games_preserve_invariants ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.47s
+
+   Doc-tests suzume
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+
+COMMAND: cargo +1.80.1 check --locked --all-targets
+EXIT CODE: 0
+SECONDS: 0.315
+    Checking suzume v0.1.0 (<repository>)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s
+
+
+SOURCES_UNCHANGED: True
+SOURCE_SHA256:
+{
+  "Cargo.lock": "4fe05bf133ba32bedf8db2ca9757d10be83ca846ed9e347c03b9dd31b34065a7",
+  "Cargo.toml": "243f49be2984ea2bc7c1bb813d5778cbe9413c11ea69cb2ceb34067b2b989075",
+  "src/ai.rs": "c44b4132c2c861f2841ec37efe7d788e0435cb2f2928452d6b3f4e139db8668a",
+  "src/contracts.rs": "ca5f2dfea07068a22af86fdc0ede5d81557c855be8209176163197a5cd764947",
+  "src/game/tests.rs": "2e735c0e73aaf6d46fea9536c745a34c144ee5853bd9d575b7d4d184e4fdf92a",
+  "src/game.rs": "079febdb1c4aa8c17d8a1028939084ed41f97f33d3f2b0eee1100f5218a83376",
+  "src/generated_contracts.rs": "8406b6b8797bbf946a12573fa0221e1cf7cc5c3531f6d2473d3a97b76ee0292e",
+  "src/hand.rs": "528637d8340076c9e25f80b399375bdc356164c28a55175d48c50e1ecc41779c",
+  "src/lib.rs": "0edda763f528fe8cf00f6fc67febdf05b8952ede3cdc7f77437f87d3fe8ee312",
+  "src/main.rs": "98aa89ea95b0189a419da21fb9b2d423a57bbecafbf73c7ca427c1fdf8b593e8",
+  "src/rule_constants.rs": "972d6d036345c5794eb24fe9c60c36a540663eae541f6c6dffd7cd4df5c8c8c1",
+  "src/scoring.rs": "5de5089b80614af107e713aa27a46921b0d3fe122249b5edf098f2ce1ebfce14",
+  "src/tile.rs": "7fbe82216dc3caa6969100b62633e87132323fc6964c45bb9825da536f768bed",
+  "src/ui.rs": "05776488ef770f95b049b60049df24cf4149da6429d097d87a4107e2608dbfa4",
+  "tests/cli.rs": "039a6df0f87bb07c386472a7a2616f2811b459fb39347f79e66debf3131a18de",
+  "tests/game_contracts.rs": "fea044c27d3d5c9b48cadffe8f4e23e97dcaa9ec68e8f12de49195e7a4c9cae9"
+}

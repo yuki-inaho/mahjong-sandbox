@@ -1,0 +1,117 @@
+name: Rust・ルール・形式検証
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust:
+    name: Rust stable / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: ソースを取得
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Rust stableを準備
+        run: rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+      - name: 整形を確認
+        run: cargo +stable fmt --check
+      - name: 静的解析
+        run: cargo +stable clippy --locked --all-targets -- -D warnings
+      - name: 単体・結合・CLI検査
+        run: cargo +stable test --locked
+      - name: 補助検査用のuvを準備
+        if: runner.os == 'Linux'
+        uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
+        with:
+          version: '0.13.9'
+          enable-cache: 'false'
+      - name: 宣言と生成物の同期を確認
+        if: runner.os == 'Linux'
+        run: uv run --no-project --python 3.12 scripts/generate_rules.py --check
+      - name: 固定32種の自動対局
+        if: runner.os == 'Linux'
+        run: cargo +stable run --locked --release -- --simulate 32 --seed 0
+
+  minimum-rust:
+    name: Rust 1.80.1 / Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: ソースを取得
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: 最小対応版を準備
+        run: rustup toolchain install 1.80.1 --profile minimal
+      - name: 最小対応版で全テスト
+        run: cargo +1.80.1 test --locked
+      - name: 最小対応版で全対象を確認
+        run: cargo +1.80.1 check --locked --all-targets
+
+  formal:
+    name: Lean 4.36.0 / Kani 0.68.0 / Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: ソースを取得
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: 公式elan 4.4.0からLean 4.36.0を準備
+        run: |
+          curl --fail --location --retry 3 \
+            https://github.com/leanprover/elan/releases/download/v4.4.0/elan-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$RUNNER_TEMP/elan.tar.gz"
+          printf '%s  %s\n' \
+            '0e8250aa2be86c7af929ade68db617af9edc8b9ccf6eaf5ece228250d0d032e2' \
+            "$RUNNER_TEMP/elan.tar.gz" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/suzume-elan"
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP/suzume-elan"
+          "$RUNNER_TEMP/suzume-elan/elan-init" -y --no-modify-path \
+            --default-toolchain leanprover/lean4:v4.36.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          test "$(cat proofs/lean-toolchain)" = 'leanprover/lean4:v4.36.0'
+      - name: Leanの定理を検査
+        working-directory: proofs
+        run: lake build
+      - name: Leanの公理依存を表示
+        working-directory: proofs
+        run: lake env lean Mahjong/Audit.lean
+      - name: 実装の契約をKaniで検査
+        uses: model-checking/kani-github-action@f838096619a707b0f6b2118cf435eaccfa33e51f # v1.1
+        with:
+          kani-version: '=0.68.0'
+          args: '--lib --output-format terse'
+      - name: Kaniの実バージョンを確認
+        run: cargo kani --version | grep -F 'Kani Rust Verifier 0.68.0'
+      - name: 否定検査用のuvを準備
+        uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
+        with:
+          version: '0.13.9'
+          enable-cache: 'false'
+      - name: 宣言改変と契約違反の検出を確認
+        run: uv run --no-project --python 3.12 scripts/check_contract_negatives.py

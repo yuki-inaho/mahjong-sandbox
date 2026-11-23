@@ -1,0 +1,31 @@
+# すずめの初版プロファイル。値を変える場合は対応する契約・証明・対局処理も変更します。
+# この版の生成器は未知の項目と未実装の設定値を拒否します。
+PROFILE_NAME = suzume-riichi-east-v1
+PLAYER_COUNT = 4
+TILE_KINDS = 34
+COPIES_PER_TILE = 4
+INITIAL_POINTS = 25000
+RIICHI_STICK = 1000
+RIICHI_MIN_WALL = 4
+DEAD_WALL = 14
+MAX_KANS = 4
+ROUND_COUNT = 4
+OPEN_TANYAO = true
+RED_FIVES = false
+MULTIPLE_RON = false
+ALLOW_CHI = true
+ALLOW_PON = true
+ALLOW_OPEN_KAN = true
+ALLOW_CLOSED_KAN = true
+ALLOW_ADDED_KAN = false
+ALLOW_KAN_AFTER_RIICHI = false
+ALLOW_KUIKAE = false
+ABORTIVE_DRAWS = false
+NAGASHI_MANGAN = false
+DOUBLE_WIND_PAIR_FU = 4
+KIRIAGE_MANGAN = false
+COUNTED_YAKUMAN = true
+COMBINED_YAKUMAN = true
+DOUBLE_YAKUMAN = false
+HEAVENLY_HAND = false
+EARTHLY_HAND = false

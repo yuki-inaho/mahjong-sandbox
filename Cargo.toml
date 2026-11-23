@@ -1,0 +1,27 @@
+[package]
+name = "suzume"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+description = "契約と形式検証を備えた、独自実装の四人リーチ麻雀"
+license = "MIT"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "suzume"
+path = "src/main.rs"
+
+[dependencies]
+
+[profile.release]
+lto = true
+codegen-units = 1
+overflow-checks = true
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+
+[lints.clippy]
+all = "warn"

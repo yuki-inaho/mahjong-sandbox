@@ -1,0 +1,19 @@
+Observed regression before correction. Exit: 101
+
+running 1 test
+test game::tests::last_discard_after_rinshan_can_award_houtei ... FAILED
+
+failures:
+
+failures:
+    game::tests::last_discard_after_rinshan_can_award_houtei
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (target/debug/build/suzume/49a83d7f9800b79a/out/suzume-49a83d7f9800b79a)
+
+thread 'game::tests::last_discard_after_rinshan_can_award_houtei' (18) panicked at src/game/tests.rs:158:5:
+assertion failed: won_score(&game).yaku.iter().any(|yaku| yaku.name == "河底撈魚")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--lib`

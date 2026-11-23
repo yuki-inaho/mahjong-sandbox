@@ -1,0 +1,2 @@
+# 宣言と生成されたRust文字列の比較を全OSで一致させます。
+* text=auto eol=lf

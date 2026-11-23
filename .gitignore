@@ -1,6 +1,7 @@
 /target/
 /proofs/.lake/
 /dist/
+/.work-audit/
 *.profraw
 __pycache__/
 .DS_Store

@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "description": "合法条件と事後条件の共通式。Natは非負整数、Intは整数、Boolは真偽値です。Rust入力域はargsで固定します。",
+  "contracts": [
+    {
+      "id": "C-01", "name": "next_seat_relation",
+      "args": [["seat", "u16", "Nat"], ["result", "u16", "Nat"]],
+      "expr": ["and", ["lt", "seat", {"rule": "PLAYER_COUNT"}], ["eq", "result", ["mod", ["add", "seat", 1], {"rule": "PLAYER_COUNT"}]]]
+    },
+    {
+      "id": "C-02", "name": "dora_relation",
+      "args": [["indicator", "u16", "Nat"], ["result", "u16", "Nat"]],
+      "expr": ["or",
+        ["and", ["lt", "indicator", 27], ["eq", "result", ["add", ["mul", ["div", "indicator", 9], 9], ["mod", ["add", "indicator", 1], 9]]]],
+        ["and", ["ge", "indicator", 27], ["lt", "indicator", 31], ["eq", "result", ["add", 27, ["mod", ["sub", "indicator", 26], 4]]]],
+        ["and", ["ge", "indicator", 31], ["lt", "indicator", {"rule": "TILE_KINDS"}], ["eq", "result", ["add", 31, ["mod", ["sub", "indicator", 30], 3]]]]
+      ]
+    },
+    {
+      "id": "C-03", "name": "move_one_relation",
+      "args": [["source", "u16", "Nat"], ["destination", "u16", "Nat"], ["new_source", "u16", "Nat"], ["new_destination", "u16", "Nat"]],
+      "expr": ["and", ["gt", "source", 0], ["le", "source", {"rule": "COPIES_PER_TILE"}], ["lt", "destination", {"rule": "COPIES_PER_TILE"}], ["eq", ["add", "new_source", 1], "source"], ["eq", "new_destination", ["add", "destination", 1]], ["eq", ["add", "source", "destination"], ["add", "new_source", "new_destination"]]]
+    },
+    {
+      "id": "C-04", "name": "point_transfer_legal",
+      "args": [["from", "u64", "Nat"], ["to", "u64", "Nat"], ["source", "i64", "Int"], ["destination", "i64", "Int"], ["amount", "i64", "Int"]],
+      "expr": ["and", ["lt", "from", ["add", {"rule": "PLAYER_COUNT"}, 1]], ["lt", "to", ["add", {"rule": "PLAYER_COUNT"}, 1]], ["ne", "from", "to"], ["ge", "source", -2147483648], ["le", "source", 2147483647], ["ge", "destination", -2147483648], ["le", "destination", 2147483647], ["ge", "amount", 0], ["le", "amount", 2147483647], ["ge", ["sub", "source", "amount"], -2147483648], ["le", ["add", "destination", "amount"], 2147483647]]
+    },
+    {
+      "id": "C-04P", "name": "point_transfer_relation",
+      "args": [["source", "i64", "Int"], ["destination", "i64", "Int"], ["amount", "i64", "Int"], ["new_source", "i64", "Int"], ["new_destination", "i64", "Int"]],
+      "expr": ["and", ["eq", "new_source", ["sub", "source", "amount"]], ["eq", "new_destination", ["add", "destination", "amount"]], ["eq", ["add", "source", "destination"], ["add", "new_source", "new_destination"]]]
+    },
+    {
+      "id": "C-05", "name": "riichi_legal",
+      "args": [["closed", "bool", "Bool"], ["tenpai", "bool", "Bool"], ["points", "i64", "Int"], ["wall", "u64", "Nat"], ["already", "bool", "Bool"]],
+      "expr": ["and", "closed", "tenpai", ["ge", "points", {"rule": "RIICHI_STICK"}], ["ge", "wall", {"rule": "RIICHI_MIN_WALL"}], ["not", "already"]]
+    },
+    {
+      "id": "C-06", "name": "discard_legal",
+      "args": [["riichi", "bool", "Bool"], ["drawn", "u16", "Nat"], ["discard", "u16", "Nat"]],
+      "expr": ["and", ["lt", "drawn", {"rule": "TILE_KINDS"}], ["lt", "discard", {"rule": "TILE_KINDS"}], ["or", ["not", "riichi"], ["eq", "drawn", "discard"]]]
+    }
+  ]
+}
