@@ -1,0 +1,802 @@
+{
+  "schema_version": 1,
+  "upstream": {
+    "repository": "https://github.com/NikkeTryHard/tenhou-to-mjai.git",
+    "revision": "f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb",
+    "cargo_lock_sha256": "364c68ff51fbf785f3539b5cc29fe6bec66631a04661f9ea35b91b51c083ae5c"
+  },
+  "selection": {
+    "rule": "固定コミットのconvlog/tests/testdataにある20個のJSONを全件選択。実対局IDと最終成績のある2件をreal_game、残り18件をexternal_regressionとして区別する。",
+    "cases": 20,
+    "real_games": 2,
+    "external_regressions": 18,
+    "rounds": 23,
+    "records": 2310,
+    "exclusions": []
+  },
+  "data_policy": "牌譜原本・変換後本文・対局者名・対局IDは公開成果物に保存しない。取得と変換は検査用作業ディレクトリで実行する。",
+  "cases": [
+    {
+      "id": "chankan",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/chankan.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/chankan.json",
+      "source_sha256": "a22e6ab40cbd238bab03482b86b84cfe5be1c5d4a561b644f5a19903846a28c4",
+      "source_bytes": 752,
+      "mjson_sha256": "9b2b6c49f7c4ab5d028912475067ab0857af58e89cd8325bb058dc52f91d1dbd",
+      "mjson_bytes": 4888,
+      "expected": {
+        "records": 95,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 3,
+        "red_events": 2,
+        "final_scores": [
+          25000,
+          25000,
+          33000,
+          17000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 44,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "kakan": 1,
+        "pon": 2,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 43
+      }
+    },
+    {
+      "id": "complex_nakis_0",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/complex_nakis_0.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/complex_nakis_0.json",
+      "source_sha256": "29526beceea885f7d2bffd173f4dda78ffbe120d372edd897b5c02d48303f073",
+      "source_bytes": 797,
+      "mjson_sha256": "26f123000584ebfd313c1fc7c4ed900f84f34f2bdaa3a02f295e7e61bb7b3bc6",
+      "mjson_bytes": 5571,
+      "expected": {
+        "records": 108,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 5,
+        "red_events": 1,
+        "final_scores": [
+          25100,
+          19800,
+          27200,
+          27900
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 51,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 5,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 47
+      }
+    },
+    {
+      "id": "complex_nakis_1",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/complex_nakis_1.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/complex_nakis_1.json",
+      "source_sha256": "a60cade700e63cf0540e1d66141d435964bc382281d4cea6488f124c12918f7e",
+      "source_bytes": 770,
+      "mjson_sha256": "25baac6ad5831d4233004f2ede930432fda697c681904e4f6576798ea12d3e22",
+      "mjson_bytes": 5386,
+      "expected": {
+        "records": 104,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 2,
+        "final_scores": [
+          23000,
+          27000,
+          25000,
+          25000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 48,
+        "dora": 1,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "kakan": 1,
+        "pon": 4,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 44
+      }
+    },
+    {
+      "id": "confusing_nakis_0",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_0.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_0.json",
+      "source_sha256": "959311ca95d8d989149253552e6e324cf90c00e9ce37a6645aa19b05c74356a3",
+      "source_bytes": 880,
+      "mjson_sha256": "97fe51ba7bba93cbc5fb4b1be0bc78c75efaed479a50a46404f9a172329049b7",
+      "mjson_bytes": 7905,
+      "expected": {
+        "records": 158,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 7,
+        "red_events": 6,
+        "final_scores": [
+          37800,
+          41200,
+          9500,
+          11500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 75,
+        "dora": 1,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "kakan": 1,
+        "pon": 5,
+        "ryukyoku": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 70
+      }
+    },
+    {
+      "id": "confusing_nakis_1",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_1.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_1.json",
+      "source_sha256": "2444c55feccbe81ede783132441766a825e7aa5568780c6b349de50e4e2e91f7",
+      "source_bytes": 682,
+      "mjson_sha256": "502bf215a45abcef95d2b1793fea16600b395079bb72e1b9415c7b00acf57b69",
+      "mjson_bytes": 4535,
+      "expected": {
+        "records": 87,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 4,
+        "red_events": 2,
+        "final_scores": [
+          24300,
+          23700,
+          25300,
+          25700
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 40,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 4,
+        "reach": 1,
+        "reach_accepted": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 36
+      }
+    },
+    {
+      "id": "confusing_nakis_2",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_2.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_2.json",
+      "source_sha256": "13c6f33d916336332d4d5fb755ec31b0b5c0a7eac5fd986159891542d6d302fd",
+      "source_bytes": 489,
+      "mjson_sha256": "7235a5957fa23531def749f2c9069f08c2bb30e7eaa9226b36f643ec61613b5c",
+      "mjson_bytes": 2330,
+      "expected": {
+        "records": 39,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 0,
+        "final_scores": [
+          21800,
+          25000,
+          27200,
+          25000
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 16,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 6,
+        "reach": 1,
+        "reach_accepted": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 10
+      }
+    },
+    {
+      "id": "confusing_nakis_3",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_3.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_3.json",
+      "source_sha256": "43f6ba634d247588cca4b0779428224ad161eeef74a1bf83deb93b00e6939dac",
+      "source_bytes": 625,
+      "mjson_sha256": "92337dce52ed685a4a9475726d61d5d3de51253e09244404f78bfb2e3731aca0",
+      "mjson_bytes": 3293,
+      "expected": {
+        "records": 60,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 4,
+        "red_events": 1,
+        "final_scores": [
+          24000,
+          41700,
+          35300,
+          -1000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 27,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 4,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 24
+      }
+    },
+    {
+      "id": "confusing_nakis_4",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_4.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_4.json",
+      "source_sha256": "a2bf5ae19e5c69fc0ee338b979981780ff561d4416162294458cf6aac1d87b83",
+      "source_bytes": 754,
+      "mjson_sha256": "59361cbab32ba0edcfb77b26284281f812006eceda205aeb33695415b1989db4",
+      "mjson_bytes": 5176,
+      "expected": {
+        "records": 99,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 4,
+        "final_scores": [
+          30500,
+          27400,
+          30600,
+          11500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 46,
+        "daiminkan": 1,
+        "dora": 1,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 4,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 41
+      }
+    },
+    {
+      "id": "confusing_nakis_5",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_5.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_5.json",
+      "source_sha256": "a3ad02623b27b72dc967a92bcafcc503ddbf2e1713f525a7a1c14185efa400d7",
+      "source_bytes": 747,
+      "mjson_sha256": "af8e0e97388cbb8088f47dcdd7c46b90e77462e1231d9845969e05c382cc500a",
+      "mjson_bytes": 5375,
+      "expected": {
+        "records": 103,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 3,
+        "final_scores": [
+          39000,
+          31400,
+          16000,
+          13600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 49,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 5,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 43
+      }
+    },
+    {
+      "id": "confusing_nakis_6",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_6.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_6.json",
+      "source_sha256": "c8b71985c02a572b114a6956f37a553e5ab21d3d448b6ff69db06e4bf4865e38",
+      "source_bytes": 824,
+      "mjson_sha256": "50f0271bdc2f7eaf85128b061ece30f2ba4a20bf51f39e286b4ad8214ddb6f77",
+      "mjson_bytes": 7419,
+      "expected": {
+        "records": 151,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 2,
+        "red_events": 4,
+        "final_scores": [
+          10200,
+          41300,
+          7400,
+          40100
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 71,
+        "daiminkan": 1,
+        "dora": 1,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "pon": 1,
+        "reach": 1,
+        "reach_accepted": 1,
+        "ryukyoku": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 70
+      }
+    },
+    {
+      "id": "confusing_nakis_7",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/confusing_nakis_7.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/confusing_nakis_7.json",
+      "source_sha256": "1dfd026ceaf2988ce819c7628f0830d43f4885345c9d744a51b3904786bee418",
+      "source_bytes": 607,
+      "mjson_sha256": "7ee73665c3a68d70171d741abe2538eaf2e4331a55bd40437b2e36c4545c7d8a",
+      "mjson_bytes": 2979,
+      "expected": {
+        "records": 55,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 2,
+        "red_events": 1,
+        "final_scores": [
+          27600,
+          32200,
+          23600,
+          16600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 24,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "pon": 1,
+        "reach": 1,
+        "reach_accepted": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 22
+      }
+    },
+    {
+      "id": "double_kakan_then_chankan",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/double_kakan_then_chankan.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/double_kakan_then_chankan.json",
+      "source_sha256": "5dd3fcd14a9118ce6d63a6157ea4f8cbf566c95c838a259cbbb9776296d3ca57",
+      "source_bytes": 803,
+      "mjson_sha256": "fb9d8f835e302132dc76279187ceecbe5e860102b229e5c55cc3d138821c2490",
+      "mjson_bytes": 6045,
+      "expected": {
+        "records": 119,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 5,
+        "red_events": 2,
+        "final_scores": [
+          22000,
+          25000,
+          24000,
+          29000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 55,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "kakan": 2,
+        "pon": 2,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 54
+      }
+    },
+    {
+      "id": "double_ron",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/double_ron.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/double_ron.json",
+      "source_sha256": "c5571f605f6e671630137ffbfb5cc1c4629f49478dca76f3b1164a281e214b49",
+      "source_bytes": 788,
+      "mjson_sha256": "bd59c35a766fc01ea68b8f0286a5a7196f1158397d49e4984daf7c3820eac7bf",
+      "mjson_bytes": 4493,
+      "expected": {
+        "records": 87,
+        "rounds": 1,
+        "wins": 2,
+        "draws": 0,
+        "calls": 1,
+        "red_events": 1,
+        "final_scores": [
+          53800,
+          26300,
+          39400,
+          500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 39,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 2,
+        "pon": 1,
+        "reach": 2,
+        "reach_accepted": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 38
+      }
+    },
+    {
+      "id": "four_reach",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/four_reach.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/four_reach.json",
+      "source_sha256": "9bf231265966e299f9f66651e4b392c3ac06ba069569cde29d6b5816b02c2220",
+      "source_bytes": 669,
+      "mjson_sha256": "73b6cf1cc2b3bc45b9eaceff1e69437199ac20aa00ca54c9381c34e8228a8e0b",
+      "mjson_bytes": 5554,
+      "expected": {
+        "records": 114,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 0,
+        "red_events": 4,
+        "final_scores": [
+          21000,
+          27000,
+          26000,
+          23000
+        ],
+        "riichi_sticks": 3,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 51,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "reach": 4,
+        "reach_accepted": 3,
+        "ryukyoku": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 51
+      }
+    },
+    {
+      "id": "kyushukyuhai",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/kyushukyuhai.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/kyushukyuhai.json",
+      "source_sha256": "692d4dd89a08ec78bc4c5e3ba65dec1f3a09b006ab677fd80247e18950411d1b",
+      "source_bytes": 392,
+      "mjson_sha256": "db61c0ac7066b2f3bfe6729408e2392847455bd8ac1a7c682923c344e3239395",
+      "mjson_bytes": 736,
+      "expected": {
+        "records": 8,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 0,
+        "red_events": 1,
+        "final_scores": [
+          28200,
+          42000,
+          21600,
+          28200
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "dahai": 1,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "ryukyoku": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 2
+      }
+    },
+    {
+      "id": "ranked_game",
+      "category": "real_game",
+      "source_path": "crates/convlog/tests/testdata/ranked_game.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/ranked_game.json",
+      "source_sha256": "bbec9341902ba0216371c95de7ec15abceb1b2946d86c2b2a61e349a88fafafd",
+      "source_bytes": 2365,
+      "mjson_sha256": "d9e5c662f0a91fce2c3c5555fd429117b0347e25202672aa9d0a2094f3a1f33d",
+      "mjson_bytes": 16176,
+      "expected": {
+        "records": 316,
+        "rounds": 3,
+        "wins": 3,
+        "draws": 0,
+        "calls": 11,
+        "red_events": 10,
+        "final_scores": [
+          21100,
+          55000,
+          -4900,
+          28800
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 5,
+        "dahai": 152,
+        "end_game": 1,
+        "end_kyoku": 3,
+        "hora": 3,
+        "pon": 6,
+        "start_game": 1,
+        "start_kyoku": 3,
+        "tsumo": 142
+      }
+    },
+    {
+      "id": "rinshan",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/rinshan.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/rinshan.json",
+      "source_sha256": "52cdfd54293d3172d8723dfb43da7ffc9044130098e7244f4645c5386349c252",
+      "source_bytes": 730,
+      "mjson_sha256": "e5386df9a0b7a124fed3bb1d11469ed51956633178b14dad89a06115b7e2f9e0",
+      "mjson_bytes": 4047,
+      "expected": {
+        "records": 79,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 1,
+        "red_events": 1,
+        "final_scores": [
+          27300,
+          -1300,
+          46500,
+          27500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "ankan": 1,
+        "dahai": 34,
+        "dora": 1,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "reach": 1,
+        "reach_accepted": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 36
+      }
+    },
+    {
+      "id": "ryukyoku",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/ryukyoku.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/ryukyoku.json",
+      "source_sha256": "087b323213f5f3b8510746d433d41ce65c2e04d463b74881a675034a50300098",
+      "source_bytes": 896,
+      "mjson_sha256": "3e99a581a88ab85cd025df670200280447864d997cb29877429fcddc12e5e14f",
+      "mjson_bytes": 7377,
+      "expected": {
+        "records": 149,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 2,
+        "red_events": 2,
+        "final_scores": [
+          34400,
+          31500,
+          25600,
+          28500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 72,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "pon": 1,
+        "ryukyoku": 1,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 70
+      }
+    },
+    {
+      "id": "suukantsu_0",
+      "category": "external_regression",
+      "source_path": "crates/convlog/tests/testdata/suukantsu_0.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/suukantsu_0.json",
+      "source_sha256": "d585dbe754788791dcea759fa521adf96294d056996b70d951d56351e6428244",
+      "source_bytes": 874,
+      "mjson_sha256": "207ef55c4c8302ef97bea9c093e076e6af33056af2c3e1146e4a254a168fe4c0",
+      "mjson_bytes": 6885,
+      "expected": {
+        "records": 136,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 9,
+        "red_events": 5,
+        "final_scores": [
+          29300,
+          2700,
+          48500,
+          19500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "ankan": 1,
+        "chi": 1,
+        "dahai": 60,
+        "daiminkan": 1,
+        "dora": 4,
+        "end_game": 1,
+        "end_kyoku": 1,
+        "hora": 1,
+        "kakan": 2,
+        "pon": 4,
+        "start_game": 1,
+        "start_kyoku": 1,
+        "tsumo": 58
+      }
+    },
+    {
+      "id": "suukantsu_1",
+      "category": "real_game",
+      "source_path": "crates/convlog/tests/testdata/suukantsu_1.json",
+      "source_url": "https://raw.githubusercontent.com/NikkeTryHard/tenhou-to-mjai/f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb/crates/convlog/tests/testdata/suukantsu_1.json",
+      "source_sha256": "df29b3fe560175d014e19a3549a0b7ee7057a72936a24dc917554fb071a61809",
+      "source_bytes": 1913,
+      "mjson_sha256": "038f36a7ad1245f3355b07a81605b9ba1cba2a568cf8946b0d30426d48677957",
+      "mjson_bytes": 12378,
+      "expected": {
+        "records": 243,
+        "rounds": 2,
+        "wins": 3,
+        "draws": 0,
+        "calls": 12,
+        "red_events": 6,
+        "final_scores": [
+          38000,
+          29000,
+          -24000,
+          57000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "event_counts": {
+        "chi": 1,
+        "dahai": 110,
+        "daiminkan": 1,
+        "dora": 4,
+        "end_game": 1,
+        "end_kyoku": 2,
+        "hora": 3,
+        "kakan": 3,
+        "pon": 7,
+        "reach": 1,
+        "reach_accepted": 1,
+        "start_game": 1,
+        "start_kyoku": 2,
+        "tsumo": 106
+      }
+    }
+  ]
+}
