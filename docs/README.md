@@ -59,3 +59,8 @@
 - [初版の完了条件](verification/completion-scope.md)と[受入条件](verification/completion-acceptance.md)。
 
 履歴のログを新しい検査で上書きせず、対象の版と実行IDを区別します。
+
+## 0.2.0の検収記録
+
+- [実行・配布・連携の検証結果](verification/platform-results.md)
+- [DoDと実テストの対応表](verification/platform-test-mapping.md)

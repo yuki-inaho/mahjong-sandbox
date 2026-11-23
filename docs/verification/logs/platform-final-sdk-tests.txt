@@ -1,0 +1,97 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 test
+> npm run build && npm run typecheck && node --test --test-reporter=tap tests/*.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 build
+> tsc -p tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 typecheck
+> tsc -p tsconfig.tests.json
+
+TAP version 13
+# Subtest: native Rust and real Node WASM produce identical versioned responses
+ok 1 - native Rust and real Node WASM produce identical versioned responses
+  ---
+  duration_ms: 189.181815
+  type: 'test'
+  ...
+# Subtest: typed client checks stale actions, private views and terminal masks using real WASM
+ok 2 - typed client checks stale actions, private views and terminal masks using real WASM
+  ---
+  duration_ms: 4.366854
+  type: 'test'
+  ...
+# Subtest: browser ESM binding instantiates packaged bytes without Node-specific browser code
+ok 3 - browser ESM binding instantiates packaged bytes without Node-specific browser code
+  ---
+  duration_ms: 7.468574
+  type: 'test'
+  ...
+# Subtest: streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+ok 4 - streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+  ---
+  duration_ms: 20.247998
+  type: 'test'
+  ...
+# Subtest: streaming parser refuses missing footer, duplicate keys and configured limits
+ok 5 - streaming parser refuses missing footer, duplicate keys and configured limits
+  ---
+  duration_ms: 25.690538
+  type: 'test'
+  ...
+# Subtest: native replay exports transitions consumed by the typed streaming parser
+ok 6 - native replay exports transitions consumed by the typed streaming parser
+  ---
+  duration_ms: 110.328528
+  type: 'test'
+  ...
+# Subtest: strict parsing rejects duplicates, malformed text and excessive structure
+ok 7 - strict parsing rejects duplicates, malformed text and excessive structure
+  ---
+  duration_ms: 2.428716
+  type: 'test'
+  ...
+# Subtest: runtime request validation enforces bounds, literal tags and exact seed text
+ok 8 - runtime request validation enforces bounds, literal tags and exact seed text
+  ---
+  duration_ms: 1.358627
+  type: 'test'
+  ...
+# Subtest: untrusted responses and closed clients do not enter application state
+ok 9 - untrusted responses and closed clients do not enter application state
+  ---
+  duration_ms: 0.867961
+  type: 'test'
+  ...
+# Subtest: cyclic, accessor and sparse values are rejected before JSON serialization
+ok 10 - cyclic, accessor and sparse values are rejected before JSON serialization
+  ---
+  duration_ms: 0.389012
+  type: 'test'
+  ...
+# Subtest: prototype names cannot bypass schema property and definition lookup
+ok 11 - prototype names cannot bypass schema property and definition lookup
+  ---
+  duration_ms: 1.491289
+  type: 'test'
+  ...
+# Subtest: integer wire values reject lossy decimal and exponent spellings like Rust
+ok 12 - integer wire values reject lossy decimal and exponent spellings like Rust
+  ---
+  duration_ms: 0.360739
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 315.622383

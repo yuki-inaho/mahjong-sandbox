@@ -1,0 +1,30 @@
+{
+  "schema": "suzume-browser-assertions/1",
+  "browser_version": "159.0.8154.6",
+  "assertions": [
+    "initial-deal",
+    "rendered-fourteen-tiles",
+    "private-state-not-exposed",
+    "discard-from-visible-control",
+    "one-cpu-operation",
+    "advance-to-human",
+    "invalid-seed-is-atomic",
+    "restart-with-full-u64-seed",
+    "different-seed-changes-deal",
+    "error-cleared-after-recovery",
+    "no-console-or-page-errors"
+  ],
+  "errors": [],
+  "initial": {
+    "session_id": 1,
+    "revision": 0
+  },
+  "after_actions": {
+    "session_id": 1,
+    "revision": 7
+  },
+  "restarted": {
+    "session_id": 2,
+    "revision": 0
+  }
+}
