@@ -1,18 +1,31 @@
-# 最小ブラウザ例
+# ブラウザで遊ぶ
 
-RustのAPIとWASMをそのまま使用する、依存フレームワークなしの例です。JavaScript内に麻雀ルールやAI算法を再実装しません。
+人間1人とAI3人の対局を、ブラウザで操作する例です。
 
-リポジトリルートで次を実行します。
+## 起動
+
+LinuxでPython 3.12以降とC/C++の開発環境を用意し、リポジトリのルートで実行します。導入の詳細は[開発環境](../../docs/development/reproducibility.md#導入)を参照してください。
 
 ```sh
+python3 scripts/bootstrap.py --profile frontend
+source dist/tools/activate.sh
 python3 scripts/build_wasm.py
 npm ci --ignore-scripts --prefix packages/suzume
 npm run build --prefix packages/suzume
 python3 -m http.server 8080 --bind 127.0.0.1
 ```
 
-`http://127.0.0.1:8080/examples/browser/` を開きます。HTTPを使用し、fileスキームでは開きません。乱数種とCPU設定を選び、手牌を押して打牌します。相手の操作は「あなたの手番まで進める」または「CPUを1手進める」で進行します。新規開始は以前の対局を置換します。
+[対局画面](http://127.0.0.1:8080/examples/browser/)を開きます。WASMを読み込むため、HTTPで配信してください。
 
-通常画面は席0の人間1人とAI3人に固定しています。TOMLを読み込む画面を作る場合はSDKの `loadConfig` と `inspectConfig` を使用できます。APIやWASMはネットワークへの対局送信を行いません。
+## 操作
 
-`scripts/check_browser.py` は実Chromiumで配牌・打牌・AI進行・再開始・不正seed拒否を検査し、スクリーンショットと機械可読な結果を保存します。現在の表示状態だけを返す `window.__suzumeView` はこの検査用であり、他家の手牌やコアの内部状態を返しません。
+| 操作 | 動作 |
+|---|---|
+| 手牌・補助操作を押す | 打牌、鳴き、和了などを選ぶ |
+| 「あなたの手番まで進める」 | AIをまとめて進める |
+| 「CPUを1手進める」 | AIを1操作だけ進める |
+| 配牌の種・CPU設定を選び「新しい対局」を押す | 設定を反映して対局を始め直す |
+
+表示席は0です。画面を開くと種0・standardで対局が始まり、「新しい対局」は現在の対局を置き換えます。
+
+[SDKの使い方](../../docs/api/sdk.md)・[AIの仕組み](../../docs/ai/algorithms.md)・[ブラウザ検査](../../docs/development/reproducibility.md#ciと公式資料)

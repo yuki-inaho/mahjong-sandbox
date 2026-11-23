@@ -1,4 +1,4 @@
-# アプリケーションAPI（版1）
+# アプリケーションAPI
 
 `suzume-api::Engine` はローカルの対局を所有し、JSON要求を受けてJSON応答を返します。Rust、標準入出力、WASMで同じ処理を使用します。通信、認証、複数利用者の管理は呼出し側の責務です。麻雀規則は[固定ルール](../rules/riichi.md)、責務の分離は[ADR-0004](../adr/0004-platform-boundaries.md)に定めます。
 
@@ -18,7 +18,7 @@ SchemaとSDKは構造・列挙・基本的な整数範囲を検査します。�
 | `TileId` | 0〜8=一〜九萬、9〜17=一〜九筒、18〜26=一〜九索、27〜33=東南西北白發中 |
 | `HandIndex` | 0〜13。現在の手牌配列の位置。操作時に実在と合法性を追加検査 |
 | `Seed` | `"0"`〜`"18446744073709551615"` の十進文字列。先頭の0、符号、空白は不可 |
-| `SignedValue` | 判断説明の64bit整数を正確に運ぶ十進文字列。JavaScriptのnumberへ自動変換しない |
+| `SignedValue` | 判断説明の64bit整数を精度を保って表す十進文字列。JavaScriptのnumberへ自動変換しない |
 | `session_id` | Engine内で新規開始ごとに増える32bit整数。Engineを越えた識別や認証には使わない |
 | `revision` | 成功した操作の数。開始時0。各操作で1増える |
 
@@ -52,7 +52,15 @@ SchemaとSDKは構造・列挙・基本的な整数範囲を検査します。�
 
 ## 標準入出力とJavaScript
 
-### mjson牌譜の解析
+```sh
+cargo run --locked -p suzume-api --bin suzume-api -- serve
+```
+
+1行の要求につき1行の応答を返します。空行も不正要求として応答します。大きすぎる行は上限を越えて保持せず、その行を読み終えてから次の要求へ進みます。UTF-8の誤りや不正JSONで後続行との対応を失いません。読み書き自体が失敗した場合は非0で終了します。
+
+Node.jsとブラウザでは[SDKの手順](sdk.md)を使用します。生成型に加え、実行時にも応答の版・構造・範囲を検査します。型を `as` で付けるだけの検証ではありません。
+
+## mjson牌譜の解析
 
 `{"version":1,"op":"analyze_mjai","mjson":"...","viewer":0}` は、渡された展開済みUTF-8のmjaiイベント列を解析します。`mjson` は必須文字列、`viewer` は省略またはnullで公開観測、0〜3で指定席の観測です。正常応答の `data.kind` は `mjai`、`summary` はイベント・局・結果の集計、`observation` は終端時の `AgentObservation` です。開始済み対局は不要で、実行中の対局・研究環境・識別子・操作履歴を変更しません。
 
@@ -72,19 +80,17 @@ Rustの `mjai::visit` を通じて型・上限・重複キー・イベント順�
 
 記録終端と正常終局は別です。`_suzume.reason` で明示する中断・打切りは、まだ終わっていない局を終局と扱いません。終端行そのものが欠落している場合は不完全入力として拒否します。既知の最終持点・供託だけを返し、入力にない情報はnullで示します。
 
-JavaScript/TypeScriptでは `Client.analyzeMjai(mjson, viewer?, format?)` がこの要求を実行します。`parseMjaiEvent` と `readMjaiEvents` は展開済みデータを構造・順序の面から読む入口で、牌の移動や点数の意味検査はRust/WASMへ委ねます。保存用の原文も必要なら `parseMjaiRecord` / `readMjaiRecords` を使用します。Schemaの `MjaiEvent` は既知項目の投影です。生のmjsonは追加項目を保持するため、その全体へ閉じたSchemaを直接適用しません。通常のAPI要求とは異なり、mjsonの追加メタデータには有限な小数を許容します。解析用の数値は丸められる場合があるため、保存には原文を使います。詳細な上限と型は[SDK](../../packages/suzume/README.md)に記載しています。
+JavaScript/TypeScriptでは `Client.analyzeMjai(mjson, viewer?, format?)` がこの要求を実行します。`parseMjaiEvent` と `readMjaiEvents` は展開済みデータを構造・順序の面から読む入口で、牌の移動や点数の意味検査はRust/WASMへ委ねます。保存用の原文も必要なら `parseMjaiRecord` / `readMjaiRecords` を使用します。Schemaの `MjaiEvent` は既知項目の投影です。生のmjsonは追加項目を保持するため、その全体へ閉じたSchemaを直接適用しません。通常のAPI要求とは異なり、mjsonの追加メタデータには有限な小数を許容します。解析用の数値は丸められる場合があるため、保存には原文を使います。詳細な上限と型は[SDKの詳細](sdk.md)に記載しています。
 
 この解析は外部規則のすべての役・得点の証明、合法手マスクの生成、自作coreへの完全再生を提供しません。従来のseedと操作列を用いた完全再生は、独自replay形式の入口として維持します。
 
-### 標準入出力の起動
+## Rustから使う
 
-```sh
-cargo run --locked -p suzume-api --bin suzume-api -- serve
-```
+`mjai::ParsedEvent.json` は保存用の原JSON、`event` と `raw` は解析用です。`mjai::parse_record` または `mjai::visit` で検査済みの原文と解析値を受け取り、保存時に型付き値から再生成しないでください。
 
-1行の要求につき1行の応答を返します。空行も不正要求として応答します。大きすぎる行は上限を越えて保持せず、その行を読み終えてから次の要求へ進みます。UTF-8の誤りや不正JSONで後続行との対応を失いません。読み書き自体が失敗した場合は非0で終了します。
+`mjai::annotated::{wrap, unwrap}` は標準形式と注釈付き形式を逐次変換します。`visit_records` と `encode_record` で注釈を読み書きできます。非空注釈の破棄は `AnnotationPolicy::Drop` で明示し、戻り値で集計と破棄行数を確認します。正常終端まで途中の出力は暫定です。詳しい条件は[保存・変換仕様](../logging/annotated-mjai.md)を参照してください。
 
-Node.jsとブラウザでは[SDKの手順](../../packages/suzume/README.md)を使用します。生成型に加え、実行時にも応答の版・構造・範囲を検査します。型を `as` で付けるだけの検証ではありません。
+Rustで構造体や列挙型を直接生成する場合、`ParsedEvent` は `json`、`Request::AnalyzeMjai` は `format` の指定が必要です。標準形式は `MjaiFormat::Mjai` を指定します。JSON要求では引き続き `format` を省略できます。
 
 ## 更新手順
 

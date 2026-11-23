@@ -218,6 +218,7 @@ class VerificationAcceptanceTests(unittest.TestCase):
             root = Path(directory)
             files = {"Cargo.toml": "package", "bindings/protocol.schema.json": "schema", "evaluations/protocol.json": "evaluation",
                      "docs/api/reference.md": "api", "docs/verification/run-summary.json": "evidence", "docs/workdocs/workdoc.md": "history",
+                     "skills/README.md": "skills", "skills/example/SKILL.md": "instructions", "skills/example/references/ref.md": "reference",
                      "tools/browser/node_modules/ignored.txt": "dependency"}
             for relative, content in files.items():
                 path = root / relative
@@ -228,10 +229,13 @@ class VerificationAcceptanceTests(unittest.TestCase):
                 self.assertIn("bindings/protocol.schema.json", before)
                 self.assertIn("evaluations/protocol.json", before)
                 self.assertNotIn("docs/verification/run-summary.json", before)
+                self.assertNotIn("skills/example/SKILL.md", before)
                 distributed = {path.relative_to(root).as_posix() for path in platform_support.distribution_files()}
                 self.assertTrue({"docs/api/reference.md", "docs/verification/run-summary.json", "docs/workdocs/workdoc.md"} <= distributed)
+                self.assertTrue({"skills/README.md", "skills/example/SKILL.md", "skills/example/references/ref.md"} <= distributed)
                 self.assertFalse(any("node_modules" in path for path in distributed))
                 (root / "docs/verification/run-summary.json").write_text("new evidence", encoding="utf-8")
+                (root / "skills/example/SKILL.md").write_text("updated instructions", encoding="utf-8")
                 self.assertEqual(before, platform_support.source_hashes())
                 (root / "bindings/protocol.schema.json").write_text("changed schema", encoding="utf-8")
                 self.assertNotEqual(before, platform_support.source_hashes())

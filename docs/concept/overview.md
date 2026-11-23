@@ -1,12 +1,12 @@
-# コンセプト：すずめ
+# 麻雀スズメの目的
 
 ## 目的
 
-端末でひとりでも遊べる四人リーチ麻雀と、同じ規則をアプリ・分析・AI開発から使う基盤を、Rustで独自に実装します。
+ひとりで四人リーチ麻雀を遊び、対局を分析し、AIの判断を試せる環境を提供します。
 配牌を眺め、手牌を選び、AIと対局し、役と点数を確認する体験を起点にしています。
 規則の宣言、操作の契約、数学的な性質、実装の検査を追跡できることも製品の目的です。
 
-0.2.0では、端末に加え、型付きの外部API、WASMとJS/TS SDK、TOML設定、対局ログ、研究用環境を分離しています。
+端末に加え、型付きの外部API、WASMとJS/TS SDK、TOML設定、対局ログ、研究用環境を分離しています。
 麻雀のルールを画面や算法ごとに複製せず、同じ操作の適用処理へ集約します。
 内部状態・公開観測・完全記録の区別は[開発基盤のコンセプト](platform.md)にまとめています。
 
@@ -16,7 +16,7 @@
 |---|---|
 | 麻雀の基本を知る利用者 | 人間1人・AI3人の東風戦。手牌、河、副露、ドラ、点数、供託、本場、残り山を表示 |
 | 画面を作る開発者 | [API](../api/README.md)と[SDK](../../packages/suzume/README.md)で合法手と局面を取得し、同じcoreへ操作を送る |
-| 対局を振り返る利用者 | [JSONL](../logging/README.md)を順に再生し、操作前後・点数移動・AI判断を読む |
+| 対局を振り返る利用者 | [mjson牌譜](../logging/README.md)で局面や点数の変化を調べる。AIの判断理由は旧replay形式に保存する |
 | 探索・学習を試す開発者 | [189行動の研究環境](../api/environment.md)から観測と合法手を受け取り、行動と報酬を扱う |
 
 TUIは行入力方式で、端末制御を使わない表示も選べます。不正な入力は理由を表示して受け付け直します。
@@ -33,7 +33,7 @@ AIには自分の手牌と公開情報を渡し、他家の手牌や真の山順
 [宣言](../../rules/riichi.rules)が正本です。AIのTOML設定で麻雀の採用規則まで自由に変えられる構成ではありません。
 
 赤牌・加槓・リーチ後の槓・途中流局・流し満貫・天和/地和・包は採用しません。
-通信対戦、オンライン認証、他サービスの牌譜形式との互換も含みません。
+通信対戦とオンライン認証は提供していません。外部mjsonの解析は[対応範囲](../logging/mjai-compatibility.md)を定めて提供し、対局の採用ルールとは分けて扱います。
 明示した一つのルールで遊び、仕様と実装の対応を検証する試作です。
 
 ## 設計の判断基準
@@ -51,11 +51,5 @@ AIには自分の手牌と公開情報を渡し、他家の手牌や真の山順
 
 ## 参考にした公開資料
 
-- [mahjong-tui](https://github.com/k-jun/mahjong-tui)：端末上の四人麻雀という体験と牌の省略表記。
-- [simplified-mahjong-yixuan](https://github.com/EconomicScienceInstitute/computational-economics-simplified-mahjong-yixuan)：簡略化した麻雀と意思決定実験の切り分け。
-- [mahjong-ai](https://github.com/clarkwkw/mahjong-ai)：ゲーム・プレイヤー・判断方式・得点処理の責務分離。
-- [MiHaJong](https://github.com/MihailJP/MiHaJong)：採用するローカル規則を明示する必要性。
-- [Go-Lean](https://github.com/Mal-Pat/Go-Lean)：操作を受ける純粋な状態遷移と、表示・通信の分離。
-- [Kani](https://github.com/model-checking/kani)：実際のRust関数を任意入力で検査する方法。
-
-上記の説明から設計上の観点を得ています。これらのゲームコードや画像を取り込んではいません。
+- [tenhou-to-mjai](https://github.com/NikkeTryHard/tenhou-to-mjai)
+- [MiHaJong](https://github.com/MihailJP/MiHaJong)

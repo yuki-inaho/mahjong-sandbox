@@ -1,4 +1,4 @@
-# 責務と依存関係：0.2.0
+# 責務と依存関係
 
 ## パッケージの境界
 
@@ -137,4 +137,4 @@ mjsonに未記録の山や内部操作を推測し、完全再生や合法手マ
 形式検証を追加する場合は契約ID・数式・Rust関数・Kani・Lean定理を対応付けます。
 
 [再現手順](development/reproducibility.md)に、固定ツール、全体検査、WASM/SDK、配布物の独立消費をまとめています。
-[ADR一覧](README.md#設計判断adr)と[現行作業書](workdocs/workdoc_Nov23-2026_mjai_annotated.md)から判断と受入条件を追跡できます。
+設計を選んだ理由は[ADR一覧](README.md#設計判断adr)、開発の進め方は[開発手順とスキル](development/agent-workflow.md)を参照してください。
