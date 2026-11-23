@@ -1,0 +1,46 @@
+Independent reproduction against the SDK build available at review time.
+SHA256 packages/suzume/dist/mjai.js: 7d66b9c27823f2324c2a1ae53118d618b84b519b16d0d280aa1bc996f85c0eab
+SHA256 packages/suzume/dist/validation.js: 2e505f4f504e9ba464859070a319bc96bf6997585e504866bad3d1aeef158768
+SHA256 packages/suzume/src/mjai.ts: df6e9263dfc4d3a4ed78814bde61decae89db92b78a6f367f367592e21a0b77e
+SHA256 packages/suzume/src/validation.ts: 40ba79bf565c12031d4bae7cb562d67f714c69e597fa0da27e495ef13411d3a1
+Command: node dist/private-probes/annotated-sdk-api-review.mjs
+Exit: 1
+[
+  {
+    "id": "SDK-01",
+    "pass": false,
+    "error": "mjson line 1 (start_game): A saved JSON record must occupy one physical line"
+  },
+  {
+    "id": "SDK-02-inherited",
+    "pass": false,
+    "ownDropFlag": false,
+    "report": {
+      "records": 2,
+      "droppedAnnotationRecords": 1
+    },
+    "writes": 2
+  },
+  {
+    "id": "SDK-02-default",
+    "pass": true,
+    "error": "mjson line 1 (annotations): Refusing to discard nonempty annotations",
+    "writes": 0
+  },
+  {
+    "id": "SDK-02-mutable",
+    "pass": false,
+    "report": {
+      "records": 2,
+      "droppedAnnotationRecords": 1
+    }
+  },
+  {
+    "id": "EOF-control",
+    "pass": true
+  },
+  {
+    "id": "span-control",
+    "pass": true
+  }
+]

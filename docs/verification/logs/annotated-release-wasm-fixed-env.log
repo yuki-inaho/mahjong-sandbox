@@ -1,0 +1,7 @@
+[compile] cargo build --locked --release --target-dir <repository>/target --target wasm32-unknown-unknown -p suzume-wasm
+  成功 / exit=0 / 19.388秒
+[web] wasm-bindgen <repository>/target/wasm32-unknown-unknown/release/suzume_wasm.wasm --target web --out-name suzume_wasm --out-dir <repository>/packages/suzume/wasm/web --typescript
+  成功 / exit=0 / 0.167秒
+[node] wasm-bindgen <repository>/target/wasm32-unknown-unknown/release/suzume_wasm.wasm --target nodejs --out-name suzume_wasm --out-dir <repository>/packages/suzume/wasm/node --typescript
+  成功 / exit=0 / 0.146秒
+検査記録: dist/wasm-build/20261123T111810Z-bc6751dc5b/summary.json

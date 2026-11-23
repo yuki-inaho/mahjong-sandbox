@@ -1,0 +1,40 @@
+{
+  "success": false,
+  "required": 4,
+  "checked": 4,
+  "entries": [
+    {
+      "archive": "native-before.tar.gz",
+      "entry": "release/suzume",
+      "sha256": "75e2703990538e6de101ea9b231362433a7ab6c27e25fcda44c8c9a0d8d816d9",
+      "bytes": 1328056,
+      "private_prefix_matches": 29,
+      "success": false
+    },
+    {
+      "archive": "native-before.tar.gz",
+      "entry": "release/suzume-api",
+      "sha256": "14b222ce521d8afb23ad82263928368dd785f0eaf9a12bd705998aa09603bab2",
+      "bytes": 2445224,
+      "private_prefix_matches": 44,
+      "success": false
+    },
+    {
+      "archive": "sdk-before.tgz",
+      "entry": "package/wasm/node/suzume_wasm_bg.wasm",
+      "sha256": "9f1b7f720604f87e0714972917adf45d0153aff32e0d7bdf6324909b8ec25dbb",
+      "bytes": 1089341,
+      "private_prefix_matches": 33,
+      "success": false
+    },
+    {
+      "archive": "sdk-before.tgz",
+      "entry": "package/wasm/web/suzume_wasm_bg.wasm",
+      "sha256": "9f1b7f720604f87e0714972917adf45d0153aff32e0d7bdf6324909b8ec25dbb",
+      "bytes": 1089341,
+      "private_prefix_matches": 33,
+      "success": false
+    }
+  ],
+  "missing": []
+}

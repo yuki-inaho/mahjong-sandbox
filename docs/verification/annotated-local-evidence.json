@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "evidence": [
+    {
+      "file": "logs/annotated-api-green.txt",
+      "bytes": 697,
+      "sha256": "b8bf98c89c54b32018ca6ccefc6f00770230330515cfc7610dd4b9eebae6a3b9"
+    },
+    {
+      "file": "logs/annotated-api-red.txt",
+      "bytes": 3707,
+      "sha256": "147b81367f0b082f5935742861fd1f441a74b2eceaec7e1da6288667322cb262"
+    },
+    {
+      "file": "logs/annotated-cli-red.txt",
+      "bytes": 3254,
+      "sha256": "2516743972082c59831e979f1b049618be30a527d03a5dd98d81807e93282b13"
+    },
+    {
+      "file": "logs/annotated-cli-report-green.txt",
+      "bytes": 468,
+      "sha256": "02130c7878e49a2da80119c0112483f4504c7d949bedb9c0a1d8570462ee2fe3"
+    },
+    {
+      "file": "logs/annotated-cli-report-red.txt",
+      "bytes": 1006,
+      "sha256": "ca7d43b2cb728b4d85c94154d5a215a89add88e993b9b6a45ac770c6d5a2fe23"
+    },
+    {
+      "file": "logs/annotated-cli-run-001.txt",
+      "bytes": 1701,
+      "sha256": "f83322bb5a6d606a1a179ed1ecee46f82a7ba540861cf028264276aab2bc1754"
+    },
+    {
+      "file": "logs/annotated-corpus-green.txt",
+      "bytes": 141,
+      "sha256": "71896730ba16496a9f669069e0b540accd60085d69eb81139387fe2fba8a146d"
+    },
+    {
+      "file": "logs/annotated-corpus-red.txt",
+      "bytes": 11868,
+      "sha256": "f2977b21ca4625d6642ac2cbe6cd46cfcc78e96b6700fe2af9676a5b693729a6"
+    },
+    {
+      "file": "logs/annotated-final-kani.txt",
+      "bytes": 1788,
+      "sha256": "d311fdc87a554f8c0fb88eed9bf1f84c5f3e23481373e3663a54a5fe6ad79242"
+    },
+    {
+      "file": "logs/annotated-final-lean-axioms.txt",
+      "bytes": 1544,
+      "sha256": "8e50c7550798edb2a5d40c0a4fa8111abfbe7a76b204f3e0140f2278896bb5e7"
+    },
+    {
+      "file": "logs/annotated-final-negative-controls.txt",
+      "bytes": 265,
+      "sha256": "31cdfe4567ada5be51cf582433b02ecb4dddbbcacc8a8ab741527629091a9915"
+    },
+    {
+      "file": "logs/annotated-final-rust-clippy.txt",
+      "bytes": 136,
+      "sha256": "4d9cf388361d673bac7bff72af9089e263a9c5aa2d11866ca7bf40bf79cba91a"
+    },
+    {
+      "file": "logs/annotated-final-rust-format.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "logs/annotated-final-rust-tests.txt",
+      "bytes": 20459,
+      "sha256": "4601893da9d7e91029a96ab4fb31b9d0515ad1ef608ce74a28dd229d8c7b1bb7"
+    },
+    {
+      "file": "logs/annotated-final-sdk-tests.txt",
+      "bytes": 8340,
+      "sha256": "f7333c47ca15b16c32ade0f87b10c9a0cf0c7bbfd67724eb9e02895a39ecf999"
+    },
+    {
+      "file": "logs/annotated-final-verifier-self-tests.txt",
+      "bytes": 572,
+      "sha256": "feb496e2468ed75094c195631e72e467f0c08060522fd617ee2b9540e6a5c340"
+    },
+    {
+      "file": "logs/annotated-full-initial-format.txt",
+      "bytes": 1347,
+      "sha256": "d0ac17be67eeb89f08e997aad6f349f3d728ab1e186f5a4c5f33c6f2193d03e7"
+    },
+    {
+      "file": "logs/annotated-known-red-counts.json",
+      "bytes": 2528,
+      "sha256": "92c18d2e5f084cc49a0e85f5cca42fde0174b3a18c5aa3c63da5e0f76e4f5251"
+    },
+    {
+      "file": "logs/annotated-package-native-probe.txt",
+      "bytes": 817,
+      "sha256": "4be53b8afc7cd66679b7b2c69be6d01c43f6f15e44da262c3fbd1533b2f767d5"
+    },
+    {
+      "file": "logs/annotated-package-sdk-runtime.txt",
+      "bytes": 176,
+      "sha256": "69424e577681e650f21770298ba8d2f8f0c010712f70f5db53539cf0d3e2def2"
+    },
+    {
+      "file": "logs/annotated-package-sdk-types.txt",
+      "bytes": 255,
+      "sha256": "588992501efe286c2996da4e7021a4fd3cb6d087e051b8b379103226219ec626"
+    },
+    {
+      "file": "logs/annotated-readme-examples.json",
+      "bytes": 177,
+      "sha256": "a1bc086a35b8081062a79dd7ff81eb16e30eaee5b9298b17ecb778250254fb8f"
+    },
+    {
+      "file": "logs/annotated-release-artifacts-after.json",
+      "bytes": 1186,
+      "sha256": "734e757f05732dfa76f1ab7f7c5c583bfcd4ecfcda5c93e8df5d7c8463391608"
+    },
+    {
+      "file": "logs/annotated-release-artifacts-before.json",
+      "bytes": 1145,
+      "sha256": "6c43fd694dd898fd8da0bb0f50806b92ed22503a3787d7ebe4c9eff945c2b772"
+    },
+    {
+      "file": "logs/annotated-release-build-env-failure-summary.json",
+      "bytes": 1439,
+      "sha256": "da149b4de23cc00f5d19b7147b66b8ce476065ae7ca969bbf19bd0a729f959be"
+    },
+    {
+      "file": "logs/annotated-release-paths-final.txt",
+      "bytes": 661,
+      "sha256": "8fd501cb2b43fdc567d939e94618d7854c02d18883ba808282cc19009be15022"
+    },
+    {
+      "file": "logs/annotated-release-paths-green.txt",
+      "bytes": 659,
+      "sha256": "c375b7d0eece8c74e8e5b9f9f0444d4a82ba33852f410ff4c4e09ad8e9303448"
+    },
+    {
+      "file": "logs/annotated-release-paths-red.txt",
+      "bytes": 10746,
+      "sha256": "f593153697b355879256adb0b72af5339fae14d666a2781f4b6d899d354ddd92"
+    },
+    {
+      "file": "logs/annotated-release-wasm-env-failure.log",
+      "bytes": 181,
+      "sha256": "eac556d6557efc1fc3f61f3037dd165b12ce63884d1d2d487983f267b3ddfc57"
+    },
+    {
+      "file": "logs/annotated-release-wasm-fixed-env-summary.json",
+      "bytes": 778,
+      "sha256": "896774e1b0398f904d3289f92d0c42d4b3b3224d40c999a8055f943cdff94131"
+    },
+    {
+      "file": "logs/annotated-release-wasm-fixed-env.log",
+      "bytes": 653,
+      "sha256": "54347d364dbf50c2138d11d04e485d47eea6d6f1aee4de04096938952e14caf3"
+    },
+    {
+      "file": "logs/annotated-rust-api-red.txt",
+      "bytes": 2451,
+      "sha256": "9619b2a455c9d4a7166b6a070a58f6e6ddcdcd37918b60fcba2c07fc8ccdf236"
+    },
+    {
+      "file": "logs/annotated-rust-baseline-red.txt",
+      "bytes": 2420,
+      "sha256": "c4e9043606fc8a5ec152debcbc1fc6f71aedc043c5cb81fecc570300e6ac75b0"
+    },
+    {
+      "file": "logs/annotated-rust-green.txt",
+      "bytes": 4468,
+      "sha256": "f463ac44fb649c113dcb34c197ce6f5acbd3722e3fd479d8842615c6255a1be8"
+    },
+    {
+      "file": "logs/annotated-rust-output-cr-red.txt",
+      "bytes": 1332,
+      "sha256": "f3495b8a20caff52abf90bbe914861202b706fe86372022ea16081aab673e78d"
+    },
+    {
+      "file": "logs/annotated-rust-red.txt",
+      "bytes": 136,
+      "sha256": "2d875d5549863f6217dcf81843517aaed5ff80aab4c2e9f18b83badfac385a3e"
+    },
+    {
+      "file": "logs/annotated-sdk-green.txt",
+      "bytes": 6349,
+      "sha256": "4d68789b555103a4cf2b62f88c8961641aa07418188b992b2f742c742906a178"
+    },
+    {
+      "file": "logs/annotated-sdk-red.txt",
+      "bytes": 9704,
+      "sha256": "7c2154f74a3b6e62b11ffebca44527caf83c89dddd66cc95d89d46e8f701d4a1"
+    },
+    {
+      "file": "logs/annotated-sdk-review-green.txt",
+      "bytes": 9053,
+      "sha256": "11c9cc5509e04d5164251621d958dd326b7e3a72a3611f39c695d3c5d5405162"
+    },
+    {
+      "file": "logs/annotated-sdk-review-red.txt",
+      "bytes": 1277,
+      "sha256": "20eda81e3d7deaf050f08cc108907f3992d4a4e6aae3522617c65b0ddc95405d"
+    },
+    {
+      "file": "logs/annotated-sdk-review-regressions-green.txt",
+      "bytes": 7250,
+      "sha256": "85291177f609943241587e10bd75cf046267ef2285b0d2413751cad3f74a3c30"
+    },
+    {
+      "file": "logs/annotated-sdk-review-regressions-red.txt",
+      "bytes": 5618,
+      "sha256": "e5e982dc616035a7b41dba4de00a3b732eb91cd0354e0029c41558e72404a5f1"
+    },
+    {
+      "file": "logs/annotated-wasm-build.txt",
+      "bytes": 739,
+      "sha256": "ffb8e58e6ab7d23a16a4ab7407227f33535aec3d8f0b9dcc01d202d879c938c8"
+    },
+    {
+      "file": "logs/annotated-wasm-integration.txt",
+      "bytes": 1433,
+      "sha256": "ea9319f40568895c40da51fdbf3217b42b4ee5dff5b1815009dac0a16996e4a8"
+    }
+  ]
+}

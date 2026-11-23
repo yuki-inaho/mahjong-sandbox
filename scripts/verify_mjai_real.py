@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""固定した外部牌譜を取得・変換・解析し、本文を含めない検査記録を保存します。"""
+"""固定牌譜の原文往復・解析・全席観測を照合し、本文を含めない記録を保存します。"""
 
 from __future__ import annotations
 
@@ -28,6 +28,20 @@ EVENT_TYPES = {
     "none", "start_game", "start_kyoku", "tsumo", "dahai", "chi", "pon", "daiminkan",
     "ankan", "kakan", "dora", "reach", "reach_accepted", "hora", "ryukyoku", "end_kyoku", "end_game",
 }
+KNOWN_TILE_FIELDS = {
+    "start_kyoku": ("tehais", "dora_marker"),
+    "tsumo": ("pai",), "dahai": ("pai",),
+    "chi": ("pai", "consumed"), "pon": ("pai", "consumed"),
+    "daiminkan": ("pai", "consumed"), "ankan": ("consumed",),
+    "kakan": ("pai", "consumed"), "dora": ("dora_marker",),
+    "hora": ("ura_markers", "uradora_markers"),
+}
+OBSERVATION_FIELDS = {
+    "viewer", "own_hand", "own_last_draw", "players", "scores", "riichi_sticks",
+    "bakaze", "kyoku", "honba", "dealer", "dora_markers", "last_discard",
+    "round_ended", "game_ended", "record_ended",
+}
+PLAYER_FIELDS = {"hand_count", "melds", "discards", "reach_declared", "reach_accepted"}
 
 
 class VerificationError(Exception):
@@ -76,6 +90,93 @@ def check_analysis(actual: object, expected: dict) -> dict:
         require(valid, "analysis_invalid_" + name)
         require(value == expected.get(name), "analysis_mismatch_" + name)
     return {name: actual[name] for name in SUMMARY_FIELDS}
+
+
+def check_roundtrip(original: Path, restored: Path, expected_records: int) -> dict:
+    """値へ再解析せず全原文を比較し、不一致の内容は公開せず行番号だけを返します。"""
+    before, after = original.read_bytes(), restored.read_bytes()
+    original_lines, restored_lines = before.splitlines(), after.splitlines()
+    require(len(original_lines) == expected_records, "roundtrip_source_record_count_mismatch")
+    require(len(restored_lines) == expected_records, "roundtrip_record_count_mismatch")
+    for line, (left, right) in enumerate(zip(original_lines, restored_lines), 1):
+        require(left == right, f"roundtrip_event_mismatch_{line}")
+    # 固定変換器の出力はLF終端です。行比較だけでは改行や末尾の欠落を見落とします。
+    require(before == after, "roundtrip_bytes_mismatch")
+    return {"records": expected_records, "bytes": len(before),
+            "original_sha256": hashlib.sha256(before).hexdigest(),
+            "restored_sha256": hashlib.sha256(after).hexdigest()}
+
+
+def count_known_red_events(events: list[dict]) -> int:
+    """Rust実装の結果を使わず、宣言した牌項目だけから赤牌イベント数を求めます。"""
+    def contains_red(value: object) -> bool:
+        if isinstance(value, str):
+            return value in {"5mr", "5pr", "5sr"}
+        return isinstance(value, list) and any(contains_red(item) for item in value)
+
+    return sum(any(contains_red(event.get(field))
+                   for field in KNOWN_TILE_FIELDS.get(event.get("type"), ())) for event in events)
+
+
+def same_json_values(left: object, right: object) -> bool:
+    """観測は項目順を問わず比較し、PythonのTrue == 1による誤判定を避けます。"""
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, dict):
+        return left.keys() == right.keys() and all(same_json_values(left[key], right[key]) for key in left)
+    if isinstance(left, list):
+        return len(left) == len(right) and all(same_json_values(a, b) for a, b in zip(left, right))
+    return left == right
+
+
+def check_observation_row(row: object, line: int, kind: str, seat: int) -> None:
+    """両形式が同じ情報漏出を起こしていても、許可した観測項目以外は拒否します。"""
+    require(isinstance(row, dict) and set(row) == {"schema_version", "line", "type", "observation"},
+            f"observation_row_fields_{line}")
+    require(type(row["schema_version"]) is int and row["schema_version"] == 1,
+            f"observation_schema_version_{line}")
+    require(type(row["line"]) is int and row["line"] == line and row["type"] == kind,
+            f"observation_event_position_{line}")
+    observation = row["observation"]
+    require(isinstance(observation, dict) and set(observation) == OBSERVATION_FIELDS,
+            f"observation_fields_{line}")
+    require(type(observation["viewer"]) is int and observation["viewer"] == seat,
+            f"observation_viewer_mismatch_{line}")
+    players = observation["players"]
+    require(isinstance(players, list) and len(players) == 4, f"observation_players_{line}")
+    for player in players:
+        require(isinstance(player, dict) and set(player) == PLAYER_FIELDS,
+                f"observation_player_fields_{line}")
+        for field, allowed in (("melds", {"kind", "tiles", "target"}),
+                               ("discards", {"pai", "tsumogiri", "called"})):
+            require(isinstance(player[field], list)
+                    and all(isinstance(item, dict) and set(item) == allowed for item in player[field]),
+                    f"observation_{field}_fields_{line}")
+    discarded = observation["last_discard"]
+    require(discarded is None or isinstance(discarded, dict) and set(discarded) == {"actor", "pai"},
+            f"observation_last_discard_fields_{line}")
+
+
+def check_observations(standard: Path, annotated: Path, event_types: list[str], seat: int) -> dict:
+    """各イベント後の同一席の全観測を照合し、本文を結果へ複写しません。"""
+    paths = (standard, annotated)
+    rows_by_format = []
+    for path in paths:
+        lines = path.read_bytes().splitlines()
+        require(len(lines) == len(event_types), "observation_record_count_mismatch")
+        rows = []
+        for line, (text, kind) in enumerate(zip(lines, event_types), 1):
+            try:
+                row = json.loads(text)
+            except (json.JSONDecodeError, UnicodeError):
+                raise VerificationError(f"observation_invalid_json_{line}") from None
+            check_observation_row(row, line, kind, seat)
+            rows.append(row)
+        rows_by_format.append(rows)
+    for line, (left, right) in enumerate(zip(*rows_by_format), 1):
+        require(same_json_values(left, right), f"observation_value_mismatch_{line}")
+    return {"seat": seat, "records": len(event_types),
+            "standard_sha256": digest(standard), "annotated_sha256": digest(annotated)}
 
 
 def validate_manifest(manifest: object) -> dict:
@@ -211,8 +312,12 @@ def check_original_scores(source: object, case: dict) -> None:
     require(scores[::2] == case["expected"]["final_scores"], "source_final_scores_mismatch")
 
 
-def analyze(runner: Runner, binary: Path, path: Path, case: dict, stage: str) -> dict:
-    output = runner.run(stage, [str(binary), "mjai", "analyze", str(path)], cwd=ROOT, timeout=60)
+def analyze(runner: Runner, binary: Path, path: Path, case: dict, stage: str,
+            record_format: str = "mjai") -> dict:
+    command = [str(binary), "mjai", "analyze", str(path)]
+    if record_format != "mjai":
+        command.extend(["--format", record_format])
+    output = runner.run(stage, command, cwd=ROOT, timeout=60)
     try:
         actual = json.loads(output)
     except (json.JSONDecodeError, UnicodeError):
@@ -221,7 +326,7 @@ def analyze(runner: Runner, binary: Path, path: Path, case: dict, stage: str) ->
 
 
 def verify_case(runner: Runner, case: dict, upstream: Path, converted: Path,
-                converter: Path, analyzer: Path) -> dict:
+                converter: Path, analyzer: Path, derived: Path) -> dict:
     source_path = upstream / case["source_path"]
     source_hash = check_digest(source_path, case["source_sha256"], "source")
     require(source_path.stat().st_size == case["source_bytes"], "source_size_mismatch")
@@ -235,10 +340,40 @@ def verify_case(runner: Runner, case: dict, upstream: Path, converted: Path,
     events = [json.loads(line) for line in output_path.read_text(encoding="utf-8").splitlines()]
     counts = Counter(event["type"] for event in events)
     require(dict(counts) == case["event_counts"], "mjson_event_counts_mismatch")
+    known_red_events = count_known_red_events(events)
+    require(known_red_events == case["expected"]["red_events"], "known_red_expected_mismatch")
     actual = analyze(runner, analyzer, output_path, case, "analyze-" + case["id"])
+    destination = derived / case["id"]
+    destination.mkdir()
+    wrapped = destination / "record.annotated.jsonl"
+    restored = destination / "restored.mjson"
+    runner.run("wrap-" + case["id"], [str(analyzer), "mjai", "wrap", str(output_path),
+                                    "--output", str(wrapped)], cwd=ROOT, timeout=60)
+    annotated_analysis = analyze(runner, analyzer, wrapped, case, "analyze-annotated-" + case["id"],
+                                 "annotated_mjai")
+    require(same_json_values(actual, annotated_analysis), "annotated_analysis_mismatch")
+    runner.run("unwrap-" + case["id"], [str(analyzer), "mjai", "unwrap", str(wrapped),
+                                      "--output", str(restored)], cwd=ROOT, timeout=60)
+    roundtrip = check_roundtrip(output_path, restored, case["expected"]["records"])
+    observations = []
+    event_types = [event["type"] for event in events]
+    for seat in range(4):
+        standard_view = destination / f"standard-seat-{seat}.jsonl"
+        annotated_view = destination / f"annotated-seat-{seat}.jsonl"
+        for record_format, source, target in (("mjai", output_path, standard_view),
+                                              ("annotated_mjai", wrapped, annotated_view)):
+            command = [str(analyzer), "mjai", "observations", str(source), "--seat", str(seat),
+                       "--output", str(target)]
+            if record_format != "mjai":
+                command.extend(["--format", record_format])
+            runner.run(f"observe-{record_format}-{case['id']}-seat-{seat}", command, cwd=ROOT, timeout=60)
+        observations.append(check_observations(standard_view, annotated_view, event_types, seat))
     return {"id": case["id"], "category": case["category"], "success": True,
             "source_sha256": source_hash, "mjson_sha256": output_hash,
-            "original_scoreboard_checked": case["category"] == "real_game", "analysis": actual}
+            "annotated_sha256": digest(wrapped), "known_red_events": known_red_events,
+            "original_scoreboard_checked": case["category"] == "real_game", "analysis": actual,
+            "annotated_analysis": annotated_analysis, "roundtrip": roundtrip,
+            "observations": observations}
 
 
 def failure_code(error: Exception) -> str:
@@ -268,7 +403,9 @@ def main() -> int:
     report = {"schema_version": 1, "started_at_utc": datetime.now(timezone.utc).isoformat(),
               "manifest": "tests/fixtures/mjai/manifest.json", "upstream_revision": REVISION,
               "rust_version": RUST_VERSION, "expected_cases": 20, "cases": [], "checks": runner.checks,
-              "gzip": {"success": False}, "success": False}
+              "expected_roundtrip_events": 2310, "expected_observations": 9240,
+              "verifier_sha256": digest(Path(__file__)), "excluded_cases": 0,
+              "gzip": {"success": False}, "annotated_gzip": {"success": False}, "success": False}
     work = ROOT / "dist/mjai-real"
     upstream = args.upstream.resolve() if args.upstream else work / "upstream"
     try:
@@ -280,9 +417,11 @@ def main() -> int:
         report["analyzer_sha256"] = digest(analyzer)
         converted = work / "converted"
         converted.mkdir(parents=True, exist_ok=True)
+        derived = work / "annotated" / run_id
+        derived.mkdir(parents=True)
         for case in manifest["cases"]:
             try:
-                result = verify_case(runner, case, upstream, converted, converter, analyzer)
+                result = verify_case(runner, case, upstream, converted, converter, analyzer, derived)
             except Exception as error:
                 result = {"id": case["id"], "category": case["category"], "success": False, "error": failure_code(error)}
             report["cases"].append(result)
@@ -296,14 +435,32 @@ def main() -> int:
             report["gzip"] = {"case": "ranked_game", "success": True, "analysis": actual}
         except Exception as error:
             report["gzip"] = {"case": "ranked_game", "success": False, "error": failure_code(error)}
-        report["success"] = len(report["cases"]) == 20 and all(case["success"] for case in report["cases"]) and report["gzip"]["success"]
+        try:
+            annotated_plain = derived / "ranked_game/record.annotated.jsonl"
+            annotated_compressed = derived / "ranked-game-annotated-gzip.mjson"
+            annotated_compressed.write_bytes(gzip.compress(annotated_plain.read_bytes(), mtime=0))
+            actual = analyze(runner, analyzer, annotated_compressed, gzip_case,
+                             "analyze-annotated-gzip-same-extension", "annotated_mjai")
+            report["annotated_gzip"] = {"case": "ranked_game", "success": True, "analysis": actual}
+        except Exception as error:
+            report["annotated_gzip"] = {"case": "ranked_game", "success": False, "error": failure_code(error)}
+        report["success"] = (len(report["cases"]) == 20 and all(case["success"] for case in report["cases"])
+                             and report["gzip"]["success"] and report["annotated_gzip"]["success"])
     except Exception as error:
         report["error"] = failure_code(error)
     report["evaluated_cases"] = len(report["cases"])
     report["passed_cases"] = sum(case["success"] for case in report["cases"])
+    report["failed_cases"] = report["evaluated_cases"] - report["passed_cases"]
+    report["unevaluated_cases"] = report["expected_cases"] - report["evaluated_cases"]
+    successful = [case for case in report["cases"] if case["success"]]
+    report["roundtrip_events"] = sum(case["roundtrip"]["records"] for case in successful)
+    report["compared_observations"] = sum(view["records"] for case in successful for view in case["observations"])
+    report["success"] = (report["success"] and report["roundtrip_events"] == 2310
+                         and report["compared_observations"] == 9240)
     report["finished_at_utc"] = datetime.now(timezone.utc).isoformat()
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"success": report["success"], "passed_cases": report["passed_cases"], "expected_cases": 20,
+                      "roundtrip_events": report["roundtrip_events"], "compared_observations": report["compared_observations"],
                       "report": report_path.relative_to(ROOT).as_posix()}, ensure_ascii=False))
     return 0 if report["success"] else 1
 

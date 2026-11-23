@@ -1,0 +1,3196 @@
+{
+  "schema_version": 1,
+  "started_at_utc": "2026-11-23T11:24:26.155350+00:00",
+  "manifest": "tests/fixtures/mjai/manifest.json",
+  "upstream_revision": "f08b4e0f7d96b57d0099b9b2e5eb6dd5c4e5f4eb",
+  "rust_version": "1.100.0",
+  "expected_cases": 20,
+  "cases": [
+    {
+      "id": "chankan",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "a22e6ab40cbd238bab03482b86b84cfe5be1c5d4a561b644f5a19903846a28c4",
+      "mjson_sha256": "9b2b6c49f7c4ab5d028912475067ab0857af58e89cd8325bb058dc52f91d1dbd",
+      "annotated_sha256": "f94e5659955cdddbc369d96adfb632cc4ec12e578c48765c2dcfddfa90b5bdcc",
+      "known_red_events": 2,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 95,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 3,
+        "red_events": 2,
+        "final_scores": [
+          25000,
+          25000,
+          33000,
+          17000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 95,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 3,
+        "red_events": 2,
+        "final_scores": [
+          25000,
+          25000,
+          33000,
+          17000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 95,
+        "bytes": 4888,
+        "original_sha256": "9b2b6c49f7c4ab5d028912475067ab0857af58e89cd8325bb058dc52f91d1dbd",
+        "restored_sha256": "9b2b6c49f7c4ab5d028912475067ab0857af58e89cd8325bb058dc52f91d1dbd"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 95,
+          "standard_sha256": "c71af99051f9e5fbf7f9286dfdc0052e496d7dad1aa0baa4ae3ae2359b0bf6c6",
+          "annotated_sha256": "c71af99051f9e5fbf7f9286dfdc0052e496d7dad1aa0baa4ae3ae2359b0bf6c6"
+        },
+        {
+          "seat": 1,
+          "records": 95,
+          "standard_sha256": "78b98d1f3a323cab1b0ed44704551de6842bc8f8e4191f52a3683db1e0f379f9",
+          "annotated_sha256": "78b98d1f3a323cab1b0ed44704551de6842bc8f8e4191f52a3683db1e0f379f9"
+        },
+        {
+          "seat": 2,
+          "records": 95,
+          "standard_sha256": "6f8118a579abb2135e66015c5ae4de293fd1291882d499845f82440504f6fb14",
+          "annotated_sha256": "6f8118a579abb2135e66015c5ae4de293fd1291882d499845f82440504f6fb14"
+        },
+        {
+          "seat": 3,
+          "records": 95,
+          "standard_sha256": "aacd6669facafe11b8aa2f73de8c8b716edd73af656b760ea486b307c2642e6a",
+          "annotated_sha256": "aacd6669facafe11b8aa2f73de8c8b716edd73af656b760ea486b307c2642e6a"
+        }
+      ]
+    },
+    {
+      "id": "complex_nakis_0",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "29526beceea885f7d2bffd173f4dda78ffbe120d372edd897b5c02d48303f073",
+      "mjson_sha256": "26f123000584ebfd313c1fc7c4ed900f84f34f2bdaa3a02f295e7e61bb7b3bc6",
+      "annotated_sha256": "eaffb22f0ac70504a4e53f7fdd28f2c6ebb11fea264eaa5aad0faadfb0e25e43",
+      "known_red_events": 1,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 108,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 5,
+        "red_events": 1,
+        "final_scores": [
+          25100,
+          19800,
+          27200,
+          27900
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 108,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 5,
+        "red_events": 1,
+        "final_scores": [
+          25100,
+          19800,
+          27200,
+          27900
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 108,
+        "bytes": 5571,
+        "original_sha256": "26f123000584ebfd313c1fc7c4ed900f84f34f2bdaa3a02f295e7e61bb7b3bc6",
+        "restored_sha256": "26f123000584ebfd313c1fc7c4ed900f84f34f2bdaa3a02f295e7e61bb7b3bc6"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 108,
+          "standard_sha256": "49a9fed7fc9da2113c492dbfd54c72660ecb0f0202a062853b115be00fc75201",
+          "annotated_sha256": "49a9fed7fc9da2113c492dbfd54c72660ecb0f0202a062853b115be00fc75201"
+        },
+        {
+          "seat": 1,
+          "records": 108,
+          "standard_sha256": "8ab969fcd1e5e9c1d055b26390b461c4d76e4a1e8556979ebad1ed9b5c0cbc24",
+          "annotated_sha256": "8ab969fcd1e5e9c1d055b26390b461c4d76e4a1e8556979ebad1ed9b5c0cbc24"
+        },
+        {
+          "seat": 2,
+          "records": 108,
+          "standard_sha256": "f7201f339de07c8cbc783362d885194974c9dba0dd539223c21b4cbb267b055c",
+          "annotated_sha256": "f7201f339de07c8cbc783362d885194974c9dba0dd539223c21b4cbb267b055c"
+        },
+        {
+          "seat": 3,
+          "records": 108,
+          "standard_sha256": "8ff041974f4c36c3a733c3c91ed9abd950491bbea3b458e554020ccccb9bb77f",
+          "annotated_sha256": "8ff041974f4c36c3a733c3c91ed9abd950491bbea3b458e554020ccccb9bb77f"
+        }
+      ]
+    },
+    {
+      "id": "complex_nakis_1",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "a60cade700e63cf0540e1d66141d435964bc382281d4cea6488f124c12918f7e",
+      "mjson_sha256": "25baac6ad5831d4233004f2ede930432fda697c681904e4f6576798ea12d3e22",
+      "annotated_sha256": "c67b6df1f0302571450e249a42043d7b04b3f5a3bb7c253f6a6f01fdc8da0405",
+      "known_red_events": 2,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 104,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 2,
+        "final_scores": [
+          23000,
+          27000,
+          25000,
+          25000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 104,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 2,
+        "final_scores": [
+          23000,
+          27000,
+          25000,
+          25000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 104,
+        "bytes": 5386,
+        "original_sha256": "25baac6ad5831d4233004f2ede930432fda697c681904e4f6576798ea12d3e22",
+        "restored_sha256": "25baac6ad5831d4233004f2ede930432fda697c681904e4f6576798ea12d3e22"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 104,
+          "standard_sha256": "f030c47aff82501a490f9f3a381768c3296889976a8f459024741da2233050ea",
+          "annotated_sha256": "f030c47aff82501a490f9f3a381768c3296889976a8f459024741da2233050ea"
+        },
+        {
+          "seat": 1,
+          "records": 104,
+          "standard_sha256": "2d44de76d636405c7047d1a380902adbd92cf97e8d9ff0cb8c2e127b390a6916",
+          "annotated_sha256": "2d44de76d636405c7047d1a380902adbd92cf97e8d9ff0cb8c2e127b390a6916"
+        },
+        {
+          "seat": 2,
+          "records": 104,
+          "standard_sha256": "21283b9f10c3053bc40c624a81480417771b17f62e75625766742b91045baea2",
+          "annotated_sha256": "21283b9f10c3053bc40c624a81480417771b17f62e75625766742b91045baea2"
+        },
+        {
+          "seat": 3,
+          "records": 104,
+          "standard_sha256": "624ba2cef465154083950883317bbd98dd133241f64c6023cf9ef5dfe7c6f9a0",
+          "annotated_sha256": "624ba2cef465154083950883317bbd98dd133241f64c6023cf9ef5dfe7c6f9a0"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_0",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "959311ca95d8d989149253552e6e324cf90c00e9ce37a6645aa19b05c74356a3",
+      "mjson_sha256": "97fe51ba7bba93cbc5fb4b1be0bc78c75efaed479a50a46404f9a172329049b7",
+      "annotated_sha256": "fc1438bcb376c91ab9227cf33c92ef2be724cf71e8a58f3c7f9223afb1ebf97e",
+      "known_red_events": 6,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 158,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 7,
+        "red_events": 6,
+        "final_scores": [
+          37800,
+          41200,
+          9500,
+          11500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 158,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 7,
+        "red_events": 6,
+        "final_scores": [
+          37800,
+          41200,
+          9500,
+          11500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 158,
+        "bytes": 7905,
+        "original_sha256": "97fe51ba7bba93cbc5fb4b1be0bc78c75efaed479a50a46404f9a172329049b7",
+        "restored_sha256": "97fe51ba7bba93cbc5fb4b1be0bc78c75efaed479a50a46404f9a172329049b7"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 158,
+          "standard_sha256": "0ea4f482b70959131ce086213a54f3af4f348a80eb523dc0b0fc233de1d6d0ee",
+          "annotated_sha256": "0ea4f482b70959131ce086213a54f3af4f348a80eb523dc0b0fc233de1d6d0ee"
+        },
+        {
+          "seat": 1,
+          "records": 158,
+          "standard_sha256": "5a4e7610a730df35e145d99b013be5b302ef2e723b71b8898c20a785ac115e7b",
+          "annotated_sha256": "5a4e7610a730df35e145d99b013be5b302ef2e723b71b8898c20a785ac115e7b"
+        },
+        {
+          "seat": 2,
+          "records": 158,
+          "standard_sha256": "073c4a7cb70db2bfc9cf8fff016d913fc0580c421dad5455c49d053c67d9b939",
+          "annotated_sha256": "073c4a7cb70db2bfc9cf8fff016d913fc0580c421dad5455c49d053c67d9b939"
+        },
+        {
+          "seat": 3,
+          "records": 158,
+          "standard_sha256": "5e04216efa9ec839ef604732f77faf509024e32ca89ff9b95a3cab7b6bfc9ade",
+          "annotated_sha256": "5e04216efa9ec839ef604732f77faf509024e32ca89ff9b95a3cab7b6bfc9ade"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_1",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "2444c55feccbe81ede783132441766a825e7aa5568780c6b349de50e4e2e91f7",
+      "mjson_sha256": "502bf215a45abcef95d2b1793fea16600b395079bb72e1b9415c7b00acf57b69",
+      "annotated_sha256": "37c494b27bdb50583b528c48127d7b5b5edea6bc3b2d81432762b5385c9c605a",
+      "known_red_events": 2,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 87,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 4,
+        "red_events": 2,
+        "final_scores": [
+          24300,
+          23700,
+          25300,
+          25700
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 87,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 4,
+        "red_events": 2,
+        "final_scores": [
+          24300,
+          23700,
+          25300,
+          25700
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 87,
+        "bytes": 4535,
+        "original_sha256": "502bf215a45abcef95d2b1793fea16600b395079bb72e1b9415c7b00acf57b69",
+        "restored_sha256": "502bf215a45abcef95d2b1793fea16600b395079bb72e1b9415c7b00acf57b69"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 87,
+          "standard_sha256": "69b43d1632f0f716cb3d548bcdba0cac94733cf1517b89bbdbb099eff9e505e8",
+          "annotated_sha256": "69b43d1632f0f716cb3d548bcdba0cac94733cf1517b89bbdbb099eff9e505e8"
+        },
+        {
+          "seat": 1,
+          "records": 87,
+          "standard_sha256": "c0e2769e9ee1095a744e80a275a91fbf74c014714f0425ce8ea199a71bb32008",
+          "annotated_sha256": "c0e2769e9ee1095a744e80a275a91fbf74c014714f0425ce8ea199a71bb32008"
+        },
+        {
+          "seat": 2,
+          "records": 87,
+          "standard_sha256": "6a76985111bf367b8e881fbf5b2db249979eb6667a57bc1509aae2e31f8b8585",
+          "annotated_sha256": "6a76985111bf367b8e881fbf5b2db249979eb6667a57bc1509aae2e31f8b8585"
+        },
+        {
+          "seat": 3,
+          "records": 87,
+          "standard_sha256": "e2a816bff7785373d28588f041a3c55bb1e465e447a9556bf9540920cb4e5569",
+          "annotated_sha256": "e2a816bff7785373d28588f041a3c55bb1e465e447a9556bf9540920cb4e5569"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_2",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "13c6f33d916336332d4d5fb755ec31b0b5c0a7eac5fd986159891542d6d302fd",
+      "mjson_sha256": "7235a5957fa23531def749f2c9069f08c2bb30e7eaa9226b36f643ec61613b5c",
+      "annotated_sha256": "03b3a10de68b4f9e33a7f9af22bde0ac6824873242218a3ee73e8bdb9616e28c",
+      "known_red_events": 0,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 39,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 0,
+        "final_scores": [
+          21800,
+          25000,
+          27200,
+          25000
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 39,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 0,
+        "final_scores": [
+          21800,
+          25000,
+          27200,
+          25000
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 39,
+        "bytes": 2330,
+        "original_sha256": "7235a5957fa23531def749f2c9069f08c2bb30e7eaa9226b36f643ec61613b5c",
+        "restored_sha256": "7235a5957fa23531def749f2c9069f08c2bb30e7eaa9226b36f643ec61613b5c"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 39,
+          "standard_sha256": "8ca1ffadee4a1636b2119f8de828c921b492c0f15619730a87fd761c95cda734",
+          "annotated_sha256": "8ca1ffadee4a1636b2119f8de828c921b492c0f15619730a87fd761c95cda734"
+        },
+        {
+          "seat": 1,
+          "records": 39,
+          "standard_sha256": "4156b5a8fa03f96626dabb6db33aa68b0beac09c5509b8b3ec733aa0d9d6b169",
+          "annotated_sha256": "4156b5a8fa03f96626dabb6db33aa68b0beac09c5509b8b3ec733aa0d9d6b169"
+        },
+        {
+          "seat": 2,
+          "records": 39,
+          "standard_sha256": "c0cd3f3de6cafaf63e4eb4e81b337987713a2f7f30a59e94f3880c9e8ed0fd8b",
+          "annotated_sha256": "c0cd3f3de6cafaf63e4eb4e81b337987713a2f7f30a59e94f3880c9e8ed0fd8b"
+        },
+        {
+          "seat": 3,
+          "records": 39,
+          "standard_sha256": "31e4d5d8e826cbfe7d67af48888c80731d5499ca2f128740f25287874807bc4f",
+          "annotated_sha256": "31e4d5d8e826cbfe7d67af48888c80731d5499ca2f128740f25287874807bc4f"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_3",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "43f6ba634d247588cca4b0779428224ad161eeef74a1bf83deb93b00e6939dac",
+      "mjson_sha256": "92337dce52ed685a4a9475726d61d5d3de51253e09244404f78bfb2e3731aca0",
+      "annotated_sha256": "7864b6c6d294056ce1d9b7153b9a2bb55f91e4794c810e3bdd15c809fa8eb1fe",
+      "known_red_events": 1,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 60,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 4,
+        "red_events": 1,
+        "final_scores": [
+          24000,
+          41700,
+          35300,
+          -1000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 60,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 4,
+        "red_events": 1,
+        "final_scores": [
+          24000,
+          41700,
+          35300,
+          -1000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 60,
+        "bytes": 3293,
+        "original_sha256": "92337dce52ed685a4a9475726d61d5d3de51253e09244404f78bfb2e3731aca0",
+        "restored_sha256": "92337dce52ed685a4a9475726d61d5d3de51253e09244404f78bfb2e3731aca0"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 60,
+          "standard_sha256": "38f76b942e2c6b9ed099e3af551cd459f9f50e3b426e597aca6404a5773c9744",
+          "annotated_sha256": "38f76b942e2c6b9ed099e3af551cd459f9f50e3b426e597aca6404a5773c9744"
+        },
+        {
+          "seat": 1,
+          "records": 60,
+          "standard_sha256": "438392f2ee700c00332f3f643deb5aa23d3d56f38ec335cd4131807536ca964d",
+          "annotated_sha256": "438392f2ee700c00332f3f643deb5aa23d3d56f38ec335cd4131807536ca964d"
+        },
+        {
+          "seat": 2,
+          "records": 60,
+          "standard_sha256": "2ded872eabdf6646085e8f8ca79cd95b4d59d5e54983a0f64f8993e135f65543",
+          "annotated_sha256": "2ded872eabdf6646085e8f8ca79cd95b4d59d5e54983a0f64f8993e135f65543"
+        },
+        {
+          "seat": 3,
+          "records": 60,
+          "standard_sha256": "cfa0bc75597c740dd2f37e112c3150552cb5b427ff8c764aad32d7726d555b26",
+          "annotated_sha256": "cfa0bc75597c740dd2f37e112c3150552cb5b427ff8c764aad32d7726d555b26"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_4",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "a2bf5ae19e5c69fc0ee338b979981780ff561d4416162294458cf6aac1d87b83",
+      "mjson_sha256": "59361cbab32ba0edcfb77b26284281f812006eceda205aeb33695415b1989db4",
+      "annotated_sha256": "06cb2a4ef5667c233dcbab588fb0d4ab11ba699805784d76b89ba8063b1d2cb9",
+      "known_red_events": 4,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 99,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 4,
+        "final_scores": [
+          30500,
+          27400,
+          30600,
+          11500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 99,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 4,
+        "final_scores": [
+          30500,
+          27400,
+          30600,
+          11500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 99,
+        "bytes": 5176,
+        "original_sha256": "59361cbab32ba0edcfb77b26284281f812006eceda205aeb33695415b1989db4",
+        "restored_sha256": "59361cbab32ba0edcfb77b26284281f812006eceda205aeb33695415b1989db4"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 99,
+          "standard_sha256": "e8afa7cb090d1e42ff9ed69ce49d61d93912a6ba8558d5f80501b157143084af",
+          "annotated_sha256": "e8afa7cb090d1e42ff9ed69ce49d61d93912a6ba8558d5f80501b157143084af"
+        },
+        {
+          "seat": 1,
+          "records": 99,
+          "standard_sha256": "91a5024ad7678652ee1cbf4c07e0a1a5ebdf4bdf98776d095612deca0a015bdb",
+          "annotated_sha256": "91a5024ad7678652ee1cbf4c07e0a1a5ebdf4bdf98776d095612deca0a015bdb"
+        },
+        {
+          "seat": 2,
+          "records": 99,
+          "standard_sha256": "981578222ddf89b50ecd3285de53b8a08e60f65d694e6e427507f9bc4647cd3a",
+          "annotated_sha256": "981578222ddf89b50ecd3285de53b8a08e60f65d694e6e427507f9bc4647cd3a"
+        },
+        {
+          "seat": 3,
+          "records": 99,
+          "standard_sha256": "13d49f14f8cf0d6f5fc01483813548533587f0ed695b3b19d1bbaf6c396e187b",
+          "annotated_sha256": "13d49f14f8cf0d6f5fc01483813548533587f0ed695b3b19d1bbaf6c396e187b"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_5",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "a3ad02623b27b72dc967a92bcafcc503ddbf2e1713f525a7a1c14185efa400d7",
+      "mjson_sha256": "af8e0e97388cbb8088f47dcdd7c46b90e77462e1231d9845969e05c382cc500a",
+      "annotated_sha256": "14126a6137542e801f76d450aed54db3277e000076b2993796cd91e81866fa01",
+      "known_red_events": 3,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 103,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 3,
+        "final_scores": [
+          39000,
+          31400,
+          16000,
+          13600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 103,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 6,
+        "red_events": 3,
+        "final_scores": [
+          39000,
+          31400,
+          16000,
+          13600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 103,
+        "bytes": 5375,
+        "original_sha256": "af8e0e97388cbb8088f47dcdd7c46b90e77462e1231d9845969e05c382cc500a",
+        "restored_sha256": "af8e0e97388cbb8088f47dcdd7c46b90e77462e1231d9845969e05c382cc500a"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 103,
+          "standard_sha256": "7f513757f1210ffccbe925dabfaac5eb371f45fdbfeed75bfb36c305924b00bc",
+          "annotated_sha256": "7f513757f1210ffccbe925dabfaac5eb371f45fdbfeed75bfb36c305924b00bc"
+        },
+        {
+          "seat": 1,
+          "records": 103,
+          "standard_sha256": "8814e7545e610f3bc467bb2f05475706319e501a54a142c7918e13e8324d3515",
+          "annotated_sha256": "8814e7545e610f3bc467bb2f05475706319e501a54a142c7918e13e8324d3515"
+        },
+        {
+          "seat": 2,
+          "records": 103,
+          "standard_sha256": "aa12a4ac1aa8069dd62c035606112ee6f9256978d9789fe72410fa72a3afd590",
+          "annotated_sha256": "aa12a4ac1aa8069dd62c035606112ee6f9256978d9789fe72410fa72a3afd590"
+        },
+        {
+          "seat": 3,
+          "records": 103,
+          "standard_sha256": "a4037a303224d7b7acc8e11622ce64add51a0bd4448d0963d885e6eac23bf148",
+          "annotated_sha256": "a4037a303224d7b7acc8e11622ce64add51a0bd4448d0963d885e6eac23bf148"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_6",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "c8b71985c02a572b114a6956f37a553e5ab21d3d448b6ff69db06e4bf4865e38",
+      "mjson_sha256": "50f0271bdc2f7eaf85128b061ece30f2ba4a20bf51f39e286b4ad8214ddb6f77",
+      "annotated_sha256": "15dda28cbecf399fdf94da5f1e341f9d1e0e139d493f24392a5c195c32120aee",
+      "known_red_events": 4,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 151,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 2,
+        "red_events": 4,
+        "final_scores": [
+          10200,
+          41300,
+          7400,
+          40100
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 151,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 2,
+        "red_events": 4,
+        "final_scores": [
+          10200,
+          41300,
+          7400,
+          40100
+        ],
+        "riichi_sticks": 1,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 151,
+        "bytes": 7419,
+        "original_sha256": "50f0271bdc2f7eaf85128b061ece30f2ba4a20bf51f39e286b4ad8214ddb6f77",
+        "restored_sha256": "50f0271bdc2f7eaf85128b061ece30f2ba4a20bf51f39e286b4ad8214ddb6f77"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 151,
+          "standard_sha256": "bc9584f398bde09d966afbd3010b3e2d1487b9ebf9e69356bcf78625c5e9cd23",
+          "annotated_sha256": "bc9584f398bde09d966afbd3010b3e2d1487b9ebf9e69356bcf78625c5e9cd23"
+        },
+        {
+          "seat": 1,
+          "records": 151,
+          "standard_sha256": "e191cc18fa960ce7fef78024cabb0e219d623e6967c882990c548147c4d7302e",
+          "annotated_sha256": "e191cc18fa960ce7fef78024cabb0e219d623e6967c882990c548147c4d7302e"
+        },
+        {
+          "seat": 2,
+          "records": 151,
+          "standard_sha256": "3ffba42ec75910bc44a10d1c138419d566f2267c3691684c4aaeffcc5a0c05f6",
+          "annotated_sha256": "3ffba42ec75910bc44a10d1c138419d566f2267c3691684c4aaeffcc5a0c05f6"
+        },
+        {
+          "seat": 3,
+          "records": 151,
+          "standard_sha256": "3a72c2b5faefd76592f3adf2990004325f57ba5b91bcf0cb6c8f7c71fa38614a",
+          "annotated_sha256": "3a72c2b5faefd76592f3adf2990004325f57ba5b91bcf0cb6c8f7c71fa38614a"
+        }
+      ]
+    },
+    {
+      "id": "confusing_nakis_7",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "1dfd026ceaf2988ce819c7628f0830d43f4885345c9d744a51b3904786bee418",
+      "mjson_sha256": "7ee73665c3a68d70171d741abe2538eaf2e4331a55bd40437b2e36c4545c7d8a",
+      "annotated_sha256": "6a27119cbbc2b16c7a4436357ab7c6ec25dd0a10944297cd77ab95f77ee635c8",
+      "known_red_events": 1,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 55,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 2,
+        "red_events": 1,
+        "final_scores": [
+          27600,
+          32200,
+          23600,
+          16600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 55,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 2,
+        "red_events": 1,
+        "final_scores": [
+          27600,
+          32200,
+          23600,
+          16600
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 55,
+        "bytes": 2979,
+        "original_sha256": "7ee73665c3a68d70171d741abe2538eaf2e4331a55bd40437b2e36c4545c7d8a",
+        "restored_sha256": "7ee73665c3a68d70171d741abe2538eaf2e4331a55bd40437b2e36c4545c7d8a"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 55,
+          "standard_sha256": "deee7eb1d518a7146d6ad834e181971a655a75f6a4a12078757f640bb5698a14",
+          "annotated_sha256": "deee7eb1d518a7146d6ad834e181971a655a75f6a4a12078757f640bb5698a14"
+        },
+        {
+          "seat": 1,
+          "records": 55,
+          "standard_sha256": "e0f975c2b4d51e6870e2226e47dc0fc82592de0dcc2aea6094eec3c1e1cd2241",
+          "annotated_sha256": "e0f975c2b4d51e6870e2226e47dc0fc82592de0dcc2aea6094eec3c1e1cd2241"
+        },
+        {
+          "seat": 2,
+          "records": 55,
+          "standard_sha256": "ed9425693caed074efbcab993454ad07918a061c75963afe41c4350607785b76",
+          "annotated_sha256": "ed9425693caed074efbcab993454ad07918a061c75963afe41c4350607785b76"
+        },
+        {
+          "seat": 3,
+          "records": 55,
+          "standard_sha256": "d10dffbb1deadd9fc2253ede71641dc54a79605d3266cf78a3ad898936bc2091",
+          "annotated_sha256": "d10dffbb1deadd9fc2253ede71641dc54a79605d3266cf78a3ad898936bc2091"
+        }
+      ]
+    },
+    {
+      "id": "double_kakan_then_chankan",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "5dd3fcd14a9118ce6d63a6157ea4f8cbf566c95c838a259cbbb9776296d3ca57",
+      "mjson_sha256": "fb9d8f835e302132dc76279187ceecbe5e860102b229e5c55cc3d138821c2490",
+      "annotated_sha256": "f2e0b583a3edef86050b2ad5805db4edaf3b1125b7a526d8bcc3ff935f001cb8",
+      "known_red_events": 2,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 119,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 5,
+        "red_events": 2,
+        "final_scores": [
+          22000,
+          25000,
+          24000,
+          29000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 119,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 5,
+        "red_events": 2,
+        "final_scores": [
+          22000,
+          25000,
+          24000,
+          29000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 119,
+        "bytes": 6045,
+        "original_sha256": "fb9d8f835e302132dc76279187ceecbe5e860102b229e5c55cc3d138821c2490",
+        "restored_sha256": "fb9d8f835e302132dc76279187ceecbe5e860102b229e5c55cc3d138821c2490"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 119,
+          "standard_sha256": "cb0408d7ede68752aeae2ea44c950a976c848ebca3872c58f34b92cbd3e8f49c",
+          "annotated_sha256": "cb0408d7ede68752aeae2ea44c950a976c848ebca3872c58f34b92cbd3e8f49c"
+        },
+        {
+          "seat": 1,
+          "records": 119,
+          "standard_sha256": "3e6e665824dbb0561210e61fbcde4ef3207556c12d0515a0f2ef29fffb20d319",
+          "annotated_sha256": "3e6e665824dbb0561210e61fbcde4ef3207556c12d0515a0f2ef29fffb20d319"
+        },
+        {
+          "seat": 2,
+          "records": 119,
+          "standard_sha256": "b00a36a447c35697aece3f4cae988522a1915c6c6a351069d5e53099880be6a9",
+          "annotated_sha256": "b00a36a447c35697aece3f4cae988522a1915c6c6a351069d5e53099880be6a9"
+        },
+        {
+          "seat": 3,
+          "records": 119,
+          "standard_sha256": "4bc29f8f33c81884c526623de1710d6ae5d422d54f602be01185b3d1cca7de9a",
+          "annotated_sha256": "4bc29f8f33c81884c526623de1710d6ae5d422d54f602be01185b3d1cca7de9a"
+        }
+      ]
+    },
+    {
+      "id": "double_ron",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "c5571f605f6e671630137ffbfb5cc1c4629f49478dca76f3b1164a281e214b49",
+      "mjson_sha256": "bd59c35a766fc01ea68b8f0286a5a7196f1158397d49e4984daf7c3820eac7bf",
+      "annotated_sha256": "5ad14962531eff59cfefc32b594c2f9b6e28c71d93b6a77ddb9815fceac25bed",
+      "known_red_events": 1,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 87,
+        "rounds": 1,
+        "wins": 2,
+        "draws": 0,
+        "calls": 1,
+        "red_events": 1,
+        "final_scores": [
+          53800,
+          26300,
+          39400,
+          500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 87,
+        "rounds": 1,
+        "wins": 2,
+        "draws": 0,
+        "calls": 1,
+        "red_events": 1,
+        "final_scores": [
+          53800,
+          26300,
+          39400,
+          500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 87,
+        "bytes": 4493,
+        "original_sha256": "bd59c35a766fc01ea68b8f0286a5a7196f1158397d49e4984daf7c3820eac7bf",
+        "restored_sha256": "bd59c35a766fc01ea68b8f0286a5a7196f1158397d49e4984daf7c3820eac7bf"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 87,
+          "standard_sha256": "1fdf988830381eeb8563680922f66031916e0efe6b8703ac3458ae6259fc8507",
+          "annotated_sha256": "1fdf988830381eeb8563680922f66031916e0efe6b8703ac3458ae6259fc8507"
+        },
+        {
+          "seat": 1,
+          "records": 87,
+          "standard_sha256": "e49512c4f9ee7b16a679909d918980d5b7a9b0d7106274ec35396a7002313263",
+          "annotated_sha256": "e49512c4f9ee7b16a679909d918980d5b7a9b0d7106274ec35396a7002313263"
+        },
+        {
+          "seat": 2,
+          "records": 87,
+          "standard_sha256": "6e2c5c2b7014352ae55730538b2834fde03f087c98c93a6e778172acdc5eac22",
+          "annotated_sha256": "6e2c5c2b7014352ae55730538b2834fde03f087c98c93a6e778172acdc5eac22"
+        },
+        {
+          "seat": 3,
+          "records": 87,
+          "standard_sha256": "c66359b24af150e761a9b364a696d57e203981e94735f5981b8d97b9f5412a5d",
+          "annotated_sha256": "c66359b24af150e761a9b364a696d57e203981e94735f5981b8d97b9f5412a5d"
+        }
+      ]
+    },
+    {
+      "id": "four_reach",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "9bf231265966e299f9f66651e4b392c3ac06ba069569cde29d6b5816b02c2220",
+      "mjson_sha256": "73b6cf1cc2b3bc45b9eaceff1e69437199ac20aa00ca54c9381c34e8228a8e0b",
+      "annotated_sha256": "8aad43bbf2eee3bdc25567475837675f6ea4d7981b5457cfe90e223195021040",
+      "known_red_events": 4,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 114,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 0,
+        "red_events": 4,
+        "final_scores": [
+          21000,
+          27000,
+          26000,
+          23000
+        ],
+        "riichi_sticks": 3,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 114,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 0,
+        "red_events": 4,
+        "final_scores": [
+          21000,
+          27000,
+          26000,
+          23000
+        ],
+        "riichi_sticks": 3,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 114,
+        "bytes": 5554,
+        "original_sha256": "73b6cf1cc2b3bc45b9eaceff1e69437199ac20aa00ca54c9381c34e8228a8e0b",
+        "restored_sha256": "73b6cf1cc2b3bc45b9eaceff1e69437199ac20aa00ca54c9381c34e8228a8e0b"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 114,
+          "standard_sha256": "86f583a4c4ce4f835dd35e9eb7d3321147232c814c3e72948e2ea6564cdad082",
+          "annotated_sha256": "86f583a4c4ce4f835dd35e9eb7d3321147232c814c3e72948e2ea6564cdad082"
+        },
+        {
+          "seat": 1,
+          "records": 114,
+          "standard_sha256": "8c12d0043b908c17b61066f3eb11be2e7dc571622b8b2a478227b78ed9c69a95",
+          "annotated_sha256": "8c12d0043b908c17b61066f3eb11be2e7dc571622b8b2a478227b78ed9c69a95"
+        },
+        {
+          "seat": 2,
+          "records": 114,
+          "standard_sha256": "a16e70e00a5ef0ee712b7f54f678813dd90e538ecab93851b7565614c9d2d11d",
+          "annotated_sha256": "a16e70e00a5ef0ee712b7f54f678813dd90e538ecab93851b7565614c9d2d11d"
+        },
+        {
+          "seat": 3,
+          "records": 114,
+          "standard_sha256": "96cc22ec80955854ef91c64b09b6b9ff24efcec26bc5f92ca07a29031be56cec",
+          "annotated_sha256": "96cc22ec80955854ef91c64b09b6b9ff24efcec26bc5f92ca07a29031be56cec"
+        }
+      ]
+    },
+    {
+      "id": "kyushukyuhai",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "692d4dd89a08ec78bc4c5e3ba65dec1f3a09b006ab677fd80247e18950411d1b",
+      "mjson_sha256": "db61c0ac7066b2f3bfe6729408e2392847455bd8ac1a7c682923c344e3239395",
+      "annotated_sha256": "f6200c8e2c4736a8d7f4d2c59f46a6b90b1772e2f246d04197226fc43d94b3de",
+      "known_red_events": 1,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 8,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 0,
+        "red_events": 1,
+        "final_scores": [
+          28200,
+          42000,
+          21600,
+          28200
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 8,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 0,
+        "red_events": 1,
+        "final_scores": [
+          28200,
+          42000,
+          21600,
+          28200
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 8,
+        "bytes": 736,
+        "original_sha256": "db61c0ac7066b2f3bfe6729408e2392847455bd8ac1a7c682923c344e3239395",
+        "restored_sha256": "db61c0ac7066b2f3bfe6729408e2392847455bd8ac1a7c682923c344e3239395"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 8,
+          "standard_sha256": "c6813c28414c4b2e99c454e44bf3b9eef2eb4610e7df33c5d2a0bcae9e09f092",
+          "annotated_sha256": "c6813c28414c4b2e99c454e44bf3b9eef2eb4610e7df33c5d2a0bcae9e09f092"
+        },
+        {
+          "seat": 1,
+          "records": 8,
+          "standard_sha256": "f37663b2469594fecf7687e4b5f28532ef0f12cbd5dc19f109b93496912de2af",
+          "annotated_sha256": "f37663b2469594fecf7687e4b5f28532ef0f12cbd5dc19f109b93496912de2af"
+        },
+        {
+          "seat": 2,
+          "records": 8,
+          "standard_sha256": "e048b3c59c00320c228690ef493aa5fb77ecf7932723366aaa62915002b65e66",
+          "annotated_sha256": "e048b3c59c00320c228690ef493aa5fb77ecf7932723366aaa62915002b65e66"
+        },
+        {
+          "seat": 3,
+          "records": 8,
+          "standard_sha256": "4391dfdcc827432b34ac25a90048afd28d2176a68f8d6e2a955927bd06a849d2",
+          "annotated_sha256": "4391dfdcc827432b34ac25a90048afd28d2176a68f8d6e2a955927bd06a849d2"
+        }
+      ]
+    },
+    {
+      "id": "ranked_game",
+      "category": "real_game",
+      "success": true,
+      "source_sha256": "bbec9341902ba0216371c95de7ec15abceb1b2946d86c2b2a61e349a88fafafd",
+      "mjson_sha256": "d9e5c662f0a91fce2c3c5555fd429117b0347e25202672aa9d0a2094f3a1f33d",
+      "annotated_sha256": "40da731a4df69b451a8e616ef7e461eadc7fefd6cbca8b3e275e9d29aa0d9628",
+      "known_red_events": 10,
+      "original_scoreboard_checked": true,
+      "analysis": {
+        "records": 316,
+        "rounds": 3,
+        "wins": 3,
+        "draws": 0,
+        "calls": 11,
+        "red_events": 10,
+        "final_scores": [
+          21100,
+          55000,
+          -4900,
+          28800
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 316,
+        "rounds": 3,
+        "wins": 3,
+        "draws": 0,
+        "calls": 11,
+        "red_events": 10,
+        "final_scores": [
+          21100,
+          55000,
+          -4900,
+          28800
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 316,
+        "bytes": 16176,
+        "original_sha256": "d9e5c662f0a91fce2c3c5555fd429117b0347e25202672aa9d0a2094f3a1f33d",
+        "restored_sha256": "d9e5c662f0a91fce2c3c5555fd429117b0347e25202672aa9d0a2094f3a1f33d"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 316,
+          "standard_sha256": "102479637099ddadd83a49e5088b23d3aae1d1894aa51cce7e2507d28c25721f",
+          "annotated_sha256": "102479637099ddadd83a49e5088b23d3aae1d1894aa51cce7e2507d28c25721f"
+        },
+        {
+          "seat": 1,
+          "records": 316,
+          "standard_sha256": "0d56c08831197ace251b73e41a946d0cbc0f456529a744748ee329b7fb35e233",
+          "annotated_sha256": "0d56c08831197ace251b73e41a946d0cbc0f456529a744748ee329b7fb35e233"
+        },
+        {
+          "seat": 2,
+          "records": 316,
+          "standard_sha256": "9d31f05cc52e5714ed7d8284e66f2ae2092ba171439c8d6a1fe1f4ab4367842e",
+          "annotated_sha256": "9d31f05cc52e5714ed7d8284e66f2ae2092ba171439c8d6a1fe1f4ab4367842e"
+        },
+        {
+          "seat": 3,
+          "records": 316,
+          "standard_sha256": "286a7cff268e104b5f2e9e49a0f4d6dc7d5c65e19207a0b37f7a884599ad348a",
+          "annotated_sha256": "286a7cff268e104b5f2e9e49a0f4d6dc7d5c65e19207a0b37f7a884599ad348a"
+        }
+      ]
+    },
+    {
+      "id": "rinshan",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "52cdfd54293d3172d8723dfb43da7ffc9044130098e7244f4645c5386349c252",
+      "mjson_sha256": "e5386df9a0b7a124fed3bb1d11469ed51956633178b14dad89a06115b7e2f9e0",
+      "annotated_sha256": "9fcb92058b6eeba8bb7220179224935ee865f851dab246eb5155e2554bec9251",
+      "known_red_events": 1,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 79,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 1,
+        "red_events": 1,
+        "final_scores": [
+          27300,
+          -1300,
+          46500,
+          27500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 79,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 1,
+        "red_events": 1,
+        "final_scores": [
+          27300,
+          -1300,
+          46500,
+          27500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 79,
+        "bytes": 4047,
+        "original_sha256": "e5386df9a0b7a124fed3bb1d11469ed51956633178b14dad89a06115b7e2f9e0",
+        "restored_sha256": "e5386df9a0b7a124fed3bb1d11469ed51956633178b14dad89a06115b7e2f9e0"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 79,
+          "standard_sha256": "b0b2bcc8c64062a540d8547065f1e9e64d4604e6e619ea86dc6af3e69bdd62b9",
+          "annotated_sha256": "b0b2bcc8c64062a540d8547065f1e9e64d4604e6e619ea86dc6af3e69bdd62b9"
+        },
+        {
+          "seat": 1,
+          "records": 79,
+          "standard_sha256": "c513e32956dfc5f32071b692a65ebb3dc6f0249d2ea2ec379f8640be5710f969",
+          "annotated_sha256": "c513e32956dfc5f32071b692a65ebb3dc6f0249d2ea2ec379f8640be5710f969"
+        },
+        {
+          "seat": 2,
+          "records": 79,
+          "standard_sha256": "e7c562a648ed7091a971ca828b27b4fa51b6f848062794848e44418ea3ba12e1",
+          "annotated_sha256": "e7c562a648ed7091a971ca828b27b4fa51b6f848062794848e44418ea3ba12e1"
+        },
+        {
+          "seat": 3,
+          "records": 79,
+          "standard_sha256": "e7e7de379544e249a314aa923b78e0d1734e958d3251b8cebfe902bc1253fd7f",
+          "annotated_sha256": "e7e7de379544e249a314aa923b78e0d1734e958d3251b8cebfe902bc1253fd7f"
+        }
+      ]
+    },
+    {
+      "id": "ryukyoku",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "087b323213f5f3b8510746d433d41ce65c2e04d463b74881a675034a50300098",
+      "mjson_sha256": "3e99a581a88ab85cd025df670200280447864d997cb29877429fcddc12e5e14f",
+      "annotated_sha256": "9eb6dc42dff6d9ed48b07443533b61fe3cc863e1d99ee79f8e1d17cd43381af3",
+      "known_red_events": 2,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 149,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 2,
+        "red_events": 2,
+        "final_scores": [
+          34400,
+          31500,
+          25600,
+          28500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 149,
+        "rounds": 1,
+        "wins": 0,
+        "draws": 1,
+        "calls": 2,
+        "red_events": 2,
+        "final_scores": [
+          34400,
+          31500,
+          25600,
+          28500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 149,
+        "bytes": 7377,
+        "original_sha256": "3e99a581a88ab85cd025df670200280447864d997cb29877429fcddc12e5e14f",
+        "restored_sha256": "3e99a581a88ab85cd025df670200280447864d997cb29877429fcddc12e5e14f"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 149,
+          "standard_sha256": "1dd9f5e4e1d62d9a3453e52de101a89154b8f042a5d4797aea377e0ac3f290f8",
+          "annotated_sha256": "1dd9f5e4e1d62d9a3453e52de101a89154b8f042a5d4797aea377e0ac3f290f8"
+        },
+        {
+          "seat": 1,
+          "records": 149,
+          "standard_sha256": "c87dedf328d66fbf40d84b04f8b80daccfa44eb50cd845a6ab2e05dd9ed6fcd6",
+          "annotated_sha256": "c87dedf328d66fbf40d84b04f8b80daccfa44eb50cd845a6ab2e05dd9ed6fcd6"
+        },
+        {
+          "seat": 2,
+          "records": 149,
+          "standard_sha256": "413f8c52dffc5f2dbc1662696e97dcb8f2c1d769b1ed049dfea198cd16603ab6",
+          "annotated_sha256": "413f8c52dffc5f2dbc1662696e97dcb8f2c1d769b1ed049dfea198cd16603ab6"
+        },
+        {
+          "seat": 3,
+          "records": 149,
+          "standard_sha256": "107d9b8b3a9604402261d6e2d613fc38f204762bb233636a0c460828715361b6",
+          "annotated_sha256": "107d9b8b3a9604402261d6e2d613fc38f204762bb233636a0c460828715361b6"
+        }
+      ]
+    },
+    {
+      "id": "suukantsu_0",
+      "category": "external_regression",
+      "success": true,
+      "source_sha256": "d585dbe754788791dcea759fa521adf96294d056996b70d951d56351e6428244",
+      "mjson_sha256": "207ef55c4c8302ef97bea9c093e076e6af33056af2c3e1146e4a254a168fe4c0",
+      "annotated_sha256": "0bcfebc26f30b7937c6d7bc3caafb260992ada13837cc63b6d9c6e949e5615d5",
+      "known_red_events": 5,
+      "original_scoreboard_checked": false,
+      "analysis": {
+        "records": 136,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 9,
+        "red_events": 5,
+        "final_scores": [
+          29300,
+          2700,
+          48500,
+          19500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 136,
+        "rounds": 1,
+        "wins": 1,
+        "draws": 0,
+        "calls": 9,
+        "red_events": 5,
+        "final_scores": [
+          29300,
+          2700,
+          48500,
+          19500
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 136,
+        "bytes": 6885,
+        "original_sha256": "207ef55c4c8302ef97bea9c093e076e6af33056af2c3e1146e4a254a168fe4c0",
+        "restored_sha256": "207ef55c4c8302ef97bea9c093e076e6af33056af2c3e1146e4a254a168fe4c0"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 136,
+          "standard_sha256": "e6c0275df1215a31fff4d7c3686c9bee10efe9ad47287bad8b809da3bd360b3c",
+          "annotated_sha256": "e6c0275df1215a31fff4d7c3686c9bee10efe9ad47287bad8b809da3bd360b3c"
+        },
+        {
+          "seat": 1,
+          "records": 136,
+          "standard_sha256": "22192b35912f99ba7711b7ae4c180c1fdf62a3acd225bad167341c529fabe7e6",
+          "annotated_sha256": "22192b35912f99ba7711b7ae4c180c1fdf62a3acd225bad167341c529fabe7e6"
+        },
+        {
+          "seat": 2,
+          "records": 136,
+          "standard_sha256": "8d233a122c6a90c41c6091569a792ef96aee4ef3fe721d4b72d1c3487a1ac229",
+          "annotated_sha256": "8d233a122c6a90c41c6091569a792ef96aee4ef3fe721d4b72d1c3487a1ac229"
+        },
+        {
+          "seat": 3,
+          "records": 136,
+          "standard_sha256": "b05964069f33b4ec30fca9d6c32c3d368835856a78dae0b7c3d48832f09361e4",
+          "annotated_sha256": "b05964069f33b4ec30fca9d6c32c3d368835856a78dae0b7c3d48832f09361e4"
+        }
+      ]
+    },
+    {
+      "id": "suukantsu_1",
+      "category": "real_game",
+      "success": true,
+      "source_sha256": "df29b3fe560175d014e19a3549a0b7ee7057a72936a24dc917554fb071a61809",
+      "mjson_sha256": "038f36a7ad1245f3355b07a81605b9ba1cba2a568cf8946b0d30426d48677957",
+      "annotated_sha256": "78254b94ee558102d99d4efdff2e12eecfe72fcce502e0b4b072af5a93ad6b04",
+      "known_red_events": 6,
+      "original_scoreboard_checked": true,
+      "analysis": {
+        "records": 243,
+        "rounds": 2,
+        "wins": 3,
+        "draws": 0,
+        "calls": 12,
+        "red_events": 6,
+        "final_scores": [
+          38000,
+          29000,
+          -24000,
+          57000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "annotated_analysis": {
+        "records": 243,
+        "rounds": 2,
+        "wins": 3,
+        "draws": 0,
+        "calls": 12,
+        "red_events": 6,
+        "final_scores": [
+          38000,
+          29000,
+          -24000,
+          57000
+        ],
+        "riichi_sticks": 0,
+        "complete": true,
+        "termination": "completed"
+      },
+      "roundtrip": {
+        "records": 243,
+        "bytes": 12378,
+        "original_sha256": "038f36a7ad1245f3355b07a81605b9ba1cba2a568cf8946b0d30426d48677957",
+        "restored_sha256": "038f36a7ad1245f3355b07a81605b9ba1cba2a568cf8946b0d30426d48677957"
+      },
+      "observations": [
+        {
+          "seat": 0,
+          "records": 243,
+          "standard_sha256": "8c9ea1aef2bcee922e8b3311ae7e84f9e79a9e1956465985d0c5156b5b6bcfff",
+          "annotated_sha256": "8c9ea1aef2bcee922e8b3311ae7e84f9e79a9e1956465985d0c5156b5b6bcfff"
+        },
+        {
+          "seat": 1,
+          "records": 243,
+          "standard_sha256": "6cd860931773c9806dbbd8fdbaf10c8dbd9341a091a44349041c02f8a1f05c31",
+          "annotated_sha256": "6cd860931773c9806dbbd8fdbaf10c8dbd9341a091a44349041c02f8a1f05c31"
+        },
+        {
+          "seat": 2,
+          "records": 243,
+          "standard_sha256": "2f13f1ae97b39175cb211dbbc09a17dcc12a86ad33fb82a2dc0c57d452945921",
+          "annotated_sha256": "2f13f1ae97b39175cb211dbbc09a17dcc12a86ad33fb82a2dc0c57d452945921"
+        },
+        {
+          "seat": 3,
+          "records": 243,
+          "standard_sha256": "8de35ba777d7986fa962701446eee0803c6944d26c535e9abacd715b6fdd78e7",
+          "annotated_sha256": "8de35ba777d7986fa962701446eee0803c6944d26c535e9abacd715b6fdd78e7"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "stage": "upstream-revision",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "upstream-origin",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "upstream-tracked-clean",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.033
+    },
+    {
+      "stage": "upstream-untracked",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "build-converter",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.486
+    },
+    {
+      "stage": "build-analyzer",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.154
+    },
+    {
+      "stage": "convert-chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "analyze-chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "wrap-chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "unwrap-chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "observe-mjai-chankan-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.027
+    },
+    {
+      "stage": "observe-annotated_mjai-chankan-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "observe-mjai-chankan-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.019
+    },
+    {
+      "stage": "observe-annotated_mjai-chankan-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.019
+    },
+    {
+      "stage": "observe-mjai-chankan-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.016
+    },
+    {
+      "stage": "observe-annotated_mjai-chankan-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "observe-mjai-chankan-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-annotated_mjai-chankan-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "convert-complex_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-complex_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "wrap-complex_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "analyze-annotated-complex_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "unwrap-complex_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_0-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.031
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_0-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.029
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_0-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.025
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_0-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.026
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_0-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.032
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_0-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_0-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_0-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.031
+    },
+    {
+      "stage": "convert-complex_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-complex_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "wrap-complex_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "analyze-annotated-complex_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "unwrap-complex_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_1-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.026
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_1-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.026
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_1-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.028
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_1-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_1-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.027
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_1-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "observe-mjai-complex_nakis_1-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.019
+    },
+    {
+      "stage": "observe-annotated_mjai-complex_nakis_1-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "convert-confusing_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "wrap-confusing_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "unwrap-confusing_nakis_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_0-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.036
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_0-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.039
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_0-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.041
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_0-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.04
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_0-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.042
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_0-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.043
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_0-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.045
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_0-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.043
+    },
+    {
+      "stage": "convert-confusing_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "wrap-confusing_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "unwrap-confusing_nakis_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_1-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.017
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_1-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_1-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.016
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_1-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.017
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_1-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.022
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_1-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.018
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_1-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_1-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "convert-confusing_nakis_2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "wrap-confusing_nakis_2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "unwrap-confusing_nakis_2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_2-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_2-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_2-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_2-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_2-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_2-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_2-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_2-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "convert-confusing_nakis_3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "wrap-confusing_nakis_3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "unwrap-confusing_nakis_3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_3-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.011
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_3-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_3-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_3-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.013
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_3-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_3-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_3-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_3-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "convert-confusing_nakis_4",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_4",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "wrap-confusing_nakis_4",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_4",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "unwrap-confusing_nakis_4",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_4-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.017
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_4-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_4-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.018
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_4-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_4-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.019
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_4-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.022
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_4-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_4-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "convert-confusing_nakis_5",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-confusing_nakis_5",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "wrap-confusing_nakis_5",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_5",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "unwrap-confusing_nakis_5",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_5-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.018
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_5-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_5-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_5-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_5-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_5-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_5-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_5-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "convert-confusing_nakis_6",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_6",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "wrap-confusing_nakis_6",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_6",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "unwrap-confusing_nakis_6",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_6-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.028
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_6-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.038
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_6-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.038
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_6-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.036
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_6-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.037
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_6-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.034
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_6-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.034
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_6-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.04
+    },
+    {
+      "stage": "convert-confusing_nakis_7",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-confusing_nakis_7",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "wrap-confusing_nakis_7",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "analyze-annotated-confusing_nakis_7",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "unwrap-confusing_nakis_7",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_7-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_7-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_7-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.011
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_7-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_7-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_7-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.013
+    },
+    {
+      "stage": "observe-mjai-confusing_nakis_7-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "observe-annotated_mjai-confusing_nakis_7-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "convert-double_kakan_then_chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-double_kakan_then_chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "wrap-double_kakan_then_chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-double_kakan_then_chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "unwrap-double_kakan_then_chankan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-mjai-double_kakan_then_chankan-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.025
+    },
+    {
+      "stage": "observe-annotated_mjai-double_kakan_then_chankan-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.026
+    },
+    {
+      "stage": "observe-mjai-double_kakan_then_chankan-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.025
+    },
+    {
+      "stage": "observe-annotated_mjai-double_kakan_then_chankan-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-mjai-double_kakan_then_chankan-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "observe-annotated_mjai-double_kakan_then_chankan-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.027
+    },
+    {
+      "stage": "observe-mjai-double_kakan_then_chankan-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "stage": "observe-annotated_mjai-double_kakan_then_chankan-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.027
+    },
+    {
+      "stage": "convert-double_ron",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-double_ron",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "wrap-double_ron",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "analyze-annotated-double_ron",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "unwrap-double_ron",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.005
+    },
+    {
+      "stage": "observe-mjai-double_ron-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "observe-annotated_mjai-double_ron-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-mjai-double_ron-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-annotated_mjai-double_ron-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.018
+    },
+    {
+      "stage": "observe-mjai-double_ron-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.014
+    },
+    {
+      "stage": "observe-annotated_mjai-double_ron-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-mjai-double_ron-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-annotated_mjai-double_ron-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.018
+    },
+    {
+      "stage": "convert-four_reach",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-four_reach",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "wrap-four_reach",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-four_reach",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "unwrap-four_reach",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "observe-mjai-four_reach-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.019
+    },
+    {
+      "stage": "observe-annotated_mjai-four_reach-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.021
+    },
+    {
+      "stage": "observe-mjai-four_reach-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.022
+    },
+    {
+      "stage": "observe-annotated_mjai-four_reach-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "stage": "observe-mjai-four_reach-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.022
+    },
+    {
+      "stage": "observe-annotated_mjai-four_reach-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.028
+    },
+    {
+      "stage": "observe-mjai-four_reach-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.022
+    },
+    {
+      "stage": "observe-annotated_mjai-four_reach-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.025
+    },
+    {
+      "stage": "convert-kyushukyuhai",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-kyushukyuhai",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "wrap-kyushukyuhai",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-annotated-kyushukyuhai",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "unwrap-kyushukyuhai",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "observe-mjai-kyushukyuhai-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "observe-annotated_mjai-kyushukyuhai-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "observe-mjai-kyushukyuhai-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "observe-annotated_mjai-kyushukyuhai-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "observe-mjai-kyushukyuhai-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "observe-annotated_mjai-kyushukyuhai-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "observe-mjai-kyushukyuhai-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "observe-annotated_mjai-kyushukyuhai-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "convert-ranked_game",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-ranked_game",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "wrap-ranked_game",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.011
+    },
+    {
+      "stage": "analyze-annotated-ranked_game",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "unwrap-ranked_game",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "observe-mjai-ranked_game-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.067
+    },
+    {
+      "stage": "observe-annotated_mjai-ranked_game-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.064
+    },
+    {
+      "stage": "observe-mjai-ranked_game-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.053
+    },
+    {
+      "stage": "observe-annotated_mjai-ranked_game-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.057
+    },
+    {
+      "stage": "observe-mjai-ranked_game-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.052
+    },
+    {
+      "stage": "observe-annotated_mjai-ranked_game-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.059
+    },
+    {
+      "stage": "observe-mjai-ranked_game-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.054
+    },
+    {
+      "stage": "observe-annotated_mjai-ranked_game-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.062
+    },
+    {
+      "stage": "convert-rinshan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.002
+    },
+    {
+      "stage": "analyze-rinshan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "wrap-rinshan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "analyze-annotated-rinshan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "unwrap-rinshan",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "observe-mjai-rinshan-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.016
+    },
+    {
+      "stage": "observe-annotated_mjai-rinshan-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-mjai-rinshan-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.013
+    },
+    {
+      "stage": "observe-annotated_mjai-rinshan-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.014
+    },
+    {
+      "stage": "observe-mjai-rinshan-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "observe-annotated_mjai-rinshan-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "observe-mjai-rinshan-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.012
+    },
+    {
+      "stage": "observe-annotated_mjai-rinshan-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.015
+    },
+    {
+      "stage": "convert-ryukyoku",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-ryukyoku",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "wrap-ryukyoku",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-ryukyoku",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "unwrap-ryukyoku",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "observe-mjai-ryukyoku-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.033
+    },
+    {
+      "stage": "observe-annotated_mjai-ryukyoku-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.034
+    },
+    {
+      "stage": "observe-mjai-ryukyoku-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "stage": "observe-annotated_mjai-ryukyoku-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.035
+    },
+    {
+      "stage": "observe-mjai-ryukyoku-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.033
+    },
+    {
+      "stage": "observe-annotated_mjai-ryukyoku-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.033
+    },
+    {
+      "stage": "observe-mjai-ryukyoku-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.031
+    },
+    {
+      "stage": "observe-annotated_mjai-ryukyoku-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.033
+    },
+    {
+      "stage": "convert-suukantsu_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-suukantsu_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.004
+    },
+    {
+      "stage": "wrap-suukantsu_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "analyze-annotated-suukantsu_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "unwrap-suukantsu_0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "observe-mjai-suukantsu_0-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.028
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_0-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.031
+    },
+    {
+      "stage": "observe-mjai-suukantsu_0-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.029
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_0-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "stage": "observe-mjai-suukantsu_0-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.027
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_0-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "stage": "observe-mjai-suukantsu_0-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.027
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_0-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "stage": "convert-suukantsu_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.003
+    },
+    {
+      "stage": "analyze-suukantsu_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "wrap-suukantsu_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "analyze-annotated-suukantsu_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "unwrap-suukantsu_1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.01
+    },
+    {
+      "stage": "observe-mjai-suukantsu_1-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.046
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_1-seat-0",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.051
+    },
+    {
+      "stage": "observe-mjai-suukantsu_1-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.049
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_1-seat-1",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.058
+    },
+    {
+      "stage": "observe-mjai-suukantsu_1-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.046
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_1-seat-2",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.056
+    },
+    {
+      "stage": "observe-mjai-suukantsu_1-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.045
+    },
+    {
+      "stage": "observe-annotated_mjai-suukantsu_1-seat-3",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.054
+    },
+    {
+      "stage": "analyze-gzip-same-extension",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.008
+    },
+    {
+      "stage": "analyze-annotated-gzip-same-extension",
+      "success": true,
+      "exit_code": 0,
+      "seconds": 0.013
+    }
+  ],
+  "expected_roundtrip_events": 2310,
+  "expected_observations": 9240,
+  "verifier_sha256": "29166c637d0e495f9def0b972dfb1ccb856b5512ef6bb2aa15a00cacd3cd710c",
+  "excluded_cases": 0,
+  "gzip": {
+    "case": "ranked_game",
+    "success": true,
+    "analysis": {
+      "records": 316,
+      "rounds": 3,
+      "wins": 3,
+      "draws": 0,
+      "calls": 11,
+      "red_events": 10,
+      "final_scores": [
+        21100,
+        55000,
+        -4900,
+        28800
+      ],
+      "riichi_sticks": 0,
+      "complete": true,
+      "termination": "completed"
+    }
+  },
+  "annotated_gzip": {
+    "case": "ranked_game",
+    "success": true,
+    "analysis": {
+      "records": 316,
+      "rounds": 3,
+      "wins": 3,
+      "draws": 0,
+      "calls": 11,
+      "red_events": 10,
+      "final_scores": [
+        21100,
+        55000,
+        -4900,
+        28800
+      ],
+      "riichi_sticks": 0,
+      "complete": true,
+      "termination": "completed"
+    }
+  },
+  "success": true,
+  "manifest_sha256": "5a887548dfdd6ba48f05e5663f80dc7c38e33889b24edc50b50797af1459769a",
+  "analyzer_sha256": "d103d9c46f871093441dfcd48c1573eca3a709881bd0b27c2b7eff94ef7a67c8",
+  "evaluated_cases": 20,
+  "passed_cases": 20,
+  "failed_cases": 0,
+  "unevaluated_cases": 0,
+  "roundtrip_events": 2310,
+  "compared_observations": 9240,
+  "finished_at_utc": "2026-11-23T11:24:32.799954+00:00"
+}

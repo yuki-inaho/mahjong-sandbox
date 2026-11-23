@@ -3,7 +3,7 @@
 
 import json
 
-from platform_support import ROOT, SDK, Run, environment_report
+from platform_support import ROOT, SDK, Run, environment_report, release_environment
 
 
 def complete_typescript_libraries(directory) -> None:
@@ -24,7 +24,8 @@ def main() -> int:
         run.finish({"environment": report, "success": False})
         return 1
     result = run.execute("compile", ["cargo", "build", "--locked", "--release", "--target-dir", str(ROOT / "target"), "--target",
-                                     "wasm32-unknown-unknown", "-p", "suzume-wasm"], timeout=900)
+                                     "wasm32-unknown-unknown", "-p", "suzume-wasm"], timeout=900,
+                         env=release_environment())
     if result["success"]:
         artifact = ROOT / "target" / "wasm32-unknown-unknown" / "release" / "suzume_wasm.wasm"
         for target, name in (("web", "web"), ("nodejs", "node")):

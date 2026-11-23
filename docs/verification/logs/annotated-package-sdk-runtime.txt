@@ -1,0 +1,5 @@
+Checked at: 2026-11-23T10:53:09.907479+00:00
+Command: node dist/private-probes/continuation/sdk-consumer/consumer.mjs
+PACKAGE_CONSUMER_OK node web mjai annotated
+
+Exit code: 0

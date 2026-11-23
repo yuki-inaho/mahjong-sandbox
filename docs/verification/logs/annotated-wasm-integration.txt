@@ -1,0 +1,43 @@
+command=['node', '--test', '--test-reporter=tap', 'packages/suzume/tests/integration.test.mjs']
+TAP version 13
+# Subtest: native Rust and real Node WASM produce identical versioned responses
+ok 1 - native Rust and real Node WASM produce identical versioned responses
+  ---
+  duration_ms: 1985.957491
+  type: 'test'
+  ...
+# Subtest: typed client checks stale actions, private views and terminal masks using real WASM
+ok 2 - typed client checks stale actions, private views and terminal masks using real WASM
+  ---
+  duration_ms: 5.080101
+  type: 'test'
+  ...
+# Subtest: browser ESM binding instantiates packaged bytes without Node-specific browser code
+ok 3 - browser ESM binding instantiates packaged bytes without Node-specific browser code
+  ---
+  duration_ms: 7.278615
+  type: 'test'
+  ...
+# Subtest: mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions
+ok 4 - mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions
+  ---
+  duration_ms: 68.875258
+  type: 'test'
+  ...
+# Subtest: annotated input matches standard analysis for all viewers in native and both real WASM bindings
+ok 5 - annotated input matches standard analysis for all viewers in native and both real WASM bindings
+  ---
+  duration_ms: 89.858089
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2286.118115
+
+exit_code=0

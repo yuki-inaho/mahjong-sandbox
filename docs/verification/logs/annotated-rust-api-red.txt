@@ -1,0 +1,51 @@
+Command: cargo test --locked -p suzume-api --test mjai_annotated
+Baseline: c9a5d5fa4458eb9f46db7827b52e0170eeed7be5
+Exit: 101
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+error[E0432]: unresolved import `suzume_api::mjai::annotated`
+ --> crates/suzume-api/tests/mjai_annotated.rs:6:18
+  |
+6 |     mjai::{self, annotated::{self, AnnotationPolicy}},
+  |                  ^^^^^^^^^ could not find `annotated` in `mjai`
+
+error[E0425]: cannot find function `parse_record` in module `mjai`
+  --> crates/suzume-api/tests/mjai_annotated.rs:27:24
+   |
+27 |     let parsed = mjai::parse_record(&format!(" \t{START}\r\n")).unwrap();
+   |                        ^^^^^^^^^^^^ not found in `mjai`
+
+error[E0432]: unresolved imports `suzume_api::mjai::annotated`, `suzume_api::protocol::MjaiFormat`
+  --> crates/suzume-api/src/bin/suzume-api.rs:10:18
+   |
+10 |     mjai::{self, annotated::AnnotationPolicy},
+   |                  ^^^^^^^^^ could not find `annotated` in `mjai`
+11 |     protocol::MjaiFormat,
+   |     ^^^^^^^^^^----------
+   |               |
+   |               no `MjaiFormat` in `protocol`
+
+error[E0433]: cannot find `annotated` in `mjai`
+   --> crates/suzume-api/src/bin/suzume-api.rs:127:43
+    |
+127 |             MjaiConversion::Wrap => mjai::annotated::wrap(&mut reader, output, limits)?,
+    |                                           ^^^^^^^^^ could not find `annotated` in `mjai`
+
+error[E0433]: cannot find `annotated` in `mjai`
+   --> crates/suzume-api/src/bin/suzume-api.rs:129:23
+    |
+129 |                 mjai::annotated::unwrap(&mut reader, output, limits, policy)?
+    |                       ^^^^^^^^^ could not find `annotated` in `mjai`
+
+error[E0433]: cannot find `annotated` in `mjai`
+   --> crates/suzume-api/src/bin/suzume-api.rs:168:44
+    |
+168 |         MjaiFormat::AnnotatedMjai => mjai::annotated::visit(&mut reader, limits, consumer)?,
+    |                                            ^^^^^^^^^ could not find `annotated` in `mjai`
+
+Some errors have detailed explanations: E0425, E0432.
+For more information about an error, try `rustc --explain E0425`.
+error: could not compile `suzume-api` (test "mjai_annotated") due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+Some errors have detailed explanations: E0432, E0433.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `suzume-api` (bin "suzume-api") due to 4 previous errors

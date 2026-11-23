@@ -1,0 +1,89 @@
+{
+  "schema": "suzume-ci-local-evidence/1",
+  "run_id": "20261123T114726Z-ca11b44926",
+  "started_at": "2026-11-23T11:47:26.433233+00:00",
+  "finished_at": "2026-11-23T11:48:24.011343+00:00",
+  "success": true,
+  "github_execution": false,
+  "scope": "A clean detached checkout of cf70f1c plus the six CI/unit configuration changes; no SDK WASM, dist, node_modules, or Rust target existed initially.",
+  "precondition_check": "The existing full build failed because generated Node/Web WASM declarations were absent. Its emitted dist was removed before test:unit. This was a prerequisite check, not a failing product regression test.",
+  "local_versions": {
+    "rust": "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+    "node": "v24.22.3",
+    "npm": "11.19.1",
+    "python": "Python 3.12.14"
+  },
+  "workflow_python_version": "3.12.10",
+  "not_executed_locally": [
+    "GitHub Actions runners",
+    "GitHub tool-installation action steps",
+    "manual full verification workflow",
+    "manual external corpus workflow"
+  ],
+  "results": {
+    "rust_tests": 212,
+    "sdk_unit_tests": 28,
+    "python_verifier_tests": 50,
+    "documentation_self_tests": 10,
+    "workflow_structure_checks": 16,
+    "shell_blocks_parsed": 17,
+    "rust_format": true,
+    "rust_clippy": true,
+    "rule_schema_typescript_sync": true,
+    "documentation_check": true,
+    "sdk_typecheck": true,
+    "wasm_absent_before_and_after": true,
+    "generated_node_browser_entries_absent": true
+  },
+  "source_sha256": {
+    ".github/workflows/ci.yml": "dfcc2e8ae63e9512c6dd0985ba3b9d8894164fe0a9bf8a8eb84ed56ae3cb848f",
+    ".github/workflows/platform.yml": "6ae6661c874454e4c85c46be0706fab084e41d3325e49d3f0d6e2a15c16580d0",
+    ".github/workflows/mjai.yml": "e426ea3092b1cf68cabb834799b7b3c0b1c2d6561404e032e5648814a026391a",
+    "packages/suzume/package.json": "276515350a839b24e5ec4ce95796d395ac68af30a17d7a2ec5ee338ec36dec2a",
+    "packages/suzume/tsconfig.unit.json": "e5cc3a0fbcc1129b9926bae87b43eac43cd3e5d01e21a8113310386b64f1749e",
+    "packages/suzume/tsconfig.unit-tests.json": "f5c0fcbaab8a0aeea2b7748c9e8f4222bf45dce648d3e08b03865538afd2d8b7"
+  },
+  "official_setup_node_sources": [
+    "https://github.com/actions/setup-node/releases/tag/v7.1.0",
+    "https://github.com/actions/setup-node/commit/949feb2413d6458794dcd2491c4babbbce0c15c1",
+    "https://github.com/actions/setup-node#caching-global-packages-data"
+  ],
+  "files": [
+    {
+      "path": "logs/annotated-ci-linux-summary.json",
+      "sha256": "7abbc514b7092d5c98399469d0b79e54200ef6b63e3844c1b48acb7bfea030f5",
+      "bytes": 7507,
+      "source": "dist/verification/20261123T114726Z-ca11b44926/summary.json",
+      "private_prefix_matches": 0
+    },
+    {
+      "path": "logs/annotated-ci-linux-structure.json",
+      "sha256": "03f9fb032d8e1f07bdf51a80e7c5d4cb0232b4d8b053304374f2969e44c954ed",
+      "bytes": 2485,
+      "source": "dist/verification/annotated-ci-linux-structure.json",
+      "private_prefix_matches": 0
+    },
+    {
+      "path": "logs/annotated-ci-linux-no-wasm-baseline.json",
+      "sha256": "f5eebc56de751a3f744c6212327361ad08fbd494189368edab5d96f729945241",
+      "bytes": 419,
+      "source": "dist/verification/annotated-ci-linux-no-wasm-baseline.json",
+      "private_prefix_matches": 0
+    },
+    {
+      "path": "logs/annotated-ci-linux-no-wasm-baseline.log",
+      "sha256": "82744092fff42c1b23c7c9100eb324cd65b9494aa2782c2b432cf72c79532e7f",
+      "bytes": 456,
+      "source": "dist/verification/annotated-ci-linux-no-wasm-baseline.log",
+      "private_prefix_matches": 0
+    },
+    {
+      "path": "logs/annotated-ci-linux-sdk-unit-and-types.log",
+      "sha256": "8447d5b50700683854e4ce4f8db72caa53700ddcfbe638d9a5b4e5050ac90973",
+      "bytes": 6818,
+      "source": "dist/verification/20261123T114726Z-ca11b44926/sdk-unit-and-types-without-wasm.log",
+      "private_prefix_matches": 0
+    }
+  ],
+  "log_scope": "Published logs retain the missing-WASM prerequisite failure and the new SDK unit/type success. The run summary preserves all command exits and validated counts; other local raw command logs are not included in this small evidence set."
+}

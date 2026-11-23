@@ -42,15 +42,24 @@ export function parseJson(text: string): unknown {
  * paths so the typed event projection can still require integer wire tokens.
  * Integer tokens beyond JavaScript's exact range are rejected, never rounded.
  */
-export function parseExtensionJson(text: string): { readonly value: unknown; readonly decimalPaths: ReadonlySet<string> } {
-  return parseJsonTree(text, true);
+export function parseExtensionJson(text: string, capturePaths: ReadonlySet<string> = new Set()): {
+  readonly value: unknown;
+  readonly decimalPaths: ReadonlySet<string>;
+  readonly rawValues: ReadonlyMap<string, string>;
+} {
+  return parseJsonTree(text, true, capturePaths);
 }
 
-function parseJsonTree(text: string, extensions: boolean): { readonly value: Json; readonly decimalPaths: ReadonlySet<string> } {
+function parseJsonTree(text: string, extensions: boolean, capturePaths: ReadonlySet<string> = new Set()): {
+  readonly value: Json;
+  readonly decimalPaths: ReadonlySet<string>;
+  readonly rawValues: ReadonlyMap<string, string>;
+} {
   if (text.length > LIMIT || new TextEncoder().encode(text).length > LIMIT) throw new ProtocolError('JSON exceeds 1048576 bytes');
   let cursor = 0;
   let nodes = 0;
   const decimalPaths = new Set<string>();
+  const rawValues = new Map<string, string>();
   const fail = (): never => { throw new ProtocolError(`Invalid JSON at character ${cursor}`); };
   const space = (): void => { while (/^[\t\n\r ]$/.test(text[cursor] ?? '')) cursor++; };
   const quoted = (): string => {
@@ -67,7 +76,7 @@ function parseJsonTree(text: string, extensions: boolean): { readonly value: Jso
     }
     return fail();
   };
-  const value = (depth: number, path = ''): Json => {
+  const readValue = (depth: number, path: string): Json => {
     if (depth > 64 || ++nodes > MAX_NODES) throw new ProtocolError('JSON structure limit exceeded');
     space();
     if (text[cursor] === '"') return quoted();
@@ -108,9 +117,18 @@ function parseJsonTree(text: string, extensions: boolean): { readonly value: Jso
     if (decimal) decimalPaths.add(path);
     return result;
   };
+  // Capture the original token span only at requested JSON-pointer paths.
+  // Re-serializing a parsed Number would change producer extension values.
+  const value = (depth: number, path = ''): Json => {
+    space();
+    const start = cursor;
+    const result = readValue(depth, path);
+    if (capturePaths.has(path)) rawValues.set(path, text.slice(start, cursor));
+    return result;
+  };
   const result = value(0); space();
   if (cursor !== text.length) return fail();
-  return { value: result, decimalPaths };
+  return { value: result, decimalPaths, rawValues };
 }
 
 function checkStructure(value: unknown): void {

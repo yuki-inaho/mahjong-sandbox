@@ -1,0 +1,62 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.49s
+     Running tests/mjai_annotated_cli.rs (target/debug/build/suzume-api/43a39424eb287b69/out/mjai_annotated_cli-43a39424eb287b69)
+
+running 6 tests
+test wrap_and_unwrap_keep_original_json_and_refuse_overwrite ... FAILED
+test annotations_require_explicit_discard_and_report_affected_rows ... FAILED
+test wrapping_refuses_output_that_exceeds_line_limit ... FAILED
+test gzip_is_detected_for_both_conversion_directions ... FAILED
+test late_corruption_and_truncated_gzip_never_publish_converted_files ... FAILED
+test annotated_analysis_and_observations_match_standard_without_annotations ... FAILED
+
+failures:
+
+---- wrap_and_unwrap_keep_original_json_and_refuse_overwrite stdout ----
+
+thread 'wrap_and_unwrap_keep_original_json_and_refuse_overwrite' (150) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:47:5:
+実行エラー: 未対応の引数です。suzume-api --helpで使用方法を確認してください。
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- annotations_require_explicit_discard_and_report_affected_rows stdout ----
+
+thread 'annotations_require_explicit_discard_and_report_affected_rows' (146) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:112:5:
+assertion failed: String::from_utf8_lossy(&result.stderr).contains("annotation")
+
+---- wrapping_refuses_output_that_exceeds_line_limit stdout ----
+
+thread 'wrapping_refuses_output_that_exceeds_line_limit' (152) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:217:5:
+assertion failed: String::from_utf8_lossy(&result.stderr).contains("line byte limit")
+
+---- gzip_is_detected_for_both_conversion_directions stdout ----
+
+thread 'gzip_is_detected_for_both_conversion_directions' (147) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:47:5:
+実行エラー: 未対応の引数です。suzume-api --helpで使用方法を確認してください。
+
+
+---- late_corruption_and_truncated_gzip_never_publish_converted_files stdout ----
+
+thread 'late_corruption_and_truncated_gzip_never_publish_converted_files' (148) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:195:13:
+assertion failed: String::from_utf8_lossy(&result.stderr).contains("line")
+
+---- annotated_analysis_and_observations_match_standard_without_annotations stdout ----
+
+thread 'annotated_analysis_and_observations_match_standard_without_annotations' (145) panicked at crates/suzume-api/tests/mjai_annotated_cli.rs:47:5:
+実行エラー: 未対応の引数です。suzume-api --helpで使用方法を確認してください。
+
+
+
+failures:
+    annotated_analysis_and_observations_match_standard_without_annotations
+    annotations_require_explicit_discard_and_report_affected_rows
+    gzip_is_detected_for_both_conversion_directions
+    late_corruption_and_truncated_gzip_never_publish_converted_files
+    wrap_and_unwrap_keep_original_json_and_refuse_overwrite
+    wrapping_refuses_output_that_exceeds_line_limit
+
+test result: FAILED. 0 passed; 6 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p suzume-api --test mjai_annotated_cli`
+
+exit_code=101

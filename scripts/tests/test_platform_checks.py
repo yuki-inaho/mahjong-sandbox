@@ -11,10 +11,120 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import platform_support
+import package as distribution
 from platform_support import Run, load_versions, validate_documentation, write_json
 from package import archive_files
 from verify_platform import (validate_generator_semantics, validate_kani, validate_lean, validate_negative_controls,
                              validate_node_tests, validate_python_tests, validate_rust_tests, validate_simulation)
+
+
+class ReleasePrivacyTests(unittest.TestCase):
+    def test_release_environment_preserves_plain_flags_without_mutating_caller(self):
+        original = platform_support.tool_environment()
+        original.pop("CARGO_ENCODED_RUSTFLAGS", None)
+        original["RUSTFLAGS"] = "-C opt-level=1\t--cfg user_build"
+        before = original.copy()
+        process_before = os.environ.copy()
+        release = platform_support.release_environment(original)
+        flags = release["CARGO_ENCODED_RUSTFLAGS"].split("\x1f")
+        self.assertEqual(flags[:4], ["-C", "opt-level=1", "--cfg", "user_build"])
+        self.assertTrue(any(flag.startswith("--remap-path-prefix=") for flag in flags))
+        self.assertTrue(original == before)
+        self.assertTrue(dict(os.environ) == process_before)
+        self.assertEqual(release["RUSTFLAGS"], before["RUSTFLAGS"])
+
+    def test_encoded_flags_keep_precedence_including_empty_and_embedded_spaces(self):
+        for encoded in ("", '--cfg\x1fuser_value="two words"\x1f--remap-path-prefix=/old=/public'):
+            with self.subTest(empty=not encoded):
+                original = platform_support.tool_environment() | {
+                    "RUSTFLAGS": "--cfg should_remain_ignored", "CARGO_ENCODED_RUSTFLAGS": encoded}
+                release = platform_support.release_environment(original)
+                flags = release["CARGO_ENCODED_RUSTFLAGS"].split("\x1f")
+                prefix = encoded.split("\x1f") if encoded else []
+                self.assertEqual(flags[:len(prefix)], prefix)
+                self.assertNotIn("", flags)
+                self.assertNotIn("should_remain_ignored", flags)
+                self.assertEqual(release["RUSTFLAGS"], original["RUSTFLAGS"])
+
+    def test_more_specific_remaps_follow_ancestors_and_preserve_spaces(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory) / "Build User"
+            root = home / "workspace" / "project"
+            cargo = home / "cargo registry"
+            rustup = home / "rustup"
+            with patch.object(platform_support, "ROOT", root), patch.object(Path, "home", return_value=home):
+                env = {"PATH": os.defpath, "HOME": str(home), "CARGO_HOME": str(cargo), "RUSTUP_HOME": str(rustup)}
+                flags = platform_support.release_environment(env)["CARGO_ENCODED_RUSTFLAGS"].split("\x1f")
+                mappings = [flag.removeprefix("--remap-path-prefix=").rsplit("=", 1) for flag in flags]
+                originals = [source for source, _ in mappings]
+                self.assertIn(str(cargo), originals)
+                self.assertIn(str(rustup), originals)
+                self.assertLess(originals.index(str(home)), originals.index(str(cargo)))
+                self.assertLess(originals.index(str(home)), originals.index(str(root)))
+                self.assertEqual(mappings[originals.index(str(cargo))][1], "/suzume/cargo")
+
+    def test_actual_home_and_userprofile_are_included_even_with_alternate_home(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            actual, profile, alternate = root / "actual", root / "profile", root / "alternate"
+            with patch.object(Path, "home", return_value=actual):
+                prefixes = platform_support.private_path_prefixes({
+                    "HOME": str(alternate), "USERPROFILE": str(profile)})
+            for path in (actual, profile, alternate):
+                self.assertIn(str(path), prefixes)
+
+    def test_run_uses_an_explicit_child_environment_without_process_changes(self):
+        env = platform_support.tool_environment()
+        env["SUZUME_TEST_CHILD_ONLY"] = "isolated"
+        before = os.environ.get("SUZUME_TEST_CHILD_ONLY")
+        run = Run("verification-selftest")
+        result = run.execute("child-environment", [sys.executable, "-c",
+                             "import os; print(os.environ.get('SUZUME_TEST_CHILD_ONLY', 'absent'))"], env=env,
+                             validator=lambda output: {"success": output.strip() == "isolated", "detail": "子環境を確認"})
+        self.assertTrue(result["success"])
+        self.assertEqual(os.environ.get("SUZUME_TEST_CHILD_ONLY"), before)
+
+    def test_private_prefix_detection_covers_windows_separators_and_utf16(self):
+        prefix = r"C:\Build User\cargo"
+        for spelling in (prefix, prefix.replace("\\", "/")):
+            for encoding in ("utf-8", "utf-16-le", "utf-16-be"):
+                with self.subTest(encoding=encoding, forward_slashes="/" in spelling):
+                    data = (spelling + "/registry/source.rs").encode(encoding)
+                    self.assertGreater(platform_support.private_path_matches(data, (prefix,)), 0)
+        self.assertEqual(platform_support.private_path_matches(b"/suzume/cargo/registry/source.rs", (prefix,)), 0)
+
+    def test_archive_scan_requires_every_binary_and_rejects_empty_checks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            first, second = root / "first", root / "second"
+            first.write_bytes(b"public binary one")
+            second.write_bytes(b"public binary two")
+            archive = root / "native.tar.gz"
+            archive_files(archive, "release", [(first, "suzume"), (second, "suzume-api")])
+            required = {"release/suzume", "release/suzume-api"}
+            report = distribution.scan_distribution_paths([(archive, required)])
+            self.assertTrue(report["success"])
+            self.assertEqual(report["checked"], 2)
+            self.assertTrue(all(len(entry["sha256"]) == 64 for entry in report["entries"]))
+            self.assertFalse(distribution.scan_distribution_paths([])["success"])
+            self.assertFalse(distribution.scan_distribution_paths([(archive, set())])["success"])
+            self.assertFalse(distribution.scan_distribution_paths([(archive, required | {"release/missing"})])["success"])
+
+    def test_archive_scan_rejects_embedded_prefix_without_disclosing_its_value(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            cargo = root / "private-cargo"
+            binary = root / "binary"
+            binary.write_bytes((str(cargo) + "/registry/source.rs").encode())
+            archive = root / "sdk.tgz"
+            archive_files(archive, "package", [(binary, "wasm/node/suzume_wasm_bg.wasm"), (binary, "wasm/web/suzume_wasm_bg.wasm")])
+            report = distribution.scan_distribution_paths([(archive, {
+                "package/wasm/node/suzume_wasm_bg.wasm", "package/wasm/web/suzume_wasm_bg.wasm"})],
+                env=platform_support.tool_environment() | {"CARGO_HOME": str(cargo)})
+            self.assertFalse(report["success"])
+            self.assertEqual(report["checked"], 2)
+            self.assertTrue(all(entry["private_prefix_matches"] > 0 for entry in report["entries"]))
+            self.assertNotIn(str(cargo), json.dumps(report))
 
 
 class VerificationAcceptanceTests(unittest.TestCase):

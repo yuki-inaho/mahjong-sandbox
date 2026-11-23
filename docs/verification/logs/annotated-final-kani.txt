@@ -1,0 +1,68 @@
+Kani Rust Verifier 0.68.0 (cargo plugin)
+CBMC 6.11.0
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+warning: Found the following unsupported constructs:
+             - caller_location (1)
+             - foreign function (1)
+         
+         Verification will fail if one or more of these constructs is reachable.
+         See https://model-checking.github.io/kani/rust-feature-support.html for more details.
+
+Checking harness contracts::proofs::discard_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 1 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.02584867s
+
+Checking harness contracts::proofs::riichi_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 1 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.027160622s
+
+Checking harness contracts::proofs::point_transfer_refines_declaration_and_is_atomic...
+
+VERIFICATION RESULT:
+ ** 0 of 150 failed (1 unreachable)
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 109.1721s
+
+Checking harness contracts::proofs::move_one_refines_declaration_and_conserves...
+
+VERIFICATION RESULT:
+ ** 0 of 17 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.0600139s
+
+Checking harness contracts::proofs::dora_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 28 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.10767653s
+
+Checking harness contracts::proofs::next_seat_refines_declaration...
+
+VERIFICATION RESULT:
+ ** 0 of 16 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.040494084s
+
+Manual Harness Summary:
+Complete - 6 successfully verified harnesses, 0 failures, 6 total.

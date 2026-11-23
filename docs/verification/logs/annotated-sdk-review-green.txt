@@ -1,0 +1,268 @@
+SHA256 packages/suzume/src/mjai.ts: f559cd1f544cbb948e9ce91c06b7f616ef5e1c9683f886d85dd3e121b31f991b
+SHA256 packages/suzume/src/validation.ts: 40ba79bf565c12031d4bae7cb562d67f714c69e597fa0da27e495ef13411d3a1
+SHA256 packages/suzume/src/logs.ts: 7aef7c5f3b6a15f3509ee7b43a1c839e1fd1516c07fe54ec6aab13613f34e7fc
+SHA256 packages/suzume/src/client.ts: 91a1e629cc7223778e07887b55c3244f8b820596e691676295606875a72fe2e5
+SHA256 crates/suzume-api/src/protocol.rs: 71fa2f44a54339f276c1bc6eccb91755921efac3f6f4a5aca1e4d0a6d061b153
+SHA256 crates/suzume-api/src/lib.rs: 7a4b37865d557adec67c92e4076a15d93462c0ceded253e463e9801a1a671e52
+SHA256 packages/suzume/dist/mjai.js: 5829fc09abfd03ad625c92acdc50134b4008c253f8f8890817a578285eddc1d3
+SHA256 packages/suzume/dist/validation.js: 2e505f4f504e9ba464859070a319bc96bf6997585e504866bad3d1aeef158768
+Command: node dist/private-probes/annotated-sdk-api-review.mjs
+Exit: 0
+[
+  {
+    "id": "SDK-01",
+    "pass": true,
+    "events": [
+      "start_game",
+      "end_game"
+    ]
+  },
+  {
+    "id": "SDK-02-inherited",
+    "pass": true,
+    "error": "mjson line 1 (annotations): Refusing to discard nonempty annotations",
+    "writes": 0
+  },
+  {
+    "id": "SDK-02-default",
+    "pass": true,
+    "error": "mjson line 1 (annotations): Refusing to discard nonempty annotations",
+    "writes": 0
+  },
+  {
+    "id": "SDK-02-mutable",
+    "pass": true,
+    "error": "mjson line 1 (annotations): Refusing to discard nonempty annotations"
+  },
+  {
+    "id": "EOF-control",
+    "pass": true
+  },
+  {
+    "id": "span-control",
+    "pass": true
+  }
+]
+
+Command: node dist/private-probes/annotated-sdk-boundaries.mjs
+Exit: 0
+[
+  {
+    "id": "utf8-exact",
+    "pass": true
+  },
+  {
+    "id": "utf8-too-small",
+    "pass": true
+  },
+  {
+    "id": "total-too-small",
+    "pass": true
+  },
+  {
+    "id": "await-final-sink",
+    "pass": true
+  },
+  {
+    "id": "finish-after-final-sink",
+    "pass": true
+  },
+  {
+    "id": "reject-final-sink",
+    "pass": true
+  },
+  {
+    "id": "wrapper-depth-budget",
+    "pass": true,
+    "standardArrayDepth": 63
+  },
+  {
+    "id": "read-accepted-depth-output",
+    "pass": true
+  },
+  {
+    "id": "wrapper-node-budget",
+    "pass": true
+  }
+]
+
+Command: node --test --test-reporter=tap packages/suzume/tests/mjai.test.mjs packages/suzume/tests/mjai-annotated.test.mjs packages/suzume/tests/integration.test.mjs
+Exit: 0
+TAP version 13
+# Subtest: native Rust and real Node WASM produce identical versioned responses
+ok 1 - native Rust and real Node WASM produce identical versioned responses
+  ---
+  duration_ms: 239.033383
+  type: 'test'
+  ...
+# Subtest: typed client checks stale actions, private views and terminal masks using real WASM
+ok 2 - typed client checks stale actions, private views and terminal masks using real WASM
+  ---
+  duration_ms: 5.430473
+  type: 'test'
+  ...
+# Subtest: browser ESM binding instantiates packaged bytes without Node-specific browser code
+ok 3 - browser ESM binding instantiates packaged bytes without Node-specific browser code
+  ---
+  duration_ms: 6.180676
+  type: 'test'
+  ...
+# Subtest: mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions
+ok 4 - mjson analysis uses the same real Node/Web WASM and native semantics without mutating sessions
+  ---
+  duration_ms: 64.501047
+  type: 'test'
+  ...
+# Subtest: annotated input matches standard analysis for all viewers in native and both real WASM bindings
+ok 5 - annotated input matches standard analysis for all viewers in native and both real WASM bindings
+  ---
+  duration_ms: 74.886296
+  type: 'test'
+  ...
+# Subtest: source records retain the exact numeric spelling, aliases, nulls and unknown fields
+ok 6 - source records retain the exact numeric spelling, aliases, nulls and unknown fields
+  ---
+  duration_ms: 5.655734
+  type: 'test'
+  ...
+# Subtest: annotated parsing and encoding preserve the event and annotation source independently
+ok 7 - annotated parsing and encoding preserve the event and annotation source independently
+  ---
+  duration_ms: 2.937127
+  type: 'test'
+  ...
+# Subtest: annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+ok 8 - annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+  ---
+  duration_ms: 2.489551
+  type: 'test'
+  ...
+# Subtest: single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+ok 9 - single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+  ---
+  duration_ms: 1.774841
+  type: 'test'
+  ...
+# Subtest: stream conversion preserves every source record and reports completion after asynchronous writes
+ok 10 - stream conversion preserves every source record and reports completion after asynchronous writes
+  ---
+  duration_ms: 16.874972
+  type: 'test'
+  ...
+# Subtest: annotations cannot be silently discarded and explicit removal reports affected records
+ok 11 - annotations cannot be silently discarded and explicit removal reports affected records
+  ---
+  duration_ms: 1.898458
+  type: 'test'
+  ...
+# Subtest: annotated streams enforce consecutive indexes and complete event lifecycles
+ok 12 - annotated streams enforce consecutive indexes and complete event lifecycles
+  ---
+  duration_ms: 4.796396
+  type: 'test'
+  ...
+# Subtest: input and output budgets include UTF-8 framing and wrapper overhead
+ok 13 - input and output budgets include UTF-8 framing and wrapper overhead
+  ---
+  duration_ms: 38.863279
+  type: 'test'
+  ...
+# Subtest: incomplete input and failed sinks never produce a successful conversion report
+ok 14 - incomplete input and failed sinks never produce a successful conversion report
+  ---
+  duration_ms: 3.531514
+  type: 'test'
+  ...
+# Subtest: existing event-only reading keeps internal CR compatibility while saved records reject it
+ok 15 - existing event-only reading keeps internal CR compatibility while saved records reject it
+  ---
+  duration_ms: 1.602291
+  type: 'test'
+  ...
+# Subtest: discard policy does not inherit authorization from the options prototype
+ok 16 - discard policy does not inherit authorization from the options prototype
+  ---
+  duration_ms: 0.809402
+  type: 'test'
+  ...
+# Subtest: discard policy remains the value at invocation despite input-side mutation
+ok 17 - discard policy remains the value at invocation despite input-side mutation
+  ---
+  duration_ms: 1.215987
+  type: 'test'
+  ...
+# Subtest: discard policy reads an own getter exactly once before consuming input
+ok 18 - discard policy reads an own getter exactly once before consuming input
+  ---
+  duration_ms: 1.454297
+  type: 'test'
+  ...
+# Subtest: mjai structure preserves red and unknown tiles and producer metadata
+ok 19 - mjai structure preserves red and unknown tiles and producer metadata
+  ---
+  duration_ms: 5.141988
+  type: 'test'
+  ...
+# Subtest: mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+ok 20 - mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+  ---
+  duration_ms: 23.129341
+  type: 'test'
+  ...
+# Subtest: mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+ok 21 - mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+  ---
+  duration_ms: 8.14918
+  type: 'test'
+  ...
+# Subtest: mjai streaming validates lifecycle and distinguishes declared interruption
+ok 22 - mjai streaming validates lifecycle and distinguishes declared interruption
+  ---
+  duration_ms: 13.154842
+  type: 'test'
+  ...
+# Subtest: mjai limits and malformed stream diagnostics identify the failing line
+ok 23 - mjai limits and malformed stream diagnostics identify the failing line
+  ---
+  duration_ms: 4.568171
+  type: 'test'
+  ...
+# Subtest: mjai structural streaming does not claim to validate tile movement
+ok 24 - mjai structural streaming does not claim to validate tile movement
+  ---
+  duration_ms: 3.837026
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 562.683179
+
+Command: npm --prefix packages/suzume run typecheck
+Exit: 0
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 typecheck
+> tsc -p tsconfig.tests.json
+
+
+Command: cargo test --locked -p suzume-api --test mjai_api
+Exit: 0
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running tests/mjai_api.rs (target/debug/build/suzume-api/29bf38200476187d/out/mjai_api-29bf38200476187d)
+
+running 3 tests
+test unknown_formats_and_wrong_explicit_formats_are_rejected ... ok
+test annotated_invalid_inputs_preserve_the_active_session_and_report_a_line ... ok
+test standard_and_annotated_requests_match_for_every_viewer_without_mutating_sessions ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+Source/build files changed during review checks: []

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.unit.json",
+  "compilerOptions": {"noEmit": true, "rootDir": "."},
+  "include": ["src/index.ts", "tests/types.ts"]
+}

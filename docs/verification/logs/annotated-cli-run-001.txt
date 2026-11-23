@@ -1,0 +1,36 @@
+
+running 2 tests
+test malformed_late_input_does_not_publish_a_partial_dataset ... ok
+test replay_and_dataset_use_the_shipped_recording ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 6 tests
+test annotations_require_explicit_discard_and_report_affected_rows ... ok
+test wrap_and_unwrap_keep_original_json_and_refuse_overwrite ... ok
+test gzip_is_detected_for_both_conversion_directions ... ok
+test late_corruption_and_truncated_gzip_never_publish_converted_files ... ok
+test wrapping_refuses_output_that_exceeds_line_limit ... ok
+test annotated_analysis_and_observations_match_standard_without_annotations ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 6 tests
+test observations_do_not_expose_other_hands ... ok
+test corrupt_tail_never_publishes_observations ... ok
+test cli_rejects_truncated_gzip ... ok
+test cli_analyzes_plain_and_gzip_by_content ... ok
+test cli_converts_legacy_and_refuses_existing_destination ... ok
+test gzip_cannot_bypass_decompressed_line_limit ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+     Running tests/file_cli.rs (target/debug/build/suzume-api/b4490bf28aebd67f/out/file_cli-b4490bf28aebd67f)
+     Running tests/mjai_annotated_cli.rs (target/debug/build/suzume-api/a9c303db9537d0f6/out/mjai_annotated_cli-a9c303db9537d0f6)
+     Running tests/mjai_cli.rs (target/debug/build/suzume-api/d9f6058192436287/out/mjai_cli-d9f6058192436287)
+
+exit_code=0

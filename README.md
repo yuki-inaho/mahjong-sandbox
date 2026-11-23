@@ -13,7 +13,7 @@
 ## 端末で遊ぶ
 
 リポジトリのルートから実行します。Python 3.12以降とOS用のC/C++リンカーが必要です。
-以下はbash/zshの例です。Windowsの設定読込みと詳しい前提は[再現手順](docs/development/reproducibility.md)を参照してください。
+運用・自動検査はLinuxを前提とし、以下はbash/zshの例です。詳しい前提は[再現手順](docs/development/reproducibility.md)を参照してください。
 
 ```sh
 python3 scripts/bootstrap.py --profile native
@@ -23,8 +23,10 @@ cargo run --locked -p suzume-cli --release -- --config config/default.toml
 ```
 
 固定ツールを導入済みなら、最後のコマンドから開始できます。
-通常のワークスペースはRust 1.100.0を固定し、依存のない核クレートだけをRust 1.80.1でも検査します。
+通常のワークスペースはRust 1.100.0を固定します。依存のない核クレートの最小対応版1.80.1の検査は必要時に実行できます。
 形式検証・WASM・SDKの道具は用途別に導入でき、端末で遊ぶためにすべてを準備する必要はありません。
+
+自動CIはPRのLinux 1ジョブに絞り、RustとSDKの基本検査を行います。mainへのpushでは再実行せず、自動で配布物を保存しません。形式検証・ブラウザ・配布・実牌譜全件は手動実行です。対象と保存期間は[CI運用](docs/development/reproducibility.md#ciと公式資料)にまとめています。
 
 日本語を表示できる横幅92列以上の端末を使用してください。行入力式で、端末の生入力モードには変更しません。
 `--plain`を付けると色・画面消去を使いません。標準入出力が端末でない場合と`NO_COLOR`指定時も同様です。
@@ -138,6 +140,12 @@ cargo run --locked -p suzume-api --bin suzume-api -- \
 cargo run --locked -p suzume-api --bin suzume-api -- \
   mjai observations examples/eight-actions.mjson --seat 0 --output observations.jsonl
 
+# 原イベントを保持した注釈付き形式へ包み、標準mjsonへ戻す
+cargo run --locked -p suzume-api --bin suzume-api -- \
+  mjai wrap examples/eight-actions.mjson --output analysis.annotated.jsonl
+cargo run --locked -p suzume-api --bin suzume-api -- \
+  mjai unwrap analysis.annotated.jsonl --output restored.mjson
+
 # 旧replayの厳密再生と学習用の遷移も引き続き利用可能
 cargo run --locked -p suzume-api --bin suzume-api -- replay examples/replay-eight-actions.jsonl
 cargo run --locked -p suzume-api --bin suzume-api -- \
@@ -148,6 +156,11 @@ cargo run --locked -p suzume-api --bin suzume-api -- \
 `mjai`は全席の手牌を含む分析用、`mjai_public`は伏せ牌を省いた共有用です。
 CLIはgzip圧縮された `.mjson` も内容から判別します。SDKでは `readMjaiEvents` で構造を逐次読み、
 `client.analyzeMjai` で同じRustの意味解析を呼びます。API/WASM・TSへの入力は展開済みデータです。
+
+[注釈付きmjai](docs/logging/annotated-mjai.md) は、元イベントのJSON原文と解析用の注釈を分けて保存します。
+未知の追加項目、数値字句、明示null、別名を原文のまま取り出せます。
+非空の注釈を捨てて標準へ戻す場合だけ `--drop-annotations` を指定します。
+解析にはCLIの `--format annotated_mjai` またはSDKの第3引数を使い、注釈を席別観測へ混ぜません。
 
 乱数種・内部操作による厳密再生とAI判断の保存には、`--log-format replay` を明示します。
 [旧replay/publicの互換仕様](docs/logging/legacy-jsonl.md)を維持し、旧replayからmjsonへ変換できます。
@@ -187,7 +200,7 @@ cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
 python3 scripts/check_documentation.py
 
-# 固定した外部牌譜を取得・変換し、mjsonとgzipの解析を検査
+# 固定した外部牌譜を取得し、解析・原文の往復・全イベント後の4席観測を検査
 python3 scripts/verify_mjai_real.py
 
 # 必要な形式検証ツールも導入した環境で実行
@@ -208,7 +221,8 @@ python3 scripts/package.py
 - [コンセプト](docs/concept/overview.md)と[共有する開発基盤](docs/concept/platform.md)。
 - [責務と依存関係](docs/architecture.md)、[設計判断ADR](docs/adr/)。
 - [契約の対応表](docs/contracts/README.md)、[公開境界](docs/contracts/platform-boundaries.md)、[形式検証の限界](docs/verification/README.md)。
-- [mjson移行の作業計画書兼記録書](docs/workdocs/workdoc_Nov23-2026_mjson.md)と[着手時の厳格レビュー](docs/reviews/mjson-baseline-review.md)。
+- [注釈付き記録の作業計画書兼記録書](docs/workdocs/workdoc_Nov23-2026_mjai_annotated.md)と[現状の厳格レビュー](docs/reviews/annotated-baseline-review.md)。
+- [mjson移行の作業書](docs/workdocs/workdoc_Nov23-2026_mjson.md)と[当時のレビュー](docs/reviews/mjson-baseline-review.md)は前回の記録です。
 - [基盤整備時の作業書](docs/workdocs/workdoc_Nov23-2026_platform.md)と[その独立レビュー](docs/workdocs/review_Nov23-2026_platform.md)は当時の記録です。
 - [初版の作業書](docs/workdocs/workdoc_Nov23-2026_suzume.md)、[初版検証結果](docs/verification/results.md)、[初版のOS確認](docs/verification/portability.md)は履歴です。
 

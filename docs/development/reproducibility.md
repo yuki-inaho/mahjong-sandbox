@@ -2,6 +2,8 @@
 
 この文書は0.2系の導入・検証・配布入口です。ゲームの核はRust標準ライブラリのみで動き、API・端末クライアント・WebAssemblyとの結合は別クレートです。初版の `scripts/verify.py` と過去の検証記録は履歴として保持します。現在の入口は `scripts/verify_platform.py` です。
 
+運用の前提はLinuxです。CIの実行量・保存容量を抑えるため、自動実行はPRのLinux基本検査1ジョブに限定しています。以下の総合検証・配布コマンドは、必要に応じてローカルまたは手動CIで実行する入口です。
+
 ## 導入
 
 Python 3.12以降、対象OSのC/C++リンカー、公式配布先へ接続できるネットワークを用意してください。Linuxでは通常の開発用コンパイラ、macOSではCommand Line Tools、WindowsではMSVCのビルドツールが必要です。OSの開発環境自体をこのスクリプトが導入することはありません。
@@ -35,7 +37,7 @@ PowerShellでは `. ./dist/tools/activate.ps1` を実行してから `cargo run 
 
 既存の道具がすべて指定版と一致する場合は `--reuse-existing` を付けられます。既存環境を再利用した検査と、何も導入されていない環境での検査は同じ実験ではありません。前者だけを根拠に後者の成功を主張しません。
 
-形式検証の自動導入はLinux x86_64が対象です。macOS・Windowsでは通常のRust・SDK開発を扱い、形式検証はLinuxのCIで実行します。DockerやPodmanの導入は前提にしていません。
+形式検証の道具の自動導入はLinux x86_64が対象です。macOS・Windows向けの通常開発用処理も残していますが、現在のCIの対象はLinuxだけです。DockerやPodmanの導入は前提にしていません。
 
 ## 固定する版と固定しないもの
 
@@ -118,6 +120,10 @@ python3 scripts/package.py --native-only
 | `suzume-<版>-<OS/CPU>.tar.gz` | その環境でビルドした端末用とAPI用の実行ファイル、MIT本文、起動案内 |
 | `manifest.json` / `SHA256SUMS` | 版、環境、Gitの参照と未コミット状態、ソースと各配布物のハッシュ |
 
+配布用のnative・WASMビルドは、リポジトリ、利用者のホーム、Cargo・Rustupの保存先を `--remap-path-prefix` で一般化します。依存crateも対象にし、既存の `CARGO_ENCODED_RUSTFLAGS`、未設定なら `RUSTFLAGS` を引き継いだ子プロセスの環境だけへ設定します。Cargoの設定ファイルやbuild/target用の指定にあるflagsも必要な場合は、このいずれかへ明示してください。[Cargoの優先順位](https://doc.rust-lang.org/cargo/reference/config.html#buildrustflags)に従い、これらの指定は自動合成されません。
+
+作成したnative書庫の実行ファイル2本とnpm書庫のNode/Web WASM2本について、必須項目の存在と、ビルド環境から得た既知の私的経路の残存を実バイト列で検査します。`--native-only` は実行ファイル2本を対象とします。残存や対象欠落があれば配布検査を失敗させ、公開する結果には私的経路を含めず、相対ファイル名・件数・ハッシュと判定を残します。
+
 未公開の内部依存を含むため、Cargoの書庫作成時だけ `--no-verify --exclude-lockfile` を使用します。その後、作成した全書庫を**別の一時ディレクトリ**に展開し、内部クレートへ向ける `patch.crates-io` と元の `Cargo.lock` を設定します。そこから `cargo build --workspace --locked --offline` を成功させ、出来上がったCLIを起動するまでを必須にします。書庫作成だけを配布検証の成功には数えません。
 
 SDKも別の一時ディレクトリで、実際のnpm書庫を `npm install --offline --ignore-scripts` して検査します。公開されたNode用・Web用の入口から同じ初期対局が得られ、打牌とCPUの一手の結果が一致することを確認します。古いリビジョンの要求は拒否され、状態が変わらないことも検査します。不正JSONのエラー応答を含め、配布したWASMそのものを実行します。公開型の消費試験は `strict`、`noUncheckedIndexedAccess`、`exactOptionalPropertyTypes` を有効にし、要求型が `any` に退化した場合も失敗する例を含みます。
@@ -152,11 +158,21 @@ Linuxの実行ファイルは作成環境のlibcに依存します。現段階�
 
 ## CIと公式資料
 
-[`platform.yml`](../../.github/workflows/platform.yml) はRustの固定版でLinux/macOS/Windowsを検査し、各OSのRust配布を作成します。Linuxの別ジョブは作業用の道具を公式配布から導入し、形式検証・SDK・配布を一括検査します。さらに `tools/browser/package-lock.json` の固定依存からChromiumを導入し、`scripts/check_browser.py` で実ブラウザを検査してsummaryとPNGを保存します。このブラウザ検査はNodeのWebAssembly検査とは別の合否です。従来の [`ci.yml`](../../.github/workflows/ci.yml) は最新stableへの互換性と最小Rust版を確認します。
+| 定義 | 起動・対象 | 確認する範囲 | CIへ保存する成果物 |
+|---|---|---|---|
+| [`ci.yml`](../../.github/workflows/ci.yml) | PRのみ、Linux1ジョブ | Rust 1.100.0の整形・Clippy・全workspace検査、生成物同期、検査器単体、文書、SDKの型・単体28件 | 追加保存なし。依存キャッシュも自動保存しない |
+| [`platform.yml`](../../.github/workflows/platform.yml) | 手動のみ、Linux1ジョブ | 固定版による総合検証、実WASM、32対局、Kani/Lean、Chromium、配布消費 | 許可したsummary・manifest・assertions等のJSONだけ、1日保存 |
+| [`mjai.yml`](../../.github/workflows/mjai.yml) | 手動のみ、Linux1ジョブ | 固定20事例の原文往復・観測・gzipと検査器 | 牌譜本文を含まない集計JSONだけ、1日保存 |
+
+mainへのpushでは自動CIを起動しません。PR全体の差分が文書、Markdown、LICENSEだけの場合も対象外です。同じPRを更新したときは、同じconcurrency groupの古い自動実行を取り消します。各定義で時間上限を設け、手動検査の書庫・実行ファイル・WASM・ブラウザ画像・全ログをartifactとしてアップロードしません。手動検査を日常のPR検査へ追加する運用も行いません。
+
+SDKの基本検査は `npm run test:unit --prefix packages/suzume` です。薄い単体用設定で `src/index.ts` と公開型の利用例を対象にし、生成済みWASMがない配置でも実行できます。nativeとの照合に使う実行ファイルは先行するRust検査で構築します。Node/Web WASMの結合5件は `npm test` を使う総合検査で確認します。
+
+手動の総合検査は `tools/browser/package-lock.json` の固定依存からChromiumを導入し、`scripts/check_browser.py` で実ブラウザも検査します。NodeのWebAssembly検査とは別の合否です。実行器がローカルに生成するPNGは、CI成果物への保存対象から外しています。
 
 作業環境で実ブラウザの起動や公式配布物の取得が制限された場合は、その失敗を成功へ読み替えません。GitHub CIで実行したブラウザの版、assertion結果、PNGのSHA、対象コミットを確認してから、その条件での成功を記録します。
 
-直接参照するActionは存在を確認したコミットに固定しています。`actions/checkout` は `3d3c42e5aac5ba805825da76410c181273ba90b1`、`actions/setup-python` は `6d4fd22b20465ccc0f7354476588e8df7c9ca0e0`、`actions/upload-artifact` は `cf430e030ddbb5b0abf93d22962f4752f3646cd9` です。CIで使用するPythonは3.12.10です。GitHub管理のOSイメージ内の全ファイルまで固定したという意味ではありません。
+直接参照するActionは存在を確認したコミットに固定しています。`actions/checkout` は `3d3c42e5aac5ba805825da76410c181273ba90b1`、`actions/setup-python` は `6d4fd22b20465ccc0f7354476588e8df7c9ca0e0`、`actions/setup-node` は `949feb2413d6458794dcd2491c4babbbce0c15c1`、`actions/upload-artifact` は `cf430e030ddbb5b0abf93d22962f4752f3646cd9` です。CIで使用するPythonは3.12.10、Nodeは24.22.3です。GitHub管理のOSイメージ内の全ファイルまで固定したという意味ではありません。
 
 - [rustupのツールチェーン指定](https://rust-lang.github.io/rustup/overrides.html)
 - [Cargoの配布とpackageの検査](https://doc.rust-lang.org/cargo/reference/publishing.html)

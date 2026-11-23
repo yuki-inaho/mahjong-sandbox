@@ -28,7 +28,7 @@
 
 ## このプロジェクトでの適用
 
-現行0.2.0の作業の正本は [platform作業計画書兼記録書](../workdocs/workdoc_Nov23-2026_platform.md) です。初版の [suzume作業書](../workdocs/workdoc_Nov23-2026_suzume.md) は当時の実装・受入を示す履歴として保持します。作成、独立レビュー、指摘の修正、順次実行、完了照合という順番を守ります。
+現在の作業の正本は [注釈付きmjai作業計画書兼記録書](../workdocs/workdoc_Nov23-2026_mjai_annotated.md) です。[mjson作業書](../workdocs/workdoc_Nov23-2026_mjson.md)、[platform作業書](../workdocs/workdoc_Nov23-2026_platform.md)、初版の [suzume作業書](../workdocs/workdoc_Nov23-2026_suzume.md) は当時の実装・受入を示す履歴として保持します。作成、独立レビュー、指摘の修正、順次実行、完了照合という順番を守ります。
 
 | 元の手順にある前提 | 今回の適用 | 根拠 |
 |---|---|---|
@@ -56,7 +56,7 @@
 
 自動検査は、実行したコマンド、対象の版、終了コード、出力内容を組として残します。後続のログ保存が成功しても、検査自体の失敗や時間切れを成功に読み替えません。修正後の再実行は旧記録と区別します。
 
-作業書の検査先は `docs/verification/`、設計判断は `docs/adr/`、現行作業書の独立レビューは [platformレビュー](../workdocs/review_Nov23-2026_platform.md) へ集約します。初版の [suzumeレビュー](../workdocs/review_Nov23-2026_suzume.md) は履歴です。文書を作成したことと、アプリが要求を満たしたことは別に判定します。
+作業書の検査先は `docs/verification/`、設計判断は `docs/adr/`、現行作業書の独立レビューは [注釈付きmjaiレビュー](../workdocs/review_Nov23-2026_mjai_annotated.md) へ集約します。[mjsonレビュー](../workdocs/review_Nov23-2026_mjson.md)、[platformレビュー](../workdocs/review_Nov23-2026_platform.md)、初版の [suzumeレビュー](../workdocs/review_Nov23-2026_suzume.md) は履歴です。文書を作成したことと、アプリが要求を満たしたことは別に判定します。
 
 ## 初版着手時の検証環境の動作確認（履歴）
 

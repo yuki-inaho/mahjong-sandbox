@@ -8,12 +8,13 @@
 //! The input is decompressed UTF-8 NDJSON. Every callback result is provisional
 //! until [`visit`] returns successfully after `end_game` and clean EOF.
 
+pub mod annotated;
 mod reader;
 mod state;
 mod types;
 mod writer;
 
-pub use reader::{analyze, parse_event, visit};
+pub use reader::{analyze, parse_event, parse_record, visit};
 pub use state::ReplayState;
 pub use types::*;
 pub use writer::MjaiWriter;

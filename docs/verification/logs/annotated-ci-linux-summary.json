@@ -1,0 +1,290 @@
+{
+  "schema": "suzume-run/1",
+  "id": "20261123T114726Z-ca11b44926",
+  "started_at": "2026-11-23T11:47:26.433233+00:00",
+  "finished_at": "2026-11-23T11:48:24.011343+00:00",
+  "checks": [
+    {
+      "id": "sdk-install",
+      "command": [
+        "npm",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund",
+        "--prefix",
+        "packages/suzume"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.824,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "sdk-install.log",
+      "log_sha256": "1677af46d9e8b34cb07aa0692a402f60249b56e82608d59aee967e1c965703bb"
+    },
+    {
+      "id": "sdk-unit-and-types-without-wasm",
+      "command": [
+        "npm",
+        "--prefix",
+        "packages/suzume",
+        "run",
+        "test:unit"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 12.601,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "NodeのTAP集計を検査。0件・失敗・中断・省略を拒否",
+        "counts": {
+          "tests": [
+            "28"
+          ],
+          "pass": [
+            "28"
+          ],
+          "fail": [
+            "0"
+          ],
+          "cancelled": [
+            "0"
+          ],
+          "skipped": [
+            "0"
+          ],
+          "todo": [
+            "0"
+          ]
+        }
+      },
+      "log": "sdk-unit-and-types-without-wasm.log",
+      "log_sha256": "8447d5b50700683854e4ce4f8db72caa53700ddcfbe638d9a5b4e5050ac90973"
+    },
+    {
+      "id": "rust-format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.217,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "rust-format.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "rust-clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 7.901,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "rust-clippy.log",
+      "log_sha256": "b983cf89c2d49ed41e1f61832ed5598cf28da8f355ff139ec7d79150bf61c374"
+    },
+    {
+      "id": "rust-tests",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 33.155,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Rustテスト 212件、必要最小数 76件。失敗・無視・絞込は0件を要求",
+        "passed": 212
+      },
+      "log": "rust-tests.log",
+      "log_sha256": "1601eea746282fa6250b516a00f6d07608d1a456162b97b0aff88215def9b4a9"
+    },
+    {
+      "id": "rule-sync",
+      "command": [
+        "python3",
+        "scripts/generate_rules.py",
+        "--check"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.042,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "rule-sync.log",
+      "log_sha256": "309998594a6d7f36400d2403792705212d0b2ae1c46b0c6a5b3414829e060e73"
+    },
+    {
+      "id": "api-schema-sync",
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "-p",
+        "suzume-api",
+        "--bin",
+        "export-schema",
+        "--",
+        "--check"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.337,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "api-schema-sync.log",
+      "log_sha256": "d51d7b0fb4d429017937002358d28e478e5c9aa2fcf4407cd11c9b8cf602befc"
+    },
+    {
+      "id": "typescript-protocol-sync",
+      "command": [
+        "python3",
+        "scripts/generate_protocol_ts.py",
+        "--check"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.037,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "終了値を確認"
+      },
+      "log": "typescript-protocol-sync.log",
+      "log_sha256": "32dde9a2fee520dc9b9adf34df33617d74cc7ece490c73decbf4ca902e578e0c"
+    },
+    {
+      "id": "python-verifier-tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.25,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Pythonテストの必要最小数50件と省略なしの成功を確認",
+        "counts": [
+          "50"
+        ]
+      },
+      "log": "python-verifier-tests.log",
+      "log_sha256": "1c3882f8c99ebe3e9bdc0dae6ee311b147cd5cf309e3825359e5c9bd4f8e16a4"
+    },
+    {
+      "id": "documentation-checker-self-tests",
+      "command": [
+        "python3",
+        "scripts/check_documentation.py",
+        "--self-test"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.108,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Pythonテストの必要最小数10件と省略なしの成功を確認",
+        "counts": [
+          "10"
+        ]
+      },
+      "log": "documentation-checker-self-tests.log",
+      "log_sha256": "745cf67dc766584a8b6fe7fa610e3c8edf9c45dc93ff90c6d5d59ac116feead0"
+    },
+    {
+      "id": "documentation-checker",
+      "command": [
+        "python3",
+        "scripts/check_documentation.py",
+        "--json"
+      ],
+      "cwd": "<workspace>/ci-linux-clean",
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.288,
+      "success": true,
+      "semantic": {
+        "success": true,
+        "detail": "Documentation checker passed"
+      },
+      "log": "documentation-checker.log",
+      "log_sha256": "929b19e68c31d074c3edfdf340f276f5078abeca1397b16bc57bf9b6906dad71"
+    }
+  ],
+  "profile": "linux-pr-local",
+  "github_execution": false,
+  "clean_checkout_at_start": true,
+  "wasm_directory_absent_before_and_after": true,
+  "generated_node_browser_entries_absent": true,
+  "versions": {
+    "rust": "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+    "node": "v24.22.3",
+    "npm": "11.19.1",
+    "python": "Python 3.12.14"
+  },
+  "workflow_structure": "../annotated-ci-linux-structure.json",
+  "success": true
+}

@@ -1,5 +1,5 @@
-import type { Request, WireAction, GameView, EnvironmentTransition, MjaiEvent, MjaiEventRecord } from '../src/index.js';
-import { Client, parseMjaiEvent } from '../src/index.js';
+import type { Request, WireAction, GameView, EnvironmentTransition, MjaiEvent, MjaiEventRecord, MjaiFormat, ParsedMjaiRecord, AnnotatedMjaiRecord, MjaiTranscodeReport } from '../src/index.js';
+import { Client, parseMjaiEvent, parseMjaiRecord, parseAnnotatedMjaiRecord, encodeAnnotatedMjaiRecord, wrapMjaiRecords, unwrapAnnotatedMjaiRecords } from '../src/index.js';
 
 const valid: Request = { version: 1, op: 'environment_reset', seed: '18446744073709551615', max_steps: 1000 };
 const chi: WireAction = { kind: 'chi', tiles: [0, 1] };
@@ -30,10 +30,32 @@ const shortMeld: MjaiEvent = { type: 'chi', actor: 1, target: 0, pai: '1m', cons
 const uncheckedMetadata: number = raw['meta'];
 void analyzeRecord; void event; void metadata; void wrongMjson; void wrongViewer; void shortMeld; void uncheckedMetadata;
 
+const recordFormat: MjaiFormat = 'annotated_mjai';
+const annotatedRequest: Request = { version: 1, op: 'analyze_mjai', mjson: '', format: recordFormat };
+const sourceRecord: ParsedMjaiRecord = parseMjaiRecord('{"type":"none"}');
+const annotationRecord: AnnotatedMjaiRecord = parseAnnotatedMjaiRecord(encodeAnnotatedMjaiRecord(sourceRecord.json, 1, '{}'));
+const annotationValue: unknown = annotationRecord.annotations['analysis'];
+// @ts-expect-error Record formats are a generated closed enum.
+const wrongRecordFormat: Request = { version: 1, op: 'analyze_mjai', mjson: '', format: 'other' };
+// @ts-expect-error Saving needs original JSON text, not a potentially rounded parsed object.
+encodeAnnotatedMjaiRecord(sourceRecord.event, 1, '{}');
+// @ts-expect-error Annotations are not a trusted application model.
+const uncheckedAnnotation: number = annotationRecord.annotations['analysis'];
+// @ts-expect-error Annotation removal is an explicit boolean, not truthiness.
+void unwrapAnnotatedMjaiRecords([], () => {}, { dropAnnotations: 'yes' });
+void annotatedRequest; void annotationValue; void wrongRecordFormat; void uncheckedAnnotation;
+
 async function consumer(client: Client): Promise<void> {
   const analysis = await client.analyzeMjai('{"type":"start_game"}\n{"type":"end_game"}');
   const score: number | undefined = analysis.summary.final_scores?.[0];
   void score;
+  await client.analyzeMjai('', 0, recordFormat);
+  const output: string[] = [];
+  const report: MjaiTranscodeReport = await wrapMjaiRecords([], line => { output.push(line); });
+  const discarded: number = (await unwrapAnnotatedMjaiRecords([], async line => { output.push(line); }, { dropAnnotations: true })).droppedAnnotationRecords;
+  void report; void discarded;
+  // @ts-expect-error Client format names come from the generated enum.
+  await client.analyzeMjai('', 0, 'other');
   const game: GameView = await client.newGame();
   const action = game.legal_actions[0];
   if (action) await client.apply(action.action);

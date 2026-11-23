@@ -56,6 +56,17 @@ fn accounts_for_accepted_reach_and_winning_deposit_without_inventing_scores() {
 }
 
 #[test]
+fn red_events_excludes_names_and_uninterpreted_extension_strings() {
+    let mut values = complete();
+    assert_eq!(inspect(&values).unwrap().red_events, 1);
+    values[0]["names"][0] = json!("5sr");
+    for value in &mut values {
+        value["analysis"] = json!({"label":"5mr","nested":["5pr"]});
+    }
+    assert_eq!(inspect(&values).unwrap().red_events, 1);
+}
+
+#[test]
 fn preserves_red_unknown_and_extension_data_but_masks_other_hands() {
     let mut seen = 0;
     visit(
@@ -262,6 +273,7 @@ fn ron_after_tsumo_is_rejected_without_changing_the_settled_state() {
                 line: line + 1,
                 event: parse_event(&raw.to_string()).unwrap(),
                 raw: raw.clone(),
+                json: raw.to_string(),
             })
             .unwrap();
     }
@@ -273,6 +285,7 @@ fn ron_after_tsumo_is_rejected_without_changing_the_settled_state() {
             line: 5,
             event: parse_event(&invalid.to_string()).unwrap(),
             raw: invalid.clone(),
+            json: invalid.to_string(),
         })
         .unwrap_err();
     assert!(error.message.contains("line 5"));
@@ -481,6 +494,7 @@ fn rejects_a_137th_retained_tile_including_unknowns_without_mutation() {
                 line: line + 1,
                 event: parse_event(&raw.to_string()).unwrap(),
                 raw: raw.clone(),
+                json: raw.to_string(),
             })
             .unwrap();
     }
@@ -494,6 +508,7 @@ fn rejects_a_137th_retained_tile_including_unknowns_without_mutation() {
             line: 169,
             event: parse_event(&invalid.to_string()).unwrap(),
             raw: invalid.clone(),
+            json: invalid.to_string(),
         })
         .unwrap_err();
     assert!(error.message.contains("136"), "{error}");
@@ -570,6 +585,7 @@ fn rejected_late_settlement_does_not_mutate_the_accepted_prefix() {
                 line: line + 1,
                 event: parse_event(&raw.to_string()).unwrap(),
                 raw: raw.clone(),
+                json: raw.to_string(),
             })
             .unwrap();
     }
@@ -580,6 +596,7 @@ fn rejected_late_settlement_does_not_mutate_the_accepted_prefix() {
         .apply(&ParsedEvent {
             line: 9,
             event: parse_event(&invalid.to_string()).unwrap(),
+            json: invalid.to_string(),
             raw: invalid
         })
         .is_err());
@@ -590,6 +607,7 @@ fn rejected_late_settlement_does_not_mutate_the_accepted_prefix() {
             line: 9,
             event: parse_event(&values[8].to_string()).unwrap(),
             raw: values[8].clone(),
+            json: values[8].to_string(),
         })
         .unwrap();
     assert_eq!(

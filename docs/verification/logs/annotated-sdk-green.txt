@@ -1,0 +1,173 @@
+command=['npm', '--prefix', 'packages/suzume', 'run', 'build']
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 build
+> tsc -p tsconfig.json
+
+
+exit_code=0
+command=['npm', '--prefix', 'packages/suzume', 'run', 'typecheck']
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 typecheck
+> tsc -p tsconfig.tests.json
+
+
+exit_code=0
+command=['node', '--test', '--test-reporter=tap', 'packages/suzume/tests/mjai-annotated.test.mjs', 'packages/suzume/tests/mjai.test.mjs', 'packages/suzume/tests/logs.test.mjs', 'packages/suzume/tests/validation.test.mjs']
+TAP version 13
+# Subtest: streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+ok 1 - streaming parser reads native JSONL over arbitrary UTF-8 chunk boundaries
+  ---
+  duration_ms: 19.129718
+  type: 'test'
+  ...
+# Subtest: streaming parser refuses missing footer, duplicate keys and configured limits
+ok 2 - streaming parser refuses missing footer, duplicate keys and configured limits
+  ---
+  duration_ms: 20.460305
+  type: 'test'
+  ...
+# Subtest: native replay exports transitions consumed by the typed streaming parser
+ok 3 - native replay exports transitions consumed by the typed streaming parser
+  ---
+  duration_ms: 149.434754
+  type: 'test'
+  ...
+# Subtest: source records retain the exact numeric spelling, aliases, nulls and unknown fields
+ok 4 - source records retain the exact numeric spelling, aliases, nulls and unknown fields
+  ---
+  duration_ms: 3.71362
+  type: 'test'
+  ...
+# Subtest: annotated parsing and encoding preserve the event and annotation source independently
+ok 5 - annotated parsing and encoding preserve the event and annotation source independently
+  ---
+  duration_ms: 3.824828
+  type: 'test'
+  ...
+# Subtest: annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+ok 6 - annotated records reject schema, sequence, duplicate and integer-token errors without normalization
+  ---
+  duration_ms: 4.398353
+  type: 'test'
+  ...
+# Subtest: single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+ok 7 - single-line encoding rejects embedded physical lines and non-JSON surrounding whitespace
+  ---
+  duration_ms: 0.870102
+  type: 'test'
+  ...
+# Subtest: stream conversion preserves every source record and reports completion after asynchronous writes
+ok 8 - stream conversion preserves every source record and reports completion after asynchronous writes
+  ---
+  duration_ms: 10.345576
+  type: 'test'
+  ...
+# Subtest: annotations cannot be silently discarded and explicit removal reports affected records
+ok 9 - annotations cannot be silently discarded and explicit removal reports affected records
+  ---
+  duration_ms: 0.995261
+  type: 'test'
+  ...
+# Subtest: annotated streams enforce consecutive indexes and complete event lifecycles
+ok 10 - annotated streams enforce consecutive indexes and complete event lifecycles
+  ---
+  duration_ms: 3.636493
+  type: 'test'
+  ...
+# Subtest: input and output budgets include UTF-8 framing and wrapper overhead
+ok 11 - input and output budgets include UTF-8 framing and wrapper overhead
+  ---
+  duration_ms: 22.678349
+  type: 'test'
+  ...
+# Subtest: incomplete input and failed sinks never produce a successful conversion report
+ok 12 - incomplete input and failed sinks never produce a successful conversion report
+  ---
+  duration_ms: 1.789548
+  type: 'test'
+  ...
+# Subtest: mjai structure preserves red and unknown tiles and producer metadata
+ok 13 - mjai structure preserves red and unknown tiles and producer metadata
+  ---
+  duration_ms: 3.645197
+  type: 'test'
+  ...
+# Subtest: mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+ok 14 - mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+  ---
+  duration_ms: 5.272021
+  type: 'test'
+  ...
+# Subtest: mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+ok 15 - mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+  ---
+  duration_ms: 5.823432
+  type: 'test'
+  ...
+# Subtest: mjai streaming validates lifecycle and distinguishes declared interruption
+ok 16 - mjai streaming validates lifecycle and distinguishes declared interruption
+  ---
+  duration_ms: 7.95744
+  type: 'test'
+  ...
+# Subtest: mjai limits and malformed stream diagnostics identify the failing line
+ok 17 - mjai limits and malformed stream diagnostics identify the failing line
+  ---
+  duration_ms: 2.93746
+  type: 'test'
+  ...
+# Subtest: mjai structural streaming does not claim to validate tile movement
+ok 18 - mjai structural streaming does not claim to validate tile movement
+  ---
+  duration_ms: 0.573074
+  type: 'test'
+  ...
+# Subtest: strict parsing rejects duplicates, malformed text and excessive structure
+ok 19 - strict parsing rejects duplicates, malformed text and excessive structure
+  ---
+  duration_ms: 2.724829
+  type: 'test'
+  ...
+# Subtest: runtime request validation enforces bounds, literal tags and exact seed text
+ok 20 - runtime request validation enforces bounds, literal tags and exact seed text
+  ---
+  duration_ms: 3.225073
+  type: 'test'
+  ...
+# Subtest: untrusted responses and closed clients do not enter application state
+ok 21 - untrusted responses and closed clients do not enter application state
+  ---
+  duration_ms: 0.893798
+  type: 'test'
+  ...
+# Subtest: cyclic, accessor and sparse values are rejected before JSON serialization
+ok 22 - cyclic, accessor and sparse values are rejected before JSON serialization
+  ---
+  duration_ms: 0.424851
+  type: 'test'
+  ...
+# Subtest: prototype names cannot bypass schema property and definition lookup
+ok 23 - prototype names cannot bypass schema property and definition lookup
+  ---
+  duration_ms: 0.824283
+  type: 'test'
+  ...
+# Subtest: integer wire values reject lossy decimal and exponent spellings like Rust
+ok 24 - integer wire values reject lossy decimal and exponent spellings like Rust
+  ---
+  duration_ms: 0.441756
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 316.399595
+
+exit_code=0

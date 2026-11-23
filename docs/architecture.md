@@ -115,6 +115,12 @@ Rustのパーサは行・件数・総バイトを制限し、重複キー、牌�
 AI用観測は指定席の手牌と公開情報だけを返し、記録の終了・局の終了・正常終局を区別します。
 TSの構造パーサは生成型を利用し、意味解析はnative/WASMの同じRust実装へ委譲します。
 
+[注釈付きmjai](logging/annotated-mjai.md) は原イベントと任意の解析注釈を分けて保存する形式です。
+解析用の型・数値から原文を再生成せず、RustはRawValue、SDKは字句範囲を使って原文を保持します。
+標準との変換では入力と出力の上限を検査し、非空注釈を取り除く操作だけを明示指定にします。
+注釈は局面復元、既知牌項目からの赤牌集計、AIの視点別観測へ混入させません。
+この判断と保存の限界は [ADR 0008](adr/0008-annotated-mjai.md) に記載しています。
+
 [旧JSONL形式](logging/legacy-jsonl.md)のreplay/publicは明示指定で保持します。
 replayは種・設定・操作・任意のAI判断を保存し、同じcoreの全操作を再適用して完全一致を確認します。
 189行動ID・報酬・終了を持つDatasetTransitionもこの厳密再生から作ります。
@@ -131,4 +137,4 @@ mjsonに未記録の山や内部操作を推測し、完全再生や合法手マ
 形式検証を追加する場合は契約ID・数式・Rust関数・Kani・Lean定理を対応付けます。
 
 [再現手順](development/reproducibility.md)に、固定ツール、全体検査、WASM/SDK、配布物の独立消費をまとめています。
-[ADR一覧](README.md#設計判断adr)と[現行作業書](workdocs/workdoc_Nov23-2026_mjson.md)から判断と受入条件を追跡できます。
+[ADR一覧](README.md#設計判断adr)と[現行作業書](workdocs/workdoc_Nov23-2026_mjai_annotated.md)から判断と受入条件を追跡できます。

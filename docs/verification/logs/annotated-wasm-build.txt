@@ -1,0 +1,10 @@
+command=['uv', 'run', '--no-project', 'python', 'scripts/build_wasm.py']
+[compile] cargo build --locked --release --target-dir <repository>/target --target wasm32-unknown-unknown -p suzume-wasm
+  成功 / exit=0 / 18.478秒
+[web] wasm-bindgen <repository>/target/wasm32-unknown-unknown/release/suzume_wasm.wasm --target web --out-name suzume_wasm --out-dir <repository>/packages/suzume/wasm/web --typescript
+  成功 / exit=0 / 0.129秒
+[node] wasm-bindgen <repository>/target/wasm32-unknown-unknown/release/suzume_wasm.wasm --target nodejs --out-name suzume_wasm --out-dir <repository>/packages/suzume/wasm/node --typescript
+  成功 / exit=0 / 0.137秒
+検査記録: dist/wasm-build/20261123T104834Z-2b6a1b3861/summary.json
+
+exit_code=0

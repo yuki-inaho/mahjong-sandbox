@@ -4,6 +4,7 @@
 自作対局の記録と外部牌譜を同じ解析入口へ渡し、感想戦、統計、AIエージェントの入力作成に使用できます。
 設計判断は [ADR-0007](../adr/0007-mjai-records.md)、参照実装との差と実牌譜の検査は
 [外部mjsonとの互換性](mjai-compatibility.md) にまとめています。
+解析理由や評価を付けた保存と標準形式への往復は [注釈付きmjai仕様](annotated-mjai.md) を参照してください。
 
 ## 形式の選択
 
@@ -54,7 +55,7 @@ cargo run --locked -p suzume-api --bin suzume-api -- \
 ```
 
 `mjai analyze` はイベント数 `records`、局数 `rounds`、和了数 `wins`、流局数 `draws`、
-副露・槓の件数 `calls`、赤牌を含むイベント数 `red_events`、最終点 `final_scores`、
+副露・槓の件数 `calls`、既知の牌項目に赤牌を含むイベント数 `red_events`、最終点 `final_scores`、
 供託本数 `riichi_sticks`、正常終了の有無 `complete`、終了種別 `termination` をJSONで返します。
 点数差が省略された外部牌譜では、確定できない最終点・供託を `null` とします。
 
@@ -80,8 +81,9 @@ Rustの `mjai::analyze(reader, limits)` は行ごとの構造と局面の意味�
 `state.observe(viewer)` で視点別観測を取得できます。型付きフィールドと元の付加フィールドを併せて保持します。
 途中まで呼ばれたconsumerは、後続行を含む全牌譜の正常性を保証しません。関数全体の成功を確認してください。
 
-APIの `analyze_mjai` とSDKの `client.analyzeMjai(mjson, viewer)` は同じRust解析器を呼びます。
+APIの `analyze_mjai` とSDKの `client.analyzeMjai(mjson, viewer?, format?)` は同じRust解析器を呼びます。
 対局セッションの状態を変えずに集計と最終観測を返します。
+`format` の省略時は `mjai`、注釈付き入力では `annotated_mjai` を明示します。
 SDKの `readMjaiEvents(chunks)` は展開済みUTF-8の非同期または同期のバイト列を逐次読み、
 構造と局の開始・終了を検査します。持牌消費・点数などの意味検査はRust側で実行します。
 詳細は [API](../api/README.md) と [SDK](../../packages/suzume/README.md) を参照してください。
@@ -125,11 +127,14 @@ python scripts/package.py
 | 入力と出力 | 現在の扱い | 保持する情報と境界 |
 |---|---|---|
 | 旧replay → mjai | CLI `mjai convert` | 旧記録全体を検証後、配牌・ツモ・確定した操作・精算を標準イベントへ変換します。内部の見送り、判断詳細、乱数種は交換用イベントには含めません。 |
-| mjai → 型付きイベント＋追加JSON値 | Rust `visit` / SDK `readMjaiEvents` | 既知項目を検査し、提供元の追加欄はRustの `ParsedEvent.raw` / SDKの `MjaiEventRecord` に保持します。追加欄を含むJSON値を再保存できますが、元の空白やキー順まで一致することは保証しません。 |
+| mjai → 型付きイベント＋保存原文 | Rust `visit` / SDK `readMjaiRecords` | 既知項目と追加値は解析用です。保存には `ParsedEvent.json` / `ParsedMjaiRecord.json` を使い、数値字句・null・別名・未知項目を保持します。 |
+| mjai ↔ 注釈付きmjai | CLI `mjai wrap` / `mjai unwrap`、Rust・SDKの変換入口 | 原イベントの内部の原文を保持します。非空注釈の破棄は明示指定にし、破棄行数を返します。改行方式と圧縮バイト列は一致対象外です。 |
 | mjai → AI向け観測 | CLI `mjai observations` / API `analyze_mjai` | ファイルは版番号・元の行番号・イベント種別付きで各イベント後の観測を返します。APIは最終観測と集計を返します。指定席以外の手牌は含めません。 |
 | mjai → 完全再生可能な旧replay | 未提供 | 乱数種と内部操作が不足するため、一意に復元できません。 |
 | 公開観測 → 元の完全情報牌譜 | 未提供 | 伏せた牌は観測から復元できません。元の記録を別に保持してください。 |
 
-付加的な説明や評価を増やす場合は、既知イベントへ追加JSON欄を設けるか、観測を版番号付きの構造で包めます。現在の観測ファイルは `schema_version`、`line`、`type`、`observation` を持ちます。完全情報の元イベントを自動添付せず、AIの閲覧範囲を維持します。
+付加的な説明や評価は [版1の注釈付き記録](annotated-mjai.md) の `annotations` へ保存できます。元イベントの追加JSONと解析注釈を分け、注釈を通常の牌集計へ混ぜません。現在の観測ファイルは `schema_version`、`line`、`type`、`observation` を持ちます。完全情報の元イベントや注釈を自動添付せず、AIの閲覧範囲を維持します。
+
+Rustの `raw` とSDKのイベントオブジェクトは数値を近似する場合があります。再保存の正本として `JSON.stringify` や `Value` の直列化を使わず、原文を保持する読込み・出力関数を使ってください。
 
 新たな意味を持つイベントを導入するときは、Rustの `mjai::Event`、状態遷移、生成Schema、SDKの局順序検査を更新し、対応する正常・異常事例を追加してください。未知のイベントを黙って読み飛ばす拡張は行いません。既知イベントの追加JSON欄だけであれば、型の既存必須項目を変更せずに保持できます。
