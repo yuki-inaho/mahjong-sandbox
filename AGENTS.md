@@ -3,7 +3,8 @@
 ## 目的と作業入口
 
 Rustで独自実装する端末用の四人リーチ麻雀「すずめ」です。
-作業の正本は `docs/workdocs/workdoc_Nov23-2026_suzume.md` です。
+現在の作業の正本は `docs/workdocs/workdoc_Nov23-2026_platform.md` です。
+初版の記録は `docs/workdocs/workdoc_Nov23-2026_suzume.md` に保持します。
 コンセプト・仕様・契約・ADRは `docs/`、宣言されたルールは `rules/` に置きます。
 
 ## 実装と検証
@@ -14,7 +15,7 @@ Rustで独自実装する端末用の四人リーチ麻雀「すずめ」です�
 - SOLID / KISS / DRYを守ります。不要な抽象化や複数箇所でのルール定数の手修正を避けます。
 - 判定・対局処理から端末入出力、乱数源、ファイル保存を分離します。
 - 不正な操作では状態を変更しません。公開された操作ごとに不変条件を検査します。
-- `cargo fmt --check`、`cargo clippy --all-targets -- -D warnings`、`cargo test`、`cargo kani`、`cd proofs && lake build` を検証します。
+- `cargo fmt --check`、`cargo clippy --workspace --all-targets -- -D warnings`、`cargo test --workspace`、`cargo kani -p suzume --lib`、`cd proofs && lake build` を検証します。
 - 未実行、失敗、時間切れを成功と記録しません。証明の前提と対象範囲を明記します。
 - 文書は日本語で記述し、作業書のチェックを更新した直後に実時刻付きの記録を追記します。
 - 公開物に実行環境の私的な絶対パス、認証情報、会話ログを含めません。
