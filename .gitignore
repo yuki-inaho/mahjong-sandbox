@@ -1,0 +1,6 @@
+/target/
+/proofs/.lake/
+/dist/
+*.profraw
+__pycache__/
+.DS_Store
