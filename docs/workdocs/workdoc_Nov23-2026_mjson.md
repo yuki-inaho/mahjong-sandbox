@@ -207,38 +207,38 @@
 
 ### 手順 13-a: 検証対象ブランチを反映する（M-06）
 
-- [ ] 🖐 **操作**: 検証可能な区切りでコミットした `feat/mjson-game-records` をpushする。
-- [ ] 🔎 **確認**: ローカルとGitHubのブランチ先端が一致し、公開差分が手順12の監査対象と一致する。
-- [ ] 🧪 **テスト**: pushしたSHA、差分一覧、直前の検査対象SHAを記録する。
-- [ ] 🛠 **エラー時対処**: 拒否時はリモート先端を読み直し、利用者の変更を上書きせず、force pushしない。
+- [x] 🖐 **操作**: 検証可能な区切りでコミットした `feat/mjson-game-records` をpushする。
+- [x] 🔎 **確認**: ローカルとGitHubのブランチ先端が一致し、公開差分が手順12の監査対象と一致する。
+- [x] 🧪 **テスト**: pushしたSHA、差分一覧、直前の検査対象SHAを記録する。
+- [x] 🛠 **エラー時対処**: 拒否時はリモート先端を読み直し、利用者の変更を上書きせず、force pushしない。
 
 ### 手順 13-b: レビュー用PRを作成する（M-06）
 
-- [ ] 🖐 **操作**: `main` を基準、`feat/mjson-game-records` を対象とするPRを作成する。
-- [ ] 🔎 **確認**: PRに問題・変更後の動作・実牌譜件数・検証結果・完全再生の限界を記述する。
-- [ ] 🧪 **テスト**: PRのbase/head、変更ファイル一覧、レビュー対象SHAを照合する。
-- [ ] 🛠 **エラー時対処**: 既存PRがある場合は重複作成せず、同じbase/headであることを確認して更新する。
+- [x] 🖐 **操作**: `main` を基準、`feat/mjson-game-records` を対象とするPRを作成する。
+- [x] 🔎 **確認**: PRに問題・変更後の動作・実牌譜件数・検証結果・完全再生の限界を記述する。
+- [x] 🧪 **テスト**: PRのbase/head、変更ファイル一覧、レビュー対象SHAを照合する。
+- [x] 🛠 **エラー時対処**: 既存PRがある場合は重複作成せず、同じbase/headであることを確認して更新する。
 
 ### 手順 13-c: PRのCIを確認する（M-06）
 
-- [ ] 🖐 **操作**: 対象PRの最新headに対する `.github/workflows/ci.yml` と `platform.yml` の結果を取得する。
-- [ ] 🔎 **確認**: Rust stableの3OS、最小Rust、形式検証、固定Rustの3OS、固定版Linux総合の計9ジョブと追加した実牌譜検査が成功する。
-- [ ] 🧪 **テスト**: 各ジョブのSHA・終了状態・run URLを記録し、失敗・取消・未実行を成功に数えない。
-- [ ] 🛠 **エラー時対処**: CI失敗はログから原因を修正し再検証する。新しいコミットをpushした場合は以前のSHAの成功を流用しない。
+- [x] 🖐 **操作**: 対象PRの最新headに対する `.github/workflows/ci.yml` と `platform.yml` の結果を取得する。
+- [x] 🔎 **確認**: Rust stableの3OS、最小Rust、形式検証、固定Rustの3OS、固定版Linux総合の計9ジョブと追加した実牌譜検査が成功する。
+- [x] 🧪 **テスト**: 各ジョブのSHA・終了状態・run URLを記録し、失敗・取消・未実行を成功に数えない。
+- [x] 🛠 **エラー時対処**: CI失敗はログから原因を修正し再検証する。新しいコミットをpushした場合は以前のSHAの成功を流用しない。
 
 ### 手順 13-d: 検証済みPRをマージする（M-06）
 
-- [ ] 🖐 **操作**: 手順12の重大指摘解消と手順13-cの成功を満たす最新headのPRをmainへマージする。
-- [ ] 🔎 **確認**: GitHubのPRがmergedで、merge commitと対象headが記録される。
-- [ ] 🧪 **テスト**: マージ直前にheadが変わっていないことを確認し、mainに検証対象の変更が含まれることを照合する。
-- [ ] 🛠 **エラー時対処**: 競合や先端変更があれば最新mainを取り込み、影響する検査と最新headのCIを確認してから再開する。
+- [x] 🖐 **操作**: 手順12の重大指摘解消と手順13-cの成功を満たす最新headのPRをmainへマージする。
+- [x] 🔎 **確認**: GitHubのPRがmergedで、merge commitと対象headが記録される。
+- [x] 🧪 **テスト**: マージ直前にheadが変わっていないことを確認し、mainに検証対象の変更が含まれることを照合する。
+- [x] 🛠 **エラー時対処**: 競合や先端変更があれば最新mainを取り込み、影響する検査と最新headのCIを確認してから再開する。
 
 ### 手順 13-e: 公開後の状態を確認する（M-06）
 
-- [ ] 🖐 **操作**: マージ後のmainと作業ツリーの状態を取得する。
-- [ ] 🔎 **確認**: mainに新しい実装・文書があり、未保存の変更がなく、マージ後に起動したCI結果も確認する。
-- [ ] 🧪 **テスト**: PR URL、merge commit、mainの先端、マージ後CI、`git status --short` を照合する。
-- [ ] 🛠 **エラー時対処**: 他者の追加コミットがある場合は取り込まれた変更の包含で確認し、mainの最新SHAがmerge commitと異なることだけを失敗にしない。
+- [x] 🖐 **操作**: マージ後のmainと作業ツリーの状態を取得する。
+- [x] 🔎 **確認**: mainに新しい実装・文書があり、未保存の変更がなく、マージ後に起動したCI結果も確認する。
+- [x] 🧪 **テスト**: PR URL、merge commit、mainの先端、マージ後CI、`git status --short` を照合する。
+- [x] 🛠 **エラー時対処**: 他者の追加コミットがある場合は取り込まれた変更の包含で確認し、mainの最新SHAがmerge commitと異なることだけを失敗にしない。
 
 ## 4. 作業に使用するコマンド参考情報
 
@@ -271,9 +271,9 @@ uv run --no-project python scripts/package.py
 - [x] D3（M-02/M-04）: 型・上限・破損入力・意味順序・視点別情報制限の失敗先行テストが成功した。
 - [x] D4（M-03）: 既定出力がmjsonとなり、自作対局の結果と一致する。旧形式の明示指定と変換、中断の識別を検査した。
 - [x] D5（M-04/M-05）: CLI・Rust・生成型・SDK・実WASMからmjsonを利用でき、能力と制約を文書化した。
-- [ ] D6（M-05/M-06）: Rust品質検査、既存Kani/Lean、型同期、SDK、新mjson経路の配布消費、20事例検査、最新PR headの既存9CIジョブと追加実牌譜検査が成功した。
+- [x] D6（M-05/M-06）: Rust品質検査、既存Kani/Lean、型同期、SDK、新mjson経路の配布消費、20事例検査、最新PR headの既存9CIジョブと追加実牌譜検査が成功した。
 - [x] D7（M-01/M-06）: 独立実装監査と公開差分監査で重大指摘を解消し、git diff --checkが成功した。旧証跡を保持した。
-- [ ] D8（M-06）: 作業ブランチのPRをmainへマージし、merge commitとmainの変更包含、マージ後CI、ローカル差分なしを確認した。確認に使ったPR・run URLとSHAを記録した。
+- [x] D8（M-06）: 作業ブランチのPRをmainへマージし、merge commitとmainの変更包含、マージ後CI、ローカル差分なしを確認した。確認に使ったPR・run URLとSHAを記録した。
 
 ## 7. 作業記録
 
@@ -385,3 +385,32 @@ uv run --no-project python scripts/package.py
 | 2026-11-23 | 18:18:25 JST+0900 | 主担当 | D5 検収完了 | CLI/Rust/生成型/SDK/実Node・Web WASMを実行。追加方針の変換可能範囲と版付き観測・追加JSON保持も文書化。 |
 | 2026-11-23 | 18:18:25 JST+0900 | 主担当 | 手順D7 検収開始 | 独立実装・公開差分監査合格。旧証跡を上書きせず今回の失敗と成功を別保存。 |
 | 2026-11-23 | 18:18:25 JST+0900 | 主担当 | D7 検収完了 | 独立実装・公開差分監査合格。旧証跡を上書きせず今回の失敗と成功を別保存。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-a 検収開始 | 実装commit 2c423b762a74a5c243f7d2cc4cdd01952904c424をfeat/mjson-game-recordsへ保存。GitHub treeとローカルindex tree79480a129c7ea47b69e9a597e66e1bd4eea97c1a一致、fetch後先端一致・差分なしを確認。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-a 🖐 検収完了 | 実装commit 2c423b762a74a5c243f7d2cc4cdd01952904c424をfeat/mjson-game-recordsへ保存。GitHub treeとローカルindex tree79480a129c7ea47b69e9a597e66e1bd4eea97c1a一致、fetch後先端一致・差分なしを確認。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-a 🔎 検収完了 | 実装commit 2c423b762a74a5c243f7d2cc4cdd01952904c424をfeat/mjson-game-recordsへ保存。GitHub treeとローカルindex tree79480a129c7ea47b69e9a597e66e1bd4eea97c1a一致、fetch後先端一致・差分なしを確認。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-a 🧪 検収完了 | 実装commit 2c423b762a74a5c243f7d2cc4cdd01952904c424をfeat/mjson-game-recordsへ保存。GitHub treeとローカルindex tree79480a129c7ea47b69e9a597e66e1bd4eea97c1a一致、fetch後先端一致・差分なしを確認。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-a 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-b 検収開始 | PR #1 https://github.com/yuki-inaho/mahjong-sandbox/pull/1 作成。base main c2f5f0f、head feat/mjson-game-records 2c423b7、95変更ファイルと対応範囲を照合。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-b 🖐 検収完了 | PR #1 https://github.com/yuki-inaho/mahjong-sandbox/pull/1 作成。base main c2f5f0f、head feat/mjson-game-records 2c423b7、95変更ファイルと対応範囲を照合。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-b 🔎 検収完了 | PR #1 https://github.com/yuki-inaho/mahjong-sandbox/pull/1 作成。base main c2f5f0f、head feat/mjson-game-records 2c423b7、95変更ファイルと対応範囲を照合。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-b 🧪 検収完了 | PR #1 https://github.com/yuki-inaho/mahjong-sandbox/pull/1 作成。base main c2f5f0f、head feat/mjson-game-records 2c423b7、95変更ファイルと対応範囲を照合。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-b 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-c 検収開始 | PR最新head2c423b7に対する3workflow/10jobが全completed/success。ci45146190084、platform45146190103、mjai45146190138。mjson-pr-ci.jsonに全jobのSHA/URL/結果を保存。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-c 🖐 検収完了 | PR最新head2c423b7に対する3workflow/10jobが全completed/success。ci45146190084、platform45146190103、mjai45146190138。mjson-pr-ci.jsonに全jobのSHA/URL/結果を保存。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-c 🔎 検収完了 | PR最新head2c423b7に対する3workflow/10jobが全completed/success。ci45146190084、platform45146190103、mjai45146190138。mjson-pr-ci.jsonに全jobのSHA/URL/結果を保存。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-c 🧪 検収完了 | PR最新head2c423b7に対する3workflow/10jobが全completed/success。ci45146190084、platform45146190103、mjai45146190138。mjson-pr-ci.jsonに全jobのSHA/URL/結果を保存。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-c 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-d 検収開始 | 2026-11-23 18:27:37 JST、expected_head_sha=2c423b7を指定してPR #1をmerge。merged=true、merge SHA9ed6b92463acf8d74bbda9fbe11ce434b44e3be9。mainのtreeは検証済み79480a1と一致。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-d 🖐 検収完了 | 2026-11-23 18:27:37 JST、expected_head_sha=2c423b7を指定してPR #1をmerge。merged=true、merge SHA9ed6b92463acf8d74bbda9fbe11ce434b44e3be9。mainのtreeは検証済み79480a1と一致。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-d 🔎 検収完了 | 2026-11-23 18:27:37 JST、expected_head_sha=2c423b7を指定してPR #1をmerge。merged=true、merge SHA9ed6b92463acf8d74bbda9fbe11ce434b44e3be9。mainのtreeは検証済み79480a1と一致。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-d 🧪 検収完了 | 2026-11-23 18:27:37 JST、expected_head_sha=2c423b7を指定してPR #1をmerge。merged=true、merge SHA9ed6b92463acf8d74bbda9fbe11ce434b44e3be9。mainのtreeは検証済み79480a1と一致。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-d 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-e 検収開始 | main merge9ed6b9のpush CI10/10成功（ci45147219254、platform45147219391、mjai45147219222）。元・今回の作業領域を同期しgit status --short空を確認。mjson-merge-ci.json保存。本行を含む完了記録は検収後の追記とし、公開後に差分なしを再確認する。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-e 🖐 検収完了 | main merge9ed6b9のpush CI10/10成功（ci45147219254、platform45147219391、mjai45147219222）。元・今回の作業領域を同期しgit status --short空を確認。mjson-merge-ci.json保存。本行を含む完了記録は検収後の追記とし、公開後に差分なしを再確認する。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-e 🔎 検収完了 | main merge9ed6b9のpush CI10/10成功（ci45147219254、platform45147219391、mjai45147219222）。元・今回の作業領域を同期しgit status --short空を確認。mjson-merge-ci.json保存。本行を含む完了記録は検収後の追記とし、公開後に差分なしを再確認する。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-e 🧪 検収完了 | main merge9ed6b9のpush CI10/10成功（ci45147219254、platform45147219391、mjai45147219222）。元・今回の作業領域を同期しgit status --short空を確認。mjson-merge-ci.json保存。本行を含む完了記録は検収後の追記とし、公開後に差分なしを再確認する。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順13-e 🛠 検収完了 | エラー時の対処を照合。未発生の復旧を実施したとは扱わない。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順D6 検収開始 | ローカル総合20/20、Rust188、SDK19、既存Kani6/Lean18、生成同期、配布17/17、外部20事例、PR最新head10CIすべて成功。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | D6 検収完了 | ローカル総合20/20、Rust188、SDK19、既存Kani6/Lean18、生成同期、配布17/17、外部20事例、PR最新head10CIすべて成功。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | 手順D8 検収開始 | PR #1をmainへmerge済み。merge9ed6b9の変更包含、mainのpostmerge10CI、元・今回の作業領域の差分なしを確認。SHAとrun URLはmjson-results.md/merge-ci.jsonに保持。 |
+| 2026-11-23 | 18:35:16 JST+0900 | 主担当 | D8 検収完了 | PR #1をmainへmerge済み。merge9ed6b9の変更包含、mainのpostmerge10CI、元・今回の作業領域の差分なしを確認。SHAとrun URLはmjson-results.md/merge-ci.jsonに保持。 |

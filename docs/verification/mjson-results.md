@@ -80,4 +80,14 @@ Kaniの6契約とLeanの18定理は既存の基本契約に対する再検査で
 
 ## PR・CI・マージ
 
-最新PRの既存9ジョブと追加した外部牌譜1ジョブ、マージと公開後の結果は [作業書](../workdocs/workdoc_Nov23-2026_mjson.md) に対象SHAとURLを記録します。現在はローカル検収を完了し、公開手順を実施する段階です。
+[PR #1](https://github.com/yuki-inaho/mahjong-sandbox/pull/1)を2026年11月23日18:27:37 JSTにマージしました。実装headは `2c423b762a74a5c243f7d2cc4cdd01952904c424`、merge commitは `9ed6b92463acf8d74bbda9fbe11ce434b44e3be9` です。マージ前にPRのhead/baseと10ジョブの成功を照合し、同じheadを指定してマージしました。
+
+| CI | PRの実行 | mainのマージ後の実行 | 結果 |
+|---|---|---|---|
+| Rust・ルール・形式検証 | [45146190084](https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45146190084) | [45147219254](https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45147219254) | それぞれ5/5成功 |
+| 固定版・SDK・配布 | [45146190103](https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45146190103) | [45147219391](https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45147219391) | それぞれ4/4成功 |
+| 外部実牌譜・gzip | [45146190138](https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45146190138) | [45147219222](https://github.com/yuki-inaho/mahjong-sandbox/actions/runs/45147219222) | それぞれ1/1成功 |
+
+[PRの機械可読記録](mjson-pr-ci.json)と[マージ後の記録](mjson-merge-ci.json)に、全ジョブの対象SHA、URL、終了状態を保存しました。実Chromiumでの既存画面の検査も成功しています。2026年11月23日18:33:53 JSTにmain refをmerge commitへ再照合し、その後主担当も10ジョブとPRのmerged状態を再確認しました。元の作業環境と今回の作業領域を同期し、双方の未保存差分がないことを確認しています。
+
+この節を含む完了記録は上記検収の後に追記しました。追記時に検証対象135ファイルの内容SHAが同じであることを再照合しています。過去の実行結果へ文書自身のcommitを埋め込む循環を避け、最終の記録commitに対するCIはGitHubのチェックから確認できる形にしています。

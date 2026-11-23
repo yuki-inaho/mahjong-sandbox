@@ -1,6 +1,6 @@
 # ADR-0007：対局の交換・分析形式をmjaiへ移行する
 
-- 状態：採用、実装・ローカル検証完了
+- 状態：採用、実装・検証・マージ完了
 - 日付：2026-11-23
 - 対象：0.2系列の追加機能。APIの既存要求と旧replay/publicの読込みを保持する
 - 関連：[作業書](../workdocs/workdoc_Nov23-2026_mjson.md)、[現状レビュー](../reviews/mjson-baseline-review.md)、[従前の判断](0005-game-records.md)
