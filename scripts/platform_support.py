@@ -164,9 +164,10 @@ def source_files() -> list[Path]:
 def distribution_files() -> list[Path]:
     """検査入力と配布する資料を分離し、記録追記が検証対象のSHAを変えないようにします。"""
     files = source_files() + [ROOT / "AGENTS.md", ROOT / ".gitignore"]
-    directory = ROOT / "docs"
-    if directory.is_dir():
-        files.extend(path for path in directory.rglob("*") if path.is_file() and "__pycache__" not in path.parts and path.name != ".DS_Store")
+    for name in ("docs", "skills"):
+        directory = ROOT / name
+        if directory.is_dir():
+            files.extend(path for path in directory.rglob("*") if path.is_file() and "__pycache__" not in path.parts and path.name != ".DS_Store")
     return sorted(set(path for path in files if path.is_file()))
 
 

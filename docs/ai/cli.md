@@ -92,4 +92,4 @@ CLIはgzip圧縮された `.mjson` も読めます。視点別観測には自分
 接続後は[成功記録](evidence/platform-cli-after.txt)と[整形・静的解析](evidence/platform-cli-quality.txt)へ保存しています。
 二つのTOML構成例も[実行記録](evidence/platform-cli-examples.txt)で確認しています。
 設定項目の定義は[共通設定仕様](../api/configuration.md)を参照してください。
-新形式のパーサ・書込み・native経路・実牌譜の検査は [mjson移行作業書](../workdocs/workdoc_Nov23-2026_mjson.md) に別記録として残します。
+mjsonの解析・保存・実牌譜の検査結果は[検証結果](../verification/mjson-results.md)を参照してください。

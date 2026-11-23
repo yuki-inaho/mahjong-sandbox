@@ -23,4 +23,3 @@
 - [APIとパッケージの境界](../adr/0004-platform-boundaries.md)
 - [対局記録の形式](../adr/0005-game-records.md)
 - [AI・環境・設定](../adr/0006-ai-environment-config.md)
-- [追加作業書](../workdocs/workdoc_Nov23-2026_platform.md)

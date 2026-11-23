@@ -1,6 +1,8 @@
-# suzume-api 0.2.0
+# suzume-api
 
-Rust製麻雀コア`suzume`の、型付きJSON/TOML、閲覧席ごとの観測、AI判断説明、学習環境、対局記録を提供します。
+麻雀スズメの対局操作、設定、牌譜解析、席別観測を提供するAPIです。標準入出力とWASMから同じ処理を呼び出せます。
+
+## 最初の要求
 
 ```rust
 let mut engine = suzume_api::Engine::new();
@@ -8,34 +10,18 @@ let response = engine.request(r#"{"version":1,"op":"new"}"#);
 assert!(response.contains("\"status\":\"ok\""));
 ```
 
-標準入出力では `suzume-api serve` を実行し、JSON要求を1行ずつ送ります。API版は1、64bitの乱数種は十進文字列です。不正入力と古い操作を拒否し、通常応答には他家の手牌や山の種を含めません。
+実行ファイルでは `suzume-api serve` を起動し、JSON要求を1行ずつ送ります。API版は1です。乱数種は十進文字列で指定し、後続の操作には応答のセッションIDと更新番号を使います。
 
-通常の対局記録はmjaiの `.mjson` です。`mjai::analyze` はイベントと記録上の局面を検査し、
-`mjai::visit` は各イベント後の状態から席別の観測を作れます。
-赤五・未知牌・加槓・複数ロンを保持しますが、外部ルールの完全な合法性判定や合法手マスクの生成は行いません。
+## 文書
 
-native CLIは `suzume-api mjai analyze PATH` で非圧縮またはgzipの牌譜を解析します。
-`suzume-api mjai convert LEGACY --output PATH` は検証済みの旧replayをmjsonへ変換し、
-`suzume-api mjai observations PATH --seat 0 --output PATH` は指定席の観測を出力します。
-Rust reader、JSON APIの `analyze_mjai`、WASMへの入力は展開済みテキストです。
-乱数種・内部操作の厳密再生とAI判断の保存には、旧 `replay` 形式を明示して使用できます。
+| 目的 | 案内 |
+|---|---|
+| 対局を開始・操作する | [API仕様](https://github.com/yuki-inaho/suzume-mahjong/blob/main/docs/api/README.md) |
+| 席やAIを設定する | [共通設定](https://github.com/yuki-inaho/suzume-mahjong/blob/main/docs/api/configuration.md) |
+| mjsonを解析・変換する | [牌譜の使い方](https://github.com/yuki-inaho/suzume-mahjong/blob/main/docs/logging/README.md) |
+| 原文と解析注釈を保存する | [注釈付きmjai](https://github.com/yuki-inaho/suzume-mahjong/blob/main/docs/logging/annotated-mjai.md) |
+| 学習器を接続する | [研究用環境](https://github.com/yuki-inaho/suzume-mahjong/blob/main/docs/api/environment.md) |
 
-`mjai::ParsedEvent.json` は保存用の原JSON、`event` と `raw` は解析用です。
-数値の丸め、未知項目や明示nullの欠落を避けるため、原文を型付き値から再生成しません。
-`ParsedEvent` を構造体リテラルで直接生成するRustコードは、追加された `json` 項目への対応が必要です。
-通常は `mjai::parse_record` または `mjai::visit` から受け取り、検査済みの原文と解析値を一緒に扱ってください。
-`mjai::annotated::{wrap, unwrap}` は原文を保持する注釈付き記録との逐次変換、
-`visit_records` と `encode_record` は注釈の読出し・保存に使えます。
-非空注釈の取出しは既定で拒否し、`AnnotationPolicy::Drop` でのみ破棄します。
-戻り値は集計と破棄した注釈行数を含み、全体の正常終端前の出力は暫定です。
+Rustから原文を保存する場合は `ParsedEvent.json` を使います。型付きの `event` や `raw` は解析用で、数値の丸めなどが起きる場合があります。[Rustからの利用](https://github.com/yuki-inaho/suzume-mahjong/blob/main/docs/api/README.md#rustから使う)に保存と互換性の注意をまとめています。
 
-CLIの `mjai wrap INPUT --output OUTPUT` と `mjai unwrap INPUT --output OUTPUT` は、
-末尾まで検査した後だけ新規ファイルを公開します。破棄指定は `--drop-annotations` です。
-注釈付き入力の解析・観測には `--format annotated_mjai` を指定します。
-APIの `analyze_mjai.format` も `annotated_mjai` を受理し、省略時は従来の `mjai` です。
-Rustで `Request::AnalyzeMjai` を列挙型リテラルとして直接生成するコードは、
-標準形式なら追加項目 `format: MjaiFormat::Mjai` を指定してください。JSON要求での省略は引き続き有効です。
-
-仕様、再現手順、再生ログの信頼境界は同じリポジトリの `docs/api/`、`docs/logging/`、`docs/development/reproducibility.md` にあります。
-
-ライセンス: MIT。
+[MITライセンス](LICENSE)

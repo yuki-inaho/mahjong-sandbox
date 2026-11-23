@@ -2,12 +2,18 @@
 
 ## 目的と作業入口
 
-Rustで独自実装する端末用の四人リーチ麻雀「すずめ」です。
-現在の作業の正本は `docs/workdocs/workdoc_Nov23-2026_mjai_annotated.md` です。
+ひとりで麻雀を遊び、対局を振り返り、AIの判断を試すための「麻雀スズメ」です。
+注釈付きmjai実装の記録は `docs/workdocs/workdoc_Nov23-2026_mjai_annotated.md` に保持します。
 mjson移行の記録は `docs/workdocs/workdoc_Nov23-2026_mjson.md` に保持します。
 API基盤拡張の記録は `docs/workdocs/workdoc_Nov23-2026_platform.md` に保持します。
 初版の記録は `docs/workdocs/workdoc_Nov23-2026_suzume.md` に保持します。
 コンセプト・仕様・契約・ADRは `docs/`、宣言されたルールは `rules/` に置きます。
+
+## 同梱スキルと実行手順
+
+開発で使用するスキルは [skills/README.md](skills/README.md) から選び、必要な `SKILL.md` と同梱資料を読みます。個人環境のスキル保存先を前提にせず、このリポジトリ内の手順を使ってください。
+
+実行する検査と結果の扱いは [開発手順](docs/development/agent-workflow.md)、日本語の説明とREADMEの構成は [文章指針](docs/development/writing.md) に従います。新しい作業で、完了済みの記録を未完了に戻したり、過去の検証結果を上書きしたりしません。
 
 ## 実装と検証
 
