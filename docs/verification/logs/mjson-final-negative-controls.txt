@@ -1,0 +1,6 @@
+N-01 unknown rule: 想定どおり拒否
+N-02 unsupported rule value: 想定どおり拒否
+N-03 generated artifact drift: 想定どおり拒否
+N-04 mutated next seat: 想定どおり拒否
+N-05 false Lean theorem: 想定どおり拒否
+否定検査: 5 / 5 成功

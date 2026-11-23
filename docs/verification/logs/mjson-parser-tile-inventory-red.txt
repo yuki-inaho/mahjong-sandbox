@@ -1,0 +1,52 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.29s
+     Running tests/mjai_parser.rs (target/debug/build/suzume-api/83d679426695fc62/out/mjai_parser-83d679426695fc62)
+
+running 31 tests
+test does_not_call_consumer_after_an_invalid_event ... ok
+test accepts_original_uradora_alias_without_erasing_raw_fields ... ok
+test accepts_exact_limits_without_an_off_by_one_rejection ... ok
+test accounts_for_accepted_reach_and_winning_deposit_without_inventing_scores ... ok
+test enforces_stream_limits_and_rejects_invalid_utf8 ... ok
+test consumes_four_tiles_and_requires_replacement_draw_after_ankan ... ok
+test multiple_ron_on_one_discard_still_accumulates_each_settlement ... ok
+test missing_score_deltas_are_unknown_instead_of_assumed_zero ... ok
+test observations_distinguish_input_end_from_natural_round_and_game_end ... ok
+test explicit_interruption_is_distinct_from_clean_completion_and_missing_footer ... ok
+test preserves_red_unknown_and_extension_data_but_masks_other_hands ... ok
+test propagates_consumer_failure_instead_of_returning_complete_success ... ok
+test rejects_duplicate_keys_before_typed_deserialization ... ok
+test rejected_late_settlement_does_not_mutate_the_accepted_prefix ... ok
+test rejects_duplicate_reach_acceptance_and_score_overflow ... ok
+test rejects_meld_shapes_and_calls_from_the_wrong_seat ... ok
+test rejects_tedashi_when_the_only_matching_known_tile_was_just_drawn ... ok
+test rejects_invalid_tile_actor_and_three_player_input ... ok
+test requires_clean_eof_even_after_end_game ... ok
+test ron_after_tsumo_is_rejected_without_changing_the_settled_state ... ok
+test semantic_failures_include_line_and_event_type ... ok
+test rejects_impossible_fifth_copy_in_known_initial_hands ... ok
+test rejects_scores_changed_without_a_recorded_settlement_between_rounds ... ok
+test tedashi_with_an_identical_known_copy_preserves_the_draw ... ok
+test supports_crlf_and_missing_last_newline ... ok
+test unknown_tsumogiri_consumes_the_known_just_drawn_tile ... ok
+test unknown_tedashi_retains_the_known_just_drawn_tile ... ok
+test rejects_missing_end_and_events_after_completion ... ok
+test validates_native_final_deposit_payout_without_arbitrary_score_override ... ok
+test counts_a_called_discard_only_in_the_meld_at_the_136_tile_boundary ... ok
+test rejects_a_137th_retained_tile_including_unknowns_without_mutation ... FAILED
+
+failures:
+
+---- rejects_a_137th_retained_tile_including_unknowns_without_mutation stdout ----
+
+thread 'rejects_a_137th_retained_tile_including_unknowns_without_mutation' (559) panicked at crates/suzume-api/tests/mjai_parser.rs:496:10:
+called `Result::unwrap_err()` on an `Ok` value: ()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    rejects_a_137th_retained_tile_including_unknowns_without_mutation
+
+test result: FAILED. 30 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p suzume-api --test mjai_parser`

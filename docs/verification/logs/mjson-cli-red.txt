@@ -1,0 +1,54 @@
+    Blocking waiting for file lock on package cache
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded adler2 v2.0.1
+  Downloaded simd-adler32 v0.3.10
+  Downloaded flate2 v1.1.10
+  Downloaded miniz_oxide v0.9.1
+  Downloaded crc32fast v1.5.5
+   Compiling crc32fast v1.5.5
+   Compiling adler2 v2.0.1
+   Compiling simd-adler32 v0.3.10
+   Compiling miniz_oxide v0.9.1
+   Compiling flate2 v1.1.10
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 27.07s
+     Running tests/mjai_cli.rs (target/debug/build/suzume-api/a8e8fa941f35843d/out/mjai_cli-a8e8fa941f35843d)
+
+running 5 tests
+test corrupt_tail_never_publishes_observations ... ok
+test observations_do_not_expose_other_hands ... FAILED
+test cli_analyzes_plain_and_gzip_by_content ... FAILED
+test cli_rejects_truncated_gzip ... ok
+test cli_converts_legacy_and_refuses_existing_destination ... FAILED
+
+failures:
+
+---- observations_do_not_expose_other_hands stdout ----
+
+thread 'observations_do_not_expose_other_hands' (574) panicked at crates/suzume-api/tests/mjai_cli.rs:51:5:
+実行エラー: 未対応の引数です。suzume-api --helpで使用方法を確認してください。
+
+
+---- cli_analyzes_plain_and_gzip_by_content stdout ----
+
+thread 'cli_analyzes_plain_and_gzip_by_content' (570) panicked at crates/suzume-api/tests/mjai_cli.rs:24:9:
+実行エラー: 未対応の引数です。suzume-api --helpで使用方法を確認してください。
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- cli_converts_legacy_and_refuses_existing_destination stdout ----
+
+thread 'cli_converts_legacy_and_refuses_existing_destination' (571) panicked at crates/suzume-api/tests/mjai_cli.rs:34:24:
+実行エラー: 未対応の引数です。suzume-api --helpで使用方法を確認してください。
+
+
+
+failures:
+    cli_analyzes_plain_and_gzip_by_content
+    cli_converts_legacy_and_refuses_existing_destination
+    observations_do_not_expose_other_hands
+
+test result: FAILED. 2 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --test mjai_cli`

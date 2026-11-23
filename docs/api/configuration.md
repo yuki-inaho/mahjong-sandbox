@@ -19,9 +19,15 @@ cargo run --locked -p suzume-api --bin suzume-api -- config config/default.toml
 | `players` | 席順のちょうど4要素。省略時は席0が人間、他3席が標準AIでAI種1/2/3 |
 | `players[].kind` | `"human"` または `"ai"`。人間席はviewerと一致する必要がある |
 | `players[].config` | AIの設定。人間席には指定できない |
-| `logging.format` | `"replay"` または `"public"`。省略replay。ファイルを開くかどうかはCLIの指定で決める |
+| `logging.format` | `"mjai"`（省略時）、`"mjai_public"`、旧形式 `"replay"` / `"public"`。ファイルを開くかどうかはCLIの指定で決める |
 
 不明なキー、重複キー、型の誤り、4席以外、人間席とviewerの矛盾、範囲外、未対応版を拒否します。JSONでは省略項目を同じ値へ解決します。JSONの設定をTOMLへ戻す際、任意項目のnullは省略して表現します。
+
+`mjai` は全席の手牌を含むmjsonイベント、`mjai_public` は伏せ牌を `?` にした公開用mjsonです。
+乱数種・内部操作の厳密再生、AI判断説明、189行動IDの学習用遷移には `replay` を明示します。
+既存TOMLが `replay` / `public` を明示している場合はその指定を維持します。
+CLIの `--log-format` は設定の値を上書きし、拡張子だけでは形式を切り替えません。
+詳しくは [mjsonの利用方法](../logging/README.md) と [旧形式の互換仕様](../logging/legacy-jsonl.md) を参照してください。
 
 ## AI設定の解決順序
 

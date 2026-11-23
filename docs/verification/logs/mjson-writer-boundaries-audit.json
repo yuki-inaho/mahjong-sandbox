@@ -1,0 +1,41 @@
+[
+  {
+    "case": "valid",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "case": "bad-crc",
+    "exit_code": 1,
+    "stderr": "実行エラー: mjson line 3 (io): corrupt gzip stream does not have a matching checksum"
+  },
+  {
+    "case": "trailing-junk",
+    "exit_code": 1,
+    "stderr": "実行エラー: mjson line 3 (io): unexpected end of file"
+  },
+  {
+    "case": "two-complete-games",
+    "exit_code": 1,
+    "stderr": "実行エラー: mjson line 3 (start_game): events after end_game are not permitted"
+  },
+  {
+    "case": "split-members",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "case": "crc-observations-atomic",
+    "exit_code": 1,
+    "destination_exists": false,
+    "pending_count": 0,
+    "stderr": "実行エラー: mjson line 3 (io): corrupt gzip stream does not have a matching checksum"
+  },
+  {
+    "case": "existing-dangling-destination",
+    "exit_code": 1,
+    "symlink_retained": true,
+    "pending_count": 0,
+    "stderr": "実行エラー: File exists (os error 17)"
+  }
+]

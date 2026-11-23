@@ -12,11 +12,64 @@ use std::io::Write;
 use suzume::game::{Action, Game};
 use suzume::rule_constants::DECLARATION_SHA256;
 
+/// Selects the configured canonical mjson stream or an explicit legacy format.
+/// Native mjson is intended for event analysis; legacy replay retains exact core operations.
+pub struct LogWriter<W: Write> {
+    inner: WriterKind<W>,
+}
+enum WriterKind<W: Write> {
+    Mjai(Box<crate::mjai::MjaiWriter<W>>),
+    Legacy(Box<LegacyLogWriter<W>>),
+}
+impl<W: Write> LogWriter<W> {
+    pub fn new(writer: W, config: &AppConfig, game: &Game) -> Result<Self, ApiError> {
+        let inner = match config.logging.format {
+            LogFormat::Mjai | LogFormat::MjaiPublic => {
+                WriterKind::Mjai(Box::new(crate::mjai::MjaiWriter::new(
+                    writer,
+                    config,
+                    game,
+                    config.logging.format == LogFormat::MjaiPublic,
+                )?))
+            }
+            LogFormat::Replay | LogFormat::Public => {
+                WriterKind::Legacy(Box::new(LegacyLogWriter::new(writer, config, game)?))
+            }
+        };
+        Ok(Self { inner })
+    }
+    pub fn record(
+        &mut self,
+        actor: usize,
+        action: &Action,
+        after: &Game,
+        decision: Option<&DecisionView>,
+    ) -> Result<(), ApiError> {
+        match &mut self.inner {
+            WriterKind::Mjai(writer) => writer.record(actor, action, after, decision),
+            WriterKind::Legacy(writer) => writer.record(actor, action, after, decision),
+        }
+    }
+    pub fn finish(self, game: &Game, reason: EndReason) -> Result<W, ApiError> {
+        match self.inner {
+            WriterKind::Mjai(writer) => (*writer).finish(game, reason),
+            WriterKind::Legacy(writer) => (*writer).finish(game, reason),
+        }
+    }
+}
+
+#[derive(Clone, Copy)]
+enum LegacyFormat {
+    Replay,
+    Public,
+}
+
 /// Writes each completed core operation once. The caller supplies the same
 /// evolving Game; replay independently checks every recorded transition.
 /// Validation errors leave the writer reusable. Partial I/O makes it unusable.
-pub struct LogWriter<W: Write> {
+struct LegacyLogWriter<W: Write> {
     writer: W,
+    format: LegacyFormat,
     config: AppConfig,
     effective_ai: [Option<EffectiveAiConfig>; 4],
     sequence: u32,
@@ -25,7 +78,7 @@ pub struct LogWriter<W: Write> {
     poisoned: bool,
 }
 
-impl<W: Write> LogWriter<W> {
+impl<W: Write> LegacyLogWriter<W> {
     pub fn new(writer: W, config: &AppConfig, game: &Game) -> Result<Self, ApiError> {
         config.validate().map_err(|e| error(e.to_string()))?;
         game.validate().map_err(|e| error(e.to_string()))?;
@@ -34,13 +87,18 @@ impl<W: Write> LogWriter<W> {
                 "logging must start at the initial game with the configured seed",
             ));
         }
-        let effective_ai = config.effective_ai().map_err(|e| error(e.to_string()))?;
-        let previous_position = match config.logging.format {
-            LogFormat::Replay => Some(position_sha256(game, 0)?),
-            LogFormat::Public => None,
+        let format = match config.logging.format {
+            LogFormat::Replay => LegacyFormat::Replay,
+            LogFormat::Public => LegacyFormat::Public,
+            _ => return Err(error("legacy writer requires replay or public format")),
         };
-        let header = match config.logging.format {
-            LogFormat::Replay => LogRecord::ReplayHeader(ReplayHeader {
+        let effective_ai = config.effective_ai().map_err(|e| error(e.to_string()))?;
+        let previous_position = match format {
+            LegacyFormat::Replay => Some(position_sha256(game, 0)?),
+            LegacyFormat::Public => None,
+        };
+        let header = match format {
+            LegacyFormat::Replay => LogRecord::ReplayHeader(ReplayHeader {
                 version: Version,
                 engine: ENGINE_VERSION.into(),
                 rules_sha256: DECLARATION_SHA256.into(),
@@ -52,7 +110,7 @@ impl<W: Write> LogWriter<W> {
                     .clone()
                     .expect("replay format has a position digest"),
             }),
-            LogFormat::Public => LogRecord::PublicHeader(PublicHeader {
+            LegacyFormat::Public => LogRecord::PublicHeader(PublicHeader {
                 version: Version,
                 engine: ENGINE_VERSION.into(),
                 rules_sha256: DECLARATION_SHA256.into(),
@@ -69,6 +127,7 @@ impl<W: Write> LogWriter<W> {
         };
         let mut value = Self {
             writer,
+            format,
             config: config.clone(),
             effective_ai,
             sequence: 0,
@@ -118,12 +177,12 @@ impl<W: Write> LogWriter<W> {
         let wire = WireAction::from_core(action)
             .ok_or_else(|| error("core action is outside the log domain"))?;
         validate_decision(decision, &wire, self.effective_ai[actor].as_ref())?;
-        let after_position = match self.config.logging.format {
-            LogFormat::Replay => Some(position_sha256(after, sequence)?),
-            LogFormat::Public => None,
+        let after_position = match self.format {
+            LegacyFormat::Replay => Some(position_sha256(after, sequence)?),
+            LegacyFormat::Public => None,
         };
-        let record = match self.config.logging.format {
-            LogFormat::Replay => LogRecord::ReplayAction(ReplayAction {
+        let record = match self.format {
+            LegacyFormat::Replay => LogRecord::ReplayAction(ReplayAction {
                 sequence,
                 revision: sequence,
                 actor: actor_id,
@@ -132,7 +191,7 @@ impl<W: Write> LogWriter<W> {
                 after_sha256: after_position.clone().expect("replay position"),
                 decision: decision.cloned(),
             }),
-            LogFormat::Public => LogRecord::PublicStep(PublicStep {
+            LegacyFormat::Public => LogRecord::PublicStep(PublicStep {
                 sequence,
                 revision: sequence,
                 actor: actor_id,
@@ -160,8 +219,8 @@ impl<W: Write> LogWriter<W> {
         }
         game.validate().map_err(|e| error(e.to_string()))?;
         validate_reason(game, self.sequence, self.config.game.max_steps, reason)?;
-        let footer = match self.config.logging.format {
-            LogFormat::Replay => {
+        let footer = match self.format {
+            LegacyFormat::Replay => {
                 let digest = position_sha256(game, self.sequence)?;
                 if self.previous_position.as_ref() != Some(&digest) {
                     return Err(error(
@@ -177,7 +236,7 @@ impl<W: Write> LogWriter<W> {
                     final_position_sha256: digest,
                 })
             }
-            LogFormat::Public => LogRecord::PublicFooter(PublicFooter {
+            LegacyFormat::Public => LogRecord::PublicFooter(PublicFooter {
                 action_count: self.sequence,
                 revision: self.sequence,
                 reason,

@@ -3,7 +3,7 @@ use crate::{
     config::{AiConfigSpec, AppConfig, EffectiveAiConfig},
     decision::DecisionView,
     environment::EnvironmentTransition,
-    types::{ActionId, ErrorCode, Seed, Version, WireAction},
+    types::{ActionId, ErrorCode, SeatId, Seed, Version, WireAction},
     view::GameView,
 };
 use schemars::JsonSchema;
@@ -47,6 +47,13 @@ pub enum Request {
         version: Version,
         toml: String,
     },
+    /// Inspect a decompressed mjson record without changing an active session.
+    AnalyzeMjai {
+        version: Version,
+        mjson: String,
+        #[serde(default)]
+        viewer: Option<SeatId>,
+    },
     EnvironmentReset {
         version: Version,
         seed: Seed,
@@ -81,6 +88,10 @@ pub enum ResponseData {
     Environment {
         transition: Box<EnvironmentTransition>,
     },
+    Mjai {
+        summary: crate::mjai::Summary,
+        observation: Box<crate::mjai::AgentObservation>,
+    },
 }
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "status", rename_all = "snake_case", deny_unknown_fields)]
@@ -105,4 +116,6 @@ pub struct ProtocolSchema {
     pub config: AppConfig,
     pub log_record: crate::logging::LogRecord,
     pub dataset_transition: crate::logging::DatasetTransition,
+    /// Known event fields only; streaming readers preserve producer extensions.
+    pub mjai_event: crate::mjai::Event,
 }

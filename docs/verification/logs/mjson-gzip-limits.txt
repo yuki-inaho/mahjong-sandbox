@@ -1,0 +1,13 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.37s
+     Running tests/mjai_cli.rs (target/debug/build/suzume-api/a8e8fa941f35843d/out/mjai_cli-a8e8fa941f35843d)
+
+running 6 tests
+test corrupt_tail_never_publishes_observations ... ok
+test observations_do_not_expose_other_hands ... ok
+test cli_rejects_truncated_gzip ... ok
+test cli_analyzes_plain_and_gzip_by_content ... ok
+test cli_converts_legacy_and_refuses_existing_destination ... ok
+test gzip_cannot_bypass_decompressed_line_limit ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s

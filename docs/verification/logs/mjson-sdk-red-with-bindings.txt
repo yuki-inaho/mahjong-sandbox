@@ -1,0 +1,223 @@
+$ npm --prefix packages/suzume run build
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> @mahjong-sandbox/sdk@0.2.0 build
+> tsc -p tsconfig.json
+
+
+exit=0
+$ node --test --test-reporter=tap packages/suzume/tests/mjai.test.mjs
+TAP version 13
+# Subtest: mjai structure preserves red and unknown tiles and producer metadata
+not ok 1 - mjai structure preserves red and unknown tiles and producer metadata
+  ---
+  duration_ms: 1.593004
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai.test.mjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'undefined'
+    - 'function'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai.test.mjs:21:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.start (node:internal/test_runner/test:1262:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+not ok 2 - mjai rejects malformed fields, duplicate metadata keys and lossy integer spellings
+  ---
+  duration_ms: 0.328537
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai.test.mjs:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'undefined'
+    - 'function'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai.test.mjs:33:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+not ok 3 - mjai streaming accepts split UTF-8, CRLF and an un-terminated final line
+  ---
+  duration_ms: 0.287034
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai.test.mjs:55:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'undefined'
+    - 'function'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai.test.mjs:56:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: mjai streaming validates lifecycle and distinguishes declared interruption
+not ok 4 - mjai streaming validates lifecycle and distinguishes declared interruption
+  ---
+  duration_ms: 0.325313
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai.test.mjs:64:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'undefined'
+    - 'function'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai.test.mjs:65:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: mjai limits and malformed stream diagnostics identify the failing line
+not ok 5 - mjai limits and malformed stream diagnostics identify the failing line
+  ---
+  duration_ms: 0.386456
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai.test.mjs:84:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'undefined'
+    - 'function'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai.test.mjs:85:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: mjai structural streaming does not claim to validate tile movement
+not ok 6 - mjai structural streaming does not claim to validate tile movement
+  ---
+  duration_ms: 0.327566
+  type: 'test'
+  location: '<repository>/packages/suzume/tests/mjai.test.mjs:95:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'undefined'
+    - 'function'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repository>/packages/suzume/tests/mjai.test.mjs:96:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 0
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98.08343
+
+exit=1
+$ cargo test --locked -p suzume-api --lib mjai_api_tests
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.47s
+     Running unittests src/lib.rs (target/debug/build/suzume-api/53e8ec78d58bb947/out/suzume_api-53e8ec78d58bb947)
+
+running 2 tests
+test mjai_api_tests::mjai_analysis_preserves_session_and_redacts_other_hands ... FAILED
+test mjai_api_tests::mjai_analysis_reports_input_position_without_mutating_environment ... FAILED
+
+failures:
+
+---- mjai_api_tests::mjai_analysis_preserves_session_and_redacts_other_hands stdout ----
+
+thread 'mjai_api_tests::mjai_analysis_preserves_session_and_redacts_other_hands' (213) panicked at crates/suzume-api/src/lib.rs:365:9:
+assertion `left == right` failed: {"code":"invalid_request","message":"unknown variant `analyze_mjai`, expected one of `new`, `load_config`, `view`, `apply`, `step`, `analyze`, `inspect_config`, `environment_reset`, `environment_view`, `environment_step` at line 1 column 759","revision":0,"session_id":1,"status":"error","version":1}
+  left: String("error")
+ right: "ok"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- mjai_api_tests::mjai_analysis_reports_input_position_without_mutating_environment stdout ----
+
+thread 'mjai_api_tests::mjai_analysis_reports_input_position_without_mutating_environment' (214) panicked at crates/suzume-api/src/lib.rs:387:9:
+assertion `left == right` failed: {"code":"invalid_request","message":"unknown variant `analyze_mjai`, expected one of `new`, `load_config`, `view`, `apply`, `step`, `analyze`, `inspect_config`, `environment_reset`, `environment_view`, `environment_step` at line 1 column 105","revision":0,"session_id":1,"status":"error","version":1}
+  left: String("invalid_request")
+ right: "log_error"
+
+
+failures:
+    mjai_api_tests::mjai_analysis_preserves_session_and_redacts_other_hands
+    mjai_api_tests::mjai_analysis_reports_input_position_without_mutating_environment
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p suzume-api --lib`
+
+exit=101

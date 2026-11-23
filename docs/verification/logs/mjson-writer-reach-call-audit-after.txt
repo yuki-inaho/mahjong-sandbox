@@ -1,0 +1,7 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+   Compiling writer-audit-probe v0.0.0 (<repository>/dist/probes/writer-audit)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.76s
+     Running `target/debug/writer-audit-probe`
+searched through seed 0
+seed=6, operation=345, reach_actor=2, caller=0, result=Ok(Summary { records: 185, rounds: 2, wins: 1, draws: 0, calls: 4, red_events: 0, final_scores: Some([25000, 16300, 24000, 33700]), riichi_sticks: Some(1), complete: false, termination: Interrupted })
+last types (newest first): ["end_game", "pon", "reach_accepted", "dahai", "reach"]

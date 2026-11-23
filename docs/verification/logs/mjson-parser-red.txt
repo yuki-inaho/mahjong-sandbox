@@ -1,0 +1,30 @@
+   Compiling unicode-ident v1.0.27
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling syn v2.0.119
+   Compiling serde_derive_internals v0.29.1
+   Compiling serde_derive v1.0.228
+   Compiling schemars_derive v0.8.22
+   Compiling serde v1.0.228
+   Compiling serde_spanned v0.6.9
+   Compiling toml_datetime v0.6.11
+   Compiling schemars v0.8.22
+   Compiling toml_edit v0.22.27
+   Compiling toml v0.8.23
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+error[E0432]: unresolved import `suzume_api::mjai`
+ --> crates/suzume-api/tests/mjai_parser.rs:6:5
+  |
+6 |     mjai::{analyze, visit, Pai},
+  |     ^^^^ could not find `mjai` in `suzume_api`
+
+error[E0433]: cannot find `mjai` in `suzume_api`
+  --> crates/suzume-api/tests/mjai_parser.rs:42:52
+   |
+42 | fn inspect(values: &[Value]) -> Result<suzume_api::mjai::Summary, suzume_api::types::ApiError> {
+   |                                                    ^^^^ could not find `mjai` in `suzume_api`
+
+Some errors have detailed explanations: E0432, E0433.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `suzume-api` (test "mjai_parser") due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...

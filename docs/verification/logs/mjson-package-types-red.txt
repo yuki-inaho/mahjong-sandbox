@@ -1,0 +1,2 @@
+exit_code=1
+consumer.ts(15,1): error TS2578: Unused '@ts-expect-error' directive.

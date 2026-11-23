@@ -1,0 +1,55 @@
+{
+  "schema": "suzume-package-corpus-audit/1",
+  "run": "dist/packages/20261123T091233Z-d3d6bdcaea",
+  "cases": 20,
+  "source_and_output_hashes": 40,
+  "archives": [
+    {
+      "archive": "suzume-api-0.2.0.crate",
+      "files": 25,
+      "matched_corpus_members": [],
+      "mjson_members": []
+    },
+    {
+      "archive": "suzume-0.2.0.crate",
+      "files": 45,
+      "matched_corpus_members": [],
+      "mjson_members": []
+    },
+    {
+      "archive": "suzume-cli-0.2.0.crate",
+      "files": 6,
+      "matched_corpus_members": [],
+      "mjson_members": []
+    },
+    {
+      "archive": "suzume-wasm-0.2.0.crate",
+      "files": 5,
+      "matched_corpus_members": [],
+      "mjson_members": []
+    },
+    {
+      "archive": "mahjong-sandbox-sdk-0.2.0.tgz",
+      "files": 39,
+      "matched_corpus_members": [],
+      "mjson_members": []
+    },
+    {
+      "archive": "suzume-source-0.2.0.tar.gz",
+      "files": 282,
+      "matched_corpus_members": [],
+      "mjson_members": [
+        "suzume-source-0.2.0/examples/eight-actions.mjson"
+      ]
+    },
+    {
+      "archive": "suzume-0.2.0-linux-x64.tar.gz",
+      "files": 6,
+      "matched_corpus_members": [],
+      "mjson_members": [
+        "suzume-0.2.0/examples/eight-actions.mjson"
+      ]
+    }
+  ],
+  "success": true
+}

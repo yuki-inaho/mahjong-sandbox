@@ -1,0 +1,15 @@
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.14s
+     Running tests/mjai_writer.rs (target/debug/build/suzume-api/cc8b2b1e6b28c716/out/mjai_writer-cc8b2b1e6b28c716)
+
+running 8 tests
+test partial_io_failure_is_reported ... ok
+test initial_dealer_draw_is_separate_from_thirteen_tile_hands ... ok
+test public_mjai_masks_all_initial_hands_and_draws ... ok
+test partial_reactions_emit_no_fictitious_draw_or_call ... ok
+test partial_record_write_poison_cannot_be_retried ... ok
+test writer_rejects_skipped_operations_and_wrong_finish_reason ... ok
+test reach_acceptance_precedes_call_from_a_lower_numbered_seat ... ok
+test complete_native_games_match_mjai_rounds_and_final_scores ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.55s

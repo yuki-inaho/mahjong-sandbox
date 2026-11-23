@@ -180,6 +180,8 @@ impl Default for GameSettings {
 #[serde(rename_all = "snake_case")]
 pub enum LogFormat {
     #[default]
+    Mjai,
+    MjaiPublic,
     Replay,
     Public,
 }

@@ -1,0 +1,11 @@
+     Locking 41 packages to highest compatible versions
+      Adding serde v1.0.228 (available: v1.0.229)
+      Adding serde_core v1.0.228 (available: v1.0.229)
+      Adding serde_derive v1.0.228 (available: v1.0.229)
+   Compiling suzume-api v0.2.0 (<repository>/crates/suzume-api)
+   Compiling writer-audit-probe v0.0.0 (<repository>/dist/probes/writer-audit)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.02s
+     Running `target/debug/writer-audit-probe`
+searched through seed 0
+seed=6, operation=345, reach_actor=2, caller=0, result=Err(ApiError { code: LogError, message: "mjson line 184 (reach_accepted): reach_accepted requires one unaccepted declaration followed by its discard" })
+last types (newest first): ["end_game", "reach_accepted", "pon", "dahai", "reach"]

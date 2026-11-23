@@ -1,126 +1,135 @@
-# 対局ログ、再生、解析用遷移
+# mjsonの対局記録・解析・視点別観測
 
-## 目的と利用範囲
+通常の対局ログは、mjaiのイベントを1行ずつ記録するUTF-8の `.mjson` です。
+自作対局の記録と外部牌譜を同じ解析入口へ渡し、感想戦、統計、AIエージェントの入力作成に使用できます。
+設計判断は [ADR-0007](../adr/0007-mjai-records.md)、参照実装との差と実牌譜の検査は
+[外部mjsonとの互換性](mjai-compatibility.md) にまとめています。
 
-感想戦、統計、AIエージェントによる読解、探索・学習の準備に使う版付き UTF-8 JSON Lines です。1行が1個の JSON オブジェクトであり、画面の日本語メッセージを逆解析する必要はありません。`crates/suzume-api/src/logging/` が形式・書込み・読込みの正本です。[ADR-0005](../adr/0005-game-records.md)に採用理由、[追加作業書](../workdocs/workdoc_Nov23-2026_platform.md)に受入条件があります。
+## 形式の選択
 
-完全ログは乱数種から全ての隠れた牌を復元できます。信頼するローカル分析者向けであり、対局中の相手へ渡す情報ではありません。共有ログは異なる型を使い、完全再生器が拒否します。どちらの形式も署名・本人認証・公平なオンライン対局の証明を提供しません。
-
-## 二つの形式
-
-| 項目 | `replay`：再現用 | `public`：共有用 |
+| `logging.format` / `--log-format` | 内容 | 主な用途 |
 |---|---|---|
-| 先頭 | `replay_header` | `public_header` |
-| 適用済みの操作 | `replay_action` | `public_step` |
-| 末尾 | `replay_footer` | `public_footer` |
-| 乱数種 | 先頭に十進文字列として保存。完全な `u64` を保持 | 対局・AIとも保存しない |
-| 設定 | 入力設定と解決後のAI設定の両方 | 最大操作数と、人間/AI・算法・予算・深さ・防御重み |
-| 操作 | 共通 `WireAction`。手牌の物理添字を保持 | 公開された牌種による打牌・リーチ・暗槓等。私的な添字はない |
-| 判断説明 | 任意の `DecisionView`。選択操作・実効設定と一致する必要あり | 保存しない |
-| 状態 | 決定的な局面投影の SHA-256 | 閲覧席を持たない `GameView` |
-| 再生 | 同じ版の実ゲームへ順に操作を適用 | 再生不可を明示して拒否 |
+| `mjai`（省略時） | 配牌・ツモ・打牌・成立した副露・和了・流局などの意味イベント。全席の手牌を含む | 感想戦、外部形式との交換、事後分析 |
+| `mjai_public` | 配牌とツモの非公開牌を `?` にした同じイベント形式 | 公開情報に限った共有・観戦 |
+| `replay` | 旧独自JSONL。乱数種、内部操作、局面照合、設定、任意のAI判断 | 同じコアによる厳密再生、判断の分析、189行動IDの学習用遷移 |
+| `public` | 旧独自JSONLの共有形式 | 従来の利用者との互換性 |
 
-共有ログの `ResponseSubmitted` は、他家の打牌への回答が提出されたことだけを示します。パス・ロン・ポン・チー・明槓の未確定の回答内容を記録しません。全員の回答が揃った後に、実際に採用された副露や和了結果が公開局面に現れます。採用されなかった回答は公開されません。
+`mjai` は各席の非公開情報を含むので、対局中の相手へそのまま渡す入力ではありません。
+AIの不完全情報評価には視点別観測を使います。`mjai_public` では伏せた手牌を後から復元できません。
+山の種・内部の見送り応答・AI判断の説明はmjsonへ記録しません。これらが必要な場合は `replay` を明示します。
+旧形式の契約と利用方法は [旧JSONL仕様](legacy-jsonl.md) に保持しています。
 
-共有ログの `own_hand`、`own_last_draw`、`own_furiten`、`viewer` は常に `null`、`legal_actions` は空です。和了結果に現れる勝者の手牌と、卓上に公開された副露は公開情報として含みます。山の並び、王牌、他家の伏せた手牌、内部回答配列、非公開状態のハッシュは含みません。
+## 対局を記録する
 
-## 版・連番・終了の契約
-
-形式版は1、エンジン版は0.2.0です。規則の識別には `rule_constants::DECLARATION_SHA256` を使い、規則と契約宣言の組を識別します。シャッフルの識別子は `splitmix64-fisher-yates-v1` です。対応していない版・エンジン・規則・シャッフルは推測で読み替えません。
-
-`sequence` と `revision` はどちらも適用済み操作数です。最初の操作は1、以後1ずつ増加します。ヘッダの局面は revision 0、フッタの `action_count` と `revision` は最後の操作数です。ログ内の観測用 `session_id` は常に1であり、外部アプリケーションの接続IDを引き継ぎません。
-
-全ての操作の actor は、直前の `Game::next_actor()` と一致しなければなりません。core 自体が扱える任意順の回答受付を、ログでは順序の自由として公開しません。操作が不正、連番が欠落・重複、ヘッダが途中に再出現、フッタの後に別の記録がある場合は失敗です。
-
-| `reason` | 必要な条件 | 解析用の終了フラグ |
-|---|---|---|
-| `completed` | 実局面が `Phase::MatchEnd` | `terminated=true, truncated=false` |
-| `truncated` | 未終局で、操作数が設定 `max_steps` と等しい | `terminated=false, truncated=true` |
-| `interrupted` | 未終局で、操作数が設定 `max_steps` より小さい | `terminated=false, truncated=true` |
-
-操作が0件の明示中断も有効で、ヘッダとフッタの2行になります。単に入力が終わりフッタがない場合は、明示中断ではなく不完全なログです。最終行の改行省略と CRLF は受理します。空行、コメント、複数行に整形した JSON は受理しません。
-
-## 状態の照合対象と限界
-
-完全ログの先頭、各操作の前後、末尾に局面投影の SHA-256 を記録します。投影は4席それぞれの `GameView` を固定順の配列にし、`serde_json` の構造体フィールド順で直列化したバイト列です。各席の手牌・自分のツモ・振聴状態、公開局面、次の手番の合法手を含みます。キー順のある任意 JSON オブジェクトを外部から渡してハッシュする形式ではありません。
-
-この投影には山・王牌の順序、core の全ての内部フラグ、乱数生成器の状態、累積 `history`、累積 `events` を含みません。完全な内部状態の同一性をハッシュだけで証明する設計ではありません。再生器は seed と操作列を同じ core に適用し、回帰テストでは終点の実 `Game` 全体と `history` の等値を直接確認します。
-
-ハッシュと識別子は偶発的な不一致の検出に使います。攻撃者が操作列とハッシュを整合的に作り直すこと、虚偽の判断説明を作ることは防げません。判断説明は選択操作・実効設定・計算量の上限との整合を検査しますが、全候補の評価を再計算して説明の真実性を証明するものではありません。同じ版名で異なるソースを使うことまで、ログだけで排除することもできません。配布物とソースの SHA は[再現手順](../development/reproducibility.md)側で管理します。
-
-## 書込みインターフェース
-
-`LogWriter<W: Write>::new(writer, &config, &game)` は、初期状態から記録を始めます。履歴が空で、対局の seed が設定と一致し、設定と局面が有効であることが必要です。形式は `config.logging.format` で選びます。
-
-成功した `Game::apply` ごとに `record(actor, &action, &game_after, decision)` を1回呼びます。直前に期待した手番、履歴件数、最後の actor と操作を検査します。同じ局面の二重記録、飛ばした操作、別の seed の局面を受理しません。渡す `Game` が同一の履歴から継続したという呼出側の責務もあり、完全な遷移の独立検査は再生器が行います。
-
-`decision` を渡す場合、記録する操作と設定に一致しなければなりません。人間の席にAI判断を付ける場合も受理しません。公開形式を選ぶと説明は出力されません。`finish(&game, reason)` はフッタを書き、`flush` の成功後に元の書込み先 `W` を返します。途中の I/O 失敗では不完全な出力が残り得ます。一度部分書込みに失敗した書込み器は、その後の `record` を拒否します。
-
-```rust
-use suzume::game::Game;
-use suzume_api::{config::AppConfig, logging::{EndReason, LogWriter}};
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let config = AppConfig::default();
-    let mut game = Game::new(config.game.seed.value())?;
-    let mut log = LogWriter::new(Vec::new(), &config, &game)?;
-    let actor = game.next_actor().ok_or("no actor")?;
-    let action = game.legal_actions(actor).into_iter().next().ok_or("no action")?;
-    game.apply(actor, action.clone())?;
-    log.record(actor, &action, &game, None)?;
-    let bytes = log.finish(&game, EndReason::Interrupted)?;
-    assert!(!bytes.is_empty());
-    Ok(())
-}
-```
-
-書込み器は全ログを内部配列へ蓄積しません。例の `Vec` は利用者が選んだ保存先であり、実ファイルでは `BufWriter<File>` 等に置き換えます。局面要約を作る際も過去の表示記録や履歴を毎回複製・ハッシュしません。
-
-## 読込みと上限
-
-`replay(&mut reader, LogLimits)` は `BufRead` を受け取り、1行ずつ厳密に検査して `ReplayResult { game, metadata, termination }` を返します。全入力を先に文字列へ読む必要はありません。
-
-| 制限 | 既定値 | 数える対象 |
-|---|---:|---|
-| `max_line_bytes` | 1,048,576 | 改行前のバイト列。CRLFのCRを含む |
-| `max_records` | 10,002 | ヘッダ・全操作・フッタ |
-| `max_total_bytes` | 268,435,456 | 改行を含む全入力 |
-| 設定 `max_steps` | 1〜10,000 | 実ゲームに適用する操作 |
-
-各上限は正でなければなりません。行を組み立てる前に長さを検査し、過大行全体を読み込んでから拒否する処理にはしません。重複 JSON キーは全ての入れ子で拒否し、その後に共通の型で未知項目、誤った数値、未知のタグ、範囲外の席・牌・添字を検査します。ログの数値は整数のみです。64bitの seed や符号付き評価値は共通APIの十進文字列を使います。
-
-読込み器が保持するのは1行の JSON、現在のゲーム、必要に応じて1件の未出力遷移です。ただし実 `Game` 自体の履歴は操作数に比例して増えます。全プロセスのメモリーが対局長に無関係に一定であるという主張ではありません。
-
-## 解析・学習用の遷移
-
-`export_transitions(reader, limits, consumer)` は再生と同じ検査を行い、各操作を `DatasetTransition` として callback へ渡します。
-
-| フィールド | 定義 |
-|---|---|
-| `observation`、`actor` | 操作前の手番の観測。自身の手牌と公開情報、189要素の合法手mask |
-| `action` | 正確な `WireAction`。再生用の手牌添字を保持 |
-| `action_id` | 共通 `actions::action_id` で符号化した0〜188の番号 |
-| `rewards` | `points_after - points_before` を4席の順で保存。点数単位 |
-| `escrow_delta` | リーチ供託の残高差。報酬ベクトルとの合計は0 |
-| `next_actor`、`next_observation` | 次の手番の席と観測。操作前の席とは限らない |
-| `final_observation` | 打切り時だけ保持する最後の次手番観測。価値推定の継続に使用できる |
-| `terminated`、`truncated` | 自然な対局終了と、操作上限または外部中断を区別 |
-
-同じ牌種の複数の物理添字は同じ `action_id` になります。正確な replay は `action` を使い、探索側の正規化された選択は `action_id` を使います。番号の定義をログだけで重複実装しません。
-
-最終遷移では `next_observation` と `next_actor` を `None` にします。ただし打切りは麻雀の終局ではないため、その局面の次手番観測を `final_observation` に残します。これにより、時間制限で中断した局面の価値を継続して推定する学習器が利用できます。その観測の `actor` が視点の席を示します。自然な対局終了と通常の継続操作では `final_observation` は `None` です。
-
-外部中断の `truncated` は、最後の操作を読んだ時点ではまだ分からないため、1件だけ未出力で保持し、検証済みフッタを読んでから確定します。0操作の中断では遷移を出力しません。割引率、終局以外の報酬整形、勝率、学習アルゴリズムはこの形式に暗黙に加えません。
-
-途中まで callback で出力した後に、不正な後続行やフッタ、I/O障害が見つかる場合があります。callback の実行回数を、全ログが検証済みである証拠にしてはいけません。完全な成果物として保存する処理は一時ファイルへ出力し、関数全体が成功してから最終名へ移します。callback 自身の失敗もそのまま返します。
-
-## 検査入口
+以下はリポジトリ直下から実行します。保存先は新規ファイルでなければなりません。
 
 ```sh
-cargo test -p suzume-api --test logging
-cargo clippy -p suzume-api --all-targets -- -D warnings
+# 標準設定で、全員AIの1東風戦をmjsonへ記録
+cargo run --locked -p suzume-cli --release -- --simulate 1 --seed 0 --log match.mjson
+
+# 人間1人の対局を、公開情報だけのmjsonへ記録
+cargo run --locked -p suzume-cli -- --plain --seed 42 --log public-match.mjson --log-format mjai_public
+
+# AI判断と厳密再生を必要とする場合は旧replayを明示
+cargo run --locked -p suzume-cli --release -- --simulate 1 --seed 0 --log replay-match.jsonl --log-format replay
 ```
 
-再生終点と履歴の一致、設定の一致、不明版・誤値・重複・順序違反・欠落・改変・巨大行・I/O障害、公開情報の制限、環境APIとの観測・行動・報酬の一致を名前付き回帰で検査します。最初の[未実装による失敗](../verification/logs/platform-logging-before.txt)はモジュールが存在しないためのコンパイル失敗であり、実装済みの動作が12件失敗したという意味ではありません。修正後の実結果は検証ログで別に保存します。
+TOMLで指定する場合は `[logging]` の `format = "mjai"` を使用します。
+CLIの `--log-format` はTOMLの値を上書きします。ファイル出力の開始には `--log PATH` が必要です。
+1ファイルは1対局に対応し、複数試合の `--simulate N` と単一の `--log` は併用できません。
 
-打切り後の最後の観測を保持する追加条件は、[動作上の失敗](../verification/logs/platform-log-final-observation-before.txt)を先に確認し、[全16検査成功](../verification/logs/platform-log-final-observation-after.txt)まで実行しました。CLI/SDK/実WASM/配布物を含む全体の受入は、この部分検査とは別の総合入口で確認します。
+## 解析・変換・観測の出力
+
+```sh
+# 同梱された自作対局例を解析
+cargo run --locked -p suzume-api --bin suzume-api -- mjai analyze examples/eight-actions.mjson
+
+# 旧replayを全件検査してからmjsonへ変換
+cargo run --locked -p suzume-api --bin suzume-api -- \
+  mjai convert examples/replay-eight-actions.jsonl --output converted.mjson
+
+# 各イベント適用後の席0の観測を出力
+cargo run --locked -p suzume-api --bin suzume-api -- \
+  mjai observations examples/eight-actions.mjson --seat 0 --output observations.jsonl
+```
+
+`mjai analyze` はイベント数 `records`、局数 `rounds`、和了数 `wins`、流局数 `draws`、
+副露・槓の件数 `calls`、赤牌を含むイベント数 `red_events`、最終点 `final_scores`、
+供託本数 `riichi_sticks`、正常終了の有無 `complete`、終了種別 `termination` をJSONで返します。
+点数差が省略された外部牌譜では、確定できない最終点・供託を `null` とします。
+
+[eight-actions.mjson](../../examples/eight-actions.mjson) は、本コアで生成した8操作の
+[旧replay例](../../examples/replay-eight-actions.jsonl) を変換したものです。外部の実牌譜ではありません。
+内部の見送り操作は意味イベントを増やさないため、操作数とイベント数は一般に一致しません。
+この例は8イベント・1局、全席25,000点で、操作上限による打切りです。
+`complete=false`、`termination="truncated"` が正しい結果であり、完走した対局として扱いません。
+
+`mjai observations` の各行は `schema_version`、入力行番号 `line`、イベント種別 `type`、
+指定席の `observation` を含みます。元イベント全文は出力しません。
+自分の手牌と公開情報を分け、他家の伏せ手牌を観測へ含めません。
+`--seat` は0〜3です。Rust/APIの観戦者用観測では自分の手牌も省略できます。
+
+変換と観測出力は、末尾とEOFまで検査した後に新しい出力ファイルを確定します。
+既存ファイルを上書きせず、不正入力から部分的な結果を完成品として公開しません。
+通常の対局ログは逐次保存されるため、強制終了・書込失敗では不完全なファイルが残る場合があります。
+
+## Rust・API・TypeScriptの役割
+
+Rustの `mjai::analyze(reader, limits)` は行ごとの構造と局面の意味を検査し、集計を返します。
+`mjai::visit(reader, limits, consumer)` は検査した各イベントとその直後の状態を渡し、
+`state.observe(viewer)` で視点別観測を取得できます。型付きフィールドと元の付加フィールドを併せて保持します。
+途中まで呼ばれたconsumerは、後続行を含む全牌譜の正常性を保証しません。関数全体の成功を確認してください。
+
+APIの `analyze_mjai` とSDKの `client.analyzeMjai(mjson, viewer)` は同じRust解析器を呼びます。
+対局セッションの状態を変えずに集計と最終観測を返します。
+SDKの `readMjaiEvents(chunks)` は展開済みUTF-8の非同期または同期のバイト列を逐次読み、
+構造と局の開始・終了を検査します。持牌消費・点数などの意味検査はRust側で実行します。
+詳細は [API](../api/README.md) と [SDK](../../packages/suzume/README.md) を参照してください。
+
+CLIは非圧縮・gzipを先頭バイトで判別するため、gzip圧縮済みで拡張子が `.mjson` のファイルも読めます。
+Rustの `BufRead`、API/WASMへ渡す文字列、TSのバイト列は展開済み入力を要求します。
+API要求全体は1MiBまでです。大きな牌譜はファイルを逐次読むCLIまたはRustのreaderを使います。
+読み込みの既定上限は1行1MiB、10,002イベント、展開後の合計256MiBで、いずれも正である必要があります。
+破損、重複キー、未知イベント、上限超過、予期しないEOFを成功扱いにしません。
+
+## 終了と検査能力の境界
+
+通常の `end_game` は局終了後に置きます。自作対局の手動中断・操作上限では、
+`end_game._suzume.reason` をそれぞれ `interrupted` / `truncated` とし、`complete=false` を返します。
+未完局へ架空の和了や流局を追加しません。終了イベントそのものが欠けた入力は不完全として拒否します。
+中断の追加情報を扱わない外部消費者には、通常終局の牌譜を渡してください。
+
+このパーサが復元するのは記録上の局面です。外部の赤牌、加槓、複数ロンを表現できますが、
+コアの採用規則を拡張したことや、すべての役・振聴・ルールで合法だと証明したことにはなりません。
+外部牌譜から合法手マスク、189行動ID、学習用報酬を自動生成しません。
+それらには [研究用環境](../api/environment.md) または旧 `replay` の厳密再生を用いてください。
+
+## 実牌譜と配布物の検査
+
+```sh
+cargo test --locked -p suzume-api --test mjai_parser
+cargo test --locked -p suzume-api --test mjai_writer
+cargo test --locked -p suzume-api --test mjai_cli
+python scripts/verify_mjai_real.py
+python scripts/package.py
+```
+
+実牌譜検査は固定した外部データ20件・23局を対象とし、うち2件は元対局の識別子と最終成績を確認しています。
+選定、期待値、再取得方法、データの取り扱いは [互換性文書](mjai-compatibility.md) に記載しています。
+牌譜本文はリポジトリ・配布物・CI成果物に含めません。
+配布消費検査では、自作の同梱例を用いて、展開したnativeバイナリの解析・旧形式からの変換、
+公開SDKの逐次読込みとNode/Web用WASMによる解析を実行します。
+
+## 変換と拡張
+
+| 入力と出力 | 現在の扱い | 保持する情報と境界 |
+|---|---|---|
+| 旧replay → mjai | CLI `mjai convert` | 旧記録全体を検証後、配牌・ツモ・確定した操作・精算を標準イベントへ変換します。内部の見送り、判断詳細、乱数種は交換用イベントには含めません。 |
+| mjai → 型付きイベント＋追加JSON値 | Rust `visit` / SDK `readMjaiEvents` | 既知項目を検査し、提供元の追加欄はRustの `ParsedEvent.raw` / SDKの `MjaiEventRecord` に保持します。追加欄を含むJSON値を再保存できますが、元の空白やキー順まで一致することは保証しません。 |
+| mjai → AI向け観測 | CLI `mjai observations` / API `analyze_mjai` | ファイルは版番号・元の行番号・イベント種別付きで各イベント後の観測を返します。APIは最終観測と集計を返します。指定席以外の手牌は含めません。 |
+| mjai → 完全再生可能な旧replay | 未提供 | 乱数種と内部操作が不足するため、一意に復元できません。 |
+| 公開観測 → 元の完全情報牌譜 | 未提供 | 伏せた牌は観測から復元できません。元の記録を別に保持してください。 |
+
+付加的な説明や評価を増やす場合は、既知イベントへ追加JSON欄を設けるか、観測を版番号付きの構造で包めます。現在の観測ファイルは `schema_version`、`line`、`type`、`observation` を持ちます。完全情報の元イベントを自動添付せず、AIの閲覧範囲を維持します。
+
+新たな意味を持つイベントを導入するときは、Rustの `mjai::Event`、状態遷移、生成Schema、SDKの局順序検査を更新し、対応する正常・異常事例を追加してください。未知のイベントを黙って読み飛ばす拡張は行いません。既知イベントの追加JSON欄だけであれば、型の既存必須項目を変更せずに保持できます。

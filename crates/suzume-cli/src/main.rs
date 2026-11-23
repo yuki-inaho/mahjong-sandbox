@@ -28,14 +28,14 @@ const HELP: &str = "すずめ — Rust製の四人リーチ麻雀\n\n\
   --config PATH  共通API形式のTOML設定（最大1MiB）。--seedとの併用不可\n\
   --seed N       0〜18446744073709551615の乱数種。全モードの省略値は0\n\
   --plain        色・画面消去を使わず、制御文字のない行入力で表示\n\
-  --log PATH     新しいJSONLファイルへ記録。既存ファイルは上書きしない\n\
-  --log-format replay|public\n\
-                 replayは全情報の再生用、publicは非公開情報を省いた共有用\n\
-                 省略時は設定のlogging.format、設定なしではreplay\n\n\
+  --log PATH     新しいmjsonファイルへ記録。既存ファイルは上書きしない\n\
+  --log-format mjai|mjai_public|replay|public\n\
+                 mjaiは分析用、mjai_publicは伏せ牌を省いた共有用。replay/publicは旧形式\n\
+                 省略時は設定のlogging.format、設定なしではmjai\n\n\
 --simulate/--demoで設定を明示する場合は全員AIが必要です。設定なしは全員Greedy。\n\
 TUIと初期表示はviewer=0、demoはviewer=0またはpublicに対応します。\n\
 --logは1試合に対応します。--simulate NでNが2以上なら併用できません。\n\
-replayには配牌を復元できる種とAI判断が含まれます。共有用途はpublicを選びます。\n\
+mjai/replayは全手牌を含みます。共有用途はmjai_public/publicを選びます。\n\
 対局中: 牌番号で打牌、r 番号でリーチ、/番号で鳴き等を選択。hで操作説明。\n\
 標準入出力が端末ではない場合とNO_COLOR設定時は色・画面消去を使いません。\n\
 操作上限は設定のgame.max_steps（省略時10000）。Pass・NextRoundも含みます。\n\
@@ -111,15 +111,16 @@ impl Options {
                     }
                     let value = args
                         .next()
-                        .ok_or("--log-formatの後にreplayまたはpublicが必要です。")?;
+                        .ok_or("--log-formatの後にmjai、mjai_public、replay、publicが必要です。")?;
                     options.log_format = Some(match value.as_str() {
+                        "mjai" => LogFormat::Mjai,
+                        "mjai_public" => LogFormat::MjaiPublic,
                         "replay" => LogFormat::Replay,
                         "public" => LogFormat::Public,
-                        _ => {
-                            return Err(
-                                "--log-formatはreplayまたはpublicを指定してください。".into()
-                            )
-                        }
+                        _ => return Err(
+                            "--log-formatはmjai、mjai_public、replay、publicを指定してください。"
+                                .into(),
+                        ),
                     });
                 }
                 "--plain" => {

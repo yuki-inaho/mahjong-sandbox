@@ -7,7 +7,7 @@ viewer = 0
 max_steps = 10000
 
 [logging]
-format = "replay"
+format = "mjai"
 
 [[players]]
 kind = "human"
